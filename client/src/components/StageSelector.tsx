@@ -28,7 +28,7 @@ const seriesData: SeriesCard[] = [
     accentColor: "text-zinc-400",
     borderColor: "border-zinc-600",
     glowColor: "rgba(161, 161, 170, 0.3)",
-    features: ["2x Stock Brightness", "SAE Compliant", "Plug & Play"],
+    features: ["2x Brighter", "SAE Patterns", "Plug & Play"],
   },
   {
     id: "pro",
@@ -39,7 +39,7 @@ const seriesData: SeriesCard[] = [
     accentColor: "text-white",
     borderColor: "border-zinc-400",
     glowColor: "rgba(255, 255, 255, 0.4)",
-    features: ["4x Stock Brightness", "Highway Rated", "Weather Sealed"],
+    features: ["4x Brighter", "Dark Highways", "Thar Favorite"],
     isPopular: true,
   },
   {
@@ -51,7 +51,7 @@ const seriesData: SeriesCard[] = [
     accentColor: "text-primary",
     borderColor: "border-primary",
     glowColor: "rgba(229, 57, 53, 0.5)",
-    features: ["Maximum Output", "Rally Proven", "10+ Year Life"],
+    features: ["Max Distance", "Rally Proven", "Pro Teams"],
   },
 ];
 

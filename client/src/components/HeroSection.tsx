@@ -55,16 +55,16 @@ export function HeroSection() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 drop-shadow-lg"
             data-testid="hero-headline"
           >
-            <span className="text-white">See What You've</span>{" "}
+            <span className="text-white">Don't Just Add Light.</span>{" "}
             <br />
-            <span className="text-white">Been Missing.</span>
+            <span className="text-white">Engineer It.</span>
           </h1>
 
           <p
             className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 drop-shadow-md"
             data-testid="hero-subheadline"
           >
-            Engineering-grade lighting systems for the modern Indian explorer.
+            The only SAE-Compliant, Anti-Glare Lighting System for the modern Indian explorer.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
@@ -88,7 +88,7 @@ export function HeroSection() {
               <div className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center mr-3 group-hover:border-white/60 transition-colors">
                 <Play className="w-4 h-4 ml-0.5" />
               </div>
-              Watch the Difference
+              Watch the Cut-Off Test
             </Button>
           </div>
 

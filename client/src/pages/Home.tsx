@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { HeroSection } from "@/components/HeroSection";
+import { ProblemSolution } from "@/components/ProblemSolution";
 import { ScienceOfLight } from "@/components/ScienceOfLight";
 import { StageSelector } from "@/components/StageSelector";
 import { VehicleFit } from "@/components/VehicleFit";
@@ -14,6 +15,7 @@ export default function Home() {
       <Header />
       <main>
         <HeroSection />
+        <ProblemSolution />
         <ScienceOfLight />
         <StageSelector />
         <VehicleFit />

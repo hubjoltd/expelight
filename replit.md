@@ -40,13 +40,14 @@ components/
 - schema.ts - Data models for Products, Vehicles, Reviews
 
 ## Key Features
-1. **Hero Section**: Full-screen looping video of SUV headlights in fog, "See What You've Been Missing" headline
-2. **Science of Light**: Speedometer-style Lux gauge (850 LUX) with "Slide to Upgrade" interactive comparison slider
-3. **Stage Selector**: Stacked card gallery - cards initially stacked, click to expand into 3-column row with highlighting
-4. **Vehicle Fit Finder**: Select your vehicle to find compatible products
-5. **Reviews Carousel**: Customer testimonials with verified badges
-6. **Social Proof**: Masonry grid of customer photos with "Built by Enthusiasts" heading
-7. **Trust Highlights**: Key value propositions (Plug & Play, USA Engineering, etc.)
+1. **Hero Section**: Full-screen looping video, "Don't Just Add Light. Engineer It." headline, SAE-Compliant messaging
+2. **Problem vs Solution**: Two-column section explaining why raw wattage LEDs are dangerous vs TIR optics solution
+3. **Science of Light**: Speedometer-style Lux gauge (850 LUX) with "Slide to Upgrade" interactive comparison slider
+4. **Stage Selector**: Stacked card gallery - cards initially stacked, click to expand into 3-column row with highlighting
+5. **Vehicle Fit Finder**: Select your vehicle to find compatible products
+6. **Reviews Carousel**: Car photos with gold stars, verified purchase badges, glassmorphism cards
+7. **Social Proof**: Masonry grid of customer photos with "Built by Enthusiasts" heading
+8. **Trust Highlights**: Official Partner badges, 8-Year Warranty, Express Air Shipping
 
 ## Product Tiers
 - **Sport Series** (Starting ₹18,000): Daily driver upgrades

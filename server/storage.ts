@@ -52,12 +52,12 @@ export class MemStorage implements IStorage {
     const sampleProducts: Product[] = [
       {
         id: "prod-1",
-        name: "SS3 LED Pod Kit – SAE Fog",
+        name: "SS3 3-Inch LED Pod Kit – SAE Fog (Type A/B Fitment)",
         slug: "ss3-led-pod-kit-sae-fog",
         series: "Pro",
         tagline: "The Weekend Warrior",
-        shortDescription: "The highest-output 3-inch LED pod on the market. Features patented TIR Optics delivering high-intensity light with a razor-sharp cut-off line.",
-        fullDescription: "The SS3 Pro represents the pinnacle of LED lighting technology. Engineered with Total Internal Reflection (TIR) optics, each pod captures 100% of the LED's output and focuses it with surgical precision.",
+        shortDescription: "The highest-output 3-inch LED pod on the market. The SS3 features our patented TIR Optics, delivering high-intensity light with a razor-sharp cut-off line. Designed in St. Louis, USA. Tested for the Indian Monsoon.",
+        fullDescription: "The SS3 Pro represents the pinnacle of LED lighting technology. Engineered with Total Internal Reflection (TIR) optics, each pod captures 100% of the LED's output and focuses it with surgical precision. Designed in St. Louis, USA and rigorously tested for the Indian Monsoon conditions.",
         price: 24500,
         originalPrice: 28000,
         beamPatterns: ["Fog", "Driving", "Spot"],
