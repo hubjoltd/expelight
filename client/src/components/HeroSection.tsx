@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Play, ChevronDown, Shield, Zap, Award } from "lucide-react";
+import { Play, ChevronDown, Shield, Plane } from "lucide-react";
 import { motion } from "framer-motion";
 import heroVideo from "@assets/generated_videos/suv_headlights_cutting_through_fog.mp4";
 
@@ -51,51 +51,31 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 backdrop-blur-sm border border-primary/30 mb-8"
-          >
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-xs uppercase tracking-wider text-primary font-medium">
-              Official India Partner - Diode Dynamics USA
-            </span>
-          </motion.div>
-
           <h1
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 drop-shadow-lg"
             data-testid="hero-headline"
           >
             <span className="text-white">See What You've</span>{" "}
             <br />
-            <span className="text-gradient-red">Been Missing.</span>
+            <span className="text-white">Been Missing.</span>
           </h1>
 
           <p
-            className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-12 drop-shadow-md"
+            className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 drop-shadow-md"
             data-testid="hero-subheadline"
           >
             Engineering-grade lighting systems for the modern Indian explorer.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            {/* Primary CTA - Ghost button with glowing border */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+            {/* Primary CTA - Red button */}
             <Button
               size="lg"
-              variant="outline"
-              className="relative px-8 py-6 text-base font-semibold border-primary/60 text-white hover:bg-primary/20 hover:border-primary group backdrop-blur-sm"
+              className="relative px-8 py-6 text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
               onClick={scrollToProducts}
               data-testid="cta-explore"
-              style={{
-                boxShadow: "0 0 25px rgba(229, 57, 53, 0.3), inset 0 0 20px rgba(229, 57, 53, 0.1)",
-              }}
             >
-              <span className="relative z-10">Explore Systems</span>
-              <div className="absolute inset-0 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" 
-                style={{ boxShadow: "0 0 40px rgba(229, 57, 53, 0.5)" }} 
-              />
+              Explore Systems
             </Button>
 
             {/* Secondary CTA - Watch the Difference */}
@@ -105,32 +85,51 @@ export function HeroSection() {
               className="text-white/80 hover:text-white px-8 py-6 text-base group backdrop-blur-sm"
               data-testid="cta-watch"
             >
-              <div className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center mr-3 group-hover:border-primary/60 group-hover:bg-primary/20 transition-colors">
+              <div className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center mr-3 group-hover:border-white/60 transition-colors">
                 <Play className="w-4 h-4 ml-0.5" />
               </div>
               Watch the Difference
             </Button>
           </div>
 
-          {/* Trust badges */}
+          {/* Official Partner Badge Strip - Monochromatic 50% opacity */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="flex flex-wrap items-center justify-center gap-8 md:gap-12"
-            data-testid="trust-badges"
+            className="flex flex-wrap items-center justify-center gap-6 md:gap-10"
+            data-testid="partner-badges"
           >
-            <div className="flex items-center gap-2 text-white/50">
-              <Award className="w-5 h-5" />
-              <span className="text-xs uppercase tracking-wider">USA Engineered</span>
+            {/* Diode Dynamics Logo + Text */}
+            <div className="flex items-center gap-3 opacity-50 hover:opacity-70 transition-opacity">
+              <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">
+                <span className="text-white font-bold text-xs">DD</span>
+              </div>
+              <span className="text-xs text-white uppercase tracking-wider">
+                Official India Partner
+              </span>
             </div>
-            <div className="flex items-center gap-2 text-white/50">
-              <Shield className="w-5 h-5" />
-              <span className="text-xs uppercase tracking-wider">8-Year Warranty</span>
+
+            {/* Divider */}
+            <div className="hidden md:block w-px h-6 bg-white/20" />
+
+            {/* 8-Year Warranty */}
+            <div className="flex items-center gap-2 opacity-50 hover:opacity-70 transition-opacity">
+              <Shield className="w-5 h-5 text-white" />
+              <span className="text-xs text-white uppercase tracking-wider">
+                8-Year Warranty
+              </span>
             </div>
-            <div className="flex items-center gap-2 text-white/50">
-              <Zap className="w-5 h-5" />
-              <span className="text-xs uppercase tracking-wider">Plug & Play</span>
+
+            {/* Divider */}
+            <div className="hidden md:block w-px h-6 bg-white/20" />
+
+            {/* Express Air Shipping */}
+            <div className="flex items-center gap-2 opacity-50 hover:opacity-70 transition-opacity">
+              <Plane className="w-5 h-5 text-white" />
+              <span className="text-xs text-white uppercase tracking-wider">
+                Express Air Shipping
+              </span>
             </div>
           </motion.div>
         </motion.div>
