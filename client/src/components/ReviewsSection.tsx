@@ -50,7 +50,7 @@ export function ReviewsSection() {
         >
           <div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">
-              Verified <span className="text-zinc-400">Performance</span>
+              Verified <span className="text-zinc-500">Performance</span>
             </h2>
             <p className="text-zinc-500 text-lg max-w-2xl">
               Real owners. Real roads. Real results.

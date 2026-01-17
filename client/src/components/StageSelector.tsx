@@ -91,8 +91,8 @@ export function StageSelector() {
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            Choose Your <span className="text-gradient-red">Stage</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
+            Choose Your <span className="text-zinc-400">Stage</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-4">
             From daily commutes to competition-grade performance, find the perfect lighting system for your driving style.
@@ -101,7 +101,7 @@ export function StageSelector() {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-sm text-primary/80 flex items-center justify-center gap-2 cursor-pointer hover:text-primary transition-colors"
+              className="text-sm text-zinc-500 flex items-center justify-center gap-2 cursor-pointer hover:text-white transition-colors"
               onClick={() => setIsExpanded(true)}
             >
               <span>Tap to explore all stages</span>

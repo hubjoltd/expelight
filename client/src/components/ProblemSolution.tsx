@@ -21,7 +21,7 @@ export function ProblemSolution() {
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
             Why Your "Bright" Lights Are{" "}
-            <span className="text-primary">Dangerous</span>
+            <span className="text-zinc-400">Dangerous</span>
           </h2>
         </motion.div>
 
