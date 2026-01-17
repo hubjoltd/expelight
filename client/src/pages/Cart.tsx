@@ -1,52 +1,19 @@
 import { motion } from "framer-motion";
-import { useQuery, useMutation } from "@tanstack/react-query";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Shield } from "lucide-react";
-import { Link, useLocation } from "wouter";
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Shield, Sparkles } from "lucide-react";
+import { Link } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
-import type { Product } from "@shared/schema";
-
-interface CartItemWithProduct {
-  id: string;
-  productId: string;
-  quantity: number;
-  product: Product;
-}
 
 export default function Cart() {
-  const { isAuthenticated, isLoading: authLoading } = useAuth();
-  const [, setLocation] = useLocation();
+  const { isAuthenticated } = useAuth();
+  const { cartItems, cartCount, isLoading, updateQuantity, removeItem } = useCart();
   const { toast } = useToast();
-
-  const { data: cartItems = [], isLoading } = useQuery<CartItemWithProduct[]>({
-    queryKey: ["/api/cart"],
-    enabled: isAuthenticated,
-  });
-
-  const updateQuantityMutation = useMutation({
-    mutationFn: async ({ id, quantity }: { id: string; quantity: number }) => {
-      return apiRequest("PATCH", `/api/cart/${id}`, { quantity });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cart"] });
-    },
-  });
-
-  const removeItemMutation = useMutation({
-    mutationFn: async (id: string) => {
-      return apiRequest("DELETE", `/api/cart/${id}`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cart"] });
-      toast({ title: "Item removed from cart" });
-    },
-  });
 
   const subtotal = cartItems.reduce((sum, item) => {
     return sum + (item.product?.price || 0) * item.quantity;
@@ -55,34 +22,10 @@ export default function Cart() {
   const shipping = subtotal >= 25000 ? 0 : 500;
   const total = subtotal + shipping;
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full" />
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-[#050505]" data-testid="cart-page">
-        <Header />
-        <main className="pt-24 pb-20">
-          <div className="max-w-[800px] mx-auto px-4 text-center py-20">
-            <ShoppingBag className="w-16 h-16 text-zinc-600 mx-auto mb-6" />
-            <h1 className="text-2xl font-bold text-white mb-4">Sign in to view your cart</h1>
-            <p className="text-zinc-500 mb-8">Login to add items to your cart and checkout.</p>
-            <a href="/api/login">
-              <Button className="bg-primary hover:bg-primary/90">
-                Login / Sign Up
-              </Button>
-            </a>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+  const handleRemove = async (id: string) => {
+    await removeItem(id);
+    toast({ title: "Item removed from cart" });
+  };
 
   return (
     <div className="min-h-screen bg-[#050505]" data-testid="cart-page">
@@ -90,13 +33,20 @@ export default function Cart() {
 
       <main className="pt-24 pb-20">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8">
-          <motion.h1
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-3xl md:text-4xl font-bold text-white mb-8"
+            className="flex items-center gap-4 mb-8"
           >
-            Your <span className="text-zinc-500">Cart</span>
-          </motion.h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-white">
+              Your <span className="text-zinc-500">Cart</span>
+            </h1>
+            {cartCount > 0 && (
+              <Badge className="bg-primary text-primary-foreground">
+                {cartCount} {cartCount === 1 ? 'item' : 'items'}
+              </Badge>
+            )}
+          </motion.div>
 
           {isLoading ? (
             <div className="grid lg:grid-cols-3 gap-8">
@@ -121,13 +71,28 @@ export default function Cart() {
               animate={{ opacity: 1 }}
               className="text-center py-20"
             >
-              <ShoppingBag className="w-16 h-16 text-zinc-600 mx-auto mb-6" />
+              <div className="relative inline-block mb-6">
+                <ShoppingBag className="w-20 h-20 text-zinc-700" />
+                <motion.div
+                  className="absolute inset-0 rounded-full"
+                  animate={{
+                    boxShadow: [
+                      "0 0 0 rgba(229, 57, 53, 0)",
+                      "0 0 30px rgba(229, 57, 53, 0.3)",
+                      "0 0 0 rgba(229, 57, 53, 0)"
+                    ]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                />
+              </div>
               <h2 className="text-2xl font-bold text-white mb-4">Your cart is empty</h2>
-              <p className="text-zinc-500 mb-8">Explore our products and find the perfect lighting upgrade.</p>
+              <p className="text-zinc-500 mb-8 max-w-md mx-auto">
+                Explore our premium lighting products and find the perfect upgrade for your vehicle.
+              </p>
               <Link href="/products">
                 <Button className="bg-primary hover:bg-primary/90">
+                  <Sparkles className="w-4 h-4 mr-2" />
                   Browse Products
-                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
             </motion.div>
@@ -138,23 +103,24 @@ export default function Cart() {
                 {cartItems.map((item, index) => (
                   <motion.div
                     key={item.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <Card className="bg-[#0a0a0a] border-zinc-800/30 p-4">
+                    <Card className="bg-[#0a0a0a] border-zinc-800/30 p-4 hover:border-zinc-700/50 transition-colors">
                       <div className="flex gap-4">
-                        {/* Product image */}
-                        <div className="w-24 h-24 bg-zinc-900 rounded-lg overflow-hidden flex-shrink-0">
+                        {/* Product image with glow effect */}
+                        <div className="w-24 h-24 bg-zinc-900 rounded-lg overflow-hidden flex-shrink-0 relative">
+                          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
                           {item.product?.images?.[0] ? (
                             <img
                               src={item.product.images[0]}
                               alt={item.product.name}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-cover relative z-10"
                             />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center">
-                              <div className="w-12 h-12 rounded-full bg-zinc-800" />
+                            <div className="w-full h-full flex items-center justify-center relative z-10">
+                              <div className="w-12 h-12 rounded-full bg-primary/20 animate-pulse" />
                             </div>
                           )}
                         </div>
@@ -177,8 +143,7 @@ export default function Cart() {
                               variant="ghost"
                               size="icon"
                               className="text-zinc-500 hover:text-red-500 flex-shrink-0"
-                              onClick={() => removeItemMutation.mutate(item.id)}
-                              disabled={removeItemMutation.isPending}
+                              onClick={() => handleRemove(item.id)}
                               data-testid={`remove-item-${item.id}`}
                             >
                               <Trash2 className="w-4 h-4" />
@@ -191,12 +156,9 @@ export default function Cart() {
                               <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-8 w-8 border-zinc-700"
-                                onClick={() => updateQuantityMutation.mutate({
-                                  id: item.id,
-                                  quantity: Math.max(1, item.quantity - 1)
-                                })}
-                                disabled={item.quantity <= 1 || updateQuantityMutation.isPending}
+                                className="h-8 w-8 border-zinc-700 bg-zinc-900"
+                                onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                                disabled={item.quantity <= 1}
                               >
                                 <Minus className="w-3 h-3" />
                               </Button>
@@ -206,12 +168,8 @@ export default function Cart() {
                               <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-8 w-8 border-zinc-700"
-                                onClick={() => updateQuantityMutation.mutate({
-                                  id: item.id,
-                                  quantity: item.quantity + 1
-                                })}
-                                disabled={updateQuantityMutation.isPending}
+                                className="h-8 w-8 border-zinc-700 bg-zinc-900"
+                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
                               >
                                 <Plus className="w-3 h-3" />
                               </Button>
@@ -236,12 +194,15 @@ export default function Cart() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <Card className="bg-[#0a0a0a] border-zinc-800/30 p-6 sticky top-24">
-                    <h2 className="text-xl font-bold text-white mb-6">Order Summary</h2>
+                  <Card className="bg-[#0a0a0a] border-zinc-800/30 p-6 sticky top-24 relative overflow-hidden">
+                    {/* Subtle glow effect */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
+                    
+                    <h2 className="text-xl font-bold text-white mb-6 relative z-10">Order Summary</h2>
 
-                    <div className="space-y-4 mb-6">
+                    <div className="space-y-4 mb-6 relative z-10">
                       <div className="flex justify-between text-zinc-400">
-                        <span>Subtotal ({cartItems.length} items)</span>
+                        <span>Subtotal ({cartCount} items)</span>
                         <span>₹{subtotal.toLocaleString("en-IN")}</span>
                       </div>
                       <div className="flex justify-between text-zinc-400">
@@ -251,9 +212,11 @@ export default function Cart() {
                         </span>
                       </div>
                       {shipping > 0 && (
-                        <p className="text-xs text-zinc-500">
-                          Add ₹{(25000 - subtotal).toLocaleString("en-IN")} more for free shipping
-                        </p>
+                        <div className="p-3 bg-zinc-900/50 rounded-lg border border-zinc-800/50">
+                          <p className="text-xs text-zinc-400">
+                            Add <span className="text-primary font-semibold">₹{(25000 - subtotal).toLocaleString("en-IN")}</span> more for free shipping
+                          </p>
+                        </div>
                       )}
                       <div className="border-t border-zinc-800 pt-4">
                         <div className="flex justify-between text-white font-bold text-lg">
@@ -264,14 +227,23 @@ export default function Cart() {
                       </div>
                     </div>
 
-                    <Link href="/checkout">
-                      <Button className="w-full bg-primary hover:bg-primary/90 h-12" data-testid="checkout-button">
-                        Proceed to Checkout
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </Button>
-                    </Link>
+                    {isAuthenticated ? (
+                      <Link href="/checkout">
+                        <Button className="w-full bg-primary hover:bg-primary/90 h-12 relative z-10" data-testid="checkout-button">
+                          Proceed to Checkout
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </Link>
+                    ) : (
+                      <Link href="/login">
+                        <Button className="w-full bg-primary hover:bg-primary/90 h-12 relative z-10" data-testid="login-to-checkout">
+                          Login to Checkout
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </Link>
+                    )}
 
-                    <div className="flex items-center gap-2 mt-4 text-xs text-zinc-500">
+                    <div className="flex items-center gap-2 mt-4 text-xs text-zinc-500 relative z-10">
                       <Shield className="w-4 h-4" />
                       <span>Secure checkout powered by Razorpay</span>
                     </div>

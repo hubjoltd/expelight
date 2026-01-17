@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ShoppingBag, User, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { useQuery } from "@tanstack/react-query";
+import { useCart } from "@/hooks/use-cart";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,24 +13,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-interface CartItem {
-  id: string;
-  productId: string;
-  quantity: number;
-}
-
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [location] = useLocation();
   const { user, isLoading: authLoading, isAuthenticated, logout } = useAuth();
-
-  const { data: cartItems = [] } = useQuery<CartItem[]>({
-    queryKey: ["/api/cart"],
-    enabled: isAuthenticated,
-  });
-
-  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const { cartCount } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -95,7 +83,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
-            {/* Cart button */}
+            {/* Cart button - always visible */}
             <Link href="/cart">
               <Button
                 variant="ghost"
@@ -105,7 +93,7 @@ export function Header() {
               >
                 <ShoppingBag className="h-5 w-5" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">
                     {cartCount}
                   </span>
                 )}

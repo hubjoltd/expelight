@@ -8,12 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
+import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 
 export default function Login() {
   const [, setLocation] = useLocation();
   const { login, isLoggingIn } = useAuth();
+  const { mergeLocalCartToServer } = useCart();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -31,6 +33,8 @@ export default function Login() {
 
     try {
       await login(formData);
+      // Merge guest cart items to server after successful login
+      await mergeLocalCartToServer();
       toast({ title: "Welcome back!" });
       setLocation("/");
     } catch (error: any) {

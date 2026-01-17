@@ -1,7 +1,9 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Slider } from "@/components/ui/slider";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { ChevronDown, Lightbulb, Zap, Target, Shield, Plus, Check } from "lucide-react";
+
+import suvHeadlightsImg from "@assets/stock_images/suv_vehicle_with_hea_6cd00439.jpg";
+import suvBrightLightsImg from "@assets/stock_images/off-road_suv_headlig_a2229d87.jpg";
 
 interface FAQItem {
   question: string;
@@ -24,19 +26,65 @@ const faqs: FAQItem[] = [
 ];
 
 export function ScienceOfLight() {
-  const [sliderValue, setSliderValue] = useState([50]);
+  const [sliderValue, setSliderValue] = useState(0);
+  const [isAutoAnimating, setIsAutoAnimating] = useState(true);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const comparisonRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(comparisonRef, { once: false, amount: 0.3 });
+
+  // Auto-animate slider when in view
+  useEffect(() => {
+    if (!isInView || !isAutoAnimating) return;
+
+    const interval = setInterval(() => {
+      setSliderValue((prev) => {
+        if (prev >= 100) {
+          setTimeout(() => setSliderValue(0), 1000);
+          return 100;
+        }
+        return prev + 1;
+      });
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, [isInView, isAutoAnimating]);
+
+  const handleSliderInteraction = () => {
+    setIsAutoAnimating(false);
+  };
 
   return (
     <section
       className="py-24 md:py-36 relative overflow-hidden"
       data-testid="science-of-light-section"
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-[#050505]" />
+      {/* Animated background with light rays */}
+      <div className="absolute inset-0 bg-[#050505]">
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Light beam rays */}
+          <motion.div
+            className="absolute top-0 left-1/4 w-1 h-96 bg-gradient-to-b from-primary/30 via-primary/10 to-transparent"
+            animate={{
+              opacity: [0.3, 0.6, 0.3],
+              scaleY: [1, 1.2, 1],
+            }}
+            transition={{ duration: 3, repeat: Infinity }}
+            style={{ transform: "rotate(15deg)" }}
+          />
+          <motion.div
+            className="absolute top-0 right-1/3 w-0.5 h-80 bg-gradient-to-b from-white/20 via-white/5 to-transparent"
+            animate={{
+              opacity: [0.2, 0.5, 0.2],
+              scaleY: [1, 1.3, 1],
+            }}
+            transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+            style={{ transform: "rotate(-10deg)" }}
+          />
+        </div>
+      </div>
 
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 md:px-8">
-        {/* Section Header */}
+        {/* Section Header with lighting effect */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -44,36 +92,163 @@ export function ScienceOfLight() {
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
+          <motion.h2 
+            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white relative inline-block"
+            animate={{
+              textShadow: [
+                "0 0 20px rgba(255,255,255,0.1)",
+                "0 0 40px rgba(255,255,255,0.2)",
+                "0 0 20px rgba(255,255,255,0.1)"
+              ]
+            }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
             What is TIR Optics?
-          </h2>
+            <motion.span
+              className="absolute -inset-4 bg-gradient-to-r from-transparent via-white/5 to-transparent"
+              animate={{ x: [-200, 200] }}
+              transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
+            />
+          </motion.h2>
           <p className="text-zinc-400 text-lg max-w-xl mx-auto">
             (Total Internal Reflection)
           </p>
         </motion.div>
 
-        {/* The Definition */}
+        {/* TIR Optics Visual Card with lighting imagery */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto mb-20"
+          className="max-w-5xl mx-auto mb-24"
         >
-          <div className="bg-[#0a0a0a] border border-zinc-800/50 rounded-lg p-8 md:p-12">
-            <h3 className="text-xl font-bold text-white mb-6">The Definition</h3>
-            <p className="text-zinc-400 leading-relaxed text-lg">
-              Traditional LEDs use a <span className="text-zinc-300">reflector</span> (like a torch) 
-              or a <span className="text-zinc-300">projector lens</span> (like a magnifying glass). 
-              Both lose light efficiency. <span className="text-white font-semibold">TIR (Total Internal Reflection)</span> is 
-              a custom-molded optic that acts as both. It captures{" "}
-              <span className="text-white font-semibold">100% of the LED's output</span> and focuses it with laser precision.
-            </p>
+          <div className="bg-[#0a0a0a] border border-zinc-800/50 rounded-2xl overflow-hidden relative">
+            {/* Animated light beams in background */}
+            <div className="absolute inset-0 overflow-hidden">
+              <motion.div
+                className="absolute top-1/2 left-1/4 w-96 h-96 rounded-full"
+                style={{
+                  background: "radial-gradient(circle, rgba(229,57,53,0.15) 0%, transparent 70%)",
+                }}
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.5, 0.3],
+                }}
+                transition={{ duration: 4, repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute top-1/2 right-1/4 w-64 h-64 rounded-full"
+                style={{
+                  background: "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)",
+                }}
+                animate={{
+                  scale: [1.2, 1, 1.2],
+                  opacity: [0.2, 0.4, 0.2],
+                }}
+                transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+              />
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-0">
+              {/* Left: Vehicle with TIR optics visualization */}
+              <div className="relative overflow-hidden">
+                {/* Vehicle image with lights */}
+                <img 
+                  src={suvBrightLightsImg} 
+                  alt="SUV with TIR optic headlights" 
+                  className="w-full h-full object-cover min-h-[300px]"
+                />
+                {/* Dark overlay for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
+                
+                {/* TIR optic overlay visualization */}
+                <div className="absolute bottom-4 left-4 right-4">
+                  <div className="flex items-center gap-3">
+                    <motion.div
+                      className="w-16 h-16 rounded-full bg-gradient-to-br from-white/20 to-transparent border border-white/30 flex items-center justify-center"
+                      animate={{
+                        boxShadow: [
+                          "0 0 20px rgba(255, 255, 255, 0.3)",
+                          "0 0 40px rgba(255, 255, 255, 0.5)",
+                          "0 0 20px rgba(255, 255, 255, 0.3)"
+                        ]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <motion.div
+                        className="w-8 h-8 rounded-full bg-white"
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      />
+                    </motion.div>
+                    <div>
+                      <p className="text-white font-semibold text-sm">TIR Optics Active</p>
+                      <p className="text-zinc-400 text-xs">Focused beam, zero scatter</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Animated light beams from headlights */}
+                <motion.div
+                  className="absolute top-1/2 left-1/4 w-2 h-48 bg-gradient-to-t from-white/40 via-white/20 to-transparent origin-bottom blur-sm"
+                  animate={{ opacity: [0.4, 0.8, 0.4], scaleY: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  style={{ transform: "rotate(15deg)" }}
+                />
+                <motion.div
+                  className="absolute top-1/2 right-1/3 w-2 h-40 bg-gradient-to-t from-white/30 via-white/15 to-transparent origin-bottom blur-sm"
+                  animate={{ opacity: [0.3, 0.6, 0.3], scaleY: [1, 1.15, 1] }}
+                  transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
+                  style={{ transform: "rotate(-10deg)" }}
+                />
+              </div>
+
+              {/* Right: Text content */}
+              <div className="p-8 md:p-12 flex flex-col justify-center relative z-10">
+                <h3 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                  <Lightbulb className="w-6 h-6 text-primary" />
+                  The Definition
+                </h3>
+                <p className="text-zinc-400 leading-relaxed text-lg mb-8">
+                  Traditional LEDs use a <span className="text-zinc-200 font-medium">reflector</span> (like a torch) 
+                  or a <span className="text-zinc-200 font-medium">projector lens</span> (like a magnifying glass). 
+                  Both lose light efficiency.
+                </p>
+                <p className="text-zinc-400 leading-relaxed text-lg">
+                  <span className="text-white font-semibold">TIR (Total Internal Reflection)</span> is 
+                  a custom-molded optic that acts as both. It captures{" "}
+                  <span className="text-primary font-bold">100% of the LED's output</span> and focuses it with laser precision.
+                </p>
+
+                {/* Key stats */}
+                <div className="grid grid-cols-3 gap-4 mt-8">
+                  {[
+                    { icon: Zap, label: "95%+ Efficiency", value: "vs ~50% generic" },
+                    { icon: Target, label: "Zero Glare", value: "SAE Compliant" },
+                    { icon: Shield, label: "10+ Years", value: "Solid State" },
+                  ].map((stat, i) => (
+                    <motion.div
+                      key={stat.label}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.2 + i * 0.1 }}
+                      className="text-center"
+                    >
+                      <stat.icon className="w-5 h-5 text-primary mx-auto mb-2" />
+                      <p className="text-xs text-zinc-500">{stat.label}</p>
+                      <p className="text-xs text-zinc-400 font-medium">{stat.value}</p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
 
         {/* Comparison Table - Opens from both sides */}
-        <div className="mb-20">
+        <div className="mb-24">
           <motion.h3
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -165,8 +340,8 @@ export function ScienceOfLight() {
           </div>
         </div>
 
-        {/* Comparison Slider Section */}
-        <div className="border-t border-zinc-800/50 pt-20 mb-20">
+        {/* Auto-animated Comparison Slider Section */}
+        <div className="border-t border-zinc-800/50 pt-20 mb-24" ref={comparisonRef}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -174,194 +349,231 @@ export function ScienceOfLight() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-white">
+            <motion.h3 
+              className="text-2xl md:text-3xl font-bold text-white mb-4"
+              animate={{
+                textShadow: [
+                  "0 0 10px rgba(255,255,255,0)",
+                  "0 0 30px rgba(255,255,255,0.3)",
+                  "0 0 10px rgba(255,255,255,0)"
+                ]
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
               See the Difference
-            </h3>
-            <p className="text-zinc-500">
-              Drag the slider to compare stock lighting vs Diode Dynamics TIR optics.
-            </p>
+            </motion.h3>
+            <p className="text-zinc-500">Drag to compare or watch the auto-animation</p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left - Comparison Slider */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+          {/* Comparison slider with auto-animation */}
+          <div className="max-w-4xl mx-auto">
+            <div
+              className="relative rounded-2xl overflow-hidden aspect-[16/9] bg-[#0a0a0a] border border-zinc-800/50 cursor-ew-resize"
+              onMouseDown={handleSliderInteraction}
+              onTouchStart={handleSliderInteraction}
             >
-              <div
-                className="relative aspect-[4/3] rounded-xl overflow-hidden border border-zinc-800/30"
-                data-testid="comparison-slider"
-              >
-                {/* Stock lights side - Dark with faint SUV silhouette */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    clipPath: `inset(0 ${100 - sliderValue[0]}% 0 0)`,
-                  }}
-                >
-                  {/* SUV background image - dim/dark */}
-                  <img
-                    src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=800&auto=format&fit=crop&q=80"
-                    alt="SUV with stock lights"
-                    className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale"
-                  />
-                  <div className="absolute inset-0 bg-[#050505]/80" />
-                  
-                  {/* Content overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center relative z-10">
-                      <div className="w-20 h-20 rounded-full bg-yellow-900/20 flex items-center justify-center mx-auto mb-4 border border-yellow-900/30">
-                        <div className="w-10 h-10 rounded-full bg-yellow-800/40 blur-sm" />
-                      </div>
-                      <span className="text-base uppercase tracking-widest text-zinc-600 font-medium">Stock</span>
-                      <p className="text-xs text-zinc-700 mt-2">Dim & Scattered</p>
-                    </div>
-                  </div>
-                  
-                  {/* Weak scattered light */}
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-40 bg-gradient-to-t from-yellow-900/10 via-yellow-900/5 to-transparent rounded-full blur-3xl" />
-                </div>
-
-                {/* Diode Dynamics side - Bright with visible SUV */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    clipPath: `inset(0 0 0 ${sliderValue[0]}%)`,
-                  }}
-                >
-                  {/* SUV background image - bright/visible */}
-                  <img
-                    src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=800&auto=format&fit=crop&q=80"
-                    alt="SUV with Diode Dynamics lights"
-                    className="absolute inset-0 w-full h-full object-cover opacity-40"
-                  />
-                  <div className="absolute inset-0 bg-[#0a0a0a]/60" />
-                  
-                  {/* Content overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center relative z-10">
-                      <div className="w-20 h-20 rounded-full bg-white/15 flex items-center justify-center mx-auto mb-4 border border-white/30 shadow-[0_0_40px_rgba(255,255,255,0.2)]">
-                        <div className="w-10 h-10 rounded-full bg-white/60" />
-                      </div>
-                      <span className="text-base uppercase tracking-widest text-white font-medium">Diode Dynamics</span>
-                      <p className="text-xs text-zinc-400 mt-2">Focused & Bright</p>
-                    </div>
-                  </div>
-                  
-                  {/* Strong focused beam */}
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-72 h-48 bg-gradient-to-t from-white/20 via-white/10 to-transparent rounded-t-full" />
-                </div>
-
-                {/* Slider divider line */}
-                <div
-                  className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_20px_rgba(255,255,255,0.5)]"
-                  style={{ left: `${sliderValue[0]}%` }}
-                >
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white flex items-center justify-center cursor-ew-resize shadow-[0_0_30px_rgba(255,255,255,0.3)]">
-                    <div className="flex gap-1">
-                      <div className="w-0.5 h-6 bg-zinc-800 rounded-full" />
-                      <div className="w-0.5 h-6 bg-zinc-800 rounded-full" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Slider control */}
-              <div className="mt-8 px-4">
-                <p className="text-sm text-zinc-500 text-center mb-4 uppercase tracking-wider">
-                  Slide to Upgrade
-                </p>
-                <Slider
-                  value={sliderValue}
-                  onValueChange={setSliderValue}
-                  max={100}
-                  step={1}
-                  className="w-full"
-                  data-testid="slider-control"
+              {/* Stock side (dimmed/grayscale) - SUV with weak lights */}
+              <div className="absolute inset-0">
+                <img 
+                  src={suvHeadlightsImg} 
+                  alt="Stock headlights" 
+                  className="w-full h-full object-cover grayscale brightness-50"
                 />
-              </div>
-            </motion.div>
-
-            {/* Right - Stats */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-8"
-            >
-              <div className="grid grid-cols-2 gap-6">
-                <div className="bg-[#0a0a0a] border border-zinc-800/30 rounded-lg p-6">
-                  <p className="text-3xl md:text-4xl font-bold text-white mb-2">7x</p>
-                  <p className="text-sm text-zinc-500">Brighter than stock halogens</p>
-                </div>
-                <div className="bg-[#0a0a0a] border border-zinc-800/30 rounded-lg p-6">
-                  <p className="text-3xl md:text-4xl font-bold text-white mb-2">100%</p>
-                  <p className="text-sm text-zinc-500">Plug & Play installation</p>
-                </div>
-                <div className="bg-[#0a0a0a] border border-zinc-800/30 rounded-lg p-6">
-                  <p className="text-3xl md:text-4xl font-bold text-zinc-400 mb-2">SAE</p>
-                  <p className="text-sm text-zinc-500">Street legal beam patterns</p>
-                </div>
-                <div className="bg-[#0a0a0a] border border-zinc-800/30 rounded-lg p-6">
-                  <p className="text-3xl md:text-4xl font-bold text-zinc-400 mb-2">8 Yr</p>
-                  <p className="text-sm text-zinc-500">Industry-leading warranty</p>
+                <div className="absolute inset-0 bg-black/40" />
+                {/* Weak, scattered light beams */}
+                <div className="absolute bottom-0 left-1/4 w-48 h-48 bg-yellow-500/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-yellow-500/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-8 right-8 text-right z-10">
+                  <p className="text-zinc-500 text-sm font-medium">Stock Halogen</p>
+                  <p className="text-zinc-600 text-xs mt-1">Dim & Scattered</p>
                 </div>
               </div>
 
-              <p className="text-zinc-500 text-sm leading-relaxed">
-                Every Diode Dynamics light undergoes rigorous testing for thermal management, 
-                vibration resistance, and optical precision. This is why professional rally 
-                teams and serious off-roaders trust only Diode Dynamics.
-              </p>
-            </motion.div>
+              {/* Diode Dynamics side (bright, focused) - SUV with bright TIR lights */}
+              <motion.div
+                className="absolute inset-y-0 left-0 overflow-hidden"
+                style={{ width: `${sliderValue}%` }}
+              >
+                <div 
+                  className="h-full relative"
+                  style={{ width: `${100 * 100 / Math.max(sliderValue, 1)}%` }}
+                >
+                  <img 
+                    src={suvBrightLightsImg} 
+                    alt="Diode Dynamics TIR headlights" 
+                    className="w-full h-full object-cover brightness-110 contrast-110"
+                  />
+                  {/* Bright focused beam effect overlay */}
+                  <motion.div 
+                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-80 h-80"
+                    style={{
+                      background: "conic-gradient(from 270deg, transparent 30deg, rgba(255,255,255,0.15) 70deg, rgba(255,255,255,0.35) 90deg, rgba(255,255,255,0.15) 110deg, transparent 150deg)"
+                    }}
+                    animate={{
+                      opacity: [0.5, 0.8, 0.5]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <motion.div 
+                    className="absolute bottom-0 left-1/4 w-40 h-96 bg-gradient-to-t from-white/40 via-white/15 to-transparent blur-xl"
+                    animate={{ opacity: [0.4, 0.7, 0.4] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  />
+                  <motion.div 
+                    className="absolute bottom-0 right-1/4 w-40 h-96 bg-gradient-to-t from-white/40 via-white/15 to-transparent blur-xl"
+                    animate={{ opacity: [0.4, 0.7, 0.4] }}
+                    transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
+                  />
+                  {/* Road illumination glow */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-white/10 to-transparent" />
+                  <div className="absolute bottom-8 left-8 z-10">
+                    <p className="text-white text-sm font-medium drop-shadow-lg">Diode Dynamics TIR</p>
+                    <p className="text-zinc-300 text-xs mt-1 drop-shadow-lg">Bright & Focused</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Slider handle */}
+              <motion.div
+                className="absolute inset-y-0 w-1 bg-white/80 cursor-ew-resize z-20"
+                style={{ left: `${sliderValue}%` }}
+                animate={{
+                  boxShadow: [
+                    "0 0 10px rgba(255,255,255,0.5)",
+                    "0 0 20px rgba(255,255,255,0.8)",
+                    "0 0 10px rgba(255,255,255,0.5)"
+                  ]
+                }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center">
+                  <div className="flex gap-0.5">
+                    <div className="w-0.5 h-4 bg-zinc-400 rounded" />
+                    <div className="w-0.5 h-4 bg-zinc-400 rounded" />
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Interactive slider overlay */}
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={sliderValue}
+                onChange={(e) => {
+                  setSliderValue(Number(e.target.value));
+                  setIsAutoAnimating(false);
+                }}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
+              />
+            </div>
+
+            {/* Auto-animate indicator */}
+            <div className="flex justify-center mt-4">
+              <button
+                onClick={() => setIsAutoAnimating(!isAutoAnimating)}
+                className={`text-xs px-4 py-2 rounded-full transition-colors ${
+                  isAutoAnimating 
+                    ? "bg-primary/20 text-primary border border-primary/30" 
+                    : "bg-zinc-800 text-zinc-400 border border-zinc-700"
+                }`}
+              >
+                {isAutoAnimating ? "Auto-animating..." : "Click to auto-animate"}
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* FAQ Section - Voice Search Optimized */}
+        {/* Modern FAQ Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="border-t border-zinc-800/50 pt-20"
+          className="max-w-4xl mx-auto"
         >
-          <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-12">
-            Frequently Asked Questions
-          </h3>
+          <div className="text-center mb-12">
+            <motion.h3 
+              className="text-2xl md:text-3xl font-bold text-white mb-4"
+              animate={{
+                textShadow: [
+                  "0 0 10px rgba(255,255,255,0)",
+                  "0 0 20px rgba(255,255,255,0.2)",
+                  "0 0 10px rgba(255,255,255,0)"
+                ]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              Frequently Asked Questions
+            </motion.h3>
+            <p className="text-zinc-500">Everything you need to know about our lighting technology</p>
+          </div>
 
-          <div className="max-w-3xl mx-auto space-y-4">
+          <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="bg-[#0a0a0a] border border-zinc-800/50 rounded-lg overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className={`group relative rounded-xl overflow-hidden transition-all duration-300 ${
+                  openFAQ === index 
+                    ? "bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border border-primary/20" 
+                    : "bg-[#0a0a0a] border border-zinc-800/50 hover:border-zinc-700/50"
+                }`}
               >
-                <button
-                  onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
-                  className="w-full flex items-center justify-between p-6 text-left hover:bg-zinc-900/50 transition-colors"
-                  data-testid={`faq-question-${index}`}
-                >
-                  <span className="text-white font-medium pr-4">{faq.question}</span>
-                  {openFAQ === index ? (
-                    <ChevronUp className="w-5 h-5 text-zinc-500 shrink-0" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-zinc-500 shrink-0" />
-                  )}
-                </button>
-                
+                {/* Glow effect for open item */}
                 {openFAQ === index && (
                   <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="px-6 pb-6"
-                  >
-                    <p className="text-zinc-400 leading-relaxed">{faq.answer}</p>
-                  </motion.div>
+                    className="absolute -inset-0.5 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 rounded-xl blur-xl opacity-50"
+                    animate={{ opacity: [0.3, 0.5, 0.3] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
                 )}
-              </div>
+
+                <button
+                  onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
+                  className="relative z-10 w-full p-6 text-left flex items-center gap-4"
+                  data-testid={`faq-toggle-${index}`}
+                >
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
+                    openFAQ === index 
+                      ? "bg-primary text-primary-foreground" 
+                      : "bg-zinc-800 text-zinc-400 group-hover:bg-zinc-700"
+                  }`}>
+                    <motion.div
+                      animate={{ rotate: openFAQ === index ? 45 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Plus className="w-5 h-5" />
+                    </motion.div>
+                  </div>
+                  <span className={`text-base font-medium transition-colors ${
+                    openFAQ === index ? "text-white" : "text-zinc-300"
+                  }`}>
+                    {faq.question}
+                  </span>
+                </button>
+
+                <AnimatePresence>
+                  {openFAQ === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="relative z-10 overflow-hidden"
+                    >
+                      <div className="px-6 pb-6 pl-20">
+                        <p className="text-zinc-400 leading-relaxed">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             ))}
           </div>
         </motion.div>

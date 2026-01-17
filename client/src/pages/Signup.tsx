@@ -8,12 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { useAuth } from "@/hooks/use-auth";
+import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2, Eye, EyeOff, Check } from "lucide-react";
 
 export default function Signup() {
   const [, setLocation] = useLocation();
   const { register, isRegistering } = useAuth();
+  const { mergeLocalCartToServer } = useCart();
   const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -55,6 +57,8 @@ export default function Signup() {
         firstName: formData.firstName || undefined,
         lastName: formData.lastName || undefined,
       });
+      // Merge guest cart items to server after successful registration
+      await mergeLocalCartToServer();
       toast({ title: "Account created successfully!" });
       setLocation("/");
     } catch (error: any) {

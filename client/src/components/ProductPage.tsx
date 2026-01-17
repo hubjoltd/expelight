@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -9,9 +8,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ShoppingBag, Shield, Truck, Check, Minus, Plus, Loader2 } from "lucide-react";
-import { useAuth } from "@/hooks/use-auth";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { ShoppingBag, Shield, Truck, Check, Minus, Plus, Loader2, CheckCircle } from "lucide-react";
+import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
 import type { Product } from "@shared/schema";
 
@@ -24,31 +22,22 @@ export function ProductPage({ product }: ProductPageProps) {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [quantity, setQuantity] = useState(1);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const { isAuthenticated } = useAuth();
+  const [isAdding, setIsAdding] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
+  const { addToCart } = useCart();
   const { toast } = useToast();
 
-  const addToCartMutation = useMutation({
-    mutationFn: async () => {
-      return apiRequest("POST", "/api/cart", {
-        productId: product.id,
-        quantity,
-      });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/cart"] });
+  const handleAddToCart = async () => {
+    setIsAdding(true);
+    try {
+      await addToCart(product.id, quantity);
+      setJustAdded(true);
       toast({ title: `${product.name} added to cart!` });
-    },
-    onError: () => {
+      setTimeout(() => setJustAdded(false), 2000);
+    } catch (error) {
       toast({ title: "Failed to add to cart", variant: "destructive" });
-    },
-  });
-
-  const handleAddToCart = () => {
-    if (!isAuthenticated) {
-      window.location.href = "/login";
-      return;
     }
-    addToCartMutation.mutate();
+    setIsAdding(false);
   };
 
   return (
@@ -64,21 +53,36 @@ export function ProductPage({ product }: ProductPageProps) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="aspect-square bg-[#0a0a0a] rounded-lg overflow-hidden border border-zinc-800/50"
+              className="aspect-square bg-[#0a0a0a] rounded-lg overflow-hidden border border-zinc-800/50 relative"
             >
+              {/* Light glow effect behind product */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse" />
+              </div>
+              
               {product.images && product.images[currentImageIndex] ? (
                 <img
                   src={product.images[currentImageIndex]}
                   alt={product.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover relative z-10"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-zinc-900 via-zinc-800/20 to-zinc-900">
-                  <div className="w-48 h-48 rounded-full bg-primary/20 flex items-center justify-center">
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-zinc-900 via-zinc-800/20 to-zinc-900 relative z-10">
+                  <motion.div 
+                    className="w-48 h-48 rounded-full bg-primary/20 flex items-center justify-center"
+                    animate={{
+                      boxShadow: [
+                        "0 0 20px rgba(229, 57, 53, 0.3)",
+                        "0 0 60px rgba(229, 57, 53, 0.5)",
+                        "0 0 20px rgba(229, 57, 53, 0.3)"
+                      ]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
                     <div className="w-32 h-32 rounded-full bg-primary/40 flex items-center justify-center">
                       <div className="w-16 h-16 rounded-full bg-primary/60" />
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
               )}
             </motion.div>
@@ -93,7 +97,7 @@ export function ProductPage({ product }: ProductPageProps) {
                   key={index}
                   className={`aspect-square bg-[#0a0a0a] rounded-md border transition-all overflow-hidden ${
                     currentImageIndex === index
-                      ? "border-primary"
+                      ? "border-primary ring-2 ring-primary/30"
                       : "border-zinc-800/50 hover:border-zinc-600"
                   }`}
                   onClick={() => setCurrentImageIndex(index)}
@@ -125,7 +129,7 @@ export function ProductPage({ product }: ProductPageProps) {
               {product.series} Series
             </Badge>
 
-            {/* Title */}
+            {/* Title with subtle glow */}
             <h1 className="text-3xl md:text-4xl font-bold text-white" data-testid="product-title">
               {product.name}
             </h1>
@@ -231,18 +235,27 @@ export function ProductPage({ product }: ProductPageProps) {
               </div>
             </div>
 
-            {/* Add to Cart */}
+            {/* Add to Cart - No login required */}
             <Button
               size="lg"
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-base py-6"
+              className={`w-full text-base py-6 transition-all ${
+                justAdded 
+                  ? "bg-emerald-600 hover:bg-emerald-600" 
+                  : "bg-primary hover:bg-primary/90"
+              }`}
               onClick={handleAddToCart}
-              disabled={addToCartMutation.isPending}
+              disabled={isAdding}
               data-testid="add-to-cart"
             >
-              {addToCartMutation.isPending ? (
+              {isAdding ? (
                 <>
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                   Adding...
+                </>
+              ) : justAdded ? (
+                <>
+                  <CheckCircle className="w-5 h-5 mr-2" />
+                  Added to Cart!
                 </>
               ) : (
                 <>
