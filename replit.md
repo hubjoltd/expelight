@@ -40,12 +40,13 @@ components/
 - schema.ts - Data models for Products, Vehicles, Reviews
 
 ## Key Features
-1. **Hero Section**: Full-screen with animated light beam effects
-2. **Science of Light**: Interactive slider comparing stock vs Diode lights
-3. **Stage Selector**: Product tier cards (Sport, Pro, Max series)
+1. **Hero Section**: Full-screen looping video of SUV headlights in fog, "See What You've Been Missing" headline
+2. **Science of Light**: Speedometer-style Lux gauge (850 LUX) with "Slide to Upgrade" interactive comparison slider
+3. **Stage Selector**: Stacked card gallery - cards initially stacked, click to expand into 3-column row with highlighting
 4. **Vehicle Fit Finder**: Select your vehicle to find compatible products
 5. **Reviews Carousel**: Customer testimonials with verified badges
-6. **Trust Highlights**: Key value propositions (Plug & Play, USA Engineering, etc.)
+6. **Social Proof**: Masonry grid of customer photos with "Built by Enthusiasts" heading
+7. **Trust Highlights**: Key value propositions (Plug & Play, USA Engineering, etc.)
 
 ## Product Tiers
 - **Sport Series** (Starting ₹18,000): Daily driver upgrades
@@ -71,4 +72,5 @@ The application runs on port 5000 with both frontend and backend.
 - Video shows SUV headlights cutting through fog for dramatic cinematic effect
 - Science of Light section with "Slide to Upgrade" interactive comparison slider
 - Added Social Proof section with masonry-style customer photo grid
+- Stage Selector redesigned with stacked card gallery effect - cards initially stacked behind each other, click to expand into row with highlighting (Good/Better/Best pricing psychology with Pro as anchor)
 - All sections follow the "Midnight Engineering" design system specifications
