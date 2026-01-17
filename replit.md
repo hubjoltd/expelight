@@ -21,15 +21,18 @@ pages/
   - VehicleFitPage.tsx # Vehicle compatibility finder
 
 components/
-  - Header.tsx         # Navigation header
-  - HeroSection.tsx    # Full-screen hero with light effects
-  - ScienceOfLight.tsx # Educational section with comparison slider
-  - StageSelector.tsx  # Product tier cards (Sport/Pro/Max)
-  - VehicleFit.tsx     # Vehicle selector component
-  - ReviewsSection.tsx # Customer testimonials carousel
-  - TrustBar.tsx       # Trust highlights strip
-  - Footer.tsx         # Site footer
-  - ProductPage.tsx    # Product detail component
+  - Header.tsx           # Navigation header
+  - HeroSection.tsx      # Full-screen hero with light effects
+  - ProblemSolution.tsx  # Animated section with scattered vs focused light beams
+  - ScienceOfLight.tsx   # Educational section with animated table and comparison slider
+  - StageSelector.tsx    # Product tier cards (Sport/Pro/Max)
+  - VehicleFit.tsx       # Vehicle selector component
+  - ReviewsSection.tsx   # Book-opening testimonial carousel with car night shots
+  - SocialProof.tsx      # Brand logos with animations + customer photo grid
+  - TrustBar.tsx         # Trust highlights strip
+  - Footer.tsx           # Site footer
+  - FloatingContact.tsx  # Pulsing contact button with WhatsApp/Telegram options
+  - ProductPage.tsx      # Product detail component
 ```
 
 ### Backend (server/)
@@ -41,13 +44,20 @@ components/
 
 ## Key Features
 1. **Hero Section**: Full-screen looping video, "Don't Just Add Light. Engineer It." headline, SAE-Compliant messaging
-2. **Problem vs Solution**: Two-column section explaining why raw wattage LEDs are dangerous vs TIR optics solution
-3. **Science of Light**: Speedometer-style Lux gauge (850 LUX) with "Slide to Upgrade" interactive comparison slider
+2. **Problem vs Solution**: Animated lighting beams - scattered red light for "Problem", focused green beam for "Solution", pulsing icon effects
+3. **Science of Light**: 
+   - Animated table that opens from both sides with staggered row animations
+   - SUV background imagery in comparison slider (dim for stock, bright for Diode Dynamics)
+   - Voice-search optimized FAQ section
 4. **Stage Selector**: Stacked card gallery - cards initially stacked, click to expand into 3-column row with highlighting
 5. **Vehicle Fit Finder**: Select your vehicle to find compatible products
-6. **Reviews Carousel**: Car photos with gold stars, verified purchase badges, glassmorphism cards
-7. **Social Proof**: Masonry grid of customer photos with "Built by Enthusiasts" heading
-8. **Trust Highlights**: Official Partner badges, 8-Year Warranty, Express Air Shipping
+6. **Premium Testimonials**: Book-opening 3D animation carousel with large car night shots, prominent "Verified Owner" badges, high-contrast white text
+7. **Social Proof**: 
+   - Animated brand logos (Mahindra, Maruti, Toyota, Force, Tata, Jeep) with hover and glow effects
+   - "Built by Enthusiasts. Tested in India." heading
+   - Masonry grid of customer photos
+8. **Floating Contact Button**: Bottom-right pulsing button with WhatsApp and Telegram options
+9. **Trust Highlights**: Official Partner badges, 8-Year Warranty, Express Air Shipping
 
 ## Product Tiers
 - **Sport Series** (Starting ₹18,000): Daily driver upgrades
@@ -75,3 +85,12 @@ The application runs on port 5000 with both frontend and backend.
 - Added Social Proof section with masonry-style customer photo grid
 - Stage Selector redesigned with stacked card gallery effect - cards initially stacked behind each other, click to expand into row with highlighting (Good/Better/Best pricing psychology with Pro as anchor)
 - All sections follow the "Midnight Engineering" design system specifications
+
+### Latest Updates (Jan 2026)
+- **Problem vs Solution**: Added animated lighting beam effects - scattered red rays for problem side, focused green beam for solution side
+- **Science of Light Table**: Table now opens from both sides with scaleX animations, rows stagger in with alternating left/right slide effects
+- **Comparison Slider**: Added SUV background imagery (dim/grayscale on stock side, brighter on Diode Dynamics side)
+- **Premium Testimonials**: Redesigned with book-opening 3D animation, large car night shot images, prominent white "Verified Owner" badges
+- **Social Proof**: Added animated brand logos (Mahindra, Maruti, Toyota, Force, Tata, Jeep) with glow and hover effects
+- **Floating Contact Button**: Added pulsing contact button in bottom-right with WhatsApp and Telegram options
+- **Color Scheme**: Red ONLY for buttons/CTAs - all other text uses white, silver (zinc-400/500), grey for premium feel
