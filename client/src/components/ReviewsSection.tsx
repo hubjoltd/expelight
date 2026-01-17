@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,25 +15,50 @@ const carNightImages = [
 ];
 
 export function ReviewsSection() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: reviews = [], isLoading } = useQuery<Review[]>({
     queryKey: ["/api/reviews"],
   });
 
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 500;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-    }
+  const navigate = (newDirection: number) => {
+    setDirection(newDirection);
+    setCurrentIndex((prev) => {
+      const next = prev + newDirection;
+      if (next < 0) return reviews.length - 1;
+      if (next >= reviews.length) return 0;
+      return next;
+    });
+  };
+
+  // Book-opening animation variants
+  const bookVariants = {
+    enter: (direction: number) => ({
+      rotateY: direction > 0 ? 90 : -90,
+      opacity: 0,
+      scale: 0.8,
+      transformOrigin: direction > 0 ? "left center" : "right center",
+    }),
+    center: {
+      rotateY: 0,
+      opacity: 1,
+      scale: 1,
+      transformOrigin: "center center",
+    },
+    exit: (direction: number) => ({
+      rotateY: direction < 0 ? 90 : -90,
+      opacity: 0,
+      scale: 0.8,
+      transformOrigin: direction < 0 ? "left center" : "right center",
+    }),
   };
 
   return (
     <section
       className="py-24 md:py-36 relative overflow-hidden"
+      style={{ perspective: "1200px" }}
       data-testid="reviews-section"
     >
       {/* Premium dark background */}
@@ -70,7 +95,7 @@ export function ReviewsSection() {
             <Button
               variant="outline"
               size="icon"
-              onClick={() => scroll("left")}
+              onClick={() => navigate(-1)}
               className="w-12 h-12 rounded-full border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:bg-zinc-800 hover:text-white hover:border-zinc-700"
               data-testid="scroll-left"
             >
@@ -79,7 +104,7 @@ export function ReviewsSection() {
             <Button
               variant="outline"
               size="icon"
-              onClick={() => scroll("right")}
+              onClick={() => navigate(1)}
               className="w-12 h-12 rounded-full border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:bg-zinc-800 hover:text-white hover:border-zinc-700"
               data-testid="scroll-right"
             >
@@ -88,111 +113,149 @@ export function ReviewsSection() {
           </div>
         </motion.div>
 
-        {/* Premium testimonial slider */}
+        {/* Book-opening testimonial carousel */}
         {isLoading ? (
-          <div className="flex gap-8 overflow-x-auto pb-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="min-w-[450px] md:min-w-[520px]">
-                <Skeleton className="h-[400px] w-full rounded-xl bg-zinc-900" />
-              </div>
-            ))}
+          <div className="flex justify-center">
+            <Skeleton className="h-[500px] w-full max-w-4xl rounded-xl bg-zinc-900" />
           </div>
         ) : (
-          <div
-            ref={scrollRef}
-            className="flex gap-8 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          <div 
+            className="relative min-h-[520px] flex items-center justify-center"
             data-testid="reviews-carousel"
           >
-            {reviews.map((review, index) => (
-              <motion.div
-                key={review.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="min-w-[450px] md:min-w-[520px] snap-center group"
-              >
-                <Card
-                  className="h-full overflow-hidden bg-[#0a0a0a] border-0 rounded-xl"
-                  style={{
-                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+            <AnimatePresence mode="wait" custom={direction}>
+              {reviews.length > 0 && (
+                <motion.div
+                  key={currentIndex}
+                  custom={direction}
+                  variants={bookVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30,
+                    duration: 0.5,
                   }}
-                  data-testid={`review-card-${review.id}`}
+                  className="w-full max-w-4xl"
+                  style={{ transformStyle: "preserve-3d" }}
                 >
-                  {/* Large car night shot */}
-                  <div className="relative h-64 overflow-hidden">
-                    <img
-                      src={carNightImages[index % carNightImages.length]}
-                      alt={`${review.vehicleOwned} night shot`}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    {/* Dark gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
-                    
-                    {/* Verified Owner Badge - Prominent */}
-                    <div className="absolute top-4 right-4">
-                      <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black text-xs font-semibold uppercase tracking-wider">
-                        <CheckCircle2 className="w-4 h-4" />
-                        Verified Owner
-                      </div>
-                    </div>
-
-                    {/* Stars overlay */}
-                    <div className="absolute bottom-4 left-6 flex gap-1">
-                      {Array.from({ length: review.rating }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className="w-5 h-5 fill-white text-white"
+                  <Card
+                    className="overflow-hidden bg-[#0a0a0a] border-0 rounded-2xl"
+                    style={{
+                      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 100px rgba(255,255,255,0.02)",
+                    }}
+                    data-testid={`review-card-${reviews[currentIndex].id}`}
+                  >
+                    <div className="grid md:grid-cols-2">
+                      {/* Large car night shot */}
+                      <div className="relative h-64 md:h-auto min-h-[300px] overflow-hidden">
+                        <motion.img
+                          key={currentIndex}
+                          initial={{ scale: 1.1, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ duration: 0.6 }}
+                          src={carNightImages[currentIndex % carNightImages.length]}
+                          alt={`${reviews[currentIndex].vehicleOwned} night shot`}
+                          className="w-full h-full object-cover"
                         />
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-8">
-                    {/* Quote icon */}
-                    <Quote className="w-8 h-8 text-zinc-800 mb-4 rotate-180" />
-                    
-                    {/* Review text - High contrast white */}
-                    <p className="text-white text-lg leading-relaxed mb-8 font-light">
-                      {review.text}
-                    </p>
-
-                    {/* Author info */}
-                    <div className="flex items-center justify-between pt-6 border-t border-zinc-900">
-                      <div>
-                        <p className="text-white font-semibold text-base">
-                          {review.authorName}
-                        </p>
-                        <p className="text-zinc-600 text-sm">
-                          {review.authorLocation}
-                        </p>
+                        {/* Dark gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[#0a0a0a] md:block hidden" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent md:hidden" />
+                        
+                        {/* Verified Owner Badge - Prominent */}
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.3 }}
+                          className="absolute top-4 left-4"
+                        >
+                          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black text-xs font-semibold uppercase tracking-wider shadow-lg">
+                            <CheckCircle2 className="w-4 h-4" />
+                            Verified Owner
+                          </div>
+                        </motion.div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-zinc-500 text-xs uppercase tracking-wider">
-                          Vehicle
-                        </p>
-                        <p className="text-white text-sm font-medium">
-                          {review.vehicleOwned}
-                        </p>
+
+                      {/* Content */}
+                      <div className="p-8 md:p-10 flex flex-col justify-center">
+                        {/* Stars */}
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.2 }}
+                          className="flex gap-1 mb-6"
+                        >
+                          {Array.from({ length: reviews[currentIndex].rating }).map((_, i) => (
+                            <Star
+                              key={i}
+                              className="w-5 h-5 fill-white text-white"
+                            />
+                          ))}
+                        </motion.div>
+
+                        {/* Quote icon */}
+                        <Quote className="w-10 h-10 text-zinc-800 mb-4 rotate-180" />
+                        
+                        {/* Review text - High contrast white */}
+                        <motion.p
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.3 }}
+                          className="text-white text-xl md:text-2xl leading-relaxed mb-8 font-light"
+                        >
+                          {reviews[currentIndex].text}
+                        </motion.p>
+
+                        {/* Author info */}
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.4 }}
+                          className="flex items-center justify-between pt-6 border-t border-zinc-900"
+                        >
+                          <div>
+                            <p className="text-white font-semibold text-lg">
+                              {reviews[currentIndex].authorName}
+                            </p>
+                            <p className="text-zinc-600 text-sm">
+                              {reviews[currentIndex].authorLocation}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-zinc-500 text-xs uppercase tracking-wider">
+                              Vehicle
+                            </p>
+                            <p className="text-white text-sm font-medium">
+                              {reviews[currentIndex].vehicleOwned}
+                            </p>
+                          </div>
+                        </motion.div>
                       </div>
                     </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
+                  </Card>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
 
-        {/* Scroll indicator dots */}
+        {/* Pagination dots */}
         <div className="flex justify-center gap-2 mt-8">
-          {reviews.slice(0, 4).map((_, index) => (
-            <div
+          {reviews.map((_, index) => (
+            <button
               key={index}
-              className={`w-2 h-2 rounded-full transition-colors ${
-                index === 0 ? "bg-white" : "bg-zinc-800"
+              onClick={() => {
+                setDirection(index > currentIndex ? 1 : -1);
+                setCurrentIndex(index);
+              }}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentIndex 
+                  ? "bg-white w-6" 
+                  : "bg-zinc-800 hover:bg-zinc-700"
               }`}
+              data-testid={`pagination-dot-${index}`}
             />
           ))}
         </div>

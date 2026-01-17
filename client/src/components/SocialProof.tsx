@@ -19,29 +19,103 @@ const customerPhotos: CustomerPhoto[] = [
   { id: "6", username: "@xuv_rider", vehicle: "XUV700", rating: 5 },
 ];
 
+const brandLogos = [
+  { name: "Mahindra", initials: "M" },
+  { name: "Maruti Suzuki", initials: "MS" },
+  { name: "Toyota", initials: "T" },
+  { name: "Force", initials: "F" },
+  { name: "Tata", initials: "TM" },
+  { name: "Jeep", initials: "J" },
+];
+
 export function SocialProof() {
   return (
     <section
       className="py-24 md:py-36 relative overflow-hidden bg-[#080808]"
       data-testid="social-proof-section"
     >
-      <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+      {/* Animated background glow */}
+      <motion.div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px]"
+        animate={{
+          opacity: [0.03, 0.08, 0.03],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <div className="w-full h-full bg-gradient-radial from-white/10 to-transparent rounded-full blur-3xl" />
+      </motion.div>
+
+      <div className="relative z-10 max-w-[1440px] mx-auto px-4 md:px-8">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-            Built by <span className="text-gradient-red">Enthusiasts</span>.
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
+            Built by <span className="text-zinc-400">Enthusiasts</span>.
             <br className="hidden md:block" />
             Tested in India.
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="text-zinc-500 text-lg max-w-2xl mx-auto">
             Join thousands of off-road enthusiasts who upgraded their night driving experience.
           </p>
+        </motion.div>
+
+        {/* Brand logos with animations */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <p className="text-xs uppercase tracking-[0.3em] text-zinc-600 text-center mb-8">
+            Trusted by owners of
+          </p>
+          
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+            {brandLogos.map((brand, index) => (
+              <motion.div
+                key={brand.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                whileHover={{ scale: 1.1, y: -5 }}
+                className="group cursor-pointer"
+              >
+                <motion.div
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-zinc-900/50 border border-zinc-800/50 flex items-center justify-center"
+                  animate={{
+                    boxShadow: [
+                      "0 0 0 rgba(255,255,255,0)",
+                      "0 0 20px rgba(255,255,255,0.1)",
+                      "0 0 0 rgba(255,255,255,0)",
+                    ],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    delay: index * 0.5,
+                  }}
+                >
+                  <span className="text-xl md:text-2xl font-bold text-zinc-500 group-hover:text-white transition-colors">
+                    {brand.initials}
+                  </span>
+                </motion.div>
+                <p className="text-xs text-zinc-600 text-center mt-2 group-hover:text-zinc-400 transition-colors">
+                  {brand.name}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
 
         {/* Masonry-style Instagram grid */}
@@ -53,36 +127,54 @@ export function SocialProof() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
+              whileHover={{ scale: 1.02, y: -5 }}
               className={`relative group cursor-pointer ${
                 index === 0 || index === 5 ? "md:row-span-2" : ""
               }`}
             >
               <div
-                className={`relative bg-[#0a0a0a] border border-border/20 rounded-lg overflow-hidden ${
+                className={`relative bg-[#0a0a0a] border border-zinc-800/30 rounded-xl overflow-hidden ${
                   index === 0 || index === 5 ? "aspect-[3/4]" : "aspect-square"
                 }`}
               >
-                {/* Placeholder for customer photo */}
-                <div className="absolute inset-0 bg-gradient-to-br from-muted/20 via-[#0a0a0a] to-muted/10 flex items-center justify-center">
-                  <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-full bg-primary/20" />
-                  </div>
+                {/* Placeholder for customer photo with animated gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/20 via-[#0a0a0a] to-zinc-800/10 flex items-center justify-center">
+                  <motion.div
+                    className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center"
+                    animate={{
+                      boxShadow: [
+                        "0 0 0 rgba(255,255,255,0)",
+                        "0 0 30px rgba(255,255,255,0.1)",
+                        "0 0 0 rgba(255,255,255,0)",
+                      ],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      delay: index * 0.3,
+                    }}
+                  >
+                    <div className="w-12 h-12 rounded-full bg-white/10" />
+                  </motion.div>
                 </div>
 
                 {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4">
+                <motion.div
+                  className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4"
+                  initial={false}
+                >
                   <div className="flex gap-1 mb-2">
                     {[...Array(photo.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-primary fill-primary" />
+                      <Star key={i} className="w-4 h-4 text-white fill-white" />
                     ))}
                   </div>
-                  <p className="text-sm font-medium text-foreground mb-1">{photo.vehicle}</p>
-                  <p className="text-xs text-muted-foreground">{photo.username}</p>
-                </div>
+                  <p className="text-sm font-medium text-white mb-1">{photo.vehicle}</p>
+                  <p className="text-xs text-zinc-400">{photo.username}</p>
+                </motion.div>
 
                 {/* Verified badge */}
                 <Badge
-                  className="absolute top-3 right-3 bg-green-500/20 text-green-400 border-green-500/30"
+                  className="absolute top-3 right-3 bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
                 >
                   <CheckCircle2 className="w-3 h-3 mr-1" />
                   Verified
@@ -104,7 +196,7 @@ export function SocialProof() {
             href="https://instagram.com/expelight"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+            className="inline-flex items-center gap-2 text-zinc-500 hover:text-white transition-colors"
             data-testid="instagram-link"
           >
             <Instagram className="w-5 h-5" />

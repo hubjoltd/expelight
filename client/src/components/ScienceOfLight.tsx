@@ -72,51 +72,98 @@ export function ScienceOfLight() {
           </div>
         </motion.div>
 
-        {/* Comparison Table */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-20"
-        >
-          <h3 className="text-2xl font-bold text-white text-center mb-10">
+        {/* Comparison Table - Opens from both sides */}
+        <div className="mb-20">
+          <motion.h3
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-2xl font-bold text-white text-center mb-10"
+          >
             Technology Comparison
-          </h3>
+          </motion.h3>
           
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[600px] border-collapse">
-              <thead>
-                <tr>
-                  <th className="text-left p-4 border-b border-zinc-800 text-zinc-500 font-medium">Feature</th>
-                  <th className="text-center p-4 border-b border-zinc-800 text-zinc-500 font-medium">Generic Aftermarket LED</th>
-                  <th className="text-center p-4 border-b border-zinc-800 text-zinc-500 font-medium">Projector HID/LED</th>
-                  <th className="text-center p-4 border-b border-zinc-800 text-white font-semibold">Diode Dynamics (TIR)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="bg-[#0a0a0a]">
-                  <td className="p-4 border-b border-zinc-800/50 text-zinc-400">Efficiency</td>
-                  <td className="p-4 border-b border-zinc-800/50 text-center text-zinc-500">{"< 50%"}<br /><span className="text-xs">(Light spills everywhere)</span></td>
-                  <td className="p-4 border-b border-zinc-800/50 text-center text-zinc-400">~70%<br /><span className="text-xs">(Loss in lens)</span></td>
-                  <td className="p-4 border-b border-zinc-800/50 text-center text-white font-semibold">{"> 95%"}<br /><span className="text-xs text-zinc-400">(Direct Focus)</span></td>
-                </tr>
-                <tr>
-                  <td className="p-4 border-b border-zinc-800/50 text-zinc-400">Glare</td>
-                  <td className="p-4 border-b border-zinc-800/50 text-center text-zinc-500">High<br /><span className="text-xs">(Blinds others)</span></td>
-                  <td className="p-4 border-b border-zinc-800/50 text-center text-zinc-400">Low<br /><span className="text-xs">(Cut-off line)</span></td>
-                  <td className="p-4 border-b border-zinc-800/50 text-center text-white font-semibold">Zero<br /><span className="text-xs text-zinc-400">(SAE Standard)</span></td>
-                </tr>
-                <tr className="bg-[#0a0a0a]">
-                  <td className="p-4 text-zinc-400">Durability</td>
-                  <td className="p-4 text-center text-zinc-500">Plastic/Glue<br /><span className="text-xs">(Fades in 1 yr)</span></td>
-                  <td className="p-4 text-center text-zinc-400">Complex parts<br /><span className="text-xs">(Moving pieces)</span></td>
-                  <td className="p-4 text-center text-white font-semibold">Solid State<br /><span className="text-xs text-zinc-400">(Lasts 10+ yrs)</span></td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="min-w-[600px] relative">
+              {/* Left side opening animation */}
+              <motion.div
+                initial={{ scaleX: 0, originX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="absolute left-0 top-0 bottom-0 w-1/2 bg-[#0a0a0a] rounded-l-xl z-0"
+              />
+              {/* Right side opening animation */}
+              <motion.div
+                initial={{ scaleX: 0, originX: 1 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="absolute right-0 top-0 bottom-0 w-1/2 bg-[#0a0a0a] rounded-r-xl z-0"
+              />
+              
+              <motion.table
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="w-full border-collapse relative z-10"
+              >
+                <thead>
+                  <motion.tr
+                    initial={{ opacity: 0, y: -20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.5 }}
+                  >
+                    <th className="text-left p-4 border-b border-zinc-800 text-zinc-500 font-medium">Feature</th>
+                    <th className="text-center p-4 border-b border-zinc-800 text-zinc-500 font-medium">Generic Aftermarket LED</th>
+                    <th className="text-center p-4 border-b border-zinc-800 text-zinc-500 font-medium">Projector HID/LED</th>
+                    <th className="text-center p-4 border-b border-zinc-800 text-white font-semibold">Diode Dynamics (TIR)</th>
+                  </motion.tr>
+                </thead>
+                <tbody>
+                  <motion.tr
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.6 }}
+                    className="bg-[#0a0a0a]/50"
+                  >
+                    <td className="p-4 border-b border-zinc-800/50 text-zinc-400">Efficiency</td>
+                    <td className="p-4 border-b border-zinc-800/50 text-center text-zinc-500">{"< 50%"}<br /><span className="text-xs">(Light spills everywhere)</span></td>
+                    <td className="p-4 border-b border-zinc-800/50 text-center text-zinc-400">~70%<br /><span className="text-xs">(Loss in lens)</span></td>
+                    <td className="p-4 border-b border-zinc-800/50 text-center text-white font-semibold">{"> 95%"}<br /><span className="text-xs text-zinc-400">(Direct Focus)</span></td>
+                  </motion.tr>
+                  <motion.tr
+                    initial={{ opacity: 0, x: 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.7 }}
+                  >
+                    <td className="p-4 border-b border-zinc-800/50 text-zinc-400">Glare</td>
+                    <td className="p-4 border-b border-zinc-800/50 text-center text-zinc-500">High<br /><span className="text-xs">(Blinds others)</span></td>
+                    <td className="p-4 border-b border-zinc-800/50 text-center text-zinc-400">Low<br /><span className="text-xs">(Cut-off line)</span></td>
+                    <td className="p-4 border-b border-zinc-800/50 text-center text-white font-semibold">Zero<br /><span className="text-xs text-zinc-400">(SAE Standard)</span></td>
+                  </motion.tr>
+                  <motion.tr
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.8 }}
+                    className="bg-[#0a0a0a]/50"
+                  >
+                    <td className="p-4 text-zinc-400">Durability</td>
+                    <td className="p-4 text-center text-zinc-500">Plastic/Glue<br /><span className="text-xs">(Fades in 1 yr)</span></td>
+                    <td className="p-4 text-center text-zinc-400">Complex parts<br /><span className="text-xs">(Moving pieces)</span></td>
+                    <td className="p-4 text-center text-white font-semibold">Solid State<br /><span className="text-xs text-zinc-400">(Lasts 10+ yrs)</span></td>
+                  </motion.tr>
+                </tbody>
+              </motion.table>
+            </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Comparison Slider Section */}
         <div className="border-t border-zinc-800/50 pt-20 mb-20">

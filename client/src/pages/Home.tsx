@@ -8,6 +8,7 @@ import { ReviewsSection } from "@/components/ReviewsSection";
 import { SocialProof } from "@/components/SocialProof";
 import { TrustBar } from "@/components/TrustBar";
 import { Footer } from "@/components/Footer";
+import { FloatingContact } from "@/components/FloatingContact";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         <TrustBar />
       </main>
       <Footer />
+      <FloatingContact />
     </div>
   );
 }
