@@ -1,6 +1,14 @@
 import { users, type User, type UpsertUser } from "@shared/models/auth";
-import { db } from "../../db";
+import { drizzle } from "drizzle-orm/node-postgres";
+import pkg from "pg";
+const { Pool } = pkg;
 import { eq } from "drizzle-orm";
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
+const db = drizzle(pool);
 
 // Interface for auth storage operations
 // (IMPORTANT) These user operations are mandatory for Replit Auth.

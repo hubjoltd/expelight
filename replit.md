@@ -94,3 +94,26 @@ The application runs on port 5000 with both frontend and backend.
 - **Social Proof**: Added animated brand logos (Mahindra, Maruti, Toyota, Force, Tata, Jeep) with glow and hover effects
 - **Floating Contact Button**: Added pulsing contact button in bottom-right with WhatsApp and Telegram options
 - **Color Scheme**: Red ONLY for buttons/CTAs - all other text uses white, silver (zinc-400/500), grey for premium feel
+
+### Authentication & E-commerce (Jan 2026)
+- **Simple Username/Password Auth**: Implemented custom authentication system with:
+  - Login page (/login) with username/email + password
+  - Signup page (/signup) with username, email, password, optional first/last name
+  - Sessions stored in PostgreSQL using express-session
+  - Password hashing with bcryptjs
+- **User Menu**: Header shows Login button when logged out, avatar dropdown when logged in (with My Orders, Logout options)
+- **Products Page Redesigned**: Car-configurator style with hover zoom animations, staggered card entries, floating badges, dark theme
+- **Shopping Cart**: Add to cart from product detail, quantity controls, remove items, free shipping threshold (₹25,000+)
+- **Checkout Flow**: Shipping form with phone/address, order confirmation screen, orders stored in database
+- **Cart/Checkout requires login**: Users prompted to sign in before accessing cart or placing orders
+
+### API Endpoints
+- **Auth**: POST /api/auth/register, POST /api/auth/login, POST /api/auth/logout, GET /api/auth/user
+- **Cart**: GET/POST/PATCH/DELETE /api/cart (authenticated)
+- **Orders**: POST /api/orders, GET /api/orders (authenticated)
+
+### Database Tables
+- users: id, username, email, passwordHash, firstName, lastName, createdAt, updatedAt
+- sessions: sid, sess (JSON), expire
+- cart_items: id, userId, productId, quantity, createdAt
+- orders: id, userId, items (JSON), totalAmount, status, shippingAddress, phone, email, createdAt

@@ -8,6 +8,10 @@ import Products from "@/pages/Products";
 import ProductDetail from "@/pages/ProductDetail";
 import Science from "@/pages/Science";
 import VehicleFitPage from "@/pages/VehicleFitPage";
+import Cart from "@/pages/Cart";
+import Checkout from "@/pages/Checkout";
+import Login from "@/pages/Login";
+import Signup from "@/pages/Signup";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -18,6 +22,10 @@ function Router() {
       <Route path="/product/:slug" component={ProductDetail} />
       <Route path="/science" component={Science} />
       <Route path="/vehicle-fit" component={VehicleFitPage} />
+      <Route path="/cart" component={Cart} />
+      <Route path="/checkout" component={Checkout} />
+      <Route path="/login" component={Login} />
+      <Route path="/signup" component={Signup} />
       <Route component={NotFound} />
     </Switch>
   );
