@@ -3,15 +3,15 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Star, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, CheckCircle2, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import type { Review } from "@shared/schema";
 
-const carImages = [
-  "https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=800&auto=format&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&auto=format&fit=crop&q=80",
-  "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&auto=format&fit=crop&q=80",
+const carNightImages = [
+  "https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=800&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=800&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=800&auto=format&fit=crop&q=80",
+  "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=800&auto=format&fit=crop&q=80",
 ];
 
 export function ReviewsSection() {
@@ -23,7 +23,7 @@ export function ReviewsSection() {
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      const scrollAmount = 450;
+      const scrollAmount = 500;
       scrollRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
@@ -33,37 +33,45 @@ export function ReviewsSection() {
 
   return (
     <section
-      className="py-20 md:py-32 relative overflow-hidden"
+      className="py-24 md:py-36 relative overflow-hidden"
       data-testid="reviews-section"
     >
-      {/* Background - Dark mode proof */}
-      <div className="absolute inset-0 bg-[#050505]" />
+      {/* Premium dark background */}
+      <div className="absolute inset-0 bg-[#030303]" />
+      
+      {/* Subtle gradient overlay */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: "radial-gradient(ellipse at 50% 0%, rgba(30,30,30,0.5) 0%, transparent 60%)"
+        }}
+      />
 
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 md:px-8">
-        {/* Section header */}
+        {/* Premium header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12"
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16"
         >
           <div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">
-              Verified <span className="text-zinc-500">Performance</span>
-            </h2>
-            <p className="text-zinc-500 text-lg max-w-2xl">
-              Real owners. Real roads. Real results.
+            <p className="text-xs uppercase tracking-[0.3em] text-zinc-600 mb-4">
+              Owner Experiences
             </p>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight">
+              Verified Owners
+            </h2>
           </div>
 
-          {/* Navigation arrows - Desktop only */}
-          <div className="hidden md:flex gap-2">
+          {/* Navigation arrows */}
+          <div className="flex gap-3">
             <Button
               variant="outline"
               size="icon"
               onClick={() => scroll("left")}
-              className="border-zinc-700 text-zinc-400 hover:bg-zinc-800 hover:text-white"
+              className="w-12 h-12 rounded-full border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:bg-zinc-800 hover:text-white hover:border-zinc-700"
               data-testid="scroll-left"
             >
               <ChevronLeft className="w-5 h-5" />
@@ -72,7 +80,7 @@ export function ReviewsSection() {
               variant="outline"
               size="icon"
               onClick={() => scroll("right")}
-              className="border-zinc-700 text-zinc-400 hover:bg-zinc-800 hover:text-white"
+              className="w-12 h-12 rounded-full border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:bg-zinc-800 hover:text-white hover:border-zinc-700"
               data-testid="scroll-right"
             >
               <ChevronRight className="w-5 h-5" />
@@ -80,27 +88,19 @@ export function ReviewsSection() {
           </div>
         </motion.div>
 
-        {/* Reviews carousel */}
+        {/* Premium testimonial slider */}
         {isLoading ? (
-          <div className="flex gap-6 overflow-x-auto pb-4">
+          <div className="flex gap-8 overflow-x-auto pb-4">
             {[1, 2, 3].map((i) => (
-              <Card key={i} className="min-w-[380px] md:min-w-[420px] p-0 bg-[#111] border-zinc-800/50">
-                <Skeleton className="h-48 w-full rounded-t-lg" />
-                <div className="p-6 space-y-4">
-                  <div className="flex justify-between">
-                    <Skeleton className="h-4 w-24" />
-                    <Skeleton className="h-5 w-20" />
-                  </div>
-                  <Skeleton className="h-20 w-full" />
-                  <Skeleton className="h-4 w-40" />
-                </div>
-              </Card>
+              <div key={i} className="min-w-[450px] md:min-w-[520px]">
+                <Skeleton className="h-[400px] w-full rounded-xl bg-zinc-900" />
+              </div>
             ))}
           </div>
         ) : (
           <div
             ref={scrollRef}
-            className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0"
+            className="flex gap-8 overflow-x-auto pb-8 snap-x snap-mandatory scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
             data-testid="reviews-carousel"
           >
@@ -111,68 +111,72 @@ export function ReviewsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="min-w-[380px] md:min-w-[420px] snap-center group"
+                className="min-w-[450px] md:min-w-[520px] snap-center group"
               >
                 <Card
-                  className="h-full overflow-hidden bg-[#111] transition-all duration-300"
+                  className="h-full overflow-hidden bg-[#0a0a0a] border-0 rounded-xl"
                   style={{
-                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                    boxShadow: "0 0 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05)",
+                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
                   }}
                   data-testid={`review-card-${review.id}`}
                 >
-                  {/* Car Image - Zoom on hover */}
-                  <div className="relative h-48 overflow-hidden">
+                  {/* Large car night shot */}
+                  <div className="relative h-64 overflow-hidden">
                     <img
-                      src={carImages[index % carImages.length]}
-                      alt={`${review.vehicleOwned} with upgraded lights`}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      src={carNightImages[index % carNightImages.length]}
+                      alt={`${review.vehicleOwned} night shot`}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent pointer-events-none" />
-                  </div>
-
-                  <div className="p-6">
-                    {/* Header - Stars and Verified badge */}
-                    <div className="flex items-center justify-between mb-4">
-                      {/* Gold glowing stars */}
-                      <div className="flex gap-0.5">
-                        {Array.from({ length: review.rating }).map((_, i) => (
-                          <Star
-                            key={i}
-                            className="w-4 h-4 fill-amber-400 text-amber-400"
-                            style={{
-                              filter: "drop-shadow(0 0 4px rgba(251, 191, 36, 0.6))"
-                            }}
-                          />
-                        ))}
+                    {/* Dark gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/40 to-transparent" />
+                    
+                    {/* Verified Owner Badge - Prominent */}
+                    <div className="absolute top-4 right-4">
+                      <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white text-black text-xs font-semibold uppercase tracking-wider">
+                        <CheckCircle2 className="w-4 h-4" />
+                        Verified Owner
                       </div>
-
-                      {/* Verified Purchase badge */}
-                      {review.isVerified && (
-                        <Badge
-                          variant="outline"
-                          className="text-emerald-400 border-emerald-500/30 bg-emerald-500/10"
-                        >
-                          <CheckCircle className="w-3 h-3 mr-1" />
-                          Verified Purchase
-                        </Badge>
-                      )}
                     </div>
 
-                    {/* Review text */}
-                    <p className="text-zinc-300 mb-6 text-sm leading-relaxed min-h-[80px]">
-                      "{review.text}"
+                    {/* Stars overlay */}
+                    <div className="absolute bottom-4 left-6 flex gap-1">
+                      {Array.from({ length: review.rating }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-5 h-5 fill-white text-white"
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-8">
+                    {/* Quote icon */}
+                    <Quote className="w-8 h-8 text-zinc-800 mb-4 rotate-180" />
+                    
+                    {/* Review text - High contrast white */}
+                    <p className="text-white text-lg leading-relaxed mb-8 font-light">
+                      {review.text}
                     </p>
 
                     {/* Author info */}
-                    <div className="pt-4 border-t border-zinc-800/50">
-                      <p className="text-white text-sm font-medium">
-                        — {review.authorName}, {review.authorLocation}
-                      </p>
-                      <p className="text-xs text-zinc-500 mt-1">
-                        {review.vehicleOwned}
-                      </p>
+                    <div className="flex items-center justify-between pt-6 border-t border-zinc-900">
+                      <div>
+                        <p className="text-white font-semibold text-base">
+                          {review.authorName}
+                        </p>
+                        <p className="text-zinc-600 text-sm">
+                          {review.authorLocation}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-zinc-500 text-xs uppercase tracking-wider">
+                          Vehicle
+                        </p>
+                        <p className="text-white text-sm font-medium">
+                          {review.vehicleOwned}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </Card>
@@ -180,6 +184,18 @@ export function ReviewsSection() {
             ))}
           </div>
         )}
+
+        {/* Scroll indicator dots */}
+        <div className="flex justify-center gap-2 mt-8">
+          {reviews.slice(0, 4).map((_, index) => (
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full transition-colors ${
+                index === 0 ? "bg-white" : "bg-zinc-800"
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

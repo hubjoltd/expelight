@@ -144,58 +144,78 @@ export function ScienceOfLight() {
               transition={{ duration: 0.6 }}
             >
               <div
-                className="relative aspect-[4/3] rounded-lg overflow-hidden border border-zinc-800/30"
+                className="relative aspect-[4/3] rounded-xl overflow-hidden border border-zinc-800/30"
                 data-testid="comparison-slider"
               >
-                {/* Stock lights (dark road) */}
+                {/* Stock lights side - Dark with faint SUV silhouette */}
                 <div
-                  className="absolute inset-0 bg-[#080808]"
+                  className="absolute inset-0"
                   style={{
                     clipPath: `inset(0 ${100 - sliderValue[0]}% 0 0)`,
                   }}
                 >
+                  {/* SUV background image - dim/dark */}
+                  <img
+                    src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=800&auto=format&fit=crop&q=80"
+                    alt="SUV with stock lights"
+                    className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale"
+                  />
+                  <div className="absolute inset-0 bg-[#050505]/80" />
+                  
+                  {/* Content overlay */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-24 h-24 rounded-full bg-zinc-900/50 flex items-center justify-center mx-auto mb-4 border border-zinc-700/30">
-                        <div className="w-12 h-12 rounded-full bg-yellow-900/30" />
+                    <div className="text-center relative z-10">
+                      <div className="w-20 h-20 rounded-full bg-yellow-900/20 flex items-center justify-center mx-auto mb-4 border border-yellow-900/30">
+                        <div className="w-10 h-10 rounded-full bg-yellow-800/40 blur-sm" />
                       </div>
-                      <span className="text-sm uppercase tracking-wider text-zinc-600">Stock Lights</span>
-                      <p className="text-xs text-zinc-700 mt-1">Scattered & Dim</p>
+                      <span className="text-base uppercase tracking-widest text-zinc-600 font-medium">Stock</span>
+                      <p className="text-xs text-zinc-700 mt-2">Dim & Scattered</p>
                     </div>
                   </div>
-                  {/* Dim scattered light effect */}
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-32 bg-gradient-to-t from-yellow-900/15 via-yellow-900/5 to-transparent rounded-full blur-2xl" />
+                  
+                  {/* Weak scattered light */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-64 h-40 bg-gradient-to-t from-yellow-900/10 via-yellow-900/5 to-transparent rounded-full blur-3xl" />
                 </div>
 
-                {/* Diode lights (illuminated road) */}
+                {/* Diode Dynamics side - Bright with visible SUV */}
                 <div
-                  className="absolute inset-0 bg-[#0f0f0f]"
+                  className="absolute inset-0"
                   style={{
                     clipPath: `inset(0 0 0 ${sliderValue[0]}%)`,
                   }}
                 >
+                  {/* SUV background image - bright/visible */}
+                  <img
+                    src="https://images.unsplash.com/photo-1609521263047-f8f205293f24?w=800&auto=format&fit=crop&q=80"
+                    alt="SUV with Diode Dynamics lights"
+                    className="absolute inset-0 w-full h-full object-cover opacity-40"
+                  />
+                  <div className="absolute inset-0 bg-[#0a0a0a]/60" />
+                  
+                  {/* Content overlay */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-24 h-24 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-4 border border-white/20">
-                        <div className="w-12 h-12 rounded-full bg-white/40" />
+                    <div className="text-center relative z-10">
+                      <div className="w-20 h-20 rounded-full bg-white/15 flex items-center justify-center mx-auto mb-4 border border-white/30 shadow-[0_0_40px_rgba(255,255,255,0.2)]">
+                        <div className="w-10 h-10 rounded-full bg-white/60" />
                       </div>
-                      <span className="text-sm uppercase tracking-wider text-white">Diode Dynamics</span>
-                      <p className="text-xs text-zinc-400 mt-1">Focused & Bright</p>
+                      <span className="text-base uppercase tracking-widest text-white font-medium">Diode Dynamics</span>
+                      <p className="text-xs text-zinc-400 mt-2">Focused & Bright</p>
                     </div>
                   </div>
-                  {/* Focused beam effect - white/silver */}
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-56 h-40 bg-gradient-to-t from-white/15 via-white/8 to-transparent rounded-t-full" />
+                  
+                  {/* Strong focused beam */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-72 h-48 bg-gradient-to-t from-white/20 via-white/10 to-transparent rounded-t-full" />
                 </div>
 
-                {/* Slider line */}
+                {/* Slider divider line */}
                 <div
-                  className="absolute top-0 bottom-0 w-0.5 bg-white shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                  className="absolute top-0 bottom-0 w-1 bg-white shadow-[0_0_20px_rgba(255,255,255,0.5)]"
                   style={{ left: `${sliderValue[0]}%` }}
                 >
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white flex items-center justify-center cursor-ew-resize">
-                    <div className="flex gap-0.5">
-                      <div className="w-0.5 h-5 bg-zinc-800 rounded-full" />
-                      <div className="w-0.5 h-5 bg-zinc-800 rounded-full" />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-white flex items-center justify-center cursor-ew-resize shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                    <div className="flex gap-1">
+                      <div className="w-0.5 h-6 bg-zinc-800 rounded-full" />
+                      <div className="w-0.5 h-6 bg-zinc-800 rounded-full" />
                     </div>
                   </div>
                 </div>
