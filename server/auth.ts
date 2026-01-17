@@ -95,15 +95,29 @@ export function registerAuthRoutes(app: Express) {
         })
         .returning();
 
-      // Set session
-      req.session.userId = newUser.id;
-
-      res.json({
-        id: newUser.id,
-        username: newUser.username,
-        email: newUser.email,
-        firstName: newUser.firstName,
-        lastName: newUser.lastName,
+      // Regenerate session and save to ensure cookie is set
+      req.session.regenerate((err) => {
+        if (err) {
+          console.error("Session regenerate error:", err);
+          return res.status(500).json({ error: "Failed to create session" });
+        }
+        
+        req.session.userId = newUser.id;
+        
+        req.session.save((saveErr) => {
+          if (saveErr) {
+            console.error("Session save error:", saveErr);
+            return res.status(500).json({ error: "Failed to save session" });
+          }
+          
+          res.json({
+            id: newUser.id,
+            username: newUser.username,
+            email: newUser.email,
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+          });
+        });
       });
     } catch (error) {
       console.error("Registration error:", error);
@@ -121,55 +135,54 @@ export function registerAuthRoutes(app: Express) {
       }
 
       // Find user by username or email
-      const [user] = await db
+      let foundUser = await db
         .select()
         .from(users)
-        .where(eq(users.username, username));
+        .where(eq(users.username, username))
+        .then(rows => rows[0]);
 
-      if (!user) {
+      if (!foundUser) {
         // Try email
-        const [userByEmail] = await db
+        foundUser = await db
           .select()
           .from(users)
-          .where(eq(users.email, username));
+          .where(eq(users.email, username))
+          .then(rows => rows[0]);
+      }
 
-        if (!userByEmail) {
-          return res.status(401).json({ error: "Invalid username or password" });
-        }
-
-        // Verify password
-        const isValid = await bcrypt.compare(password, userByEmail.passwordHash);
-        if (!isValid) {
-          return res.status(401).json({ error: "Invalid username or password" });
-        }
-
-        // Set session
-        req.session.userId = userByEmail.id;
-
-        return res.json({
-          id: userByEmail.id,
-          username: userByEmail.username,
-          email: userByEmail.email,
-          firstName: userByEmail.firstName,
-          lastName: userByEmail.lastName,
-        });
+      if (!foundUser) {
+        return res.status(401).json({ error: "Invalid username or password" });
       }
 
       // Verify password
-      const isValid = await bcrypt.compare(password, user.passwordHash);
+      const isValid = await bcrypt.compare(password, foundUser.passwordHash);
       if (!isValid) {
         return res.status(401).json({ error: "Invalid username or password" });
       }
 
-      // Set session
-      req.session.userId = user.id;
-
-      res.json({
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
+      // Regenerate session and save to ensure cookie is set
+      req.session.regenerate((err) => {
+        if (err) {
+          console.error("Session regenerate error:", err);
+          return res.status(500).json({ error: "Failed to create session" });
+        }
+        
+        req.session.userId = foundUser!.id;
+        
+        req.session.save((saveErr) => {
+          if (saveErr) {
+            console.error("Session save error:", saveErr);
+            return res.status(500).json({ error: "Failed to save session" });
+          }
+          
+          res.json({
+            id: foundUser!.id,
+            username: foundUser!.username,
+            email: foundUser!.email,
+            firstName: foundUser!.firstName,
+            lastName: foundUser!.lastName,
+          });
+        });
       });
     } catch (error) {
       console.error("Login error:", error);
