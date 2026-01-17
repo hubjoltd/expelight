@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ChevronDown, Lightbulb, Zap, Target, Shield, Plus, Check } from "lucide-react";
 
-import suvHeadlightsImg from "@assets/stock_images/suv_vehicle_with_hea_6cd00439.jpg";
-import suvBrightLightsImg from "@assets/stock_images/off-road_suv_headlig_a2229d87.jpg";
+import tharLightsOn from "@assets/stock_images/mahindra_thar_suv_of_486da23b.jpg";
+import tharLightsOff from "@assets/stock_images/mahindra_thar_jeep_s_39b00630.jpg";
 
 interface FAQItem {
   question: string;
@@ -151,12 +151,12 @@ export function ScienceOfLight() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-0">
-              {/* Left: Vehicle with TIR optics visualization */}
+              {/* Left: Mahindra Thar with TIR optics visualization */}
               <div className="relative overflow-hidden">
-                {/* Vehicle image with lights */}
+                {/* Thar image with lights on */}
                 <img 
-                  src={suvBrightLightsImg} 
-                  alt="SUV with TIR optic headlights" 
+                  src={tharLightsOn} 
+                  alt="Mahindra Thar with TIR optic headlights" 
                   className="w-full h-full object-cover min-h-[300px]"
                 />
                 {/* Dark overlay for text readability */}
@@ -372,12 +372,12 @@ export function ScienceOfLight() {
               onMouseDown={handleSliderInteraction}
               onTouchStart={handleSliderInteraction}
             >
-              {/* Stock side (dimmed/grayscale) - SUV with weak lights */}
+              {/* Stock side - Mahindra Thar with lights off */}
               <div className="absolute inset-0">
                 <img 
-                  src={suvHeadlightsImg} 
-                  alt="Stock headlights" 
-                  className="w-full h-full object-cover grayscale brightness-50"
+                  src={tharLightsOff} 
+                  alt="Mahindra Thar with stock headlights off" 
+                  className="w-full h-full object-cover brightness-75"
                 />
                 <div className="absolute inset-0 bg-black/40" />
                 {/* Weak, scattered light beams */}
@@ -389,7 +389,7 @@ export function ScienceOfLight() {
                 </div>
               </div>
 
-              {/* Diode Dynamics side (bright, focused) - SUV with bright TIR lights */}
+              {/* Diode Dynamics side - Mahindra Thar with bright TIR lights */}
               <motion.div
                 className="absolute inset-y-0 left-0 overflow-hidden"
                 style={{ width: `${sliderValue}%` }}
@@ -399,8 +399,8 @@ export function ScienceOfLight() {
                   style={{ width: `${100 * 100 / Math.max(sliderValue, 1)}%` }}
                 >
                   <img 
-                    src={suvBrightLightsImg} 
-                    alt="Diode Dynamics TIR headlights" 
+                    src={tharLightsOn} 
+                    alt="Mahindra Thar with Diode Dynamics TIR headlights" 
                     className="w-full h-full object-cover brightness-110 contrast-110"
                   />
                   {/* Bright focused beam effect overlay */}

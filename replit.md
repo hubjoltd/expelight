@@ -95,6 +95,22 @@ The application runs on port 5000 with both frontend and backend.
 - **Floating Contact Button**: Added pulsing contact button in bottom-right with WhatsApp and Telegram options
 - **Color Scheme**: Red ONLY for buttons/CTAs - all other text uses white, silver (zinc-400/500), grey for premium feel
 
+### Guest Cart & Enhanced Visuals (Jan 2026)
+- **Guest Cart (localStorage)**: Users can add items to cart without login
+  - Cart stored in localStorage for guests
+  - Cart syncs to server after login/signup via mergeLocalCartToServer
+  - Cart count visible in header for all users
+- **TIR Optics Section Enhanced**: 
+  - Mahindra Thar image with lights on and animated light beams
+  - TIR optic overlay visualization with glowing LED core
+  - Key stats (95%+ Efficiency, Zero Glare, 10+ Years)
+- **Comparison Slider with Thar Images**:
+  - Auto-sliding animation when in view
+  - Mahindra Thar lights off (grayscale/dim) vs lights on (bright)
+  - Interactive drag to compare, toggle auto-animate
+- **Lighting Effects on Text**: Glowing text-shadow animations on headings
+- **Redesigned FAQ**: Modern accordion with gradient backgrounds, glow effects, rotating Plus icon
+
 ### Authentication & E-commerce (Jan 2026)
 - **Simple Username/Password Auth**: Implemented custom authentication system with:
   - Login page (/login) with username/email + password
@@ -105,7 +121,7 @@ The application runs on port 5000 with both frontend and backend.
 - **Products Page Redesigned**: Car-configurator style with hover zoom animations, staggered card entries, floating badges, dark theme
 - **Shopping Cart**: Add to cart from product detail, quantity controls, remove items, free shipping threshold (₹25,000+)
 - **Checkout Flow**: Shipping form with phone/address, order confirmation screen, orders stored in database
-- **Cart/Checkout requires login**: Users prompted to sign in before accessing cart or placing orders
+- **Login required at checkout only**: Users can add to cart freely, login prompted at checkout
 
 ### API Endpoints
 - **Auth**: POST /api/auth/register, POST /api/auth/login, POST /api/auth/logout, GET /api/auth/user
