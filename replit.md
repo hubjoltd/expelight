@@ -67,7 +67,8 @@ The application runs on port 5000 with both frontend and backend.
 - Product detail pages with sticky add-to-cart layout
 - Fixed wouter Link component usage to avoid nested anchor tags
 - Stage Selector CTAs use native button with onClick navigation for accessibility compliance
-- Hero section with "See What You've Been Missing" headline and animated light beam effects
+- Hero section with "See What You've Been Missing" headline and AI-generated looping video background
+- Video shows SUV headlights cutting through fog for dramatic cinematic effect
 - Science of Light section with "Slide to Upgrade" interactive comparison slider
 - Added Social Proof section with masonry-style customer photo grid
 - All sections follow the "Midnight Engineering" design system specifications
