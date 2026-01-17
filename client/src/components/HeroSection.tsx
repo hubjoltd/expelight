@@ -20,22 +20,22 @@ export function HeroSection() {
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover opacity-70"
           data-testid="hero-video"
         >
           <source src={heroVideo} type="video/mp4" />
         </video>
         
         {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/40" />
         
         {/* Gradient overlays for premium look */}
         <div
           className="absolute inset-0"
           style={{
             background: `
-              linear-gradient(to bottom, rgba(5,5,5,0.4) 0%, transparent 30%, transparent 70%, rgba(5,5,5,0.9) 100%),
-              radial-gradient(ellipse at 50% 100%, rgba(26, 26, 26, 0.6) 0%, transparent 50%)
+              linear-gradient(to bottom, rgba(5,5,5,0.5) 0%, transparent 30%, transparent 60%, rgba(5,5,5,0.95) 100%),
+              radial-gradient(ellipse at 50% 100%, rgba(26, 26, 26, 0.8) 0%, transparent 50%)
             `,
           }}
         />
@@ -51,32 +51,47 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
+          {/* Main Headline */}
           <h1
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 drop-shadow-lg"
             data-testid="hero-headline"
           >
-            <span className="text-white">Don't Just Add Light.</span>{" "}
+            <span className="text-white">See What You've</span>{" "}
             <br />
-            <span className="text-white">Engineer It.</span>
+            <span className="text-white">Been Missing.</span>
           </h1>
 
+          {/* Sub-headline */}
           <p
-            className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 drop-shadow-md"
+            className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-12 drop-shadow-md"
             data-testid="hero-subheadline"
           >
-            The only SAE-Compliant, Anti-Glare Lighting System for the modern Indian explorer.
+            Engineering-grade lighting systems for the modern Indian explorer.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
-            {/* Primary CTA - Red button */}
-            <Button
-              size="lg"
-              className="relative px-8 py-6 text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
-              onClick={scrollToProducts}
-              data-testid="cta-explore"
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            {/* Primary CTA - Ghost button with glowing border */}
+            <motion.div
+              animate={{
+                boxShadow: [
+                  "0 0 20px rgba(229, 57, 53, 0.3)",
+                  "0 0 40px rgba(229, 57, 53, 0.5)",
+                  "0 0 20px rgba(229, 57, 53, 0.3)",
+                ],
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="rounded-md"
             >
-              Explore Systems
-            </Button>
+              <Button
+                size="lg"
+                variant="outline"
+                className="relative px-10 py-6 text-base font-semibold bg-transparent border-2 border-primary text-white hover:bg-primary/10"
+                onClick={scrollToProducts}
+                data-testid="cta-explore"
+              >
+                Explore Systems
+              </Button>
+            </motion.div>
 
             {/* Secondary CTA - Watch the Difference */}
             <Button
@@ -85,10 +100,10 @@ export function HeroSection() {
               className="text-white/80 hover:text-white px-8 py-6 text-base group backdrop-blur-sm"
               data-testid="cta-watch"
             >
-              <div className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center mr-3 group-hover:border-white/60 transition-colors">
-                <Play className="w-4 h-4 ml-0.5" />
+              <div className="w-12 h-12 rounded-full border-2 border-white/40 flex items-center justify-center mr-3 group-hover:border-white/70 group-hover:bg-white/10 transition-all">
+                <Play className="w-5 h-5 ml-0.5 fill-white/80" />
               </div>
-              Watch the Cut-Off Test
+              Watch the Difference
             </Button>
           </div>
 
