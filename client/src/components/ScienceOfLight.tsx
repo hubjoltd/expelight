@@ -468,17 +468,17 @@ export function ScienceOfLight() {
               />
             </div>
 
-            {/* Auto-animate indicator */}
+            {/* Explore button */}
             <div className="flex justify-center mt-4">
               <button
                 onClick={() => setIsAutoAnimating(!isAutoAnimating)}
-                className={`text-xs px-4 py-2 rounded-full transition-colors ${
+                className={`text-sm px-6 py-2.5 rounded-full transition-colors font-medium ${
                   isAutoAnimating 
-                    ? "bg-primary/20 text-primary border border-primary/30" 
-                    : "bg-zinc-800 text-zinc-400 border border-zinc-700"
+                    ? "bg-primary text-white border border-primary shadow-lg shadow-primary/30" 
+                    : "bg-zinc-800 text-zinc-300 border border-zinc-700 hover:bg-zinc-700"
                 }`}
               >
-                {isAutoAnimating ? "Auto-animating..." : "Click to auto-animate"}
+                Explore with Expelight
               </button>
             </div>
           </div>
