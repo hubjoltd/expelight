@@ -247,7 +247,7 @@ export function ProductPage({ product }: ProductPageProps) {
               ) : (
                 <>
                   <ShoppingBag className="w-5 h-5 mr-2" />
-                  {isAuthenticated ? "Add to Cart" : "Login to Buy"}
+                  Add to Cart
                 </>
               )}
             </Button>
