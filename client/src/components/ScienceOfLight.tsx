@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { ChevronDown, Lightbulb, Zap, Target, Shield, Plus, Check } from "lucide-react";
 
-import tharLightsOn from "@assets/stock_images/mahindra_thar_suv_of_486da23b.jpg";
-import tharLightsOff from "@assets/stock_images/mahindra_thar_jeep_s_39b00630.jpg";
+import tharLightsOn from "@assets/generated_images/thar_suv_bright_headlights.png";
+import tharLightsOff from "@assets/generated_images/thar_suv_headlights_off.png";
 
 interface FAQItem {
   question: string;
