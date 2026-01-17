@@ -31,14 +31,19 @@ export function setupAuth(app: Express) {
     createTableIfMissing: true,
   });
 
+  // Replit serves over HTTPS, so we need secure cookies
+  const isProduction = process.env.NODE_ENV === "production";
+  const isReplit = !!process.env.REPL_ID;
+  
   app.use(
     session({
       store: sessionStore,
       secret: process.env.SESSION_SECRET || "expelight-secret-key-change-in-production",
       resave: false,
       saveUninitialized: false,
+      proxy: true,
       cookie: {
-        secure: process.env.NODE_ENV === "production",
+        secure: isProduction || isReplit, // Always secure on Replit (HTTPS)
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         sameSite: "lax",
