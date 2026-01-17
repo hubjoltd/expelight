@@ -7,16 +7,60 @@ interface CustomerPhoto {
   imageUrl?: string;
   username: string;
   vehicle: string;
+  brand: string;
+  brandLogo: string;
   rating: number;
 }
 
 const customerPhotos: CustomerPhoto[] = [
-  { id: "1", username: "@thar_adventures", vehicle: "Mahindra Thar", rating: 5 },
-  { id: "2", username: "@scorpio_trails", vehicle: "Scorpio-N", rating: 5 },
-  { id: "3", username: "@jimny_india", vehicle: "Maruti Jimny", rating: 5 },
-  { id: "4", username: "@hilux_offroad", vehicle: "Toyota Hilux", rating: 5 },
-  { id: "5", username: "@gurkha_explorer", vehicle: "Force Gurkha", rating: 5 },
-  { id: "6", username: "@xuv_rider", vehicle: "XUV700", rating: 5 },
+  { 
+    id: "1", 
+    username: "@thar_adventures", 
+    vehicle: "Mahindra Thar", 
+    brand: "Mahindra",
+    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Mahindra-logo.svg/200px-Mahindra-logo.svg.png",
+    rating: 5 
+  },
+  { 
+    id: "2", 
+    username: "@scorpio_trails", 
+    vehicle: "Scorpio-N",
+    brand: "Mahindra", 
+    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Mahindra-logo.svg/200px-Mahindra-logo.svg.png",
+    rating: 5 
+  },
+  { 
+    id: "3", 
+    username: "@jimny_india", 
+    vehicle: "Maruti Jimny",
+    brand: "Maruti Suzuki", 
+    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Maruti_Suzuki_Logo.svg/200px-Maruti_Suzuki_Logo.svg.png",
+    rating: 5 
+  },
+  { 
+    id: "4", 
+    username: "@hilux_offroad", 
+    vehicle: "Toyota Hilux",
+    brand: "Toyota", 
+    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Toyota.svg/200px-Toyota.svg.png",
+    rating: 5 
+  },
+  { 
+    id: "5", 
+    username: "@gurkha_explorer", 
+    vehicle: "Force Gurkha",
+    brand: "Force", 
+    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Force_Motors_logo.svg/200px-Force_Motors_logo.svg.png",
+    rating: 5 
+  },
+  { 
+    id: "6", 
+    username: "@xuv_rider", 
+    vehicle: "Mahindra XUV700",
+    brand: "Mahindra", 
+    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Mahindra-logo.svg/200px-Mahindra-logo.svg.png",
+    rating: 5 
+  },
 ];
 
 // Brand logos with proper styling
@@ -142,7 +186,6 @@ export function SocialProof() {
                       alt={brand.name}
                       className="h-full w-auto object-contain max-w-[120px] md:max-w-[150px]"
                       onError={(e) => {
-                        // Fallback to text if image fails
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
                         const parent = target.parentElement;
@@ -161,7 +204,7 @@ export function SocialProof() {
           </div>
         </motion.div>
 
-        {/* Masonry-style Instagram grid */}
+        {/* Customer photos grid with brand logos */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
           {customerPhotos.map((photo, index) => (
             <motion.div
@@ -215,13 +258,36 @@ export function SocialProof() {
                   <p className="text-xs text-zinc-400">{photo.username}</p>
                 </motion.div>
 
-                {/* Verified badge */}
-                <Badge
-                  className="absolute top-3 right-3 bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
-                >
-                  <CheckCircle2 className="w-3 h-3 mr-1" />
-                  Verified
-                </Badge>
+                {/* Top badges row - Brand logo + Verified */}
+                <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                  {/* Brand logo badge */}
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg px-2 py-1.5 flex items-center gap-2">
+                    <img
+                      src={photo.brandLogo}
+                      alt={photo.brand}
+                      className="h-4 w-auto object-contain"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                      }}
+                    />
+                    <span className="text-xs text-white/80 font-medium hidden sm:inline">{photo.brand}</span>
+                  </div>
+
+                  {/* Verified badge */}
+                  <Badge
+                    className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
+                  >
+                    <CheckCircle2 className="w-3 h-3 mr-1" />
+                    Verified
+                  </Badge>
+                </div>
+
+                {/* Bottom info bar */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                  <p className="text-sm font-medium text-white">{photo.vehicle}</p>
+                  <p className="text-xs text-zinc-400">{photo.username}</p>
+                </div>
               </div>
             </motion.div>
           ))}
