@@ -48,212 +48,258 @@ export class MemStorage implements IStorage {
   }
 
   private initializeSampleData() {
-    // Sample Products
+    // Real Products from advlust.com / Diode Dynamics
     const sampleProducts: Product[] = [
       {
         id: "prod-1",
-        name: "SS3 3-Inch LED Pod Kit – SAE Fog (Type A/B Fitment)",
-        slug: "ss3-led-pod-kit-sae-fog",
-        series: "Pro",
-        tagline: "The Weekend Warrior",
-        shortDescription: "The highest-output 3-inch LED pod on the market. The SS3 features our patented TIR Optics, delivering high-intensity light with a razor-sharp cut-off line. Designed in St. Louis, USA. Tested for the Indian Monsoon.",
-        fullDescription: "The SS3 Pro represents the pinnacle of LED lighting technology. Engineered with Total Internal Reflection (TIR) optics, each pod captures 100% of the LED's output and focuses it with surgical precision. Designed in St. Louis, USA and rigorously tested for the Indian Monsoon conditions.",
-        price: 24500,
-        originalPrice: 28000,
-        beamPatterns: ["Fog", "Driving", "Spot"],
-        colors: ["White", "Yellow"],
-        features: [
-          "Zero Glare: SAE-Compliant Fog beam pattern",
-          "Bolt-On Fit: Direct replacement for Thar, Scorpio-N, Jimny",
-          "TIR Technology: Captures more light than standard reflectors",
-          "IP68 Rated: Fully waterproof and dustproof",
-          "Polycarbonate Lens: Impact-resistant and UV-stabilized"
-        ],
-        specs: [
-          "LED Output: 4,200 Lumens (pair)",
-          "Power Draw: 36W total",
-          "Beam Pattern: SAE J583 Fog",
-          "Color Temperature: 6000K / 3000K",
-          "Operating Voltage: 9-16V DC",
-          "Dimensions: 3.0\" x 2.4\" x 2.0\""
-        ],
-        whatsInBox: [
-          "2x SS3 LED Pods",
-          "Vehicle-specific mounting brackets",
-          "Plug-and-play wiring harness",
-          "Switch panel with backlit indicator",
-          "Hardware kit (stainless steel)",
-          "Installation guide"
-        ],
-        warrantyYears: 8,
-        images: ["/images/ss3-1.jpg", "/images/ss3-2.jpg"],
-        compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Maruti Jimny"],
-        isPopular: true
-      },
-      {
-        id: "prod-2",
-        name: "SS5 LED Light Bar – Combo",
-        slug: "ss5-led-light-bar-combo",
-        series: "Max",
-        tagline: "Competition Grade",
-        shortDescription: "Maximum distance for extreme conditions. Used by professional rally teams across India.",
-        fullDescription: "The SS5 Max is our flagship light bar, designed for those who venture where roads don't exist. Unmatched distance and output.",
-        price: 52000,
-        originalPrice: null,
-        beamPatterns: ["Combo", "Driving", "Flood"],
-        colors: ["White", "Yellow"],
-        features: [
-          "Maximum output: Over 15,000 lumens",
-          "Rally-proven durability",
-          "Advanced thermal management",
-          "Competition-grade optics",
-          "Lifetime LED warranty"
-        ],
-        specs: [
-          "LED Output: 15,200 Lumens",
-          "Power Draw: 85W",
-          "Beam Pattern: Combo",
-          "Color Temperature: 6000K / 3000K",
-          "Length: 20 inches"
-        ],
-        whatsInBox: [
-          "1x SS5 LED Light Bar",
-          "Universal mounting brackets",
-          "Heavy-duty wiring harness",
-          "Relay and switch kit",
-          "Hardware kit"
-        ],
-        warrantyYears: 8,
-        images: ["/images/ss5-1.jpg"],
-        compatibleVehicles: ["Universal Fit"],
-        isPopular: true
-      },
-      {
-        id: "prod-3",
-        name: "SSC1 LED Pod – Sport",
-        slug: "ssc1-led-pod-sport",
+        name: "Stage Series 6\" White Light Bar",
+        slug: "stage-series-6-white-light-bar",
         series: "Sport",
-        tagline: "The Daily Driver",
-        shortDescription: "Perfect entry-level upgrade for city and highway commutes. 2x brighter than stock.",
-        fullDescription: "The SSC1 Sport is the ideal upgrade for drivers who want better visibility without breaking the bank.",
-        price: 18500,
-        originalPrice: 21000,
-        beamPatterns: ["Fog", "Driving"],
+        tagline: "Compact Performance",
+        shortDescription: "From compact pods to full-size light bars. The perfect entry-level light bar for city and highway use.",
+        fullDescription: "The Stage Series 6\" Light Bar delivers impressive output in a compact package. SAE/DOT compliant with a crisp white beam that illuminates the road ahead without blinding oncoming traffic.",
+        price: 16499,
+        originalPrice: null,
+        beamPatterns: ["Driving", "Combo"],
         colors: ["White"],
         features: [
-          "2x brighter than stock lights",
-          "Street-legal SAE patterns",
-          "Easy plug-and-play installation",
-          "Compact design",
-          "Budget-friendly performance"
+          "SAE/DOT Compliant beam pattern",
+          "Compact 6-inch form factor",
+          "Plug-and-play installation",
+          "IP68 Waterproof rating",
+          "Durable aluminum housing"
         ],
         specs: [
-          "LED Output: 2,100 Lumens (pair)",
-          "Power Draw: 20W total",
-          "Beam Pattern: SAE Fog",
-          "Color Temperature: 6000K"
+          "Length: 6 inches",
+          "LED Output: 3,000 Lumens",
+          "Power Draw: 18W",
+          "Color Temperature: 6000K",
+          "Operating Voltage: 9-16V DC"
         ],
         whatsInBox: [
-          "2x SSC1 LED Pods",
+          "1x Stage Series 6\" Light Bar",
           "Mounting brackets",
           "Wiring harness",
           "Installation guide"
         ],
         warrantyYears: 8,
-        images: ["/images/ssc1-1.jpg"],
+        images: ["https://advlust.com/cdn/shop/files/Lightbars-category.jpg?v=1747475023&width=533"],
+        compatibleVehicles: ["Universal Fit", "Mahindra Thar", "Scorpio-N", "Maruti Jimny"],
+        isPopular: false
+      },
+      {
+        id: "prod-2",
+        name: "Stage Series 12\" White Light Bar",
+        slug: "stage-series-12-white-light-bar",
+        series: "Pro",
+        tagline: "The Weekend Warrior",
+        shortDescription: "Double the length, double the output. Perfect for dark highways and weekend trail runs.",
+        fullDescription: "The Stage Series 12\" Light Bar is the sweet spot between compact and full-size. Delivers excellent coverage for highway driving and trail exploration.",
+        price: 25299,
+        originalPrice: null,
+        beamPatterns: ["Driving", "Combo", "Flood"],
+        colors: ["White"],
+        features: [
+          "Extended 12-inch coverage",
+          "Combo beam pattern option",
+          "Premium aluminum construction",
+          "Integrated thermal management",
+          "SAE/DOT street legal"
+        ],
+        specs: [
+          "Length: 12 inches",
+          "LED Output: 6,000 Lumens",
+          "Power Draw: 36W",
+          "Color Temperature: 6000K",
+          "Operating Voltage: 9-16V DC"
+        ],
+        whatsInBox: [
+          "1x Stage Series 12\" Light Bar",
+          "Universal mounting brackets",
+          "Heavy-duty wiring harness",
+          "Switch kit",
+          "Installation guide"
+        ],
+        warrantyYears: 8,
+        images: ["https://advlust.com/cdn/shop/files/dd5015s_12in_drivingpattern_b_1-StageSeries12.jpg?v=1747474461&width=533"],
+        compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Toyota Hilux", "Force Gurkha"],
+        isPopular: true
+      },
+      {
+        id: "prod-3",
+        name: "SSC1 White Pro Standard LED Pod (pair)",
+        slug: "ssc1-white-pro-led-pod-pair",
+        series: "Sport",
+        tagline: "The Daily Driver",
+        shortDescription: "Compact LED pods perfect for fog light replacement. 2x brighter than stock with SAE compliance.",
+        fullDescription: "The SSC1 Pro LED Pod is the ideal fog light replacement. Compact, powerful, and street-legal. Perfect for daily drivers who want better visibility.",
+        price: 26399,
+        originalPrice: null,
+        beamPatterns: ["Spot", "Wide"],
+        colors: ["White"],
+        features: [
+          "Compact pod design",
+          "Direct fog light replacement",
+          "SAE compliant output",
+          "Plug-and-play for most vehicles",
+          "Aircraft-grade aluminum"
+        ],
+        specs: [
+          "LED Output: 2,800 Lumens (pair)",
+          "Power Draw: 24W total",
+          "Beam Pattern: Spot/Wide",
+          "Color Temperature: 6000K",
+          "Dimensions: 2.5\" x 2.0\""
+        ],
+        whatsInBox: [
+          "2x SSC1 LED Pods",
+          "Mounting brackets",
+          "Wiring harness with switch",
+          "Hardware kit",
+          "Installation guide"
+        ],
+        warrantyYears: 8,
+        images: ["https://advlust.com/cdn/shop/files/dd6464p_ssc1_pro_spot_white_wbl_standard_pair_front_titled.jpg?v=1748492382&width=533"],
         compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Maruti Jimny", "Force Gurkha"],
         isPopular: false
       },
       {
         id: "prod-4",
-        name: "SS3 LED Pod Kit – Driving",
-        slug: "ss3-led-pod-kit-driving",
+        name: "SSC2 White Pro Standard LED Pod (pair)",
+        slug: "ssc2-white-pro-led-pod-pair",
         series: "Pro",
         tagline: "The Weekend Warrior",
-        shortDescription: "Focused beam for long-distance illumination on dark highways.",
-        fullDescription: "The SS3 Driving pattern provides a concentrated beam that extends your vision further down the road.",
-        price: 24500,
+        shortDescription: "Mid-size LED pods with impressive output. The sweet spot between compact and maximum power.",
+        fullDescription: "The SSC2 Pro delivers more output in a slightly larger package. Perfect for those who need serious illumination for weekend adventures.",
+        price: 37399,
         originalPrice: null,
-        beamPatterns: ["Driving", "Spot"],
-        colors: ["White", "Yellow"],
-        features: [
-          "Long-throw beam pattern",
-          "Ideal for highway driving",
-          "TIR optics technology",
-          "Weatherproof design"
-        ],
-        specs: [
-          "LED Output: 4,600 Lumens (pair)",
-          "Power Draw: 38W total",
-          "Beam Pattern: Driving",
-          "Color Temperature: 6000K / 3000K"
-        ],
-        whatsInBox: [
-          "2x SS3 LED Pods",
-          "Mounting brackets",
-          "Wiring harness",
-          "Switch kit"
-        ],
-        warrantyYears: 8,
-        images: ["/images/ss3-driving-1.jpg"],
-        compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Toyota Hilux"],
-        isPopular: false
-      },
-      {
-        id: "prod-5",
-        name: "SSC2 Sport Pod Kit",
-        slug: "ssc2-sport-pod-kit",
-        series: "Sport",
-        tagline: "The Daily Driver",
-        shortDescription: "Compact and powerful for any vehicle. Great value performance upgrade.",
-        fullDescription: "The SSC2 offers excellent performance in a compact package, perfect for smaller vehicles or supplemental lighting.",
-        price: 19500,
-        originalPrice: null,
-        beamPatterns: ["Fog", "Spot"],
+        beamPatterns: ["Combo", "Driving", "Flood"],
         colors: ["White"],
         features: [
-          "Compact form factor",
-          "Versatile mounting options",
-          "Efficient LED output",
-          "Street-legal compliance"
+          "High-output mid-size design",
+          "Multiple beam pattern options",
+          "TIR optics technology",
+          "Advanced thermal management",
+          "IP68 waterproof"
         ],
         specs: [
-          "LED Output: 2,400 Lumens (pair)",
-          "Power Draw: 22W total",
-          "Beam Pattern: Fog/Spot",
-          "Color Temperature: 6000K"
+          "LED Output: 4,200 Lumens (pair)",
+          "Power Draw: 36W total",
+          "Beam Pattern: Combo/Driving",
+          "Color Temperature: 6000K",
+          "Dimensions: 3.0\" x 2.5\""
         ],
         whatsInBox: [
           "2x SSC2 LED Pods",
-          "Universal mounting kit",
-          "Wiring harness"
+          "Universal mounting brackets",
+          "Heavy-duty wiring harness",
+          "Relay and switch kit",
+          "Installation guide"
         ],
         warrantyYears: 8,
-        images: ["/images/ssc2-1.jpg"],
-        compatibleVehicles: ["Universal Fit", "Maruti Jimny", "Force Gurkha"],
-        isPopular: false
+        images: ["https://advlust.com/cdn/shop/files/dd6408p_c2_pro_white_combo_standard_wbl_-_pro_titled.jpg?v=1747829476&width=533"],
+        compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Toyota Hilux", "Isuzu V-Cross"],
+        isPopular: true
+      },
+      {
+        id: "prod-5",
+        name: "SS3 White Pro LED Pod (pair)",
+        slug: "ss3-white-pro-led-pod-pair",
+        series: "Max",
+        tagline: "Competition Grade",
+        shortDescription: "The highest-output 3-inch LED pod on the market. Used by professional rally teams across India.",
+        fullDescription: "The SS3 Pro represents the pinnacle of LED pod technology. Maximum output with precision TIR optics for the most demanding conditions. Competition-grade durability.",
+        price: 39999,
+        originalPrice: 43999,
+        beamPatterns: ["Driving", "Spot", "Flood", "SAE Fog"],
+        colors: ["White", "Yellow"],
+        features: [
+          "Maximum 3-inch pod output",
+          "Patented TIR optics",
+          "Rally-proven durability",
+          "Zero glare SAE patterns available",
+          "8-year manufacturer warranty"
+        ],
+        specs: [
+          "LED Output: 6,800 Lumens (pair)",
+          "Power Draw: 52W total",
+          "Beam Pattern: Multiple options",
+          "Color Temperature: 6000K / 3000K",
+          "Dimensions: 3.0\" x 2.4\" x 2.0\""
+        ],
+        whatsInBox: [
+          "2x SS3 Pro LED Pods",
+          "Premium mounting brackets",
+          "Heavy-duty wiring harness",
+          "Premium relay kit",
+          "Backlit switch panel",
+          "Installation guide"
+        ],
+        warrantyYears: 8,
+        images: ["https://advlust.com/cdn/shop/files/dd6128p_ss3_pro.jpg?v=1755069600&width=533"],
+        compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Toyota Hilux", "Toyota Fortuner"],
+        isPopular: true
       },
       {
         id: "prod-6",
+        name: "Stage Series 18\" Amber Light Bar",
+        slug: "stage-series-18-amber-light-bar",
+        series: "Max",
+        tagline: "Fog Dominator",
+        shortDescription: "18-inch amber light bar for extreme fog and rain conditions. Cuts through the worst weather.",
+        fullDescription: "The Stage Series 18\" Amber is designed specifically for fog, rain, and dust conditions. The amber light cuts through particles that white light cannot.",
+        price: 52999,
+        originalPrice: null,
+        beamPatterns: ["Combo", "Flood"],
+        colors: ["Amber"],
+        features: [
+          "Amber light for fog/rain/dust",
+          "18-inch full coverage",
+          "Doesn't reflect back in fog",
+          "Competition-grade build",
+          "Used by Hilux owners in Nilgiris"
+        ],
+        specs: [
+          "Length: 18 inches",
+          "LED Output: 9,500 Lumens",
+          "Power Draw: 72W",
+          "Color Temperature: 3000K Amber",
+          "Operating Voltage: 9-16V DC"
+        ],
+        whatsInBox: [
+          "1x Stage Series 18\" Light Bar (Amber)",
+          "Heavy-duty mounting brackets",
+          "Professional wiring harness",
+          "Relay and switch kit",
+          "Installation guide"
+        ],
+        warrantyYears: 8,
+        images: ["https://advlust.com/cdn/shop/files/Lightbars-category.jpg?v=1747475023&width=533"],
+        compatibleVehicles: ["Toyota Hilux", "Toyota Fortuner", "Isuzu V-Cross", "Mahindra Thar"],
+        isPopular: false
+      },
+      {
+        id: "prod-7",
         name: "SS3 Max LED Pod Kit",
         slug: "ss3-max-led-pod-kit",
         series: "Max",
-        tagline: "Competition Grade",
-        shortDescription: "Maximum output from a 3-inch pod. Unmatched performance for serious explorers.",
-        fullDescription: "The SS3 Max pushes the boundaries of what's possible in a compact LED pod. Competition-grade performance.",
+        tagline: "Ultimate Power",
+        shortDescription: "Maximum output from a 3-inch pod. Unmatched performance for serious explorers and rally teams.",
+        fullDescription: "The SS3 Max pushes the boundaries of what's possible in a compact LED pod. Competition-grade performance with unmatched output.",
         price: 54000,
         originalPrice: 58000,
         beamPatterns: ["Driving", "Spot", "Flood"],
         colors: ["White", "Yellow"],
         features: [
-          "Maximum 3-inch pod output",
+          "Maximum 3-inch pod output ever",
           "Competition-tested durability",
           "Advanced heat management",
-          "Premium TIR optics"
+          "Premium TIR optics",
+          "Used by professional rally teams"
         ],
         specs: [
-          "LED Output: 6,800 Lumens (pair)",
-          "Power Draw: 52W total",
+          "LED Output: 8,200 Lumens (pair)",
+          "Power Draw: 68W total",
           "Beam Pattern: Multiple options",
           "Color Temperature: 6000K / 3000K"
         ],
@@ -265,7 +311,7 @@ export class MemStorage implements IStorage {
           "Premium switch panel"
         ],
         warrantyYears: 8,
-        images: ["/images/ss3-max-1.jpg"],
+        images: ["https://advlust.com/cdn/shop/files/dd6128p_ss3_pro.jpg?v=1755069600&width=533"],
         compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Toyota Fortuner", "Isuzu V-Cross"],
         isPopular: true
       }
@@ -275,19 +321,19 @@ export class MemStorage implements IStorage {
 
     // Sample Vehicles
     const sampleVehicles: Vehicle[] = [
-      { id: "veh-1", make: "Mahindra", model: "Thar (2020+)", year: "2020-2025", compatibleProductIds: ["prod-1", "prod-3", "prod-4", "prod-6"] },
-      { id: "veh-2", make: "Mahindra", model: "Scorpio-N", year: "2022-2025", compatibleProductIds: ["prod-1", "prod-3", "prod-4", "prod-6"] },
-      { id: "veh-3", make: "Mahindra", model: "Scorpio Classic", year: "2022-2025", compatibleProductIds: ["prod-3", "prod-5"] },
-      { id: "veh-4", make: "Mahindra", model: "XUV700", year: "2021-2025", compatibleProductIds: ["prod-3", "prod-5"] },
-      { id: "veh-5", make: "Mahindra", model: "Bolero", year: "2020-2025", compatibleProductIds: ["prod-3", "prod-5"] },
-      { id: "veh-6", make: "Maruti Suzuki", model: "Jimny", year: "2023-2025", compatibleProductIds: ["prod-1", "prod-3", "prod-5"] },
-      { id: "veh-7", make: "Maruti Suzuki", model: "Gypsy", year: "All Years", compatibleProductIds: ["prod-3", "prod-5"] },
-      { id: "veh-8", make: "Toyota", model: "Hilux", year: "2022-2025", compatibleProductIds: ["prod-1", "prod-2", "prod-4", "prod-6"] },
-      { id: "veh-9", make: "Toyota", model: "Fortuner", year: "2016-2025", compatibleProductIds: ["prod-1", "prod-2", "prod-6"] },
-      { id: "veh-10", make: "Toyota", model: "Land Cruiser", year: "All Years", compatibleProductIds: ["prod-2", "prod-6"] },
-      { id: "veh-11", make: "Force", model: "Gurkha", year: "2021-2025", compatibleProductIds: ["prod-3", "prod-5"] },
-      { id: "veh-12", make: "Isuzu", model: "V-Cross", year: "2019-2025", compatibleProductIds: ["prod-1", "prod-2", "prod-6"] },
-      { id: "veh-13", make: "Isuzu", model: "MU-X", year: "2017-2025", compatibleProductIds: ["prod-1", "prod-6"] }
+      { id: "veh-1", make: "Mahindra", model: "Thar (2020+)", year: "2020-2025", compatibleProductIds: ["prod-1", "prod-2", "prod-3", "prod-4", "prod-5", "prod-6", "prod-7"] },
+      { id: "veh-2", make: "Mahindra", model: "Scorpio-N", year: "2022-2025", compatibleProductIds: ["prod-1", "prod-2", "prod-3", "prod-4", "prod-5", "prod-7"] },
+      { id: "veh-3", make: "Mahindra", model: "Scorpio Classic", year: "2022-2025", compatibleProductIds: ["prod-1", "prod-3"] },
+      { id: "veh-4", make: "Mahindra", model: "XUV700", year: "2021-2025", compatibleProductIds: ["prod-1", "prod-3"] },
+      { id: "veh-5", make: "Mahindra", model: "Bolero", year: "2020-2025", compatibleProductIds: ["prod-1", "prod-3"] },
+      { id: "veh-6", make: "Maruti Suzuki", model: "Jimny", year: "2023-2025", compatibleProductIds: ["prod-1", "prod-3"] },
+      { id: "veh-7", make: "Maruti Suzuki", model: "Gypsy", year: "All Years", compatibleProductIds: ["prod-1", "prod-3"] },
+      { id: "veh-8", make: "Toyota", model: "Hilux", year: "2022-2025", compatibleProductIds: ["prod-2", "prod-4", "prod-5", "prod-6", "prod-7"] },
+      { id: "veh-9", make: "Toyota", model: "Fortuner", year: "2016-2025", compatibleProductIds: ["prod-2", "prod-5", "prod-6", "prod-7"] },
+      { id: "veh-10", make: "Toyota", model: "Land Cruiser", year: "All Years", compatibleProductIds: ["prod-5", "prod-6", "prod-7"] },
+      { id: "veh-11", make: "Force", model: "Gurkha", year: "2021-2025", compatibleProductIds: ["prod-1", "prod-2", "prod-3"] },
+      { id: "veh-12", make: "Isuzu", model: "V-Cross", year: "2019-2025", compatibleProductIds: ["prod-2", "prod-4", "prod-6", "prod-7"] },
+      { id: "veh-13", make: "Isuzu", model: "MU-X", year: "2017-2025", compatibleProductIds: ["prod-2", "prod-5", "prod-7"] }
     ];
 
     sampleVehicles.forEach(v => this.vehicles.set(v.id, v));
@@ -302,17 +348,17 @@ export class MemStorage implements IStorage {
         authorLocation: "Hyderabad",
         vehicleOwned: "Scorpio-N Z8L",
         isVerified: true,
-        productId: "prod-1"
+        productId: "prod-5"
       },
       {
         id: "rev-2",
         rating: 5,
-        text: "I tried the cheap '150W' LEDs from Karol Bagh. They were bright but scattered light everywhere. The SS3 Pro from Expelight puts the light exactly where I need it. Night and day difference.",
-        authorName: "Vikram S.",
-        authorLocation: "Delhi",
-        vehicleOwned: "Mahindra Thar",
+        text: "I use my Hilux in very foggy conditions in the mountains. The 18 inch Combo Amber lightbar provides excellent visibility in fog and rain.",
+        authorName: "Jagadish Kumar",
+        authorLocation: "Nilgiris",
+        vehicleOwned: "Toyota Hilux",
         isVerified: true,
-        productId: "prod-1"
+        productId: "prod-6"
       },
       {
         id: "rev-3",
@@ -322,7 +368,7 @@ export class MemStorage implements IStorage {
         authorLocation: "Bangalore",
         vehicleOwned: "Maruti Jimny",
         isVerified: true,
-        productId: "prod-1"
+        productId: "prod-3"
       },
       {
         id: "rev-4",
@@ -333,6 +379,16 @@ export class MemStorage implements IStorage {
         vehicleOwned: "Toyota Hilux",
         isVerified: true,
         productId: "prod-2"
+      },
+      {
+        id: "rev-5",
+        rating: 5,
+        text: "The SS3 Pro pods completely transformed my Thar's night driving capability. The TIR optics focus light exactly where needed - no scatter, no glare for oncoming traffic.",
+        authorName: "Vikram S.",
+        authorLocation: "Delhi",
+        vehicleOwned: "Mahindra Thar",
+        isVerified: true,
+        productId: "prod-5"
       }
     ];
 
