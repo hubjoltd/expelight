@@ -183,7 +183,10 @@ export function Header() {
                           {categoriesWithChildren.map((parent) => (
                             <div key={parent.id}>
                               <Link
-                                href={`/products?category=${encodeURIComponent(parent.name)}`}
+                                href={parent.children && parent.children.length > 0 
+                                  ? `/category/${parent.slug}` 
+                                  : `/products?category=${encodeURIComponent(parent.name)}`
+                                }
                                 className="font-medium text-white hover:text-primary transition-colors text-sm"
                                 onClick={() => setIsMegaMenuOpen(false)}
                               >
@@ -194,7 +197,7 @@ export function Header() {
                                   {parent.children.map((child) => (
                                     <Link
                                       key={child.id}
-                                      href={`/products?category=${encodeURIComponent(child.name)}`}
+                                      href={`/category/${child.slug}`}
                                       className="flex items-center gap-1 text-xs text-zinc-500 hover:text-white transition-colors py-0.5"
                                       onClick={() => setIsMegaMenuOpen(false)}
                                     >
@@ -400,7 +403,7 @@ export function Header() {
                   {expandedMobileCategory === parent.id && parent.children && (
                     <div className="ml-4 border-l border-zinc-800">
                       <Link
-                        href={`/products?category=${encodeURIComponent(parent.name)}`}
+                        href={`/category/${parent.slug}`}
                         className="block px-4 py-2 text-xs text-primary"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
@@ -409,7 +412,7 @@ export function Header() {
                       {parent.children.map((child) => (
                         <Link
                           key={child.id}
-                          href={`/products?category=${encodeURIComponent(child.name)}`}
+                          href={`/category/${child.slug}`}
                           className="block px-4 py-2 text-xs text-zinc-500 hover:text-white"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >

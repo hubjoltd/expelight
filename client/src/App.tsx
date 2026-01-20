@@ -22,6 +22,7 @@ import AdminProducts from "@/pages/AdminProducts";
 import AdminCategories from "@/pages/AdminCategories";
 import AdminOrders from "@/pages/AdminOrders";
 import AdminAdvlust from "@/pages/AdminAdvlust";
+import Category from "@/pages/Category";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -29,6 +30,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/products" component={Products} />
+      <Route path="/category/:slug" component={Category} />
       <Route path="/product/:slug" component={ProductDetail} />
       <Route path="/science" component={Science} />
       <Route path="/vehicle-fit" component={VehicleFitPage} />
