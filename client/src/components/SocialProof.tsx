@@ -63,37 +63,73 @@ const customerPhotos: CustomerPhoto[] = [
   },
 ];
 
-// Brand logos with proper styling
+// Brand logos with proper styling - including luxury brands
 const brandLogos = [
   { 
     name: "Mahindra", 
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Mahindra-logo.svg/200px-Mahindra-logo.svg.png",
-    fallback: "MAHINDRA"
+    fallback: "MAHINDRA",
+    isLuxury: false
   },
   { 
     name: "Maruti Suzuki", 
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Maruti_Suzuki_Logo.svg/200px-Maruti_Suzuki_Logo.svg.png",
-    fallback: "MARUTI SUZUKI"
+    fallback: "MARUTI SUZUKI",
+    isLuxury: false
   },
   { 
     name: "Toyota", 
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Toyota.svg/200px-Toyota.svg.png",
-    fallback: "TOYOTA"
+    fallback: "TOYOTA",
+    isLuxury: false
   },
   { 
     name: "Force Motors", 
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Force_Motors_logo.svg/200px-Force_Motors_logo.svg.png",
-    fallback: "FORCE"
+    fallback: "FORCE",
+    isLuxury: false
   },
   { 
     name: "Tata Motors", 
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Tata_logo.svg/200px-Tata_logo.svg.png",
-    fallback: "TATA"
+    fallback: "TATA",
+    isLuxury: false
+  },
+  { 
+    name: "Mercedes-Benz", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/200px-Mercedes-Logo.svg.png",
+    fallback: "MERCEDES",
+    isLuxury: true
+  },
+  { 
+    name: "BMW", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/200px-BMW.svg.png",
+    fallback: "BMW",
+    isLuxury: true
+  },
+  { 
+    name: "Audi", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Audi-Logo_2016.svg/200px-Audi-Logo_2016.svg.png",
+    fallback: "AUDI",
+    isLuxury: true
+  },
+  { 
+    name: "Land Rover", 
+    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/9/9b/Land_Rover_wordmark_logo.svg/200px-Land_Rover_wordmark_logo.svg.png",
+    fallback: "LAND ROVER",
+    isLuxury: true
+  },
+  { 
+    name: "Porsche", 
+    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/3/3e/Porsche_logo.svg/200px-Porsche_logo.svg.png",
+    fallback: "PORSCHE",
+    isLuxury: true
   },
   { 
     name: "Jeep", 
     logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Jeep_logo.svg/200px-Jeep_logo.svg.png",
-    fallback: "JEEP"
+    fallback: "JEEP",
+    isLuxury: false
   },
 ];
 
@@ -167,7 +203,9 @@ export function SocialProof() {
                   className="group cursor-pointer flex-shrink-0"
                 >
                   <motion.div
-                    className="h-12 md:h-16 flex items-center justify-center px-4 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                    className={`h-12 md:h-16 flex items-center justify-center px-4 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 rounded-lg ${
+                      brand.isLuxury ? 'bg-white/90 hover:bg-white' : ''
+                    }`}
                     animate={{
                       filter: [
                         "drop-shadow(0 0 0px rgba(255,255,255,0))",
@@ -184,14 +222,18 @@ export function SocialProof() {
                     <img
                       src={brand.logo}
                       alt={brand.name}
-                      className="h-full w-auto object-contain max-w-[120px] md:max-w-[150px]"
+                      className={`h-full w-auto object-contain max-w-[120px] md:max-w-[150px] ${
+                        brand.isLuxury ? 'p-1' : ''
+                      }`}
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
                         const parent = target.parentElement;
                         if (parent) {
                           const textEl = document.createElement('span');
-                          textEl.className = 'text-lg md:text-xl font-bold text-zinc-500 tracking-wider';
+                          textEl.className = `text-lg md:text-xl font-bold tracking-wider ${
+                            brand.isLuxury ? 'text-zinc-800' : 'text-zinc-500'
+                          }`;
                           textEl.textContent = brand.fallback;
                           parent.appendChild(textEl);
                         }

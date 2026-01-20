@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import expelightLogo from "@assets/Expelight_logo_1768914036683.png";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -55,14 +56,12 @@ export function Header() {
     >
       <div className="max-w-[1440px] mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          <Link href="/" className="flex items-center gap-2" data-testid="logo-link">
-            <div className="w-10 h-10 rounded-md bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">E</span>
-            </div>
-            <span className="text-xl font-bold tracking-tight">
-              <span className="text-foreground">EXPE</span>
-              <span className="text-primary">LIGHT</span>
-            </span>
+          <Link href="/" className="flex items-center" data-testid="logo-link">
+            <img 
+              src={expelightLogo} 
+              alt="Expelight" 
+              className="h-10 md:h-12 w-auto"
+            />
           </Link>
 
           <nav className="hidden md:flex items-center gap-8" data-testid="desktop-nav">

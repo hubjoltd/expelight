@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SiInstagram, SiYoutube, SiFacebook } from "react-icons/si";
 import { Mail, MapPin, Phone, ArrowRight } from "lucide-react";
+import expelightLogo from "@assets/Expelight_logo_1768914036683.png";
 
 export function Footer() {
   return (
@@ -12,14 +13,12 @@ export function Footer() {
         <div className="py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand column */}
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-6" data-testid="footer-logo">
-              <div className="w-10 h-10 rounded-md bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">E</span>
-              </div>
-              <span className="text-xl font-bold tracking-tight">
-                <span className="text-foreground">EXPE</span>
-                <span className="text-primary">LIGHT</span>
-              </span>
+            <Link href="/" className="flex items-center mb-6" data-testid="footer-logo">
+              <img 
+                src={expelightLogo} 
+                alt="Expelight" 
+                className="h-10 w-auto"
+              />
             </Link>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
               Official India Partner for Diode Dynamics USA. Engineering-grade lighting systems for the modern Indian explorer.

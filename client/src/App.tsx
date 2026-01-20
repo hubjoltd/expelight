@@ -13,6 +13,10 @@ import Checkout from "@/pages/Checkout";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Orders from "@/pages/Orders";
+import InstallationGuides from "@/pages/InstallationGuides";
+import WarrantyClaims from "@/pages/WarrantyClaims";
+import Shipping from "@/pages/Shipping";
+import TrackOrder from "@/pages/TrackOrder";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -28,6 +32,10 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/orders" component={Orders} />
+      <Route path="/guides" component={InstallationGuides} />
+      <Route path="/warranty" component={WarrantyClaims} />
+      <Route path="/shipping" component={Shipping} />
+      <Route path="/track" component={TrackOrder} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -11,13 +11,19 @@ import {
 import { Car, Search, ArrowRight, CheckCircle2 } from "lucide-react";
 
 const vehicleData = {
-  makes: ["Mahindra", "Toyota", "Maruti Suzuki", "Force", "Isuzu"],
+  makes: ["Mahindra", "Toyota", "Maruti Suzuki", "Force", "Isuzu", "Mercedes-Benz", "BMW", "Audi", "Land Rover", "Porsche", "Jeep"],
   models: {
     Mahindra: ["Thar (2020+)", "Scorpio-N", "Scorpio Classic", "XUV700", "Bolero"],
-    Toyota: ["Hilux", "Fortuner", "Land Cruiser"],
+    Toyota: ["Hilux", "Fortuner", "Land Cruiser", "Land Cruiser Prado"],
     "Maruti Suzuki": ["Jimny", "Gypsy"],
     Force: ["Gurkha"],
     Isuzu: ["V-Cross", "MU-X"],
+    "Mercedes-Benz": ["G-Class", "GLE", "GLS", "GLC", "AMG GT"],
+    BMW: ["X5", "X6", "X7", "7 Series", "M Series"],
+    Audi: ["Q7", "Q8", "RS Q8", "e-tron GT", "A8"],
+    "Land Rover": ["Defender", "Range Rover", "Range Rover Sport", "Discovery"],
+    Porsche: ["Cayenne", "Macan", "Panamera", "911"],
+    Jeep: ["Wrangler", "Grand Cherokee", "Compass", "Meridian"],
   } as Record<string, string[]>,
 };
 
