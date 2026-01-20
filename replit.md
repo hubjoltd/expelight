@@ -22,8 +22,9 @@ I prefer iterative development with clear communication on progress. Before maki
     - **Stage Selector**: Interactive card gallery for product tiers (Sport, Pro, Max) with expansion and highlighting.
     - **Vehicle Fit Finder**: Component for users to find compatible products based on their vehicle.
     - **Premium Testimonials**: 3D book-opening carousel showcasing verified owner reviews with large car night shots.
-    - **Social Proof**: Animated brand logos and a masonry grid of customer photos.
-    - **Floating Contact Button**: Pulsing button for WhatsApp and Telegram contact.
+    - **Video Gallery Section**: Trendy video gallery with YouTube embeds featuring Diode Dynamics product videos, with hover play buttons and category badges.
+    - **Customer Photos Grid**: Masonry grid of verified customer photos with vehicle brands.
+    - **Floating WhatsApp Button**: Green blinking WhatsApp button with dual-ring pulse animation for instant contact.
     - **Mega Menu Navigation**: Hierarchical category navigation with subcategories, "Shop by Series" links, and featured products.
     - **Guest Cart**: Items stored in `localStorage` for guests, synced upon login.
     - **Product Display**: Car-configurator style product listings with hover zoom, staggered entries, and floating badges.
