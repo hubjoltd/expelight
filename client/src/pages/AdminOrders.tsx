@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Package, AlertCircle, MapPin, Phone, Mail, FileText, Download, Loader2 } from "lucide-react";
+import { ArrowLeft, Package, AlertCircle, MapPin, Phone, Mail, FileText, Download, Loader2, MessageCircle } from "lucide-react";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -139,6 +139,35 @@ export default function AdminOrders() {
     }
   };
 
+  const openWhatsApp = (order: Order, invoice?: Invoice) => {
+    const items = parseItems(order.items);
+    const itemsList = items.map((item: any, idx: number) => 
+      `${idx + 1}. ${item.name || item.productName || 'Product'} x${item.quantity} - ${formatCurrency(item.price * item.quantity)}`
+    ).join('\n');
+    
+    const invoiceInfo = invoice ? `\nInvoice: ${invoice.invoiceNumber}` : '';
+    
+    const message = `*EXPELIGHT - Order Confirmation*${invoiceInfo}
+    
+Order ID: ${order.id.slice(-8).toUpperCase()}
+Status: ${order.status.toUpperCase()}
+Date: ${formatDate(order.createdAt)}
+
+*Items:*
+${itemsList}
+
+*Total: ${formatCurrency(order.totalAmount)}*
+
+Shipping Address: ${order.shippingAddress || 'N/A'}
+
+Thank you for shopping with Expelight!
+India's Official Partner for Diode Dynamics USA`;
+
+    const phoneNumber = order.phone.replace(/\D/g, '');
+    const whatsappUrl = `https://wa.me/91${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -209,21 +238,33 @@ export default function AdminOrders() {
                         </div>
                         <div className="flex items-center gap-3 flex-wrap">
                           {invoicesByOrderId.has(order.id) ? (
-                            <a 
-                              href={invoicesByOrderId.get(order.id)?.pdfUrl || "#"} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                            >
-                              <Button 
-                                variant="outline" 
-                                size="sm"
-                                className="gap-2"
-                                data-testid={`download-invoice-${order.id}`}
+                            <>
+                              <a 
+                                href={invoicesByOrderId.get(order.id)?.pdfUrl || "#"} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
                               >
-                                <Download className="w-4 h-4" />
-                                Invoice
+                                <Button 
+                                  variant="outline" 
+                                  size="sm"
+                                  className="gap-2"
+                                  data-testid={`download-invoice-${order.id}`}
+                                >
+                                  <Download className="w-4 h-4" />
+                                  Invoice
+                                </Button>
+                              </a>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="gap-2 text-green-500 border-green-500/30 hover:bg-green-500/10"
+                                onClick={() => openWhatsApp(order, invoicesByOrderId.get(order.id))}
+                                data-testid={`whatsapp-${order.id}`}
+                              >
+                                <MessageCircle className="w-4 h-4" />
+                                WhatsApp
                               </Button>
-                            </a>
+                            </>
                           ) : (
                             <Button
                               variant="outline"
