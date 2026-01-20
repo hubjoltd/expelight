@@ -6,6 +6,7 @@ export interface User {
   email: string;
   firstName: string | null;
   lastName: string | null;
+  role?: string;
 }
 
 async function fetchUser(): Promise<User | null> {

@@ -1,23 +1,70 @@
 import { 
-  type User, type InsertUser,
+  type User, type UpsertUser,
   type Product, type InsertProduct,
   type Vehicle, type InsertVehicle,
-  type Review, type InsertReview
+  type Review, type InsertReview,
+  type Category, type InsertCategory,
+  type ProductVariant, type InsertProductVariant,
+  type ProductMedia, type InsertProductMedia,
+  type Invoice, type InsertInvoice,
+  type ProductCategory, type InsertProductCategory
 } from "@shared/schema";
+
+type InsertUser = UpsertUser;
 import { randomUUID } from "crypto";
 
 export interface IStorage {
   // Users
   getUser(id: string): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUserRole(id: string, role: string): Promise<User | undefined>;
+  
+  // Categories
+  getCategories(): Promise<Category[]>;
+  getCategoryById(id: string): Promise<Category | undefined>;
+  getCategoryBySlug(slug: string): Promise<Category | undefined>;
+  getChildCategories(parentId: string): Promise<Category[]>;
+  createCategory(category: InsertCategory): Promise<Category>;
+  updateCategory(id: string, category: Partial<InsertCategory>): Promise<Category | undefined>;
+  deleteCategory(id: string): Promise<boolean>;
   
   // Products
   getProducts(): Promise<Product[]>;
+  getActiveProducts(): Promise<Product[]>;
   getProductById(id: string): Promise<Product | undefined>;
   getProductBySlug(slug: string): Promise<Product | undefined>;
   getProductsBySeries(series: string): Promise<Product[]>;
   createProduct(product: InsertProduct): Promise<Product>;
+  updateProduct(id: string, product: Partial<InsertProduct>): Promise<Product | undefined>;
+  deleteProduct(id: string): Promise<boolean>;
+  toggleProductActive(id: string, isActive: boolean): Promise<Product | undefined>;
+  
+  // Product Variants
+  getProductVariants(productId: string): Promise<ProductVariant[]>;
+  getVariantById(id: string): Promise<ProductVariant | undefined>;
+  getVariantBySku(sku: string): Promise<ProductVariant | undefined>;
+  createProductVariant(variant: InsertProductVariant): Promise<ProductVariant>;
+  updateProductVariant(id: string, variant: Partial<InsertProductVariant>): Promise<ProductVariant | undefined>;
+  deleteProductVariant(id: string): Promise<boolean>;
+  
+  // Product Media
+  getProductMedia(productId: string): Promise<ProductMedia[]>;
+  createProductMedia(media: InsertProductMedia): Promise<ProductMedia>;
+  updateProductMedia(id: string, media: Partial<InsertProductMedia>): Promise<ProductMedia | undefined>;
+  deleteProductMedia(id: string): Promise<boolean>;
+  
+  // Product Categories
+  getProductCategories(productId: string): Promise<Category[]>;
+  setProductCategories(productId: string, categoryIds: string[]): Promise<void>;
+  
+  // Invoices
+  getInvoices(): Promise<Invoice[]>;
+  getInvoiceById(id: string): Promise<Invoice | undefined>;
+  getInvoiceByOrderId(orderId: string): Promise<Invoice | undefined>;
+  createInvoice(invoice: InsertInvoice): Promise<Invoice>;
+  updateInvoice(id: string, invoice: Partial<InsertInvoice>): Promise<Invoice | undefined>;
   
   // Vehicles
   getVehicles(): Promise<Vehicle[]>;
@@ -36,24 +83,36 @@ export class MemStorage implements IStorage {
   private products: Map<string, Product>;
   private vehicles: Map<string, Vehicle>;
   private reviews: Map<string, Review>;
+  private categories: Map<string, Category>;
+  private productVariants: Map<string, ProductVariant>;
+  private productMediaItems: Map<string, ProductMedia>;
+  private invoices: Map<string, Invoice>;
+  private productCategoryMappings: Map<string, ProductCategory>;
 
   constructor() {
     this.users = new Map();
     this.products = new Map();
     this.vehicles = new Map();
     this.reviews = new Map();
+    this.categories = new Map();
+    this.productVariants = new Map();
+    this.productMediaItems = new Map();
+    this.invoices = new Map();
+    this.productCategoryMappings = new Map();
     
     // Initialize with sample data
     this.initializeSampleData();
   }
 
   private initializeSampleData() {
+    const now = new Date();
     // Real Products from advlust.com / Diode Dynamics
     const sampleProducts: Product[] = [
       {
         id: "prod-1",
         name: "Stage Series 6\" White Light Bar",
         slug: "stage-series-6-white-light-bar",
+        sku: "DD-SS6-WLB",
         series: "Sport",
         tagline: "Compact Performance",
         shortDescription: "From compact pods to full-size light bars. The perfect entry-level light bar for city and highway use.",
@@ -85,12 +144,18 @@ export class MemStorage implements IStorage {
         warrantyYears: 8,
         images: ["https://advlust.com/cdn/shop/files/Lightbars-category.jpg?v=1747475023&width=533"],
         compatibleVehicles: ["Universal Fit", "Mahindra Thar", "Scorpio-N", "Maruti Jimny"],
-        isPopular: false
+        isPopular: false,
+        isActive: true,
+        advlustProductId: null,
+        advlustHandle: null,
+        createdAt: now,
+        updatedAt: now
       },
       {
         id: "prod-2",
         name: "Stage Series 12\" White Light Bar",
         slug: "stage-series-12-white-light-bar",
+        sku: "DD-SS12-WLB",
         series: "Pro",
         tagline: "The Weekend Warrior",
         shortDescription: "Double the length, double the output. Perfect for dark highways and weekend trail runs.",
@@ -123,12 +188,18 @@ export class MemStorage implements IStorage {
         warrantyYears: 8,
         images: ["https://advlust.com/cdn/shop/files/dd5015s_12in_drivingpattern_b_1-StageSeries12.jpg?v=1747474461&width=533"],
         compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Toyota Hilux", "Force Gurkha"],
-        isPopular: true
+        isPopular: true,
+        isActive: true,
+        advlustProductId: null,
+        advlustHandle: null,
+        createdAt: now,
+        updatedAt: now
       },
       {
         id: "prod-3",
         name: "SSC1 White Pro Standard LED Pod (pair)",
         slug: "ssc1-white-pro-led-pod-pair",
+        sku: "DD-SSC1-WP",
         series: "Sport",
         tagline: "The Daily Driver",
         shortDescription: "Compact LED pods perfect for fog light replacement. 2x brighter than stock with SAE compliance.",
@@ -161,12 +232,18 @@ export class MemStorage implements IStorage {
         warrantyYears: 8,
         images: ["https://advlust.com/cdn/shop/files/dd6464p_ssc1_pro_spot_white_wbl_standard_pair_front_titled.jpg?v=1748492382&width=533"],
         compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Maruti Jimny", "Force Gurkha"],
-        isPopular: false
+        isPopular: false,
+        isActive: true,
+        advlustProductId: null,
+        advlustHandle: null,
+        createdAt: now,
+        updatedAt: now
       },
       {
         id: "prod-4",
         name: "SSC2 White Pro Standard LED Pod (pair)",
         slug: "ssc2-white-pro-led-pod-pair",
+        sku: "DD-SSC2-WP",
         series: "Pro",
         tagline: "The Weekend Warrior",
         shortDescription: "Mid-size LED pods with impressive output. The sweet spot between compact and maximum power.",
@@ -199,12 +276,18 @@ export class MemStorage implements IStorage {
         warrantyYears: 8,
         images: ["https://advlust.com/cdn/shop/files/dd6408p_c2_pro_white_combo_standard_wbl_-_pro_titled.jpg?v=1747829476&width=533"],
         compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Toyota Hilux", "Isuzu V-Cross"],
-        isPopular: true
+        isPopular: true,
+        isActive: true,
+        advlustProductId: null,
+        advlustHandle: null,
+        createdAt: now,
+        updatedAt: now
       },
       {
         id: "prod-5",
         name: "SS3 White Pro LED Pod (pair)",
         slug: "ss3-white-pro-led-pod-pair",
+        sku: "DD-SS3-WP",
         series: "Max",
         tagline: "Competition Grade",
         shortDescription: "The highest-output 3-inch LED pod on the market. Used by professional rally teams across India.",
@@ -238,12 +321,18 @@ export class MemStorage implements IStorage {
         warrantyYears: 8,
         images: ["https://advlust.com/cdn/shop/files/dd6128p_ss3_pro.jpg?v=1755069600&width=533"],
         compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Toyota Hilux", "Toyota Fortuner"],
-        isPopular: true
+        isPopular: true,
+        isActive: true,
+        advlustProductId: null,
+        advlustHandle: null,
+        createdAt: now,
+        updatedAt: now
       },
       {
         id: "prod-6",
         name: "Stage Series 18\" Amber Light Bar",
         slug: "stage-series-18-amber-light-bar",
+        sku: "DD-SS18-ALB",
         series: "Max",
         tagline: "Fog Dominator",
         shortDescription: "18-inch amber light bar for extreme fog and rain conditions. Cuts through the worst weather.",
@@ -276,12 +365,18 @@ export class MemStorage implements IStorage {
         warrantyYears: 8,
         images: ["https://advlust.com/cdn/shop/files/Lightbars-category.jpg?v=1747475023&width=533"],
         compatibleVehicles: ["Toyota Hilux", "Toyota Fortuner", "Isuzu V-Cross", "Mahindra Thar"],
-        isPopular: false
+        isPopular: false,
+        isActive: true,
+        advlustProductId: null,
+        advlustHandle: null,
+        createdAt: now,
+        updatedAt: now
       },
       {
         id: "prod-7",
         name: "SS3 Max LED Pod Kit",
         slug: "ss3-max-led-pod-kit",
+        sku: "DD-SS3-MAX",
         series: "Max",
         tagline: "Ultimate Power",
         shortDescription: "Maximum output from a 3-inch pod. Unmatched performance for serious explorers and rally teams.",
@@ -313,7 +408,12 @@ export class MemStorage implements IStorage {
         warrantyYears: 8,
         images: ["https://advlust.com/cdn/shop/files/dd6128p_ss3_pro.jpg?v=1755069600&width=533"],
         compatibleVehicles: ["Mahindra Thar (2020+)", "Scorpio-N", "Toyota Fortuner", "Isuzu V-Cross"],
-        isPopular: true
+        isPopular: true,
+        isActive: true,
+        advlustProductId: null,
+        advlustHandle: null,
+        createdAt: now,
+        updatedAt: now
       }
     ];
 
@@ -406,16 +506,94 @@ export class MemStorage implements IStorage {
     );
   }
 
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find(
+      (user) => user.email === email,
+    );
+  }
+
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
-    const user: User = { ...insertUser, id };
+    const now = new Date();
+    const user: User = { 
+      id,
+      username: insertUser.username,
+      email: insertUser.email,
+      passwordHash: insertUser.passwordHash,
+      firstName: insertUser.firstName ?? null,
+      lastName: insertUser.lastName ?? null,
+      profileImageUrl: insertUser.profileImageUrl ?? null,
+      role: insertUser.role ?? "user",
+      createdAt: now,
+      updatedAt: now
+    };
     this.users.set(id, user);
     return user;
+  }
+
+  async updateUserRole(id: string, role: string): Promise<User | undefined> {
+    const user = this.users.get(id);
+    if (!user) return undefined;
+    const updated = { ...user, role, updatedAt: new Date() };
+    this.users.set(id, updated);
+    return updated;
+  }
+
+  // Category methods
+  async getCategories(): Promise<Category[]> {
+    return Array.from(this.categories.values());
+  }
+
+  async getCategoryById(id: string): Promise<Category | undefined> {
+    return this.categories.get(id);
+  }
+
+  async getCategoryBySlug(slug: string): Promise<Category | undefined> {
+    return Array.from(this.categories.values()).find(c => c.slug === slug);
+  }
+
+  async getChildCategories(parentId: string): Promise<Category[]> {
+    return Array.from(this.categories.values()).filter(c => c.parentId === parentId);
+  }
+
+  async createCategory(insertCategory: InsertCategory): Promise<Category> {
+    const id = randomUUID();
+    const now = new Date();
+    const category: Category = {
+      ...insertCategory,
+      id,
+      description: insertCategory.description ?? null,
+      parentId: insertCategory.parentId ?? null,
+      level: insertCategory.level ?? 0,
+      sortOrder: insertCategory.sortOrder ?? 0,
+      isActive: insertCategory.isActive ?? true,
+      imageUrl: insertCategory.imageUrl ?? null,
+      createdAt: now,
+      updatedAt: now
+    };
+    this.categories.set(id, category);
+    return category;
+  }
+
+  async updateCategory(id: string, category: Partial<InsertCategory>): Promise<Category | undefined> {
+    const existing = this.categories.get(id);
+    if (!existing) return undefined;
+    const updated: Category = { ...existing, ...category, updatedAt: new Date() };
+    this.categories.set(id, updated);
+    return updated;
+  }
+
+  async deleteCategory(id: string): Promise<boolean> {
+    return this.categories.delete(id);
   }
 
   // Product methods
   async getProducts(): Promise<Product[]> {
     return Array.from(this.products.values());
+  }
+
+  async getActiveProducts(): Promise<Product[]> {
+    return Array.from(this.products.values()).filter(p => p.isActive !== false);
   }
 
   async getProductById(id: string): Promise<Product | undefined> {
@@ -434,15 +612,179 @@ export class MemStorage implements IStorage {
 
   async createProduct(insertProduct: InsertProduct): Promise<Product> {
     const id = randomUUID();
+    const now = new Date();
     const product: Product = { 
       ...insertProduct, 
       id,
+      sku: insertProduct.sku ?? null,
       originalPrice: insertProduct.originalPrice ?? null,
-      isPopular: insertProduct.isPopular ?? null,
-      warrantyYears: insertProduct.warrantyYears ?? 8
+      isPopular: insertProduct.isPopular ?? false,
+      isActive: insertProduct.isActive ?? true,
+      advlustProductId: insertProduct.advlustProductId ?? null,
+      advlustHandle: insertProduct.advlustHandle ?? null,
+      warrantyYears: insertProduct.warrantyYears ?? 8,
+      createdAt: now,
+      updatedAt: now
     };
     this.products.set(id, product);
     return product;
+  }
+
+  async updateProduct(id: string, product: Partial<InsertProduct>): Promise<Product | undefined> {
+    const existing = this.products.get(id);
+    if (!existing) return undefined;
+    const updated: Product = { ...existing, ...product, updatedAt: new Date() };
+    this.products.set(id, updated);
+    return updated;
+  }
+
+  async deleteProduct(id: string): Promise<boolean> {
+    return this.products.delete(id);
+  }
+
+  async toggleProductActive(id: string, isActive: boolean): Promise<Product | undefined> {
+    return this.updateProduct(id, { isActive });
+  }
+
+  // Product Variant methods
+  async getProductVariants(productId: string): Promise<ProductVariant[]> {
+    return Array.from(this.productVariants.values()).filter(v => v.productId === productId);
+  }
+
+  async getVariantById(id: string): Promise<ProductVariant | undefined> {
+    return this.productVariants.get(id);
+  }
+
+  async getVariantBySku(sku: string): Promise<ProductVariant | undefined> {
+    return Array.from(this.productVariants.values()).find(v => v.sku === sku);
+  }
+
+  async createProductVariant(insertVariant: InsertProductVariant): Promise<ProductVariant> {
+    const id = randomUUID();
+    const now = new Date();
+    const variant: ProductVariant = {
+      ...insertVariant,
+      id,
+      compareAtPrice: insertVariant.compareAtPrice ?? null,
+      color: insertVariant.color ?? null,
+      beamPattern: insertVariant.beamPattern ?? null,
+      size: insertVariant.size ?? null,
+      stockQuantity: insertVariant.stockQuantity ?? 0,
+      isAvailable: insertVariant.isAvailable ?? true,
+      weight: insertVariant.weight ?? null,
+      createdAt: now,
+      updatedAt: now
+    };
+    this.productVariants.set(id, variant);
+    return variant;
+  }
+
+  async updateProductVariant(id: string, variant: Partial<InsertProductVariant>): Promise<ProductVariant | undefined> {
+    const existing = this.productVariants.get(id);
+    if (!existing) return undefined;
+    const updated: ProductVariant = { ...existing, ...variant, updatedAt: new Date() };
+    this.productVariants.set(id, updated);
+    return updated;
+  }
+
+  async deleteProductVariant(id: string): Promise<boolean> {
+    return this.productVariants.delete(id);
+  }
+
+  // Product Media methods
+  async getProductMedia(productId: string): Promise<ProductMedia[]> {
+    return Array.from(this.productMediaItems.values())
+      .filter(m => m.productId === productId)
+      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+  }
+
+  async createProductMedia(insertMedia: InsertProductMedia): Promise<ProductMedia> {
+    const id = randomUUID();
+    const media: ProductMedia = {
+      ...insertMedia,
+      id,
+      altText: insertMedia.altText ?? null,
+      mediaType: insertMedia.mediaType ?? "image",
+      isPrimary: insertMedia.isPrimary ?? false,
+      sortOrder: insertMedia.sortOrder ?? 0,
+      createdAt: new Date()
+    };
+    this.productMediaItems.set(id, media);
+    return media;
+  }
+
+  async updateProductMedia(id: string, media: Partial<InsertProductMedia>): Promise<ProductMedia | undefined> {
+    const existing = this.productMediaItems.get(id);
+    if (!existing) return undefined;
+    const updated: ProductMedia = { ...existing, ...media };
+    this.productMediaItems.set(id, updated);
+    return updated;
+  }
+
+  async deleteProductMedia(id: string): Promise<boolean> {
+    return this.productMediaItems.delete(id);
+  }
+
+  // Product Categories methods
+  async getProductCategories(productId: string): Promise<Category[]> {
+    const mappings = Array.from(this.productCategoryMappings.values())
+      .filter(m => m.productId === productId);
+    return mappings
+      .map(m => this.categories.get(m.categoryId))
+      .filter((c): c is Category => c !== undefined);
+  }
+
+  async setProductCategories(productId: string, categoryIds: string[]): Promise<void> {
+    // Remove existing mappings for this product
+    Array.from(this.productCategoryMappings.entries())
+      .filter(([_, m]) => m.productId === productId)
+      .forEach(([key]) => this.productCategoryMappings.delete(key));
+    
+    // Add new mappings
+    categoryIds.forEach(categoryId => {
+      const id = randomUUID();
+      this.productCategoryMappings.set(id, { id, productId, categoryId });
+    });
+  }
+
+  // Invoice methods
+  async getInvoices(): Promise<Invoice[]> {
+    return Array.from(this.invoices.values());
+  }
+
+  async getInvoiceById(id: string): Promise<Invoice | undefined> {
+    return this.invoices.get(id);
+  }
+
+  async getInvoiceByOrderId(orderId: string): Promise<Invoice | undefined> {
+    return Array.from(this.invoices.values()).find(i => i.orderId === orderId);
+  }
+
+  async createInvoice(insertInvoice: InsertInvoice): Promise<Invoice> {
+    const id = randomUUID();
+    const invoice: Invoice = {
+      ...insertInvoice,
+      id,
+      taxAmount: insertInvoice.taxAmount ?? 0,
+      shippingAmount: insertInvoice.shippingAmount ?? 0,
+      discountAmount: insertInvoice.discountAmount ?? 0,
+      taxBreakdown: insertInvoice.taxBreakdown ?? null,
+      pdfUrl: insertInvoice.pdfUrl ?? null,
+      status: insertInvoice.status ?? "generated",
+      sentViaWhatsapp: insertInvoice.sentViaWhatsapp ?? false,
+      whatsappSentAt: insertInvoice.whatsappSentAt ?? null,
+      createdAt: new Date()
+    };
+    this.invoices.set(id, invoice);
+    return invoice;
+  }
+
+  async updateInvoice(id: string, invoice: Partial<InsertInvoice>): Promise<Invoice | undefined> {
+    const existing = this.invoices.get(id);
+    if (!existing) return undefined;
+    const updated: Invoice = { ...existing, ...invoice };
+    this.invoices.set(id, updated);
+    return updated;
   }
 
   // Vehicle methods

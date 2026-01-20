@@ -17,6 +17,10 @@ import InstallationGuides from "@/pages/InstallationGuides";
 import WarrantyClaims from "@/pages/WarrantyClaims";
 import Shipping from "@/pages/Shipping";
 import TrackOrder from "@/pages/TrackOrder";
+import AdminDashboard from "@/pages/AdminDashboard";
+import AdminProducts from "@/pages/AdminProducts";
+import AdminCategories from "@/pages/AdminCategories";
+import AdminOrders from "@/pages/AdminOrders";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -36,6 +40,10 @@ function Router() {
       <Route path="/warranty" component={WarrantyClaims} />
       <Route path="/shipping" component={Shipping} />
       <Route path="/track" component={TrackOrder} />
+      <Route path="/admin" component={AdminDashboard} />
+      <Route path="/admin/products" component={AdminProducts} />
+      <Route path="/admin/categories" component={AdminCategories} />
+      <Route path="/admin/orders" component={AdminOrders} />
       <Route component={NotFound} />
     </Switch>
   );

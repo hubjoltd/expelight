@@ -228,6 +228,7 @@ export function registerAuthRoutes(app: Express) {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
+        role: user.role,
       });
     } catch (error) {
       console.error("Get user error:", error);
@@ -260,6 +261,7 @@ export async function attachUser(req: Request, res: Response, next: NextFunction
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
+          role: user.role,
         };
       }
     } catch (error) {
@@ -267,4 +269,40 @@ export async function attachUser(req: Request, res: Response, next: NextFunction
     }
   }
   next();
+}
+
+// Middleware to check if user is an admin
+export async function isAdmin(req: Request, res: Response, next: NextFunction) {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
+
+  try {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, req.session.userId));
+
+    if (!user) {
+      return res.status(401).json({ error: "User not found" });
+    }
+
+    if (user.role !== "admin") {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+
+    (req as any).authUser = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      role: user.role,
+    };
+
+    next();
+  } catch (error) {
+    console.error("Error checking admin:", error);
+    res.status(500).json({ error: "Failed to verify admin access" });
+  }
 }
