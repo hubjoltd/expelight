@@ -41,8 +41,9 @@ I prefer iterative development with clear communication on progress. Before maki
 - **E-commerce Core**: Shopping cart, checkout flow with shipping forms, order confirmation, and order storage.
 - **Product Management**: Comprehensive product details with descriptions, specifications, installation guides, Q&A, and multiple variants.
 - **Content Pages**: Dedicated pages for Installation Guidelines, Warranty Claims, Shipping & Returns, and Order Tracking.
-- **Search & Filtering**: Pagination, category filtering, series filtering (Sport/Pro/Max), and sorting options on product listings.
+- **Search & Filtering**: Global product search bar in header (searches by product name, SKU, and description), pagination, category filtering, series filtering (Sport/Pro/Max), and sorting options on product listings.
 - **Internationalization**: Pricing converted to INR.
+- **Admin Panel**: Sidebar navigation with Dashboard, Products, Categories, Orders, and Advlust Import links. Includes logout button and "View Site" link. Admin authentication at `/admin/login` with session-based cookies (CHIPS enabled for iframe compatibility).
 
 ## External Dependencies
 - **Diode Dynamics USA**: Primary product source and brand partnership.
