@@ -4,7 +4,8 @@ import fs from "fs";
 
 interface OrderItem {
   productId: string;
-  name: string;
+  name?: string;
+  productName?: string;
   quantity: number;
   price: number;
   variant?: string;
@@ -189,11 +190,12 @@ export async function generateInvoicePDF(invoiceData: InvoiceData): Promise<stri
 
     let itemY = tableTop + 40;
     invoiceData.order.items.forEach((item, index) => {
+      const itemName = item.name || item.productName || "Product";
       doc.fillColor("#333333")
          .fontSize(10)
          .font("Helvetica")
          .text((index + 1).toString(), 60, itemY)
-         .text(item.name.substring(0, 40), 80, itemY, { width: 260 })
+         .text(itemName.substring(0, 40), 80, itemY, { width: 260 })
          .text(item.quantity.toString(), 350, itemY)
          .text(`₹${item.price.toLocaleString("en-IN")}`, 400, itemY)
          .text(`₹${(item.quantity * item.price).toLocaleString("en-IN")}`, 470, itemY);
