@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Package, AlertCircle, MapPin, Phone, Mail, FileText, Download, Loader2, MessageCircle, Check } from "lucide-react";
+import { ArrowLeft, Package, AlertCircle, MapPin, Phone, Mail, FileText, Download, Loader2 } from "lucide-react";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -78,23 +78,6 @@ export default function AdminOrders() {
     onError: (error: Error) => {
       toast({ 
         title: "Failed to generate invoice", 
-        description: error.message,
-        variant: "destructive" 
-      });
-    },
-  });
-
-  const sendWhatsAppMutation = useMutation({
-    mutationFn: async (invoiceId: string) => {
-      return await apiRequest("POST", `/api/admin/invoices/${invoiceId}/send-whatsapp`);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
-      toast({ title: "Invoice sent via WhatsApp" });
-    },
-    onError: (error: Error) => {
-      toast({ 
-        title: "Failed to send via WhatsApp",
         description: error.message,
         variant: "destructive" 
       });
@@ -226,54 +209,21 @@ export default function AdminOrders() {
                         </div>
                         <div className="flex items-center gap-3 flex-wrap">
                           {invoicesByOrderId.has(order.id) ? (
-                            <>
-                              <a 
-                                href={invoicesByOrderId.get(order.id)?.pdfUrl || "#"} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
+                            <a 
+                              href={invoicesByOrderId.get(order.id)?.pdfUrl || "#"} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                            >
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                className="gap-2"
+                                data-testid={`download-invoice-${order.id}`}
                               >
-                                <Button 
-                                  variant="outline" 
-                                  size="sm"
-                                  className="gap-2"
-                                  data-testid={`download-invoice-${order.id}`}
-                                >
-                                  <Download className="w-4 h-4" />
-                                  Invoice
-                                </Button>
-                              </a>
-                              {invoicesByOrderId.get(order.id)?.sentViaWhatsapp ? (
-                                <Button 
-                                  variant="secondary" 
-                                  size="sm"
-                                  className="gap-2"
-                                  disabled
-                                  data-testid={`whatsapp-sent-${order.id}`}
-                                >
-                                  <Check className="w-4 h-4" />
-                                  Sent
-                                </Button>
-                              ) : (
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  className="gap-2"
-                                  onClick={() => {
-                                    const invoice = invoicesByOrderId.get(order.id);
-                                    if (invoice) sendWhatsAppMutation.mutate(invoice.id);
-                                  }}
-                                  disabled={sendWhatsAppMutation.isPending}
-                                  data-testid={`send-whatsapp-${order.id}`}
-                                >
-                                  {sendWhatsAppMutation.isPending ? (
-                                    <Loader2 className="w-4 h-4 animate-spin" />
-                                  ) : (
-                                    <MessageCircle className="w-4 h-4" />
-                                  )}
-                                  WhatsApp
-                                </Button>
-                              )}
-                            </>
+                                <Download className="w-4 h-4" />
+                                Invoice
+                              </Button>
+                            </a>
                           ) : (
                             <Button
                               variant="outline"
