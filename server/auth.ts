@@ -43,10 +43,10 @@ export function setupAuth(app: Express) {
       saveUninitialized: false,
       proxy: true,
       cookie: {
-        secure: isProduction || isReplit, // Always secure on Replit (HTTPS)
+        secure: true, // Always secure for HTTPS
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-        sameSite: "lax",
+        sameSite: "none", // Required for Replit's proxy/iframe setup
       },
     })
   );
