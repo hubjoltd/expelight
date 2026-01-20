@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Shield, Eye, EyeOff } from "lucide-react";
 
@@ -31,11 +31,20 @@ export default function AdminLogin() {
         await apiRequest("POST", "/api/auth/logout");
         return;
       }
+      
+      // Invalidate admin queries to refetch with new auth
+      await queryClient.invalidateQueries({ queryKey: ["/api/admin/check"] });
+      await queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      
       toast({
         title: "Welcome back",
         description: "Admin login successful.",
       });
-      setLocation("/admin");
+      
+      // Small delay to ensure session is established
+      setTimeout(() => {
+        setLocation("/admin");
+      }, 100);
     },
     onError: () => {
       toast({
