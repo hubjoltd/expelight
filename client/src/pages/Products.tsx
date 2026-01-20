@@ -51,6 +51,15 @@ export default function Products() {
 
   // Create a map of category names to IDs for filtering
   const categoryNameToId = new Map(categories.map(c => [c.name, c.id]));
+  
+  // Create a map of parent category ID to all child category IDs (for hierarchical filtering)
+  const parentToChildCategoryIds = new Map<string, string[]>();
+  categories.filter(c => c.level === 0).forEach(parent => {
+    const childIds = categories
+      .filter(c => c.parentId === parent.id)
+      .map(c => c.id);
+    parentToChildCategoryIds.set(parent.id, childIds);
+  });
 
   useEffect(() => {
     if (seriesFromUrl) setSelectedSeries(seriesFromUrl);
@@ -70,12 +79,21 @@ export default function Products() {
   const filteredProducts = products.filter((product) => {
     const matchesSeries = selectedSeries === "all" || product.series.toLowerCase() === selectedSeries.toLowerCase();
     
-    // Filter by actual category ID
+    // Filter by actual category ID (including hierarchical matching)
     let matchesCategory = selectedCategory === "all";
     if (!matchesCategory && product.categoryIds) {
       const selectedCategoryId = categoryNameToId.get(selectedCategory);
       if (selectedCategoryId) {
+        // Check if product is in the selected category directly
         matchesCategory = product.categoryIds.includes(selectedCategoryId);
+        
+        // If not found and this is a parent category, also check its child categories
+        if (!matchesCategory) {
+          const childCategoryIds = parentToChildCategoryIds.get(selectedCategoryId);
+          if (childCategoryIds && childCategoryIds.length > 0) {
+            matchesCategory = product.categoryIds.some(pcId => childCategoryIds.includes(pcId));
+          }
+        }
       }
     }
     
