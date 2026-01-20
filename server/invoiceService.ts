@@ -43,11 +43,17 @@ interface InvoiceData {
   };
 }
 
-const INVOICES_DIR = path.join(process.cwd(), "public", "invoices");
+const INVOICES_DIR = path.resolve(process.cwd(), "public", "invoices");
 
 function ensureInvoiceDir() {
-  if (!fs.existsSync(INVOICES_DIR)) {
-    fs.mkdirSync(INVOICES_DIR, { recursive: true });
+  try {
+    if (!fs.existsSync(INVOICES_DIR)) {
+      fs.mkdirSync(INVOICES_DIR, { recursive: true });
+      console.log(`Created invoices directory: ${INVOICES_DIR}`);
+    }
+  } catch (err) {
+    console.error(`Failed to create invoices directory: ${INVOICES_DIR}`, err);
+    throw err;
   }
 }
 
@@ -85,10 +91,14 @@ export function calculateTax(subtotal: number, isInterstate: boolean = false) {
 }
 
 export async function generateInvoicePDF(invoiceData: InvoiceData): Promise<string> {
+  console.log(`Generating invoice PDF: ${invoiceData.invoiceNumber}`);
+  
   ensureInvoiceDir();
   
   const fileName = `${invoiceData.invoiceNumber}.pdf`;
-  const filePath = path.join(INVOICES_DIR, fileName);
+  const filePath = path.resolve(INVOICES_DIR, fileName);
+  
+  console.log(`Writing invoice to: ${filePath}`);
   
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ 
@@ -284,9 +294,13 @@ export async function generateInvoicePDF(invoiceData: InvoiceData): Promise<stri
     doc.end();
     
     stream.on("finish", () => {
+      console.log(`Invoice PDF generated successfully: ${filePath}`);
       resolve(`/invoices/${fileName}`);
     });
     
-    stream.on("error", reject);
+    stream.on("error", (err) => {
+      console.error(`Error writing invoice PDF: ${filePath}`, err);
+      reject(err);
+    });
   });
 }
