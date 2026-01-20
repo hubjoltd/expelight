@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Package, ShoppingCart, FolderTree, IndianRupee, ArrowRight, AlertCircle } from "lucide-react";
+import { Package, ShoppingCart, FolderTree, IndianRupee, ArrowRight, AlertCircle, Download } from "lucide-react";
 
 interface AdminStats {
   totalProducts: number;
@@ -168,6 +168,26 @@ export default function AdminDashboard() {
               <Link href="/admin/orders">
                 <Button className="w-full" data-testid="link-admin-orders">
                   Manage Orders
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-zinc-900 border-zinc-800 hover-elevate">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-white">
+                <Download className="w-5 h-5 text-red-500" />
+                Advlust Import
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-zinc-400 mb-4">
+                Import products directly from Advlust.com with images and variants.
+              </p>
+              <Link href="/admin/advlust">
+                <Button className="w-full" data-testid="link-admin-advlust">
+                  Import Products
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </Link>

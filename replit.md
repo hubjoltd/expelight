@@ -146,3 +146,52 @@ The application runs on port 5000 with both frontend and backend.
 - **Track Order Page** (/track): Order tracking with status timeline and FAQ
 - **Luxury Car Brands Added**: Mercedes-Benz, BMW, Audi, Land Rover, Porsche, Jeep added to SocialProof component with white backgrounds for visibility
 - **Vehicle Compatibility Expanded**: Added luxury vehicle makes and models (G-Class, X5, Q7, Defender, Cayenne, Wrangler, etc.) to VehicleFit component
+
+### Admin Panel & Product Management (Jan 2026)
+- **Admin Authentication**: Role-based access with isAdmin middleware checking user.role
+- **Admin Dashboard** (/admin): Overview stats (products, orders, categories, revenue) with navigation cards
+- **Admin Products** (/admin/products): Full CRUD for products, toggle active status, edit pricing
+- **Admin Categories** (/admin/categories): Hierarchical category management with 3 levels (parentId/level structure)
+- **Admin Orders** (/admin/orders): View all orders, update status, generate invoices, send via WhatsApp
+- **Advlust Import** (/admin/advlust): Browse and import products from Advlust.com Shopify JSON feed
+  - Fetches products with images, variants, pricing from advlust.com/products.json
+  - Creates products with auto-generated variants and media entries
+  - Deduplication by advlustProductId
+
+### Database Schema Extensions (Jan 2026)
+- **categories**: Hierarchical structure with id (UUID), name, slug, parentId, level (0/1/2), imageUrl, isActive
+- **product_variants**: SKU-level variants with id, productId, sku, name, price, color, beamPattern, size, stockQuantity
+- **product_media**: Product images/videos with id, productId, url, mediaType, isPrimary, sortOrder
+- **product_categories**: Many-to-many mapping between products and categories
+- **invoices**: Order invoices with invoiceNumber, tax breakdown (CGST/SGST/IGST), pdfUrl, whatsapp tracking
+
+### Invoice Generation System (Jan 2026)
+- **PDF Generation**: PDFKit-based invoice creation with:
+  - Company branding (Expelight logo, Diode Dynamics partner)
+  - Order details with line items
+  - Tax calculation (18% GST with CGST/SGST for intra-state, IGST for interstate)
+  - Shipping cost (free above ₹25,000)
+  - Professional layout with summary totals
+- **Invoice Storage**: PDFs saved to public/invoices/, served statically
+- **Invoice Numbers**: Format EXP-YYMMDD-XXXX (e.g., EXP-260120-4532)
+
+### WhatsApp Business API Integration (Jan 2026)
+- **WhatsApp Cloud API**: Integration for sending invoice PDFs to customers
+- **Credentials**: Requires WHATSAPP_PHONE_NUMBER_ID and WHATSAPP_ACCESS_TOKEN secrets
+- **Document Sending**: Sends PDF as WhatsApp document with custom caption
+- **Status Tracking**: Invoice.sentViaWhatsapp flag and whatsappSentAt timestamp
+- **UI Integration**: "WhatsApp" button in AdminOrders shows "Sent" badge after delivery
+
+### New API Endpoints (Admin)
+- GET /api/admin/stats - Dashboard statistics
+- GET/POST/PATCH/DELETE /api/admin/categories - Category CRUD
+- GET/POST/PATCH/DELETE /api/admin/products - Product CRUD
+- GET/POST/PATCH/DELETE /api/admin/variants - Variant CRUD
+- GET/POST/DELETE /api/admin/products/:id/media - Product media management
+- GET/PATCH /api/admin/orders - Order management
+- GET /api/admin/invoices - List all invoices
+- POST /api/admin/orders/:id/generate-invoice - Generate invoice PDF
+- POST /api/admin/invoices/:id/send-whatsapp - Send invoice via WhatsApp
+- GET /api/admin/advlust/products - Fetch products from Advlust.com
+- POST /api/admin/advlust/import - Import product from Advlust
+- GET /api/admin/whatsapp/status - Check WhatsApp configuration

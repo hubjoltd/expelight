@@ -4,12 +4,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Package, AlertCircle, MapPin, Phone, Mail } from "lucide-react";
+import { ArrowLeft, Package, AlertCircle, MapPin, Phone, Mail, FileText, Download, Loader2, MessageCircle, Check } from "lucide-react";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
 interface Order {
-  id: number;
+  id: string;
   userId: string;
   items: string;
   totalAmount: number;
@@ -18,6 +18,15 @@ interface Order {
   phone: string;
   email: string;
   createdAt: string;
+}
+
+interface Invoice {
+  id: string;
+  orderId: string;
+  invoiceNumber: string;
+  pdfUrl: string | null;
+  status: string;
+  sentViaWhatsapp: boolean | null;
 }
 
 export default function AdminOrders() {
@@ -31,8 +40,16 @@ export default function AdminOrders() {
     queryKey: ["/api/admin/check"],
   });
 
+  const { data: invoicesData } = useQuery<Invoice[]>({
+    queryKey: ["/api/admin/invoices"],
+  });
+
+  const invoicesByOrderId = new Map(
+    invoicesData?.map(inv => [inv.orderId, inv]) || []
+  );
+
   const updateMutation = useMutation({
-    mutationFn: async ({ id, status }: { id: number; status: string }) => {
+    mutationFn: async ({ id, status }: { id: string; status: string }) => {
       return await apiRequest("PATCH", `/api/admin/orders/${id}`, { status });
     },
     onSuccess: () => {
@@ -42,6 +59,41 @@ export default function AdminOrders() {
     },
     onError: () => {
       toast({ title: "Failed to update order", variant: "destructive" });
+    },
+  });
+
+  const generateInvoiceMutation = useMutation({
+    mutationFn: async (orderId: string) => {
+      return await apiRequest("POST", `/api/admin/orders/${orderId}/generate-invoice`, {
+        isInterstate: false,
+      });
+    },
+    onSuccess: (data: { success: boolean; invoice: Invoice; pdfUrl?: string }) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
+      toast({ title: "Invoice generated successfully" });
+      if (data.pdfUrl) {
+        window.open(data.pdfUrl, "_blank");
+      }
+    },
+    onError: () => {
+      toast({ title: "Failed to generate invoice", variant: "destructive" });
+    },
+  });
+
+  const sendWhatsAppMutation = useMutation({
+    mutationFn: async (invoiceId: string) => {
+      return await apiRequest("POST", `/api/admin/invoices/${invoiceId}/send-whatsapp`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
+      toast({ title: "Invoice sent via WhatsApp" });
+    },
+    onError: (error: Error) => {
+      toast({ 
+        title: "Failed to send via WhatsApp",
+        description: error.message,
+        variant: "destructive" 
+      });
     },
   });
 
@@ -168,8 +220,74 @@ export default function AdminOrders() {
                             <Badge variant="secondary">+{items.length - 3} more</Badge>
                           )}
                         </div>
-                        <div className="flex items-center gap-3">
-                          <span className="text-sm text-zinc-400">Update Status:</span>
+                        <div className="flex items-center gap-3 flex-wrap">
+                          {invoicesByOrderId.has(order.id) ? (
+                            <>
+                              <a 
+                                href={invoicesByOrderId.get(order.id)?.pdfUrl || "#"} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                              >
+                                <Button 
+                                  variant="outline" 
+                                  size="sm"
+                                  className="gap-2"
+                                  data-testid={`download-invoice-${order.id}`}
+                                >
+                                  <Download className="w-4 h-4" />
+                                  Invoice
+                                </Button>
+                              </a>
+                              {invoicesByOrderId.get(order.id)?.sentViaWhatsapp ? (
+                                <Button 
+                                  variant="secondary" 
+                                  size="sm"
+                                  className="gap-2"
+                                  disabled
+                                  data-testid={`whatsapp-sent-${order.id}`}
+                                >
+                                  <Check className="w-4 h-4" />
+                                  Sent
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="gap-2"
+                                  onClick={() => {
+                                    const invoice = invoicesByOrderId.get(order.id);
+                                    if (invoice) sendWhatsAppMutation.mutate(invoice.id);
+                                  }}
+                                  disabled={sendWhatsAppMutation.isPending}
+                                  data-testid={`send-whatsapp-${order.id}`}
+                                >
+                                  {sendWhatsAppMutation.isPending ? (
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                  ) : (
+                                    <MessageCircle className="w-4 h-4" />
+                                  )}
+                                  WhatsApp
+                                </Button>
+                              )}
+                            </>
+                          ) : (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="gap-2"
+                              onClick={() => generateInvoiceMutation.mutate(order.id)}
+                              disabled={generateInvoiceMutation.isPending}
+                              data-testid={`generate-invoice-${order.id}`}
+                            >
+                              {generateInvoiceMutation.isPending ? (
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                              ) : (
+                                <FileText className="w-4 h-4" />
+                              )}
+                              Generate Invoice
+                            </Button>
+                          )}
+                          <span className="text-sm text-zinc-400">Status:</span>
                           <Select 
                             value={order.status}
                             onValueChange={(status) => updateMutation.mutate({ id: order.id, status })}
