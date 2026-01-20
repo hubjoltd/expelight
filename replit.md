@@ -14,11 +14,15 @@ Expelight is an e-commerce website for premium automotive LED lighting systems. 
 ### Frontend (client/src/)
 ```
 pages/
-  - Home.tsx           # Landing page with all sections
-  - Products.tsx       # Product listing page
-  - ProductDetail.tsx  # Individual product page
-  - Science.tsx        # TIR optics education page
-  - VehicleFitPage.tsx # Vehicle compatibility finder
+  - Home.tsx             # Landing page with all sections
+  - Products.tsx         # Product listing page
+  - ProductDetail.tsx    # Individual product page
+  - Science.tsx          # TIR optics education page
+  - VehicleFitPage.tsx   # Vehicle compatibility finder
+  - InstallationGuides.tsx # Installation guidelines and safety info
+  - WarrantyClaims.tsx   # Warranty policy and claims process
+  - Shipping.tsx         # Shipping & returns information
+  - TrackOrder.tsx       # Order tracking page
 
 components/
   - Header.tsx           # Navigation header
@@ -133,3 +137,12 @@ The application runs on port 5000 with both frontend and backend.
 - sessions: sid, sess (JSON), expire
 - cart_items: id, userId, productId, quantity, createdAt
 - orders: id, userId, items (JSON), totalAmount, status, shippingAddress, phone, email, createdAt
+
+### New Pages & Brand Expansion (Jan 2026)
+- **Expelight Logo**: Added official company logo to Header and Footer components
+- **Installation Guidelines Page** (/guides): Step-by-step installation guides with safety information, product-specific steps, and pro tips
+- **Warranty Claims Page** (/warranty): Comprehensive warranty policy, coverage periods, claim process, and what's covered/not covered
+- **Shipping & Returns Page** (/shipping): Shipping methods, delivery timeframes by zone, and return policy details
+- **Track Order Page** (/track): Order tracking with status timeline and FAQ
+- **Luxury Car Brands Added**: Mercedes-Benz, BMW, Audi, Land Rover, Porsche, Jeep added to SocialProof component with white backgrounds for visibility
+- **Vehicle Compatibility Expanded**: Added luxury vehicle makes and models (G-Class, X5, Q7, Defender, Cayenne, Wrangler, etc.) to VehicleFit component
