@@ -2,13 +2,17 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ShoppingBag, Shield, Truck, Check, Minus, Plus, Loader2, CheckCircle } from "lucide-react";
+import { 
+  ShoppingBag, Shield, Truck, Check, Minus, Plus, Loader2, CheckCircle, 
+  Play, FileText, Wrench, HelpCircle, Box, Star, ChevronRight
+} from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
 import type { Product } from "@shared/schema";
@@ -24,6 +28,7 @@ export function ProductPage({ product }: ProductPageProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const { addToCart } = useCart();
   const { toast } = useToast();
 
@@ -40,27 +45,83 @@ export function ProductPage({ product }: ProductPageProps) {
     setIsAdding(false);
   };
 
+  const faqItems = [
+    {
+      question: "Is this product compatible with my vehicle?",
+      answer: "Please use our Vehicle Fit Finder tool to check compatibility with your specific vehicle make and model. Most of our products are designed to be universal-fit with included mounting hardware."
+    },
+    {
+      question: "What is the warranty coverage?",
+      answer: `This product comes with a comprehensive ${product.warrantyYears}-year warranty covering all manufacturing defects. Our warranty demonstrates our confidence in the quality and durability of Diode Dynamics products.`
+    },
+    {
+      question: "How difficult is the installation?",
+      answer: "Most Diode Dynamics products are designed for plug-and-play installation. Basic automotive electrical knowledge is helpful but not required. Detailed installation guides are included with every product."
+    },
+    {
+      question: "What beam pattern should I choose?",
+      answer: "Spot patterns provide focused long-range illumination, ideal for off-road driving. Flood patterns offer wide coverage for work areas and peripheral vision. Combo patterns combine both for versatile lighting."
+    },
+    {
+      question: "Are these products street legal?",
+      answer: "Our SAE-compliant products are designed to meet regulations. However, auxiliary lighting laws vary by region. Check your local regulations before use on public roads."
+    }
+  ];
+
+  const installationSteps = [
+    { step: 1, title: "Unpack & Inspect", description: "Carefully unpack all components and verify contents match the included parts list." },
+    { step: 2, title: "Plan Mounting Location", description: "Determine optimal mounting position considering visibility, clearance, and wiring access." },
+    { step: 3, title: "Mount the Light", description: "Use included hardware to secure the light fixture. Ensure stable, vibration-resistant mounting." },
+    { step: 4, title: "Route Wiring", description: "Run wiring harness through firewall or along existing wire channels. Avoid heat sources and moving parts." },
+    { step: 5, title: "Connect Power", description: "Connect to vehicle battery or auxiliary power. Follow included wiring diagram for proper connections." },
+    { step: 6, title: "Test & Adjust", description: "Verify operation and adjust beam angle as needed for optimal illumination." }
+  ];
+
+  const specifications = [
+    { label: "SKU / Part Number", value: product.sku || "N/A" },
+    { label: "Series", value: product.series + " Series" },
+    { label: "Warranty", value: `${product.warrantyYears} Years` },
+    { label: "Available Colors", value: product.colors.join(", ") },
+    { label: "Beam Patterns", value: product.beamPatterns.join(", ") },
+    ...product.specs.map((spec, i) => {
+      const parts = spec.split(":");
+      return {
+        label: parts[0]?.trim() || `Spec ${i + 1}`,
+        value: parts[1]?.trim() || spec
+      };
+    })
+  ];
+
   return (
-    <div
-      className="min-h-screen pt-20 pb-20 bg-[#050505]"
-      data-testid="product-page"
-    >
+    <div className="min-h-screen pt-20 pb-20 bg-[#050505]" data-testid="product-page">
       <div className="max-w-[1440px] mx-auto px-4 md:px-8">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
-          {/* Left Column - Images (Scrollable) */}
           <div className="space-y-4" data-testid="product-images">
-            {/* Main Image */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="aspect-square bg-[#0a0a0a] rounded-lg overflow-hidden border border-zinc-800/50 relative"
             >
-              {/* Light glow effect behind product */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse" />
               </div>
               
-              {product.images && product.images[currentImageIndex] ? (
+              {showVideo ? (
+                <div className="w-full h-full relative z-10 bg-black flex items-center justify-center">
+                  <div className="text-center text-zinc-500">
+                    <Play className="w-16 h-16 mx-auto mb-4 text-primary" />
+                    <p>Product video coming soon</p>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="mt-4"
+                      onClick={() => setShowVideo(false)}
+                    >
+                      View Images
+                    </Button>
+                  </div>
+                </div>
+              ) : product.images && product.images[currentImageIndex] ? (
                 <img
                   src={product.images[currentImageIndex]}
                   alt={product.name}
@@ -85,22 +146,35 @@ export function ProductPage({ product }: ProductPageProps) {
                   </motion.div>
                 </div>
               )}
+
+              {!showVideo && (
+                <button
+                  onClick={() => setShowVideo(true)}
+                  className="absolute bottom-4 right-4 z-20 bg-black/70 hover:bg-black/90 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                  data-testid="play-video-button"
+                >
+                  <Play className="w-4 h-4" />
+                  Watch Video
+                </button>
+              )}
             </motion.div>
 
-            {/* Thumbnail images */}
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-5 gap-3">
               {(product.images && product.images.length > 0
-                ? product.images.slice(0, 4)
-                : [0, 1, 2, 3]
+                ? product.images.slice(0, 5)
+                : [0, 1, 2, 3, 4]
               ).map((item, index) => (
                 <button
                   key={index}
                   className={`aspect-square bg-[#0a0a0a] rounded-md border transition-all overflow-hidden ${
-                    currentImageIndex === index
+                    currentImageIndex === index && !showVideo
                       ? "border-primary ring-2 ring-primary/30"
                       : "border-zinc-800/50 hover:border-zinc-600"
                   }`}
-                  onClick={() => setCurrentImageIndex(index)}
+                  onClick={() => {
+                    setCurrentImageIndex(index);
+                    setShowVideo(false);
+                  }}
                   data-testid={`thumbnail-${index}`}
                 >
                   {typeof item === "string" ? (
@@ -119,22 +193,22 @@ export function ProductPage({ product }: ProductPageProps) {
             </div>
           </div>
 
-          {/* Right Column - Product Info (Sticky) */}
           <div className="lg:sticky lg:top-24 lg:self-start space-y-6" data-testid="product-info">
-            {/* Series badge */}
-            <Badge
-              variant="outline"
-              className="text-zinc-400 border-zinc-700 bg-zinc-900/50"
-            >
-              {product.series} Series
-            </Badge>
+            <div className="flex items-center gap-3">
+              <Badge variant="outline" className="text-zinc-400 border-zinc-700 bg-zinc-900/50">
+                {product.series} Series
+              </Badge>
+              {product.sku && (
+                <Badge variant="outline" className="text-zinc-500 border-zinc-800 bg-transparent font-mono text-xs">
+                  {product.sku}
+                </Badge>
+              )}
+            </div>
 
-            {/* Title with subtle glow */}
             <h1 className="text-3xl md:text-4xl font-bold text-white" data-testid="product-title">
               {product.name}
             </h1>
 
-            {/* Price */}
             <div className="flex items-baseline gap-3" data-testid="product-price">
               <span className="text-4xl font-bold text-white">
                 ₹{product.price.toLocaleString("en-IN")}
@@ -146,16 +220,10 @@ export function ProductPage({ product }: ProductPageProps) {
               )}
             </div>
 
-            {/* Short description */}
-            <p className="text-zinc-400">
-              {product.shortDescription}
-            </p>
+            <p className="text-zinc-400">{product.shortDescription}</p>
 
-            {/* Beam Pattern Selector */}
             <div>
-              <label className="text-sm font-medium mb-3 block text-zinc-300">
-                Beam Pattern
-              </label>
+              <label className="text-sm font-medium mb-3 block text-zinc-300">Beam Pattern</label>
               <div className="flex flex-wrap gap-2">
                 {product.beamPatterns.map((pattern) => (
                   <button
@@ -174,11 +242,8 @@ export function ProductPage({ product }: ProductPageProps) {
               </div>
             </div>
 
-            {/* Color Selector */}
             <div>
-              <label className="text-sm font-medium mb-3 block text-zinc-300">
-                Color Temperature
-              </label>
+              <label className="text-sm font-medium mb-3 block text-zinc-300">Color Temperature</label>
               <div className="flex flex-wrap gap-2">
                 {product.colors.map((color) => (
                   <button
@@ -191,22 +256,15 @@ export function ProductPage({ product }: ProductPageProps) {
                     onClick={() => setSelectedColor(color)}
                     data-testid={`color-${color.toLowerCase()}`}
                   >
-                    <span
-                      className={`w-3 h-3 rounded-full ${
-                        color === "White" ? "bg-white" : "bg-yellow-400"
-                      }`}
-                    />
+                    <span className={`w-3 h-3 rounded-full ${color === "White" ? "bg-white" : "bg-yellow-400"}`} />
                     {color}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Quantity */}
             <div>
-              <label className="text-sm font-medium mb-3 block text-zinc-300">
-                Quantity
-              </label>
+              <label className="text-sm font-medium mb-3 block text-zinc-300">Quantity</label>
               <div className="flex items-center gap-4">
                 <div className="flex items-center border border-zinc-700 rounded-md bg-zinc-900">
                   <Button
@@ -235,13 +293,10 @@ export function ProductPage({ product }: ProductPageProps) {
               </div>
             </div>
 
-            {/* Add to Cart - No login required */}
             <Button
               size="lg"
               className={`w-full text-base py-6 transition-all ${
-                justAdded 
-                  ? "bg-emerald-600 hover:bg-emerald-600" 
-                  : "bg-primary hover:bg-primary/90"
+                justAdded ? "bg-emerald-600 hover:bg-emerald-600" : "bg-primary hover:bg-primary/90"
               }`}
               onClick={handleAddToCart}
               disabled={isAdding}
@@ -265,7 +320,6 @@ export function ProductPage({ product }: ProductPageProps) {
               )}
             </Button>
 
-            {/* Trust highlights */}
             <div className="grid grid-cols-2 gap-4 py-4">
               <div className="flex items-center gap-2 text-sm text-zinc-400">
                 <Shield className="w-4 h-4 text-primary" />
@@ -276,68 +330,176 @@ export function ProductPage({ product }: ProductPageProps) {
                 <span>Free Shipping</span>
               </div>
             </div>
+          </div>
+        </div>
 
-            {/* Accordion sections */}
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="features" className="border-zinc-800">
-                <AccordionTrigger data-testid="accordion-features" className="text-zinc-300 hover:text-white">
-                  Features
-                </AccordionTrigger>
-                <AccordionContent>
-                  <ul className="space-y-2">
+        <div className="mt-16 border-t border-zinc-800 pt-12">
+          <Tabs defaultValue="description" className="w-full">
+            <TabsList className="w-full justify-start bg-transparent border-b border-zinc-800 rounded-none pb-0 mb-8 flex-wrap h-auto gap-2">
+              <TabsTrigger 
+                value="description" 
+                className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none text-zinc-400 data-[state=active]:text-white pb-4"
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Description
+              </TabsTrigger>
+              <TabsTrigger 
+                value="specifications" 
+                className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none text-zinc-400 data-[state=active]:text-white pb-4"
+              >
+                <Box className="w-4 h-4 mr-2" />
+                Specifications
+              </TabsTrigger>
+              <TabsTrigger 
+                value="installation" 
+                className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none text-zinc-400 data-[state=active]:text-white pb-4"
+              >
+                <Wrench className="w-4 h-4 mr-2" />
+                Installation
+              </TabsTrigger>
+              <TabsTrigger 
+                value="qa" 
+                className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none text-zinc-400 data-[state=active]:text-white pb-4"
+              >
+                <HelpCircle className="w-4 h-4 mr-2" />
+                Q&A
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="description" className="mt-0">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-xl font-semibold text-white mb-4">Product Description</h3>
+                  <p className="text-zinc-400 leading-relaxed mb-6">{product.shortDescription}</p>
+                  <p className="text-zinc-500 leading-relaxed">
+                    Experience the difference of engineering-grade LED lighting from Diode Dynamics. 
+                    This {product.series} Series product represents the pinnacle of automotive lighting technology, 
+                    featuring TIR optics for maximum light output and efficiency.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-white mb-4">Key Features</h3>
+                  <ul className="space-y-3">
                     {product.features.map((feature, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm text-zinc-400">
-                        <Check className="w-4 h-4 text-primary mt-0.5" />
+                      <li key={index} className="flex items-start gap-3 text-zinc-400">
+                        <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
                         {feature}
                       </li>
                     ))}
                   </ul>
-                </AccordionContent>
-              </AccordionItem>
+                </div>
+              </div>
 
-              <AccordionItem value="specs" className="border-zinc-800">
-                <AccordionTrigger data-testid="accordion-specs" className="text-zinc-300 hover:text-white">
-                  Specifications
-                </AccordionTrigger>
-                <AccordionContent>
-                  <ul className="space-y-2">
-                    {product.specs.map((spec, index) => (
-                      <li key={index} className="text-sm text-zinc-400">
-                        {spec}
-                      </li>
-                    ))}
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem value="whatsInBox" className="border-zinc-800">
-                <AccordionTrigger data-testid="accordion-whats-in-box" className="text-zinc-300 hover:text-white">
+              <div className="mt-8 p-6 bg-zinc-900/50 rounded-lg border border-zinc-800">
+                <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                  <Box className="w-5 h-5 text-primary" />
                   What's in the Box
-                </AccordionTrigger>
-                <AccordionContent>
-                  <ul className="space-y-2">
-                    {product.whatsInBox.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm text-zinc-400">
-                        <Check className="w-4 h-4 text-primary mt-0.5" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </AccordionContent>
-              </AccordionItem>
+                </h4>
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {product.whatsInBox.map((item, index) => (
+                    <div key={index} className="flex items-center gap-2 text-zinc-400">
+                      <ChevronRight className="w-4 h-4 text-primary" />
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
 
-              <AccordionItem value="warranty" className="border-zinc-800">
-                <AccordionTrigger data-testid="accordion-warranty" className="text-zinc-300 hover:text-white">
-                  Warranty ({product.warrantyYears} Years)
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p className="text-sm text-zinc-400">
-                    This product comes with a comprehensive {product.warrantyYears}-year warranty covering all manufacturing defects. Our warranty demonstrates our confidence in the quality and durability of Diode Dynamics products.
+            <TabsContent value="specifications" className="mt-0">
+              <div className="max-w-3xl">
+                <h3 className="text-xl font-semibold text-white mb-6">Technical Specifications</h3>
+                <div className="bg-zinc-900/30 rounded-lg border border-zinc-800 overflow-hidden">
+                  {specifications.map((spec, index) => (
+                    <div 
+                      key={index} 
+                      className={`flex justify-between items-center px-6 py-4 ${
+                        index !== specifications.length - 1 ? "border-b border-zinc-800" : ""
+                      }`}
+                    >
+                      <span className="text-zinc-500 font-medium">{spec.label}</span>
+                      <span className="text-white">{spec.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="installation" className="mt-0">
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-6">Installation Guide</h3>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {installationSteps.map((step) => (
+                    <div 
+                      key={step.step} 
+                      className="bg-zinc-900/30 rounded-lg border border-zinc-800 p-6 hover:border-zinc-700 transition-colors"
+                    >
+                      <div className="flex items-center gap-3 mb-3">
+                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
+                          {step.step}
+                        </div>
+                        <h4 className="font-semibold text-white">{step.title}</h4>
+                      </div>
+                      <p className="text-zinc-400 text-sm">{step.description}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8 p-6 bg-primary/10 rounded-lg border border-primary/30">
+                  <h4 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
+                    <Shield className="w-5 h-5 text-primary" />
+                    Pro Installation Tips
+                  </h4>
+                  <ul className="space-y-2 text-zinc-400">
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-primary mt-1" />
+                      Always disconnect the battery before starting installation
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-primary mt-1" />
+                      Use dielectric grease on all electrical connections to prevent corrosion
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-primary mt-1" />
+                      Secure all wiring with zip ties to prevent rattling and damage
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-primary mt-1" />
+                      Test all functions before final assembly
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="qa" className="mt-0">
+              <div className="max-w-3xl">
+                <h3 className="text-xl font-semibold text-white mb-6">Frequently Asked Questions</h3>
+                <Accordion type="single" collapsible className="w-full">
+                  {faqItems.map((faq, index) => (
+                    <AccordionItem key={index} value={`faq-${index}`} className="border-zinc-800">
+                      <AccordionTrigger className="text-left text-zinc-300 hover:text-white">
+                        {faq.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-zinc-400">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+
+                <div className="mt-8 p-6 bg-zinc-900/50 rounded-lg border border-zinc-800">
+                  <h4 className="text-lg font-semibold text-white mb-2">Have more questions?</h4>
+                  <p className="text-zinc-400 mb-4">
+                    Our team is here to help. Contact us via WhatsApp or email for quick assistance.
                   </p>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
+                  <Button variant="outline" className="border-zinc-700">
+                    Contact Support
+                  </Button>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>

@@ -8,7 +8,8 @@ import {
   type ProductMedia, type InsertProductMedia,
   type Invoice, type InsertInvoice,
   type ProductCategory, type InsertProductCategory,
-  products
+  products,
+  categories as categoriesTable
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, sql } from "drizzle-orm";
@@ -544,7 +545,8 @@ export class MemStorage implements IStorage {
 
   // Category methods
   async getCategories(): Promise<Category[]> {
-    return Array.from(this.categories.values());
+    const dbCategories = await db.select().from(categoriesTable).where(eq(categoriesTable.isActive, true));
+    return dbCategories;
   }
 
   async getCategoryById(id: string): Promise<Category | undefined> {

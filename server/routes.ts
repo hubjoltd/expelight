@@ -14,19 +14,51 @@ export async function registerRoutes(
   setupAuth(app);
   registerAuthRoutes(app);
 
-  // Products API
+  // Categories API (public)
+  app.get("/api/categories", async (req, res) => {
+    try {
+      const allCategories = await storage.getCategories();
+      res.json(allCategories);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch categories" });
+    }
+  });
+
+  // Products API with category info
   app.get("/api/products", async (req, res) => {
     try {
       const { series } = req.query;
-      let products;
+      let allProducts;
       
       if (series && typeof series === 'string') {
-        products = await storage.getProductsBySeries(series);
+        allProducts = await storage.getProductsBySeries(series);
       } else {
-        products = await storage.getProducts();
+        allProducts = await storage.getProducts();
       }
       
-      res.json(products);
+      // Get category mappings for all products
+      const categoryMappings = await db
+        .select({
+          productId: productCategories.productId,
+          categoryId: productCategories.categoryId
+        })
+        .from(productCategories);
+      
+      // Create a map of productId to categoryIds
+      const productCategoryMap = new Map<string, string[]>();
+      for (const mapping of categoryMappings) {
+        const existing = productCategoryMap.get(mapping.productId) || [];
+        existing.push(mapping.categoryId);
+        productCategoryMap.set(mapping.productId, existing);
+      }
+      
+      // Add categoryIds to each product
+      const productsWithCategories = allProducts.map(product => ({
+        ...product,
+        categoryIds: productCategoryMap.get(product.id) || []
+      }));
+      
+      res.json(productsWithCategories);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch products" });
     }

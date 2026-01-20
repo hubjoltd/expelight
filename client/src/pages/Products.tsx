@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
-import { useSearch } from "wouter";
+import { useSearch, useLocation } from "wouter";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { TrustBar } from "@/components/TrustBar";
@@ -17,31 +17,70 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Link } from "wouter";
-import { Star, ArrowRight, Filter, Shield, Truck, Zap, ChevronRight, Grid, List } from "lucide-react";
+import { Filter, Shield, Truck, Zap, ChevronLeft, ChevronRight, X } from "lucide-react";
 import type { Product, Category } from "@shared/schema";
+
+interface ProductWithCategories extends Product {
+  categoryIds?: string[];
+}
+
+const PRODUCTS_PER_PAGE = 12;
 
 export default function Products() {
   const searchString = useSearch();
+  const [, setLocation] = useLocation();
   const searchParams = new URLSearchParams(searchString);
+  
   const seriesFromUrl = searchParams.get("series");
+  const categoryFromUrl = searchParams.get("category");
+  const pageFromUrl = parseInt(searchParams.get("page") || "1");
   
   const [selectedSeries, setSelectedSeries] = useState<string>(seriesFromUrl || "all");
-  const [sortBy, setSortBy] = useState<string>("popular");
+  const [selectedCategory, setSelectedCategory] = useState<string>(categoryFromUrl || "all");
+  const [sortBy, setSortBy] = useState<string>("newest");
+  const [currentPage, setCurrentPage] = useState(pageFromUrl);
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (seriesFromUrl) {
-      setSelectedSeries(seriesFromUrl);
-    }
-  }, [seriesFromUrl]);
-
-  const { data: products = [], isLoading } = useQuery<Product[]>({
+  const { data: products = [], isLoading } = useQuery<ProductWithCategories[]>({
     queryKey: ["/api/products"],
   });
 
-  const filteredProducts = products.filter(
-    (product) => selectedSeries === "all" || product.series.toLowerCase() === selectedSeries
-  );
+  const { data: categories = [] } = useQuery<Category[]>({
+    queryKey: ["/api/categories"],
+  });
+
+  // Create a map of category names to IDs for filtering
+  const categoryNameToId = new Map(categories.map(c => [c.name, c.id]));
+
+  useEffect(() => {
+    if (seriesFromUrl) setSelectedSeries(seriesFromUrl);
+    if (categoryFromUrl) setSelectedCategory(categoryFromUrl);
+    if (pageFromUrl) setCurrentPage(pageFromUrl);
+  }, [seriesFromUrl, categoryFromUrl, pageFromUrl]);
+
+  const updateUrl = (newSeries: string, newCategory: string, newPage: number) => {
+    const params = new URLSearchParams();
+    if (newSeries !== "all") params.set("series", newSeries);
+    if (newCategory !== "all") params.set("category", newCategory);
+    if (newPage > 1) params.set("page", String(newPage));
+    const newUrl = params.toString() ? `/products?${params}` : "/products";
+    setLocation(newUrl);
+  };
+
+  const filteredProducts = products.filter((product) => {
+    const matchesSeries = selectedSeries === "all" || product.series.toLowerCase() === selectedSeries.toLowerCase();
+    
+    // Filter by actual category ID
+    let matchesCategory = selectedCategory === "all";
+    if (!matchesCategory && product.categoryIds) {
+      const selectedCategoryId = categoryNameToId.get(selectedCategory);
+      if (selectedCategoryId) {
+        matchesCategory = product.categoryIds.includes(selectedCategoryId);
+      }
+    }
+    
+    return matchesSeries && matchesCategory;
+  });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
@@ -49,11 +88,48 @@ export default function Products() {
         return a.price - b.price;
       case "price-high":
         return b.price - a.price;
-      case "popular":
+      case "name-az":
+        return a.name.localeCompare(b.name);
+      case "name-za":
+        return b.name.localeCompare(a.name);
+      case "newest":
       default:
-        return (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0);
+        return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
     }
   });
+
+  const totalPages = Math.ceil(sortedProducts.length / PRODUCTS_PER_PAGE);
+  const paginatedProducts = sortedProducts.slice(
+    (currentPage - 1) * PRODUCTS_PER_PAGE,
+    currentPage * PRODUCTS_PER_PAGE
+  );
+
+  const handleSeriesChange = (value: string) => {
+    setSelectedSeries(value);
+    setCurrentPage(1);
+    updateUrl(value, selectedCategory, 1);
+  };
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+    setCurrentPage(1);
+    updateUrl(selectedSeries, value, 1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    updateUrl(selectedSeries, selectedCategory, page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const clearFilters = () => {
+    setSelectedSeries("all");
+    setSelectedCategory("all");
+    setCurrentPage(1);
+    updateUrl("all", "all", 1);
+  };
+
+  const hasActiveFilters = selectedSeries !== "all" || selectedCategory !== "all";
 
   const getSeriesColor = (series: string) => {
     switch (series.toLowerCase()) {
@@ -74,101 +150,108 @@ export default function Products() {
 
       <main className="pt-24 pb-20">
         <div className="max-w-[1440px] mx-auto px-4 md:px-8">
-          {/* Page header with animation */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-12"
+            className="mb-8"
           >
-            <motion.h1 
-              className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              Featured <span className="text-zinc-500">Products</span>
-            </motion.h1>
-            <motion.p 
-              className="text-zinc-500 text-lg max-w-2xl"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              From compact pods to full-size light bars. Find the perfect gear for every build.
-            </motion.p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-white">
+              All <span className="text-zinc-500">Products</span>
+            </h1>
+            <p className="text-zinc-500 text-lg max-w-2xl">
+              Browse our complete collection of premium LED lighting systems from Diode Dynamics.
+            </p>
           </motion.div>
 
-          {/* Trust highlights with stagger animation */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="flex flex-wrap gap-6 mb-10 pb-8 border-b border-zinc-800/50"
+            transition={{ delay: 0.2 }}
+            className="flex flex-wrap gap-6 mb-8 pb-6 border-b border-zinc-800/50"
           >
             {[
               { icon: Shield, text: "8-Year Warranty" },
               { icon: Truck, text: "Free Shipping over ₹25,000" },
               { icon: Zap, text: "Plug & Play Installation" },
             ].map((item, i) => (
-              <motion.div
-                key={item.text}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + i * 0.1 }}
-                className="flex items-center gap-2 text-zinc-500 text-sm"
-              >
+              <div key={item.text} className="flex items-center gap-2 text-zinc-500 text-sm">
                 <item.icon className="w-4 h-4 text-zinc-400" />
                 <span>{item.text}</span>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
 
-          {/* Filters with animation */}
           <motion.div 
-            className="flex flex-col sm:flex-row gap-4 mb-8"
+            className="flex flex-col lg:flex-row gap-4 mb-8 items-start lg:items-center justify-between"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            data-testid="product-filters"
+            transition={{ delay: 0.3 }}
           >
-            <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-zinc-500" />
-              <span className="text-sm text-zinc-500">Filter:</span>
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2">
+                <Filter className="w-4 h-4 text-zinc-500" />
+                <span className="text-sm text-zinc-500">Filters:</span>
+              </div>
+
+              <Select value={selectedSeries} onValueChange={handleSeriesChange}>
+                <SelectTrigger className="w-[150px] bg-[#0a0a0a] border-zinc-800/50 text-zinc-300" data-testid="filter-series">
+                  <SelectValue placeholder="All Series" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Series</SelectItem>
+                  <SelectItem value="sport">Sport Series</SelectItem>
+                  <SelectItem value="pro">Pro Series</SelectItem>
+                  <SelectItem value="max">Max Series</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select value={selectedCategory} onValueChange={handleCategoryChange}>
+                <SelectTrigger className="w-[200px] bg-[#0a0a0a] border-zinc-800/50 text-zinc-300" data-testid="filter-category">
+                  <SelectValue placeholder="All Categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat.id} value={cat.name}>{cat.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-[160px] bg-[#0a0a0a] border-zinc-800/50 text-zinc-300" data-testid="filter-sort">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest First</SelectItem>
+                  <SelectItem value="price-low">Price: Low to High</SelectItem>
+                  <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  <SelectItem value="name-az">Name: A to Z</SelectItem>
+                  <SelectItem value="name-za">Name: Z to A</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {hasActiveFilters && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={clearFilters}
+                  className="text-zinc-400 hover:text-white"
+                >
+                  <X className="w-4 h-4 mr-1" />
+                  Clear
+                </Button>
+              )}
             </div>
 
-            <Select value={selectedSeries} onValueChange={setSelectedSeries}>
-              <SelectTrigger className="w-[180px] bg-[#0a0a0a] border-zinc-800/50 text-zinc-300" data-testid="filter-series">
-                <SelectValue placeholder="All Series" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Series</SelectItem>
-                <SelectItem value="sport">Sport Series</SelectItem>
-                <SelectItem value="pro">Pro Series</SelectItem>
-                <SelectItem value="max">Max Series</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[180px] bg-[#0a0a0a] border-zinc-800/50 text-zinc-300" data-testid="filter-sort">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="popular">Most Popular</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <div className="ml-auto text-sm text-zinc-500">
-              {sortedProducts.length} products
+            <div className="text-sm text-zinc-500">
+              Showing {paginatedProducts.length} of {sortedProducts.length} products
             </div>
           </motion.div>
 
-          {/* Products Grid - Car Configurator Style */}
           {isLoading ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {[...Array(12)].map((_, i) => (
                 <Card key={i} className="bg-[#0a0a0a] border-zinc-800/30 overflow-hidden">
                   <Skeleton className="aspect-[4/3] bg-zinc-900" />
                   <div className="p-5 space-y-3">
@@ -179,218 +262,158 @@ export default function Products() {
                 </Card>
               ))}
             </div>
+          ) : paginatedProducts.length === 0 ? (
+            <div className="text-center py-20">
+              <p className="text-zinc-500 text-lg mb-4">No products found matching your filters.</p>
+              <Button variant="outline" onClick={clearFilters}>Clear Filters</Button>
+            </div>
           ) : (
-            <motion.div 
-              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-            >
-              <AnimatePresence mode="popLayout">
-                {sortedProducts.map((product, index) => (
-                  <motion.div
-                    key={product.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ 
-                      duration: 0.3, 
-                      delay: Math.min(index * 0.03, 0.5),
-                      type: "spring",
-                      stiffness: 200
-                    }}
-                    onMouseEnter={() => setHoveredProduct(product.id)}
-                    onMouseLeave={() => setHoveredProduct(null)}
-                  >
-                    <Link href={`/product/${product.slug}`}>
-                      <Card
-                        className="group h-full bg-[#0a0a0a] border-zinc-800/30 hover:border-zinc-600/50 cursor-pointer overflow-hidden transition-all duration-500"
-                        style={{
-                          boxShadow: hoveredProduct === product.id 
-                            ? product.series.toLowerCase() === 'max'
-                              ? '0 0 60px rgba(229, 57, 53, 0.15)'
-                              : '0 0 40px rgba(255, 255, 255, 0.05)'
-                            : 'none'
-                        }}
-                        data-testid={`product-card-${product.id}`}
-                      >
-                        {/* Product image with hover zoom */}
-                        <div className="aspect-[4/3] bg-[#080808] relative overflow-hidden">
-                          {product.images && product.images.length > 0 ? (
-                            <motion.img
-                              src={product.images[0]}
-                              alt={product.name}
-                              className="w-full h-full object-cover"
-                              animate={{
-                                scale: hoveredProduct === product.id ? 1.1 : 1
-                              }}
-                              transition={{ duration: 0.6, ease: "easeOut" }}
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                target.style.display = 'none';
-                              }}
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-zinc-900 to-zinc-800">
-                              <motion.div 
-                                className="w-24 h-24 rounded-full bg-zinc-800/50 border border-zinc-700/30"
-                                animate={{
-                                  boxShadow: [
-                                    "0 0 0 rgba(255,255,255,0)",
-                                    "0 0 30px rgba(255,255,255,0.1)",
-                                    "0 0 0 rgba(255,255,255,0)"
-                                  ]
-                                }}
-                                transition={{ duration: 3, repeat: Infinity }}
-                              />
-                            </div>
-                          )}
-
-                          {/* Dark gradient overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-80" />
-                          
-                          {/* Animated hover overlay */}
-                          <motion.div
-                            className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: hoveredProduct === product.id ? 1 : 0 }}
-                            transition={{ duration: 0.3 }}
-                          />
-
-                          {/* Badges */}
-                          <div className="absolute top-4 left-4 right-4 flex justify-between">
-                            {product.isPopular && (
-                              <motion.div
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.3 }}
-                              >
-                                <Badge
-                                  className="bg-primary text-primary-foreground shadow-lg"
-                                  data-testid={`popular-badge-${product.id}`}
-                                >
-                                  <Star className="w-3 h-3 mr-1 fill-current" />
-                                  Popular
-                                </Badge>
-                              </motion.div>
-                            )}
-                            {product.originalPrice && (
-                              <motion.div
-                                initial={{ opacity: 0, x: 10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.3 }}
-                                className="ml-auto"
-                              >
-                                <Badge className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30">
-                                  Save ₹{(product.originalPrice - product.price).toLocaleString("en-IN")}
-                                </Badge>
-                              </motion.div>
-                            )}
-                          </div>
-
-                          {/* Floating series badge */}
-                          <motion.div
-                            className="absolute bottom-4 left-4"
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                          >
-                            <Badge
-                              variant="outline"
-                              className={`backdrop-blur-sm ${getSeriesColor(product.series)}`}
-                            >
-                              {product.series} Series
-                            </Badge>
-                          </motion.div>
-                        </div>
-
-                        {/* Product info */}
-                        <div className="p-5">
-                          <h3 className="font-semibold text-white text-lg mb-2 group-hover:text-zinc-300 transition-colors line-clamp-2 min-h-[56px]">
-                            {product.name}
-                          </h3>
-
-                          <p className="text-sm text-zinc-500 mb-4 line-clamp-2 min-h-[40px]">
-                            {product.shortDescription}
-                          </p>
-
-                          {/* Specs preview */}
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            {product.beamPatterns.slice(0, 3).map((pattern, i) => (
-                              <motion.span
-                                key={pattern}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.4 + i * 0.1 }}
-                                className="text-xs text-zinc-600 bg-zinc-800/50 px-2 py-1 rounded"
-                              >
-                                {pattern}
-                              </motion.span>
-                            ))}
-                          </div>
-
-                          {/* Price section with animation */}
-                          <div className="flex items-center justify-between pt-4 border-t border-zinc-800/50">
-                            <div>
-                              <p className="text-xs text-zinc-600 uppercase tracking-wider mb-1">M.R.P.</p>
-                              <motion.div 
-                                className="flex items-baseline gap-2"
+            <>
+              <motion.div 
+                className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+              >
+                <AnimatePresence mode="popLayout">
+                  {paginatedProducts.map((product, index) => (
+                    <motion.div
+                      key={product.id}
+                      layout
+                      initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ 
+                        duration: 0.3, 
+                        delay: Math.min(index * 0.03, 0.3),
+                        type: "spring",
+                        stiffness: 200
+                      }}
+                      onMouseEnter={() => setHoveredProduct(product.id)}
+                      onMouseLeave={() => setHoveredProduct(null)}
+                    >
+                      <Link href={`/product/${product.slug}`}>
+                        <Card
+                          className="group h-full bg-[#0a0a0a] border-zinc-800/30 hover:border-zinc-600/50 cursor-pointer overflow-hidden transition-all duration-300"
+                          data-testid={`product-card-${product.id}`}
+                        >
+                          <div className="aspect-[4/3] bg-[#080808] relative overflow-hidden">
+                            {product.images && product.images.length > 0 ? (
+                              <motion.img
+                                src={product.images[0]}
+                                alt={product.name}
+                                className="w-full h-full object-cover"
                                 animate={{
                                   scale: hoveredProduct === product.id ? 1.05 : 1
                                 }}
-                                transition={{ duration: 0.2 }}
-                              >
-                                <span className="text-xl font-bold text-white">
-                                  ₹{product.price.toLocaleString("en-IN")}
-                                </span>
-                                {product.originalPrice && (
-                                  <span className="text-sm text-zinc-600 line-through">
-                                    ₹{product.originalPrice.toLocaleString("en-IN")}
-                                  </span>
-                                )}
-                              </motion.div>
-                            </div>
+                                transition={{ duration: 0.4 }}
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = "/placeholder.svg";
+                                }}
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-zinc-900">
+                                <div className="w-16 h-16 rounded-full bg-primary/20" />
+                              </div>
+                            )}
 
-                            <motion.div
-                              animate={{
-                                x: hoveredProduct === product.id ? 5 : 0
-                              }}
-                              transition={{ duration: 0.2 }}
-                            >
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                className="text-zinc-400 group-hover:text-primary transition-colors"
-                              >
-                                <ChevronRight className="w-5 h-5" />
-                              </Button>
-                            </motion.div>
+                            {product.originalPrice && product.originalPrice > product.price && (
+                              <Badge className="absolute top-3 right-3 bg-primary text-white border-none">
+                                Save ₹{((product.originalPrice - product.price) / 100).toLocaleString()}
+                              </Badge>
+                            )}
+
+                            <Badge className={`absolute bottom-3 left-3 ${getSeriesColor(product.series)}`}>
+                              {product.series} Series
+                            </Badge>
                           </div>
-                        </div>
-                      </Card>
-                    </Link>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-          )}
 
-          {/* Empty state */}
-          {!isLoading && sortedProducts.length === 0 && (
-            <motion.div 
-              className="text-center py-20"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <p className="text-zinc-500 text-lg mb-4">No products found in this category.</p>
-              <Button
-                variant="outline"
-                onClick={() => setSelectedSeries("all")}
-              >
-                View All Products
-              </Button>
-            </motion.div>
+                          <div className="p-4 space-y-2">
+                            <h3 className="font-medium text-white text-sm line-clamp-2 group-hover:text-primary transition-colors">
+                              {product.name}
+                            </h3>
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-lg font-bold text-white">
+                                ₹{(product.price / 100).toLocaleString()}
+                              </span>
+                              {product.originalPrice && product.originalPrice > product.price && (
+                                <span className="text-sm text-zinc-500 line-through">
+                                  ₹{(product.originalPrice / 100).toLocaleString()}
+                                </span>
+                              )}
+                            </div>
+                            {product.sku && (
+                              <p className="text-xs text-zinc-600">SKU: {product.sku}</p>
+                            )}
+                          </div>
+                        </Card>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </motion.div>
+
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 mt-12">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="bg-transparent border-zinc-700 text-zinc-400 hover:text-white"
+                    data-testid="pagination-prev"
+                  >
+                    <ChevronLeft className="w-4 h-4 mr-1" />
+                    Previous
+                  </Button>
+
+                  <div className="flex items-center gap-1">
+                    {[...Array(totalPages)].map((_, i) => {
+                      const page = i + 1;
+                      const isCurrentPage = page === currentPage;
+                      const isNearCurrent = Math.abs(page - currentPage) <= 2;
+                      const isFirst = page === 1;
+                      const isLast = page === totalPages;
+
+                      if (!isNearCurrent && !isFirst && !isLast) {
+                        if (page === 2 || page === totalPages - 1) {
+                          return <span key={page} className="px-2 text-zinc-600">...</span>;
+                        }
+                        return null;
+                      }
+
+                      return (
+                        <Button
+                          key={page}
+                          variant={isCurrentPage ? "default" : "ghost"}
+                          size="sm"
+                          onClick={() => handlePageChange(page)}
+                          className={isCurrentPage 
+                            ? "bg-primary text-white" 
+                            : "text-zinc-400 hover:text-white"
+                          }
+                          data-testid={`pagination-page-${page}`}
+                        >
+                          {page}
+                        </Button>
+                      );
+                    })}
+                  </div>
+
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="bg-transparent border-zinc-700 text-zinc-400 hover:text-white"
+                    data-testid="pagination-next"
+                  >
+                    Next
+                    <ChevronRight className="w-4 h-4 ml-1" />
+                  </Button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </main>
