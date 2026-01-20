@@ -35,7 +35,7 @@ export default function AdminLogin() {
         description: "Admin login successful.",
       });
       
-      // Use full page navigation to ensure cookies are properly set
+      // Use full page navigation to establish cookies properly
       window.location.href = "/admin";
     },
     onError: () => {

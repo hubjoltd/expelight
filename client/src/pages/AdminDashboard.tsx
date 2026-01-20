@@ -16,30 +16,40 @@ interface AdminStats {
 
 export default function AdminDashboard() {
   const [, setLocation] = useLocation();
-  const { data: stats, isLoading, error } = useQuery<AdminStats>({
-    queryKey: ["/api/admin/stats"],
-  });
-
-  const { data: adminCheck, isLoading: checkLoading } = useQuery<{ isAdmin: boolean; role: string }>({
+  
+  const { data: adminCheck, isLoading: checkLoading, error: checkError } = useQuery<{ isAdmin: boolean; role: string }>({
     queryKey: ["/api/admin/check"],
   });
 
+  const { data: stats, isLoading } = useQuery<AdminStats>({
+    queryKey: ["/api/admin/stats"],
+    enabled: adminCheck?.isAdmin === true,
+  });
+
   useEffect(() => {
-    if (!checkLoading && (!adminCheck || !adminCheck.isAdmin)) {
+    if (!checkLoading && (!adminCheck || !adminCheck.isAdmin || checkError)) {
       setLocation("/admin/login");
     }
-  }, [adminCheck, checkLoading, setLocation]);
+  }, [adminCheck, checkLoading, checkError, setLocation]);
 
-  if (isLoading || checkLoading) {
+  if (checkLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-pulse text-zinc-400">Checking authorization...</div>
+      </div>
+    );
+  }
+
+  if (!adminCheck?.isAdmin) {
+    return null;
+  }
+
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="animate-pulse text-zinc-400">Loading dashboard...</div>
       </div>
     );
-  }
-
-  if (error || !adminCheck?.isAdmin) {
-    return null;
   }
 
   const formatCurrency = (amount: number) => {
