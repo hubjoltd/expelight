@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Package, ShoppingCart, FolderTree, IndianRupee, ArrowRight, AlertCircle, Download } from "lucide-react";
@@ -14,15 +15,22 @@ interface AdminStats {
 }
 
 export default function AdminDashboard() {
+  const [, setLocation] = useLocation();
   const { data: stats, isLoading, error } = useQuery<AdminStats>({
     queryKey: ["/api/admin/stats"],
   });
 
-  const { data: adminCheck } = useQuery<{ isAdmin: boolean; role: string }>({
+  const { data: adminCheck, isLoading: checkLoading } = useQuery<{ isAdmin: boolean; role: string }>({
     queryKey: ["/api/admin/check"],
   });
 
-  if (isLoading) {
+  useEffect(() => {
+    if (!checkLoading && (!adminCheck || !adminCheck.isAdmin)) {
+      setLocation("/admin/login");
+    }
+  }, [adminCheck, checkLoading, setLocation]);
+
+  if (isLoading || checkLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="animate-pulse text-zinc-400">Loading dashboard...</div>
@@ -31,24 +39,7 @@ export default function AdminDashboard() {
   }
 
   if (error || !adminCheck?.isAdmin) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Card className="max-w-md">
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-3 text-red-500 mb-4">
-              <AlertCircle className="w-6 h-6" />
-              <span className="font-semibold">Access Denied</span>
-            </div>
-            <p className="text-zinc-400 mb-4">
-              You need admin privileges to access this page.
-            </p>
-            <Link href="/">
-              <Button variant="outline" data-testid="link-home">Return to Home</Button>
-            </Link>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return null;
   }
 
   const formatCurrency = (amount: number) => {
