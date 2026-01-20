@@ -3,6 +3,59 @@ import { motion } from "framer-motion";
 import { Instagram, Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
+const brandLogos = [
+  { 
+    name: "Mahindra", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Mahindra-logo.svg/200px-Mahindra-logo.svg.png",
+    fallback: "MAHINDRA"
+  },
+  { 
+    name: "Maruti Suzuki", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Maruti_Suzuki_Logo.svg/200px-Maruti_Suzuki_Logo.svg.png",
+    fallback: "MARUTI SUZUKI"
+  },
+  { 
+    name: "Toyota", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Toyota.svg/200px-Toyota.svg.png",
+    fallback: "TOYOTA"
+  },
+  { 
+    name: "Force Motors", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Force_Motors_logo.svg/200px-Force_Motors_logo.svg.png",
+    fallback: "FORCE"
+  },
+  { 
+    name: "Tata Motors", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Tata_logo.svg/200px-Tata_logo.svg.png",
+    fallback: "TATA"
+  },
+  { 
+    name: "Mercedes-Benz", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Mercedes-Logo.svg/200px-Mercedes-Logo.svg.png",
+    fallback: "MERCEDES"
+  },
+  { 
+    name: "BMW", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/200px-BMW.svg.png",
+    fallback: "BMW"
+  },
+  { 
+    name: "Audi", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Audi-Logo_2016.svg/200px-Audi-Logo_2016.svg.png",
+    fallback: "AUDI"
+  },
+  { 
+    name: "Land Rover", 
+    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/9/9b/Land_Rover_wordmark_logo.svg/200px-Land_Rover_wordmark_logo.svg.png",
+    fallback: "LAND ROVER"
+  },
+  { 
+    name: "Jeep", 
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Jeep_logo.svg/200px-Jeep_logo.svg.png",
+    fallback: "JEEP"
+  },
+];
+
 interface VideoItem {
   id: string;
   title: string;
@@ -183,6 +236,56 @@ export function SocialProof() {
           <p className="text-zinc-500 text-lg max-w-2xl mx-auto">
             Join thousands of off-road enthusiasts who upgraded their night driving experience.
           </p>
+        </motion.div>
+
+        {/* Trusted by owners - Brand logos */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mb-16"
+        >
+          <p className="text-xs uppercase tracking-[0.3em] text-zinc-600 text-center mb-10">
+            Trusted by owners of
+          </p>
+          
+          <div className="relative">
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-[#080808] to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-[#080808] to-transparent z-10 pointer-events-none" />
+            
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 py-6">
+              {brandLogos.map((brand, index) => (
+                <motion.div
+                  key={brand.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.08, duration: 0.5 }}
+                  whileHover={{ scale: 1.1 }}
+                  className="group cursor-pointer"
+                >
+                  <div className="h-10 md:h-14 flex items-center justify-center px-3 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300">
+                    <img
+                      src={brand.logo}
+                      alt={brand.name}
+                      className="h-full w-auto object-contain max-w-[100px] md:max-w-[130px] invert"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                          const textEl = document.createElement('span');
+                          textEl.className = 'text-sm md:text-base font-bold tracking-wider text-zinc-500';
+                          textEl.textContent = brand.fallback;
+                          parent.appendChild(textEl);
+                        }
+                      }}
+                    />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
         </motion.div>
 
         <motion.div
