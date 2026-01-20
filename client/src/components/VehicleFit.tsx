@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -28,6 +29,7 @@ const vehicleData = {
 };
 
 export function VehicleFit() {
+  const [, setLocation] = useLocation();
   const [selectedMake, setSelectedMake] = useState<string>("");
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [showResults, setShowResults] = useState(false);
@@ -210,6 +212,7 @@ export function VehicleFit() {
                 <Button
                   className="flex-1 h-12 bg-primary text-primary-foreground glow-red"
                   data-testid="view-upgrades"
+                  onClick={() => setLocation("/products")}
                 >
                   View Upgrades
                   <ArrowRight className="w-4 h-4 ml-2" />
