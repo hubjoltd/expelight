@@ -186,6 +186,7 @@ export function registerAuthRoutes(app: Express) {
             email: foundUser!.email,
             firstName: foundUser!.firstName,
             lastName: foundUser!.lastName,
+            role: foundUser!.role,
           });
         });
       });
