@@ -1,68 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Instagram, Star, CheckCircle2, Play } from "lucide-react";
+import { Instagram, Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-
-interface CustomerPhoto {
-  id: string;
-  imageUrl?: string;
-  username: string;
-  vehicle: string;
-  brand: string;
-  brandLogo: string;
-  rating: number;
-}
-
-const customerPhotos: CustomerPhoto[] = [
-  { 
-    id: "1", 
-    username: "@thar_adventures", 
-    vehicle: "Mahindra Thar", 
-    brand: "Mahindra",
-    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Mahindra-logo.svg/200px-Mahindra-logo.svg.png",
-    rating: 5 
-  },
-  { 
-    id: "2", 
-    username: "@scorpio_trails", 
-    vehicle: "Scorpio-N",
-    brand: "Mahindra", 
-    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Mahindra-logo.svg/200px-Mahindra-logo.svg.png",
-    rating: 5 
-  },
-  { 
-    id: "3", 
-    username: "@jimny_india", 
-    vehicle: "Maruti Jimny",
-    brand: "Maruti Suzuki", 
-    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Maruti_Suzuki_Logo.svg/200px-Maruti_Suzuki_Logo.svg.png",
-    rating: 5 
-  },
-  { 
-    id: "4", 
-    username: "@hilux_offroad", 
-    vehicle: "Toyota Hilux",
-    brand: "Toyota", 
-    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Toyota.svg/200px-Toyota.svg.png",
-    rating: 5 
-  },
-  { 
-    id: "5", 
-    username: "@gurkha_explorer", 
-    vehicle: "Force Gurkha",
-    brand: "Force", 
-    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Force_Motors_logo.svg/200px-Force_Motors_logo.svg.png",
-    rating: 5 
-  },
-  { 
-    id: "6", 
-    username: "@xuv_rider", 
-    vehicle: "Mahindra XUV700",
-    brand: "Mahindra", 
-    brandLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Mahindra-logo.svg/200px-Mahindra-logo.svg.png",
-    rating: 5 
-  },
-];
 
 interface VideoItem {
   id: string;
@@ -252,7 +191,7 @@ export function SocialProof() {
           viewport={{ once: true }}
           className="mb-20"
         >
-          <div className="flex items-center justify-between mb-8">
+          <div id="video-gallery" className="flex items-center justify-between mb-8 scroll-mt-24">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-zinc-600 mb-2">
                 Featured Content
@@ -281,88 +220,6 @@ export function SocialProof() {
             ))}
           </div>
         </motion.div>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          {customerPhotos.map((photo, index) => (
-            <motion.div
-              key={photo.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              whileHover={{ scale: 1.02, y: -5 }}
-              className={`relative group cursor-pointer ${
-                index === 0 || index === 5 ? "md:row-span-2" : ""
-              }`}
-            >
-              <div
-                className={`relative bg-[#0a0a0a] border border-zinc-800/30 rounded-xl overflow-hidden ${
-                  index === 0 || index === 5 ? "aspect-[3/4]" : "aspect-square"
-                }`}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/20 via-[#0a0a0a] to-zinc-800/10 flex items-center justify-center">
-                  <motion.div
-                    className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center"
-                    animate={{
-                      boxShadow: [
-                        "0 0 0 rgba(255,255,255,0)",
-                        "0 0 30px rgba(255,255,255,0.1)",
-                        "0 0 0 rgba(255,255,255,0)",
-                      ],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      delay: index * 0.3,
-                    }}
-                  >
-                    <div className="w-12 h-12 rounded-full bg-white/10" />
-                  </motion.div>
-                </div>
-
-                <motion.div
-                  className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4"
-                  initial={false}
-                >
-                  <div className="flex gap-1 mb-2">
-                    {[...Array(photo.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-white fill-white" />
-                    ))}
-                  </div>
-                  <p className="text-sm font-medium text-white mb-1">{photo.vehicle}</p>
-                  <p className="text-xs text-zinc-400">{photo.username}</p>
-                </motion.div>
-
-                <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                  <div className="bg-white/10 backdrop-blur-sm rounded-lg px-2 py-1.5 flex items-center gap-2">
-                    <img
-                      src={photo.brandLogo}
-                      alt={photo.brand}
-                      className="h-4 w-auto object-contain"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                      }}
-                    />
-                    <span className="text-xs text-white/80 font-medium hidden sm:inline">{photo.brand}</span>
-                  </div>
-
-                  <Badge
-                    className="bg-emerald-500/20 text-emerald-400 border-emerald-500/30"
-                  >
-                    <CheckCircle2 className="w-3 h-3 mr-1" />
-                    Verified
-                  </Badge>
-                </div>
-
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                  <p className="text-sm font-medium text-white">{photo.vehicle}</p>
-                  <p className="text-xs text-zinc-400">{photo.username}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
 
         <motion.div
           initial={{ opacity: 0 }}

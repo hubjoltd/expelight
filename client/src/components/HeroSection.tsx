@@ -98,6 +98,9 @@ export function HeroSection() {
               variant="ghost"
               size="lg"
               className="text-white/80 hover:text-white px-8 py-6 text-base group backdrop-blur-sm"
+              onClick={() => {
+                document.getElementById("video-gallery")?.scrollIntoView({ behavior: "smooth" });
+              }}
               data-testid="cta-watch"
             >
               <div className="w-12 h-12 rounded-full border-2 border-white/40 flex items-center justify-center mr-3 group-hover:border-white/70 group-hover:bg-white/10 transition-all">
