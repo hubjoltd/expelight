@@ -33,10 +33,12 @@ export default function Products() {
   
   const seriesFromUrl = searchParams.get("series");
   const categoryFromUrl = searchParams.get("category");
+  const searchFromUrl = searchParams.get("search");
   const pageFromUrl = parseInt(searchParams.get("page") || "1");
   
   const [selectedSeries, setSelectedSeries] = useState<string>(seriesFromUrl || "all");
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryFromUrl || "all");
+  const [searchText, setSearchText] = useState<string>(searchFromUrl || "");
   const [sortBy, setSortBy] = useState<string>("newest");
   const [currentPage, setCurrentPage] = useState(pageFromUrl);
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
@@ -64,13 +66,16 @@ export default function Products() {
   useEffect(() => {
     if (seriesFromUrl) setSelectedSeries(seriesFromUrl);
     if (categoryFromUrl) setSelectedCategory(categoryFromUrl);
+    if (searchFromUrl) setSearchText(searchFromUrl);
     if (pageFromUrl) setCurrentPage(pageFromUrl);
-  }, [seriesFromUrl, categoryFromUrl, pageFromUrl]);
+  }, [seriesFromUrl, categoryFromUrl, searchFromUrl, pageFromUrl]);
 
-  const updateUrl = (newSeries: string, newCategory: string, newPage: number) => {
+  const updateUrl = (newSeries: string, newCategory: string, newPage: number, newSearch?: string) => {
     const params = new URLSearchParams();
     if (newSeries !== "all") params.set("series", newSeries);
     if (newCategory !== "all") params.set("category", newCategory);
+    const effectiveSearch = newSearch !== undefined ? newSearch : searchText;
+    if (effectiveSearch) params.set("search", effectiveSearch);
     if (newPage > 1) params.set("page", String(newPage));
     const newUrl = params.toString() ? `/products?${params}` : "/products";
     setLocation(newUrl);
@@ -97,7 +102,18 @@ export default function Products() {
       }
     }
     
-    return matchesSeries && matchesCategory;
+    // Filter by search text (name, SKU, or description)
+    let matchesSearch = !searchText;
+    if (searchText) {
+      const query = searchText.toLowerCase();
+      matchesSearch = (
+        product.name.toLowerCase().includes(query) ||
+        product.sku?.toLowerCase().includes(query) ||
+        product.shortDescription?.toLowerCase().includes(query)
+      );
+    }
+    
+    return matchesSeries && matchesCategory && matchesSearch;
   });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -143,11 +159,12 @@ export default function Products() {
   const clearFilters = () => {
     setSelectedSeries("all");
     setSelectedCategory("all");
+    setSearchText("");
     setCurrentPage(1);
-    updateUrl("all", "all", 1);
+    setLocation("/products");
   };
 
-  const hasActiveFilters = selectedSeries !== "all" || selectedCategory !== "all";
+  const hasActiveFilters = selectedSeries !== "all" || selectedCategory !== "all" || !!searchText;
 
   const getSeriesColor = (series: string) => {
     switch (series.toLowerCase()) {
@@ -248,6 +265,22 @@ export default function Products() {
                   <SelectItem value="name-za">Name: Z to A</SelectItem>
                 </SelectContent>
               </Select>
+
+              {searchText && (
+                <Badge variant="secondary" className="gap-1 text-xs">
+                  Search: "{searchText}"
+                  <button 
+                    onClick={() => {
+                      setSearchText("");
+                      setCurrentPage(1);
+                      updateUrl(selectedSeries, selectedCategory, 1, "");
+                    }}
+                    className="ml-1 hover:text-white"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </Badge>
+              )}
 
               {hasActiveFilters && (
                 <Button

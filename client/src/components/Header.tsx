@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ShoppingBag, User, LogOut, Shield, ChevronDown, ChevronRight, Grid3X3 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Menu, X, ShoppingBag, User, LogOut, Shield, ChevronDown, ChevronRight, Grid3X3, Search } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import { useCart } from "@/hooks/use-cart";
 import {
@@ -25,7 +26,11 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [expandedMobileCategory, setExpandedMobileCategory] = useState<string | null>(null);
-  const [location] = useLocation();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+  const [location, setLocation] = useLocation();
   const { user, isLoading: authLoading, isAuthenticated, logout } = useAuth();
   const { cartCount } = useCart();
 
@@ -51,6 +56,36 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSearchResults(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const filteredProducts = products.filter((product) => {
+    if (!searchQuery.trim()) return false;
+    const query = searchQuery.toLowerCase();
+    return (
+      product.name.toLowerCase().includes(query) ||
+      product.sku?.toLowerCase().includes(query) ||
+      product.shortDescription?.toLowerCase().includes(query)
+    );
+  }).slice(0, 6);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      setLocation(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      setShowSearchResults(false);
+      setSearchQuery("");
+      setIsSearchOpen(false);
+    }
+  };
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -255,6 +290,91 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
+            <div className="relative hidden md:block" ref={searchRef}>
+              <form onSubmit={handleSearch} className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                <Input
+                  type="text"
+                  placeholder="Search by name or SKU..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setShowSearchResults(e.target.value.length > 0);
+                  }}
+                  onFocus={() => searchQuery && setShowSearchResults(true)}
+                  className="w-48 lg:w-64 pl-9 h-9 bg-zinc-900 border-zinc-800 text-sm placeholder:text-zinc-500 focus:border-zinc-700"
+                  data-testid="input-search"
+                />
+              </form>
+              
+              {showSearchResults && filteredProducts.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl overflow-hidden z-50">
+                  {filteredProducts.map((product) => (
+                    <Link
+                      key={product.id}
+                      href={`/product/${product.slug}`}
+                      className="flex items-center gap-3 p-3 hover:bg-zinc-800 transition-colors"
+                      onClick={() => {
+                        setShowSearchResults(false);
+                        setSearchQuery("");
+                      }}
+                      data-testid={`search-result-${product.id}`}
+                    >
+                      <div className="w-10 h-10 bg-zinc-800 rounded overflow-hidden flex-shrink-0">
+                        {product.images?.[0] ? (
+                          <img 
+                            src={product.images[0]} 
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <div className="w-4 h-4 rounded-full bg-primary/20" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-white truncate">{product.name}</p>
+                        {product.sku && (
+                          <p className="text-xs text-zinc-500">SKU: {product.sku}</p>
+                        )}
+                      </div>
+                      <p className="text-sm text-primary font-medium">
+                        {"\u20B9"}{(product.price / 100).toLocaleString()}
+                      </p>
+                    </Link>
+                  ))}
+                  <Link
+                    href={`/products?search=${encodeURIComponent(searchQuery)}`}
+                    className="block p-3 text-center text-sm text-primary hover:bg-zinc-800 border-t border-zinc-800"
+                    onClick={() => {
+                      setShowSearchResults(false);
+                      setSearchQuery("");
+                    }}
+                    data-testid="search-view-all"
+                  >
+                    View all results
+                  </Link>
+                </div>
+              )}
+              
+              {showSearchResults && searchQuery && filteredProducts.length === 0 && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-zinc-900 border border-zinc-800 rounded-lg shadow-xl p-4 text-center z-50">
+                  <p className="text-sm text-zinc-400">No products found</p>
+                </div>
+              )}
+            </div>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden text-zinc-400 hover:text-white"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              data-testid="mobile-search-toggle"
+            >
+              <Search className="h-5 w-5" />
+            </Button>
+
             <Link href="/cart">
               <Button
                 variant="ghost"
@@ -347,6 +467,54 @@ export function Header() {
           </div>
         </div>
       </div>
+
+      {isSearchOpen && (
+        <div className="md:hidden bg-[#050505]/98 backdrop-blur-lg border-t border-zinc-800/30 p-4">
+          <form onSubmit={handleSearch} className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+            <Input
+              type="text"
+              placeholder="Search by name or SKU..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-9 bg-zinc-900 border-zinc-800 text-sm placeholder:text-zinc-500"
+              data-testid="input-mobile-search"
+              autoFocus
+            />
+          </form>
+          {searchQuery && filteredProducts.length > 0 && (
+            <div className="mt-2 bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden">
+              {filteredProducts.map((product) => (
+                <Link
+                  key={product.id}
+                  href={`/product/${product.slug}`}
+                  className="flex items-center gap-3 p-3 hover:bg-zinc-800 transition-colors"
+                  onClick={() => {
+                    setSearchQuery("");
+                    setIsSearchOpen(false);
+                  }}
+                >
+                  <div className="w-8 h-8 bg-zinc-800 rounded overflow-hidden flex-shrink-0">
+                    {product.images?.[0] && (
+                      <img 
+                        src={product.images[0]} 
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-white truncate">{product.name}</p>
+                    {product.sku && (
+                      <p className="text-xs text-zinc-500">SKU: {product.sku}</p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {isMobileMenuOpen && (
         <div

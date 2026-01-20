@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { Link, useLocation } from "wouter";
-import { useEffect } from "react";
+import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Package, ShoppingCart, FolderTree, IndianRupee, ArrowRight, AlertCircle, Download } from "lucide-react";
+import { Package, ShoppingCart, FolderTree, IndianRupee, ArrowRight, Download } from "lucide-react";
+import { AdminLayout } from "@/components/AdminLayout";
 
 interface AdminStats {
   totalProducts: number;
@@ -14,39 +14,14 @@ interface AdminStats {
   totalRevenue: number;
 }
 
-export default function AdminDashboard() {
-  const [, setLocation] = useLocation();
-  
-  const { data: adminCheck, isLoading: checkLoading, error: checkError } = useQuery<{ isAdmin: boolean; role: string }>({
-    queryKey: ["/api/admin/check"],
-  });
-
+function AdminDashboardContent() {
   const { data: stats, isLoading } = useQuery<AdminStats>({
     queryKey: ["/api/admin/stats"],
-    enabled: adminCheck?.isAdmin === true,
   });
-
-  useEffect(() => {
-    if (!checkLoading && (!adminCheck || !adminCheck.isAdmin || checkError)) {
-      setLocation("/admin/login");
-    }
-  }, [adminCheck, checkLoading, checkError, setLocation]);
-
-  if (checkLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-pulse text-zinc-400">Checking authorization...</div>
-      </div>
-    );
-  }
-
-  if (!adminCheck?.isAdmin) {
-    return null;
-  }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="flex items-center justify-center h-64">
         <div className="animate-pulse text-zinc-400">Loading dashboard...</div>
       </div>
     );
@@ -197,5 +172,13 @@ export default function AdminDashboard() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AdminDashboard() {
+  return (
+    <AdminLayout>
+      <AdminDashboardContent />
+    </AdminLayout>
   );
 }
