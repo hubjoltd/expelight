@@ -7,8 +7,11 @@ import {
   type ProductVariant, type InsertProductVariant,
   type ProductMedia, type InsertProductMedia,
   type Invoice, type InsertInvoice,
-  type ProductCategory, type InsertProductCategory
+  type ProductCategory, type InsertProductCategory,
+  products
 } from "@shared/schema";
+import { db } from "./db";
+import { eq, and, sql } from "drizzle-orm";
 
 type InsertUser = UpsertUser;
 import { randomUUID } from "crypto";
@@ -587,26 +590,32 @@ export class MemStorage implements IStorage {
     return this.categories.delete(id);
   }
 
-  // Product methods
+  // Product methods - now uses database
   async getProducts(): Promise<Product[]> {
-    return Array.from(this.products.values());
+    const dbProducts = await db.select().from(products).where(eq(products.isActive, true));
+    return dbProducts;
   }
 
   async getActiveProducts(): Promise<Product[]> {
-    return Array.from(this.products.values()).filter(p => p.isActive !== false);
+    return db.select().from(products).where(eq(products.isActive, true));
   }
 
   async getProductById(id: string): Promise<Product | undefined> {
-    return this.products.get(id);
+    const [product] = await db.select().from(products).where(eq(products.id, id));
+    return product;
   }
 
   async getProductBySlug(slug: string): Promise<Product | undefined> {
-    return Array.from(this.products.values()).find(p => p.slug === slug);
+    const [product] = await db.select().from(products).where(eq(products.slug, slug));
+    return product;
   }
 
   async getProductsBySeries(series: string): Promise<Product[]> {
-    return Array.from(this.products.values()).filter(
-      p => p.series.toLowerCase() === series.toLowerCase()
+    return db.select().from(products).where(
+      and(
+        eq(products.isActive, true),
+        sql`LOWER(${products.series}) = LOWER(${series})`
+      )
     );
   }
 

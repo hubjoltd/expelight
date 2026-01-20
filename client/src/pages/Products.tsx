@@ -17,8 +17,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Link } from "wouter";
-import { Star, ArrowRight, Filter, Shield, Truck, Zap, ChevronRight } from "lucide-react";
-import type { Product } from "@shared/schema";
+import { Star, ArrowRight, Filter, Shield, Truck, Zap, ChevronRight, Grid, List } from "lucide-react";
+import type { Product, Category } from "@shared/schema";
 
 export default function Products() {
   const searchString = useSearch();
@@ -191,14 +191,14 @@ export default function Products() {
                   <motion.div
                     key={product.id}
                     layout
-                    initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ 
-                      duration: 0.4, 
-                      delay: index * 0.08,
+                      duration: 0.3, 
+                      delay: Math.min(index * 0.03, 0.5),
                       type: "spring",
-                      stiffness: 100
+                      stiffness: 200
                     }}
                     onMouseEnter={() => setHoveredProduct(product.id)}
                     onMouseLeave={() => setHoveredProduct(null)}

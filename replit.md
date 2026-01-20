@@ -193,5 +193,22 @@ The application runs on port 5000 with both frontend and backend.
 - POST /api/admin/orders/:id/generate-invoice - Generate invoice PDF
 - POST /api/admin/invoices/:id/send-whatsapp - Send invoice via WhatsApp
 - GET /api/admin/advlust/products - Fetch products from Advlust.com
-- POST /api/admin/advlust/import - Import product from Advlust
+- POST /api/admin/advlust/import - Import single product from Advlust
+- POST /api/admin/advlust/import-all - Bulk import all products from Advlust
 - GET /api/admin/whatsapp/status - Check WhatsApp configuration
+
+### Advlust.com Product Import (Jan 2026)
+- **Bulk Import**: All 104 products from advlust.com automatically imported
+- **Categories Created**: 17 auto-generated categories based on product names:
+  - SS5 LED Pods, SS5 CrossLink Light Bars
+  - SS3 LED Pods, SSC1 LED Pods, SSC2 LED Pods
+  - Stage Series Light Bars, Rock Lights
+  - Pod Covers, Fog Light Mounting Kits, Ditch Light Kits
+  - Wiring Harnesses, Mounting Brackets
+  - Bezels & Gaskets, Controllers & Switches
+  - Vehicle-Specific Kits, LED Headlights, Sidemarkers
+  - Reverse Light Kits, Other Accessories
+- **Product Data**: Names, descriptions, images, variants, and pricing (converted to INR at 85x)
+- **Series Assignment**: SS5 products -> Max, SS3 products -> Pro, others -> Sport
+- **Database Storage**: Products now fetched from PostgreSQL database instead of in-memory
+- **Import Script**: server/importAdvlust.ts handles bulk import with deduplication

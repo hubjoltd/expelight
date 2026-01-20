@@ -891,6 +891,18 @@ export async function registerRoutes(
     }
   });
 
+  // Bulk import all products from Advlust
+  app.post("/api/admin/advlust/import-all", isAdmin, async (req: Request, res) => {
+    try {
+      const { importAllAdvlustProducts } = await import("./importAdvlust");
+      const result = await importAllAdvlustProducts();
+      res.json({ success: true, ...result });
+    } catch (error) {
+      console.error("Bulk import error:", error);
+      res.status(500).json({ error: "Failed to bulk import products" });
+    }
+  });
+
   // Sync/update an existing product from Advlust
   app.post("/api/admin/advlust/sync/:productId", isAdmin, async (req: Request, res) => {
     try {
