@@ -657,7 +657,9 @@ export async function registerRoutes(
       });
     } catch (error) {
       console.error("Invoice generation error:", error);
-      res.status(500).json({ error: "Failed to generate invoice" });
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      console.error("Invoice error details:", errorMessage);
+      res.status(500).json({ error: "Failed to generate invoice", details: errorMessage });
     }
   });
 

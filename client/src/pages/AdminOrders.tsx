@@ -75,8 +75,12 @@ export default function AdminOrders() {
         window.open(data.pdfUrl, "_blank");
       }
     },
-    onError: () => {
-      toast({ title: "Failed to generate invoice", variant: "destructive" });
+    onError: (error: Error) => {
+      toast({ 
+        title: "Failed to generate invoice", 
+        description: error.message,
+        variant: "destructive" 
+      });
     },
   });
 
