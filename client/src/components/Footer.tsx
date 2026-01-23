@@ -17,7 +17,7 @@ export function Footer() {
               <img 
                 src={expelightLogoDesktop} 
                 alt="Expelight" 
-                className="h-12 w-auto"
+                className="h-16 w-auto"
               />
             </Link>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
@@ -81,10 +81,9 @@ export function Footer() {
             <h4 className="font-semibold mb-6 text-sm uppercase tracking-wider">Support</h4>
             <ul className="space-y-4">
               {[
-                { label: "FAQs", href: "/faq" },
+                { label: "FAQs", href: "/science#faq" },
                 { label: "Shipping & Returns", href: "/shipping" },
                 { label: "Track Order", href: "/track" },
-                { label: "Contact Us", href: "/contact" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
@@ -94,6 +93,29 @@ export function Footer() {
                   >
                     {link.label}
                   </Link>
+                </li>
+              ))}
+            </ul>
+
+            <h4 className="font-semibold mb-4 mt-8 text-sm uppercase tracking-wider">Policies</h4>
+            <ul className="space-y-3">
+              {[
+                { label: "Returns & Warranty", href: "https://advlust.com/pages/return-warranty" },
+                { label: "Shipping & Delivery", href: "https://advlust.com/pages/shipping-delivery-policy" },
+                { label: "Cancellation Policy", href: "https://advlust.com/pages/cancellation-policy" },
+                { label: "Pre Order Policy", href: "https://advlust.com/pages/pre-order-policy" },
+                { label: "Grievance Redressal", href: "https://advlust.com/pages/grievance-redressal-policy" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    data-testid={`footer-link-${link.label.toLowerCase().replace(/\s+/g, "-")}`}
+                  >
+                    {link.label}
+                  </a>
                 </li>
               ))}
             </ul>
