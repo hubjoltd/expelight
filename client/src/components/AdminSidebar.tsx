@@ -20,7 +20,8 @@ import {
   ShoppingCart, 
   Download, 
   LogOut,
-  Home
+  Home,
+  FileText
 } from "lucide-react";
 import expelightLogo from "@assets/Expelight_logo_1768914036683.png";
 
@@ -44,6 +45,11 @@ const menuItems = [
     title: "Orders",
     url: "/admin/orders",
     icon: ShoppingCart,
+  },
+  {
+    title: "Blog",
+    url: "/admin/blog",
+    icon: FileText,
   },
   {
     title: "Advlust Import",

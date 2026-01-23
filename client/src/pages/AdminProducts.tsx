@@ -116,39 +116,64 @@ export default function AdminProducts() {
     }).format(amount);
   };
 
-  const ProductForm = ({ product, onSubmit, onCancel }: { 
+  const ProductForm = ({ product, onSubmit, onCancel, fullProduct }: { 
     product?: Product | null; 
-    onSubmit: (data: Partial<Product>) => void;
+    fullProduct?: any;
+    onSubmit: (data: any) => void;
     onCancel: () => void;
   }) => {
     const [formData, setFormData] = useState({
-      name: product?.name || "",
-      slug: product?.slug || "",
-      sku: product?.sku || "",
-      series: product?.series || "Sport",
-      price: product?.price || 0,
-      originalPrice: product?.originalPrice || 0,
-      isActive: product?.isActive !== false,
-      isPopular: product?.isPopular || false,
-      tagline: "",
-      shortDescription: "",
-      fullDescription: "",
+      name: fullProduct?.name || product?.name || "",
+      slug: fullProduct?.slug || product?.slug || "",
+      sku: fullProduct?.sku || product?.sku || "",
+      series: fullProduct?.series || product?.series || "Sport",
+      price: fullProduct?.price || product?.price || 0,
+      originalPrice: fullProduct?.originalPrice || product?.originalPrice || 0,
+      isActive: fullProduct?.isActive !== false && product?.isActive !== false,
+      isPopular: fullProduct?.isPopular || product?.isPopular || false,
+      tagline: fullProduct?.tagline || "",
+      shortDescription: fullProduct?.shortDescription || "",
+      fullDescription: fullProduct?.fullDescription || "",
+      beamPatterns: fullProduct?.beamPatterns?.join(", ") || "",
+      colors: fullProduct?.colors?.join(", ") || "",
+      features: fullProduct?.features?.join("\n") || "",
+      specs: fullProduct?.specs?.join("\n") || "",
+      whatsInBox: fullProduct?.whatsInBox?.join("\n") || "",
+      warrantyYears: fullProduct?.warrantyYears || 8,
+      images: fullProduct?.images?.join("\n") || "",
+      compatibleVehicles: fullProduct?.compatibleVehicles?.join(", ") || "",
     });
 
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       onSubmit({
-        ...formData,
-        slug: formData.slug || formData.name.toLowerCase().replace(/\s+/g, "-"),
+        name: formData.name,
+        slug: formData.slug || formData.name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+        sku: formData.sku || null,
+        series: formData.series,
+        price: formData.price,
         originalPrice: formData.originalPrice || null,
+        isActive: formData.isActive,
+        isPopular: formData.isPopular,
+        tagline: formData.tagline || formData.name,
+        shortDescription: formData.shortDescription || formData.tagline || formData.name,
+        fullDescription: formData.fullDescription || formData.shortDescription || "",
+        beamPatterns: formData.beamPatterns ? formData.beamPatterns.split(",").map(s => s.trim()).filter(Boolean) : ["Spot"],
+        colors: formData.colors ? formData.colors.split(",").map(s => s.trim()).filter(Boolean) : ["White"],
+        features: formData.features ? formData.features.split("\n").map(s => s.trim()).filter(Boolean) : [],
+        specs: formData.specs ? formData.specs.split("\n").map(s => s.trim()).filter(Boolean) : [],
+        whatsInBox: formData.whatsInBox ? formData.whatsInBox.split("\n").map(s => s.trim()).filter(Boolean) : [],
+        warrantyYears: formData.warrantyYears,
+        images: formData.images ? formData.images.split("\n").map(s => s.trim()).filter(Boolean) : [],
+        compatibleVehicles: formData.compatibleVehicles ? formData.compatibleVehicles.split(",").map(s => s.trim()).filter(Boolean) : [],
       });
     };
 
     return (
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="name">Product Name</Label>
+            <Label htmlFor="name">Product Name *</Label>
             <Input
               id="name"
               value={formData.name}
@@ -158,19 +183,31 @@ export default function AdminProducts() {
             />
           </div>
           <div>
-            <Label htmlFor="sku">SKU</Label>
+            <Label htmlFor="sku">SKU / Part Number</Label>
             <Input
               id="sku"
               value={formData.sku}
               onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
+              placeholder="e.g., DD5014S"
               data-testid="input-product-sku"
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="slug">URL Slug</Label>
+          <Input
+            id="slug"
+            value={formData.slug}
+            onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+            placeholder="auto-generated-from-name"
+            data-testid="input-product-slug"
+          />
+        </div>
+
+        <div className="grid grid-cols-3 gap-4">
           <div>
-            <Label htmlFor="price">Price (INR)</Label>
+            <Label htmlFor="price">Price (INR) *</Label>
             <Input
               id="price"
               type="number"
@@ -181,7 +218,7 @@ export default function AdminProducts() {
             />
           </div>
           <div>
-            <Label htmlFor="originalPrice">Original Price (optional)</Label>
+            <Label htmlFor="originalPrice">Original Price</Label>
             <Input
               id="originalPrice"
               type="number"
@@ -190,44 +227,170 @@ export default function AdminProducts() {
               data-testid="input-product-original-price"
             />
           </div>
+          <div>
+            <Label htmlFor="warrantyYears">Warranty (Years)</Label>
+            <Input
+              id="warrantyYears"
+              type="number"
+              value={formData.warrantyYears}
+              onChange={(e) => setFormData({ ...formData, warrantyYears: parseInt(e.target.value) || 8 })}
+              data-testid="input-product-warranty"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="series">Series *</Label>
+            <Select value={formData.series} onValueChange={(v) => setFormData({ ...formData, series: v })}>
+              <SelectTrigger data-testid="select-product-series">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Sport">Sport</SelectItem>
+                <SelectItem value="Pro">Pro</SelectItem>
+                <SelectItem value="Max">Max</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-end gap-6 pb-2">
+            <div className="flex items-center gap-2">
+              <Switch
+                id="isActive"
+                checked={formData.isActive}
+                onCheckedChange={(c) => setFormData({ ...formData, isActive: c })}
+                data-testid="switch-product-active"
+              />
+              <Label htmlFor="isActive">Active</Label>
+            </div>
+            <div className="flex items-center gap-2">
+              <Switch
+                id="isPopular"
+                checked={formData.isPopular}
+                onCheckedChange={(c) => setFormData({ ...formData, isPopular: c })}
+                data-testid="switch-product-popular"
+              />
+              <Label htmlFor="isPopular">Popular</Label>
+            </div>
+          </div>
         </div>
 
         <div>
-          <Label htmlFor="series">Series</Label>
-          <Select value={formData.series} onValueChange={(v) => setFormData({ ...formData, series: v })}>
-            <SelectTrigger data-testid="select-product-series">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Sport">Sport</SelectItem>
-              <SelectItem value="Pro">Pro</SelectItem>
-              <SelectItem value="Max">Max</SelectItem>
-            </SelectContent>
-          </Select>
+          <Label htmlFor="tagline">Tagline</Label>
+          <Input
+            id="tagline"
+            value={formData.tagline}
+            onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
+            placeholder="Premium LED lighting for your vehicle"
+            data-testid="input-product-tagline"
+          />
         </div>
 
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <Switch
-              id="isActive"
-              checked={formData.isActive}
-              onCheckedChange={(c) => setFormData({ ...formData, isActive: c })}
-              data-testid="switch-product-active"
+        <div>
+          <Label htmlFor="shortDescription">Short Description</Label>
+          <Textarea
+            id="shortDescription"
+            value={formData.shortDescription}
+            onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
+            rows={2}
+            data-testid="input-product-short-desc"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="fullDescription">Full Description</Label>
+          <Textarea
+            id="fullDescription"
+            value={formData.fullDescription}
+            onChange={(e) => setFormData({ ...formData, fullDescription: e.target.value })}
+            rows={4}
+            data-testid="input-product-full-desc"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="beamPatterns">Beam Patterns (comma separated)</Label>
+            <Input
+              id="beamPatterns"
+              value={formData.beamPatterns}
+              onChange={(e) => setFormData({ ...formData, beamPatterns: e.target.value })}
+              placeholder="Spot, Flood, Driving"
+              data-testid="input-product-beam"
             />
-            <Label htmlFor="isActive">Active</Label>
           </div>
-          <div className="flex items-center gap-2">
-            <Switch
-              id="isPopular"
-              checked={formData.isPopular}
-              onCheckedChange={(c) => setFormData({ ...formData, isPopular: c })}
-              data-testid="switch-product-popular"
+          <div>
+            <Label htmlFor="colors">Colors (comma separated)</Label>
+            <Input
+              id="colors"
+              value={formData.colors}
+              onChange={(e) => setFormData({ ...formData, colors: e.target.value })}
+              placeholder="White, Yellow, Amber"
+              data-testid="input-product-colors"
             />
-            <Label htmlFor="isPopular">Popular</Label>
           </div>
         </div>
 
-        <div className="flex justify-end gap-3 pt-4">
+        <div>
+          <Label htmlFor="features">Features (one per line)</Label>
+          <Textarea
+            id="features"
+            value={formData.features}
+            onChange={(e) => setFormData({ ...formData, features: e.target.value })}
+            rows={3}
+            placeholder="IP68 Rated&#10;Made in USA&#10;SAE/DOT Compliant"
+            data-testid="input-product-features"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="specs">Specifications (one per line)</Label>
+          <Textarea
+            id="specs"
+            value={formData.specs}
+            onChange={(e) => setFormData({ ...formData, specs: e.target.value })}
+            rows={3}
+            placeholder="Power: 20W&#10;Voltage: 9-16V DC"
+            data-testid="input-product-specs"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="whatsInBox">What's In Box (one per line)</Label>
+          <Textarea
+            id="whatsInBox"
+            value={formData.whatsInBox}
+            onChange={(e) => setFormData({ ...formData, whatsInBox: e.target.value })}
+            rows={3}
+            placeholder="LED Pod(s)&#10;Mounting Hardware&#10;Wiring"
+            data-testid="input-product-box"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="images">Image URLs (one per line)</Label>
+          <Textarea
+            id="images"
+            value={formData.images}
+            onChange={(e) => setFormData({ ...formData, images: e.target.value })}
+            rows={3}
+            placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
+            data-testid="input-product-images"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="compatibleVehicles">Compatible Vehicles (comma separated)</Label>
+          <Input
+            id="compatibleVehicles"
+            value={formData.compatibleVehicles}
+            onChange={(e) => setFormData({ ...formData, compatibleVehicles: e.target.value })}
+            placeholder="Mahindra Thar, Scorpio-N, Maruti Jimny"
+            data-testid="input-product-vehicles"
+          />
+        </div>
+
+        <div className="flex justify-end gap-3 pt-4 sticky bottom-0 bg-background py-4 border-t">
           <Button type="button" variant="outline" onClick={onCancel} data-testid="button-cancel">
             Cancel
           </Button>
@@ -259,7 +422,7 @@ export default function AdminProducts() {
                 Add Product
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl">
+            <DialogContent className="max-w-3xl max-h-[90vh]">
               <DialogHeader>
                 <DialogTitle>Create New Product</DialogTitle>
               </DialogHeader>
@@ -326,7 +489,7 @@ export default function AdminProducts() {
                             <Pencil className="w-4 h-4" />
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="max-w-2xl">
+                        <DialogContent className="max-w-3xl max-h-[90vh]">
                           <DialogHeader>
                             <DialogTitle>Edit Product</DialogTitle>
                           </DialogHeader>

@@ -23,7 +23,9 @@ import AdminProducts from "@/pages/AdminProducts";
 import AdminCategories from "@/pages/AdminCategories";
 import AdminOrders from "@/pages/AdminOrders";
 import AdminAdvlust from "@/pages/AdminAdvlust";
+import AdminBlog from "@/pages/AdminBlog";
 import Category from "@/pages/Category";
+import Blog from "@/pages/Blog";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -50,6 +52,8 @@ function Router() {
       <Route path="/admin/categories" component={AdminCategories} />
       <Route path="/admin/orders" component={AdminOrders} />
       <Route path="/admin/advlust" component={AdminAdvlust} />
+      <Route path="/admin/blog" component={AdminBlog} />
+      <Route path="/blog/:slug?" component={Blog} />
       <Route component={NotFound} />
     </Switch>
   );

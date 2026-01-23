@@ -61,6 +61,7 @@ export function Footer() {
                 { label: "Fit Your Vehicle", href: "/vehicle-fit" },
                 { label: "Installation Guides", href: "/guides" },
                 { label: "Warranty Claims", href: "/warranty" },
+                { label: "Blog", href: "/blog" },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
