@@ -23,7 +23,7 @@ import {
   Home,
   FileText
 } from "lucide-react";
-import expelightLogo from "@assets/Expelight_logo_1768914036683.png";
+import expelightLogo from "@assets/10241024_1769145107961.png";
 
 const menuItems = [
   {

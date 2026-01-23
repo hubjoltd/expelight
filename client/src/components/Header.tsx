@@ -14,7 +14,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import expelightLogo from "@assets/Expelight_logo_1768914036683.png";
+import expelightLogoDesktop from "@assets/10241024_1769145107961.png";
+import expelightLogoMobile from "@assets/300400_1769145108048.png";
 import type { Category, Product } from "@shared/schema";
 
 interface CategoryWithChildren extends Category {
@@ -123,9 +124,14 @@ export function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           <Link href="/" className="flex items-center" data-testid="logo-link">
             <img 
-              src={expelightLogo} 
+              src={expelightLogoMobile} 
               alt="Expelight" 
-              className="h-14 md:h-20 w-auto"
+              className="h-10 w-auto md:hidden"
+            />
+            <img 
+              src={expelightLogoDesktop} 
+              alt="Expelight" 
+              className="hidden md:block h-12 w-auto"
             />
           </Link>
 
