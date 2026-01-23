@@ -101,6 +101,7 @@ export function Footer() {
             <ul className="space-y-3">
               {[
                 { label: "Terms & Conditions", href: "/policies/terms-conditions" },
+                { label: "Privacy Policy", href: "/policies/privacy-policy" },
                 { label: "Returns & Warranty", href: "/policies/returns-warranty" },
                 { label: "Shipping & Delivery", href: "/policies/shipping-delivery" },
                 { label: "Cancellation Policy", href: "/policies/cancellation" },
@@ -165,10 +166,10 @@ export function Footer() {
             © 2025 Expelight. All rights reserved. Official India Partner for Diode Dynamics USA.
           </p>
           <div className="flex gap-8">
-            <Link href="/privacy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="/policies/privacy-policy" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+            <Link href="/policies/terms-conditions" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
               Terms of Service
             </Link>
           </div>

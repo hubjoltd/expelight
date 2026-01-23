@@ -32,6 +32,7 @@ import CancellationPolicy from "@/pages/policies/CancellationPolicy";
 import PreOrderPolicy from "@/pages/policies/PreOrderPolicy";
 import GrievanceRedressal from "@/pages/policies/GrievanceRedressal";
 import TermsConditions from "@/pages/policies/TermsConditions";
+import PrivacyPolicy from "@/pages/policies/PrivacyPolicy";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -66,6 +67,7 @@ function Router() {
       <Route path="/policies/pre-order" component={PreOrderPolicy} />
       <Route path="/policies/grievance-redressal" component={GrievanceRedressal} />
       <Route path="/policies/terms-conditions" component={TermsConditions} />
+      <Route path="/policies/privacy-policy" component={PrivacyPolicy} />
       <Route component={NotFound} />
     </Switch>
   );
