@@ -100,8 +100,6 @@ export function Footer() {
             <h4 className="font-semibold mb-4 mt-8 text-sm uppercase tracking-wider">Policies</h4>
             <ul className="space-y-3">
               {[
-                { label: "Terms & Conditions", href: "/policies/terms-conditions" },
-                { label: "Privacy Policy", href: "/policies/privacy-policy" },
                 { label: "Returns & Warranty", href: "/policies/returns-warranty" },
                 { label: "Shipping & Delivery", href: "/policies/shipping-delivery" },
                 { label: "Cancellation Policy", href: "/policies/cancellation" },
