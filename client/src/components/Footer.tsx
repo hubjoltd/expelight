@@ -100,22 +100,20 @@ export function Footer() {
             <h4 className="font-semibold mb-4 mt-8 text-sm uppercase tracking-wider">Policies</h4>
             <ul className="space-y-3">
               {[
-                { label: "Returns & Warranty", href: "https://advlust.com/pages/return-warranty" },
-                { label: "Shipping & Delivery", href: "https://advlust.com/pages/shipping-delivery-policy" },
-                { label: "Cancellation Policy", href: "https://advlust.com/pages/cancellation-policy" },
-                { label: "Pre Order Policy", href: "https://advlust.com/pages/pre-order-policy" },
-                { label: "Grievance Redressal", href: "https://advlust.com/pages/grievance-redressal-policy" },
+                { label: "Returns & Warranty", href: "/policies/returns-warranty" },
+                { label: "Shipping & Delivery", href: "/policies/shipping-delivery" },
+                { label: "Cancellation Policy", href: "/policies/cancellation" },
+                { label: "Pre Order Policy", href: "/policies/pre-order" },
+                { label: "Grievance Redressal", href: "/policies/grievance-redressal" },
               ].map((link) => (
                 <li key={link.href}>
-                  <a
+                  <Link
                     href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                     data-testid={`footer-link-${link.label.toLowerCase().replace(/\s+/g, "-")}`}
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

@@ -26,6 +26,11 @@ import AdminAdvlust from "@/pages/AdminAdvlust";
 import AdminBlog from "@/pages/AdminBlog";
 import Category from "@/pages/Category";
 import Blog from "@/pages/Blog";
+import ReturnsWarranty from "@/pages/policies/ReturnsWarranty";
+import ShippingDelivery from "@/pages/policies/ShippingDelivery";
+import CancellationPolicy from "@/pages/policies/CancellationPolicy";
+import PreOrderPolicy from "@/pages/policies/PreOrderPolicy";
+import GrievanceRedressal from "@/pages/policies/GrievanceRedressal";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -54,6 +59,11 @@ function Router() {
       <Route path="/admin/advlust" component={AdminAdvlust} />
       <Route path="/admin/blog" component={AdminBlog} />
       <Route path="/blog/:slug?" component={Blog} />
+      <Route path="/policies/returns-warranty" component={ReturnsWarranty} />
+      <Route path="/policies/shipping-delivery" component={ShippingDelivery} />
+      <Route path="/policies/cancellation" component={CancellationPolicy} />
+      <Route path="/policies/pre-order" component={PreOrderPolicy} />
+      <Route path="/policies/grievance-redressal" component={GrievanceRedressal} />
       <Route component={NotFound} />
     </Switch>
   );
