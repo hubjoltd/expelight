@@ -1,14 +1,18 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { PolicyHeader } from "@/components/PolicyHeader";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function GrievanceRedressal() {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-background pt-24 pb-16">
-        <div className="max-w-4xl mx-auto px-4 md:px-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-8">Grievance Redressal Policy</h1>
+      <PolicyHeader 
+        title="Grievance Redressal Policy" 
+        breadcrumbs={[{ label: "Policies" }, { label: "Grievance Redressal" }]} 
+      />
+      <div className="min-h-screen bg-background pb-16">
+        <div className="max-w-4xl mx-auto px-4 md:px-8 pt-12">
           
           <div className="prose prose-invert max-w-none space-y-8">
             <p className="text-zinc-300 leading-relaxed">
