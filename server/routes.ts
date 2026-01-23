@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, registerAuthRoutes, isAuthenticated, isAdmin } from "./auth";
 import { db } from "./db";
-import { cartItems, orders, categories, products, productVariants, productMedia, invoices, productCategories } from "@shared/schema";
+import { cartItems, orders, categories, products, productVariants, productMedia, invoices, productCategories, blogPosts } from "@shared/schema";
 import { eq, and, desc, isNull } from "drizzle-orm";
 
 export async function registerRoutes(
@@ -979,6 +979,87 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Sync error:", error);
       res.status(500).json({ error: "Failed to sync product" });
+    }
+  });
+
+  // Blog routes - public
+  app.get("/api/blog", async (_req: Request, res) => {
+    const posts = await db.select().from(blogPosts)
+      .where(eq(blogPosts.isPublished, true))
+      .orderBy(desc(blogPosts.publishedAt));
+    res.json(posts);
+  });
+
+  app.get("/api/blog/:slug", async (req: Request, res) => {
+    const [post] = await db.select().from(blogPosts)
+      .where(eq(blogPosts.slug, req.params.slug));
+    if (!post) return res.status(404).json({ error: "Post not found" });
+    res.json(post);
+  });
+
+  // Blog admin routes
+  app.get("/api/admin/blog", isAdmin, async (_req: Request, res) => {
+    const posts = await db.select().from(blogPosts).orderBy(desc(blogPosts.createdAt));
+    res.json(posts);
+  });
+
+  app.post("/api/admin/blog", isAdmin, async (req: Request, res) => {
+    try {
+      const { title, slug, excerpt, content, featuredImage, author, category, tags, isPublished } = req.body;
+      const [post] = await db.insert(blogPosts).values({
+        title,
+        slug: slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+        excerpt,
+        content,
+        featuredImage,
+        author: author || "Expelight Team",
+        category,
+        tags: tags || [],
+        isPublished: isPublished || false,
+        publishedAt: isPublished ? new Date() : null,
+      }).returning();
+      res.json(post);
+    } catch (error) {
+      console.error("Blog create error:", error);
+      res.status(500).json({ error: "Failed to create blog post" });
+    }
+  });
+
+  app.patch("/api/admin/blog/:id", isAdmin, async (req: Request, res) => {
+    try {
+      const { title, slug, excerpt, content, featuredImage, author, category, tags, isPublished } = req.body;
+      const updateData: any = { updatedAt: new Date() };
+      if (title !== undefined) updateData.title = title;
+      if (slug !== undefined) updateData.slug = slug;
+      if (excerpt !== undefined) updateData.excerpt = excerpt;
+      if (content !== undefined) updateData.content = content;
+      if (featuredImage !== undefined) updateData.featuredImage = featuredImage;
+      if (author !== undefined) updateData.author = author;
+      if (category !== undefined) updateData.category = category;
+      if (tags !== undefined) updateData.tags = tags;
+      if (isPublished !== undefined) {
+        updateData.isPublished = isPublished;
+        if (isPublished) updateData.publishedAt = new Date();
+      }
+      
+      const [post] = await db.update(blogPosts)
+        .set(updateData)
+        .where(eq(blogPosts.id, req.params.id))
+        .returning();
+      res.json(post);
+    } catch (error) {
+      console.error("Blog update error:", error);
+      res.status(500).json({ error: "Failed to update blog post" });
+    }
+  });
+
+  app.delete("/api/admin/blog/:id", isAdmin, async (req: Request, res) => {
+    try {
+      await db.delete(blogPosts).where(eq(blogPosts.id, req.params.id));
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Blog delete error:", error);
+      res.status(500).json({ error: "Failed to delete blog post" });
     }
   });
 
