@@ -308,28 +308,63 @@ export default function AdminProducts() {
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="beamPatterns">Beam Patterns (comma separated)</Label>
-            <Input
-              id="beamPatterns"
-              value={formData.beamPatterns}
-              onChange={(e) => setFormData({ ...formData, beamPatterns: e.target.value })}
-              placeholder="Spot, Flood, Driving"
-              data-testid="input-product-beam"
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="beamPatterns">Beam Patterns (comma separated)</Label>
+              <Input
+                id="beamPatterns"
+                value={formData.beamPatterns}
+                onChange={(e) => setFormData({ ...formData, beamPatterns: e.target.value })}
+                placeholder="Spot, Flood, Driving"
+                data-testid="input-product-beam"
+              />
+            </div>
+            <div>
+              <Label htmlFor="colors">Colors (comma separated)</Label>
+              <Input
+                id="colors"
+                value={formData.colors}
+                onChange={(e) => setFormData({ ...formData, colors: e.target.value })}
+                placeholder="White, Yellow, Amber"
+                data-testid="input-product-colors"
+              />
+            </div>
           </div>
-          <div>
-            <Label htmlFor="colors">Colors (comma separated)</Label>
-            <Input
-              id="colors"
-              value={formData.colors}
-              onChange={(e) => setFormData({ ...formData, colors: e.target.value })}
-              placeholder="White, Yellow, Amber"
-              data-testid="input-product-colors"
-            />
+
+          <div className="p-4 border border-zinc-800 rounded-lg bg-zinc-900/50">
+            <h3 className="text-sm font-semibold text-white mb-4">Product Variants (Price Management)</h3>
+            <p className="text-xs text-zinc-400 mb-4">Set prices for specific beam pattern and color combinations.</p>
+            <div className="space-y-4">
+              {formData.beamPatterns.split(",").map(b => b.trim()).filter(Boolean).map(beam => (
+                formData.colors.split(",").map(c => c.trim()).filter(Boolean).map(color => {
+                  const variantKey = `${beam}-${color}`;
+                  return (
+                    <div key={variantKey} className="grid grid-cols-3 gap-4 items-end p-3 border border-zinc-800 rounded-md bg-zinc-900">
+                      <div className="text-sm font-medium text-zinc-300">
+                        {beam} / {color}
+                      </div>
+                      <div>
+                        <Label className="text-[10px] text-zinc-500">Price (INR)</Label>
+                        <Input 
+                          type="number" 
+                          placeholder={formData.price.toString()}
+                          className="h-8 text-xs"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-[10px] text-zinc-500">Orig. Price</Label>
+                        <Input 
+                          type="number" 
+                          placeholder={formData.originalPrice?.toString()}
+                          className="h-8 text-xs"
+                        />
+                      </div>
+                    </div>
+                  );
+                })
+              ))}
+            </div>
           </div>
-        </div>
 
         <div>
           <Label htmlFor="features">Features (one per line)</Label>

@@ -59,6 +59,7 @@ export function Footer() {
                 { label: "All Products", href: "/products" },
                 { label: "Science of Light", href: "/science" },
                 { label: "Fit Your Vehicle", href: "/vehicle-fit" },
+                { label: "Contact Us", href: "/contact" },
                 { label: "Installation Guides", href: "/guides" },
                 { label: "Warranty Claims", href: "/warranty" },
                 { label: "Blog", href: "/blog" },

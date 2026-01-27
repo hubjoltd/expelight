@@ -26,6 +26,7 @@ import AdminAdvlust from "@/pages/AdminAdvlust";
 import AdminBlog from "@/pages/AdminBlog";
 import Category from "@/pages/Category";
 import Blog from "@/pages/Blog";
+import Contact from "@/pages/Contact";
 import ReturnsWarranty from "@/pages/policies/ReturnsWarranty";
 import ShippingDelivery from "@/pages/policies/ShippingDelivery";
 import CancellationPolicy from "@/pages/policies/CancellationPolicy";
@@ -61,6 +62,7 @@ function Router() {
       <Route path="/admin/advlust" component={AdminAdvlust} />
       <Route path="/admin/blog" component={AdminBlog} />
       <Route path="/blog/:slug?" component={Blog} />
+      <Route path="/contact" component={Contact} />
       <Route path="/policies/returns-warranty" component={ReturnsWarranty} />
       <Route path="/policies/shipping-delivery" component={ShippingDelivery} />
       <Route path="/policies/cancellation" component={CancellationPolicy} />

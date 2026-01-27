@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
 import type { Product } from "@shared/schema";
 
 interface ProductPageProps {
@@ -31,6 +32,15 @@ export function ProductPage({ product }: ProductPageProps) {
   const [showVideo, setShowVideo] = useState(false);
   const { addToCart } = useCart();
   const { toast } = useToast();
+
+  const { data: variants = [] } = useQuery<any[]>({
+    queryKey: ["/api/products", product.id, "variants"],
+    enabled: !!product.id,
+  });
+
+  const selectedVariant = variants.find(v => 
+    v.beamPattern === selectedBeamPattern && v.color === selectedColor
+  );
 
   const handleAddToCart = async () => {
     setIsAdding(true);
@@ -211,11 +221,11 @@ export function ProductPage({ product }: ProductPageProps) {
 
             <div className="flex items-baseline gap-3" data-testid="product-price">
               <span className="text-4xl font-bold text-white">
-                ₹{product.price.toLocaleString("en-IN")}
+                ₹{(selectedVariant?.price || product.price).toLocaleString("en-IN")}
               </span>
-              {product.originalPrice && (
+              {(selectedVariant?.compareAtPrice || product.originalPrice) && (
                 <span className="text-xl text-zinc-500 line-through">
-                  ₹{product.originalPrice.toLocaleString("en-IN")}
+                  ₹{(selectedVariant?.compareAtPrice || product.originalPrice || 0).toLocaleString("en-IN")}
                 </span>
               )}
             </div>

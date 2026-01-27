@@ -126,12 +126,12 @@ export function Header() {
             <img 
               src={expelightLogoMobile} 
               alt="Expelight" 
-              className="h-[100px] w-auto md:hidden"
+              className="h-[120px] w-auto md:hidden"
             />
             <img 
               src={expelightLogoDesktop} 
               alt="Expelight" 
-              className="hidden md:block h-24 w-auto"
+              className="hidden md:block h-32 w-auto"
             />
           </Link>
 
