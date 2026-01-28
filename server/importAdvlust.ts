@@ -335,10 +335,14 @@ export async function importAllAdvlustProducts() {
       const beamPattern = variant.option1 || null;
       const color = variant.option2 || variant.option3 || null;
       
+      const uniqueSku = variant.sku 
+        ? `${variant.sku}-${advProduct.id}-${variant.id}`
+        : `DD-${advProduct.id}-${variant.id}`;
+      
       await db.insert(productVariants).values({
         productId: newProduct.id,
         name: variant.title !== "Default Title" ? variant.title : advProduct.title,
-        sku: variant.sku || `DD-${advProduct.id}-${variant.id}`,
+        sku: uniqueSku,
         price: variantPrice,
         compareAtPrice: variantComparePrice,
         beamPattern,
