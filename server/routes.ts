@@ -78,6 +78,17 @@ export async function registerRoutes(
     }
   });
 
+  // Get product variants (public)
+  app.get("/api/products/:id/variants", async (req, res) => {
+    try {
+      const variants = await db.select().from(productVariants)
+        .where(eq(productVariants.productId, req.params.id));
+      res.json(variants);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch variants" });
+    }
+  });
+
   // Vehicles API
   app.get("/api/vehicles", async (req, res) => {
     try {
