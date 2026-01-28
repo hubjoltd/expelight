@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SiInstagram, SiYoutube, SiFacebook } from "react-icons/si";
 import { Mail, MapPin, Phone, ArrowRight } from "lucide-react";
-import expelightLogoDesktop from "@assets/10241024_1769145107961.png";
+import expelightLogo from "@assets/Copy_of_Expelight_logo_1769590561985.png";
 
 export function Footer() {
   return (
@@ -15,9 +15,9 @@ export function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center mb-6" data-testid="footer-logo">
               <img 
-                src={expelightLogoDesktop} 
+                src={expelightLogo} 
                 alt="Expelight" 
-                className="h-32 w-auto"
+                className="h-16 md:h-20 w-auto"
               />
             </Link>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
