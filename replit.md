@@ -81,5 +81,21 @@ I prefer iterative development with clear communication on progress. Before maki
   - Technical specifications table
   - Installation guide with step-by-step instructions
   - Q&A section for common questions
+  - Similar Products section showing up to 4 related products from same series
+  - Watch Video button with embedded YouTube player
+  - Conditional variant display (only shows selectors when multiple options exist)
+- **Pre-Order Functionality (Jan 2026)**:
+  - Added `isPreOrder` and `preOrderMessage` fields to products schema
+  - Amber "Pre-Order" badge on product pages for pre-order items
+  - Pre-order delivery notice: "6-8 weeks delivery. In-stock items ship together with pre-order items."
+  - Dynamic shipping text shows "6-8 Weeks Delivery" for pre-order items
+- **Category Hierarchy Updates (Jan 2026)**:
+  - Added Stage Series LED Light Bars and SS5 CrossLink LED Light Bars subcategories
+  - Added Backlight subcategory under Accessories
+  - Fixed category slug mappings for better product organization
+- **Video URLs (Jan 2026)**: 87 products now have YouTube video URLs:
+  - SS5 products: ducfZoq5Lj4
+  - SS3 products: Yo33t3Y3Qf4
+  - Stage Series products: 17IDSk05rqw
 - **Google Domain Verification**: Added google9b70b42b655e5d1d.html for domain verification
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"
