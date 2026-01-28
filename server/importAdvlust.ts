@@ -354,14 +354,21 @@ export async function importAllAdvlustProducts() {
       const beamPattern = variant.option1 || null;
       const color = variant.option2 || variant.option3 || null;
       
-      const uniqueSku = variant.sku 
-        ? `${variant.sku}-${advProduct.id}-${variant.id}`
-        : `DD-${advProduct.id}-${variant.id}`;
+      const baseSku = variant.sku || `DD-${advProduct.id}`;
+      
+      const existingVariant = await db.select({ id: productVariants.id })
+        .from(productVariants)
+        .where(eq(productVariants.sku, baseSku))
+        .limit(1);
+      
+      const finalSku = existingVariant.length > 0 
+        ? `${baseSku}-${variant.id}` 
+        : baseSku;
       
       await db.insert(productVariants).values({
         productId: newProduct.id,
         name: variant.title !== "Default Title" ? variant.title : advProduct.title,
-        sku: uniqueSku,
+        sku: finalSku,
         price: variantPrice,
         compareAtPrice: variantComparePrice,
         beamPattern,
