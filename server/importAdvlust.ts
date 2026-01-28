@@ -41,33 +41,49 @@ interface AdvlustProduct {
   options: AdvlustOption[];
 }
 
-const categoryMappings: Record<string, { slug: string, keywords: string[] }> = {
-  "SS5 LED Pods": { slug: "ss5-led-pods", keywords: ["SS5 LED Pod", "SS5 White", "SS5 Yellow", "SS5 Add-On", "SS5 Pro"] },
-  "SS5 CrossLink Light Bars": { slug: "ss5-crosslink-light-bars", keywords: ["SS5 CrossLink"] },
-  "SS3 LED Pods": { slug: "ss3-led-pods", keywords: ["SS3 LED Pod", "SS3 White", "SS3 Yellow", "SS3 Max", "SS3 Pro", "SS3 Sport"] },
-  "SSC1 LED Pods": { slug: "ssc1-led-pods", keywords: ["SSC1 LED Pod", "SSC1 White", "SSC1 Yellow", "SSC1"] },
-  "SSC2 LED Pods": { slug: "ssc2-led-pods", keywords: ["SSC2 LED Pod", "SSC2 White", "SSC2 Yellow", "SSC2"] },
-  "Stage Series Light Bars": { slug: "stage-series-light-bars", keywords: ["Light Bar", "Stage Series 6", "Stage Series 12", "Stage Series 18"] },
-  "Rock Lights": { slug: "rock-lights", keywords: ["Rock Light"] },
-  "Pod Covers": { slug: "pod-covers", keywords: ["LED Pod Cover", "Pod Cover"] },
-  "Fog Light Kits": { slug: "fog-light-kits", keywords: ["Fog Light Mounting", "Type SV", "Type GM", "Type CH", "Type B", "Type FBS"] },
-  "Ditch Light Kits": { slug: "ditch-light-kits", keywords: ["Ditch Light", "Ditch Bracket"] },
-  "Wiring Harnesses": { slug: "wiring-harnesses", keywords: ["Wiring Harness", "Harness", "Splitter", "Pigtail"] },
-  "Mounting Brackets": { slug: "mounting-brackets", keywords: ["Bracket", "Mount Kit", "Mounting Kit", "A-Pillar"] },
-  "Bezels & Gaskets": { slug: "bezels-gaskets", keywords: ["Bezel", "Gasket"] },
-  "Controllers & Switches": { slug: "controllers-switches", keywords: ["Controller", "Switch Panel", "D-Switch"] },
-  "Vehicle Brackets & Kits": { slug: "vehicle-brackets-kits", keywords: ["Jeep", "Ford F-150", "Colorado", "Canyon", "Sierra", "Mustang", "Wrangler", "Gladiator", "Bronco", "Ranger", "Tacoma", "4Runner", "Tundra"] },
-  "Replacement Lenses": { slug: "replacement-lenses", keywords: ["Replacement Lens", "Lens Kit"] },
-  "Reverse Light Kits": { slug: "reverse-light-kits", keywords: ["Reverse", "HitchMount", "Backup"] },
+const tagToCategorySlug: Record<string, string> = {
+  "SS5 LED Light Pods": "ss5-led-light-pods",
+  "SS5 LED Pods": "ss5-led-light-pods",
+  "SS5 LED Light Bars": "ss5-led-light-bars",
+  "SS3 LED Pods": "ss3-led-light-pods",
+  "SS3-Standard": "ss3-led-light-pods",
+  "SS3-Flush": "ss3-led-light-pods",
+  "SSC2 LED Pods": "ssc2-led-pods",
+  "SSC2-Standard": "ssc2-led-pods",
+  "SSC2-Flush": "ssc2-led-pods",
+  "SSC1 LED Pods": "ssc1-led-pods",
+  "SSC1-Standard": "ssc1-led-pods",
+  "SSC1-Flush": "ssc1-led-pods",
+  "Stage Series LED Light Bars": "stage-series-light-bars",
+  "Rock Lights": "rock-lights",
+  "Single-Color": "rock-lights",
+  "RGBW": "rgbw",
+  "Covers": "covers",
+  "No Backlight": "wiring-harnesses",
+  "Bezels": "bezels",
+  "Backlight": "backlight",
+  "Controllers": "controllers",
+  "D - Switch": "d-switch",
+  "Headlights": "headlights",
+  "LED Wiring and Installation": "led-wiring-installation",
+  "Replacement Brackets": "universal-kits",
+  "Roll Bar Mount Kit": "universal-kits",
+  "Flush Mount Reverse": "universal-kits",
+  "HitchMount": "hitch-mount",
+  "Ford": "ford",
+  "Jeep": "jeep",
+  "Chevrolet": "chevrolet",
+  "GMC": "gmc",
+  "Replacement Lenses": "replacement-lenses",
+  "Sidemarkers": "fog-lamps",
 };
 
-function getCategorySlugForProduct(title: string, productType: string): string {
-  for (const [category, config] of Object.entries(categoryMappings)) {
-    if (config.keywords.some(keyword => title.toLowerCase().includes(keyword.toLowerCase()))) {
-      return config.slug;
-    }
+function getCategorySlugFromTags(tags: string[]): string | null {
+  for (const tag of tags) {
+    const slug = tagToCategorySlug[tag];
+    if (slug) return slug;
   }
-  return "mounting-brackets";
+  return null;
 }
 
 function extractTextContent(html: string): string {
@@ -371,12 +387,11 @@ export async function importAllAdvlustProducts() {
       });
     }
     
-    const categorySlug = getCategorySlugForProduct(advProduct.title, advProduct.product_type);
-    const categoryId = categorySlugMap[categorySlug];
-    if (categoryId) {
+    const categorySlug = getCategorySlugFromTags(advProduct.tags);
+    if (categorySlug && categorySlugMap[categorySlug]) {
       await db.insert(productCategories).values({
         productId: newProduct.id,
-        categoryId,
+        categoryId: categorySlugMap[categorySlug],
       });
     }
     
