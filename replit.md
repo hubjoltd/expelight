@@ -87,8 +87,16 @@ I prefer iterative development with clear communication on progress. Before maki
 - **Pre-Order Functionality (Jan 2026)**:
   - Added `isPreOrder` and `preOrderMessage` fields to products schema
   - Amber "Pre-Order" badge on product pages for pre-order items
+  - **Amber "Pre-Order Now" button** (like advlust.com) with clock icon instead of shopping bag
+  - Button changes to "Pre-Ordering..." during add and "Pre-Order Placed!" on success
   - Pre-order delivery notice: "6-8 weeks delivery. In-stock items ship together with pre-order items."
   - Dynamic shipping text shows "6-8 Weeks Delivery" for pre-order items
+  - 18 SS5 products marked as pre-order items
+- **Vehicle & Price Filtering (Jan 2026)**:
+  - Vehicle Fit Finder "View Upgrades" now redirects to products page with vehicle filter applied
+  - Price range filter dropdown with ranges: Under ₹10k, ₹10k-25k, ₹25k-50k, ₹50k-1L, Above ₹1L
+  - Vehicle badge displays selected vehicle with clear option
+  - All filters support URL parameters for direct linking
 - **Category Hierarchy Updates (Jan 2026)**:
   - Added Stage Series LED Light Bars and SS5 CrossLink LED Light Bars subcategories
   - Added Backlight subcategory under Accessories

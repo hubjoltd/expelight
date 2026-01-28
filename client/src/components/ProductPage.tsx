@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/accordion";
 import { 
   ShoppingBag, Shield, Truck, Check, Minus, Plus, Loader2, CheckCircle, 
-  Play, FileText, Wrench, HelpCircle, Box, Star, ChevronRight
+  Play, FileText, Wrench, HelpCircle, Box, Star, ChevronRight, Clock
 } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
@@ -343,7 +343,11 @@ export function ProductPage({ product }: ProductPageProps) {
             <Button
               size="lg"
               className={`w-full text-base py-6 transition-all ${
-                justAdded ? "bg-emerald-600 hover:bg-emerald-600" : "bg-primary hover:bg-primary/90"
+                justAdded 
+                  ? "bg-emerald-600 hover:bg-emerald-600" 
+                  : product.isPreOrder 
+                    ? "bg-amber-500 hover:bg-amber-600 text-black font-semibold" 
+                    : "bg-primary hover:bg-primary/90"
               }`}
               onClick={handleAddToCart}
               disabled={isAdding}
@@ -352,12 +356,17 @@ export function ProductPage({ product }: ProductPageProps) {
               {isAdding ? (
                 <>
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  Adding...
+                  {product.isPreOrder ? "Pre-Ordering..." : "Adding..."}
                 </>
               ) : justAdded ? (
                 <>
                   <CheckCircle className="w-5 h-5 mr-2" />
-                  Added to Cart!
+                  {product.isPreOrder ? "Pre-Order Placed!" : "Added to Cart!"}
+                </>
+              ) : product.isPreOrder ? (
+                <>
+                  <Clock className="w-5 h-5 mr-2" />
+                  Pre-Order Now
                 </>
               ) : (
                 <>
