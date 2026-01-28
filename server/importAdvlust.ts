@@ -1,6 +1,6 @@
 import { db } from "./db";
 import { products, categories, productVariants, productMedia, productCategories } from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 interface AdvlustVariant {
   id: number;
@@ -95,82 +95,78 @@ function extractTextContent(html: string): string {
   return text;
 }
 
-function extractSection(html: string, sectionName: string): string[] {
+function extractListItems(html: string, sectionName: string): string[] {
   const results: string[] = [];
   const regex = new RegExp(`<h[23][^>]*>\\s*${sectionName}\\s*<\\/h[23]>([\\s\\S]*?)(?=<h[23]|$)`, 'gi');
-  const matches = html.match(regex);
-  if (matches) {
-    matches.forEach(match => {
-      const listItems = match.match(/<li[^>]*>([\s\S]*?)<\/li>/gi);
-      if (listItems) {
-        listItems.forEach(li => {
-          const text = extractTextContent(li).trim();
-          if (text && text.length > 2) {
-            results.push(text);
-          }
-        });
-      }
-    });
+  const match = regex.exec(html);
+  if (match) {
+    const listItems = match[1].match(/<li[^>]*>([\s\S]*?)<\/li>/gi);
+    if (listItems) {
+      listItems.forEach(li => {
+        const text = extractTextContent(li).trim();
+        if (text && text.length > 2) {
+          results.push(text);
+        }
+      });
+    }
   }
   return results;
 }
 
 function extractFeatures(html: string): string[] {
-  const features = extractSection(html, 'Features');
-  if (features.length > 0) return features;
+  const features = extractListItems(html, 'Features');
+  if (features.length > 0) return features.slice(0, 8);
   
   const defaultFeatures: string[] = [];
   const text = html.toLowerCase();
   if (text.includes('ip68') || text.includes('waterproof')) defaultFeatures.push("IP68 Waterproof Rating");
   if (text.includes('sae') || text.includes('dot')) defaultFeatures.push("SAE/DOT Compliant");
   if (text.includes('tir') || text.includes('optic')) defaultFeatures.push("Advanced TIR Optics");
-  if (text.includes('made in usa') || text.includes('assembled in usa')) defaultFeatures.push("Made in USA");
+  if (text.includes('made in usa') || text.includes('assembled in usa')) defaultFeatures.push("Assembled in USA");
   if (text.includes('aluminum')) defaultFeatures.push("Durable Aluminum Construction");
   if (text.includes('warranty')) defaultFeatures.push("Industry-Leading Warranty");
   
   return defaultFeatures.length > 0 ? defaultFeatures : ["Premium Quality", "High Efficiency LED", "Easy Installation"];
 }
 
-function extractSpecs(html: string): string[] {
-  const specs = extractSection(html, 'Specifications');
-  if (specs.length > 0) return specs;
+function extractSpecs(html: string, options: AdvlustOption[], variants: AdvlustVariant[]): string[] {
+  const specs: string[] = [];
   
-  const specSection = extractSection(html, 'Specs');
-  if (specSection.length > 0) return specSection;
+  options.forEach(opt => {
+    if (opt.values.length > 0) {
+      specs.push(`${opt.name}: ${opt.values.join(', ')}`);
+    }
+  });
   
   const text = extractTextContent(html);
-  const extractedSpecs: string[] = [];
-  
   const powerMatch = text.match(/(\d+)\s*(?:watts?|W)\b/i);
-  if (powerMatch) extractedSpecs.push(`Power: ${powerMatch[1]}W`);
-  
-  const voltageMatch = text.match(/(\d+(?:-\d+)?)\s*V\s*DC/i);
-  if (voltageMatch) extractedSpecs.push(`Voltage: ${voltageMatch[1]}V DC`);
+  if (powerMatch) specs.push(`Power: ${powerMatch[1]}W`);
   
   const ipMatch = text.match(/IP\d+/i);
-  if (ipMatch) extractedSpecs.push(`Rating: ${ipMatch[0]}`);
+  if (ipMatch) specs.push(`Rating: ${ipMatch[0]}`);
   
   const lumensMatch = text.match(/(\d+,?\d*)\s*lumens?/i);
-  if (lumensMatch) extractedSpecs.push(`Output: ${lumensMatch[1]} Lumens`);
+  if (lumensMatch) specs.push(`Output: ${lumensMatch[1]} Lumens`);
   
-  return extractedSpecs.length > 0 ? extractedSpecs : ["Premium LED Technology"];
+  return specs.length > 0 ? specs : ["Premium LED Technology"];
 }
 
-function extractInstallation(html: string): string[] {
-  const installation = extractSection(html, 'Installation');
-  if (installation.length > 0) return installation;
+function extractWhatsInBox(html: string): string[] {
+  const items = extractListItems(html, 'In the Box');
+  if (items.length > 0) return items.slice(0, 10);
   
-  const whatsIncluded = extractSection(html, "What's Included");
-  if (whatsIncluded.length > 0) return whatsIncluded;
+  const included = extractListItems(html, "What's Included");
+  if (included.length > 0) return included.slice(0, 10);
   
-  return ["Mounting Hardware Included", "Complete Installation Guide", "Plug & Play Wiring"];
+  return ["Mounting Hardware Included", "Installation Guide", "Wiring Connector"];
 }
 
-function createSlug(title: string): string {
-  return title.toLowerCase()
+function createSlug(title: string, handle: string): string {
+  const base = title.toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/-+/g, '-')
     .replace(/^-|-$/g, '');
+  return base + '-' + handle;
 }
 
 function getSeriesFromTitle(title: string): string {
@@ -185,16 +181,23 @@ function getBeamPatternsFromOptions(options: AdvlustOption[], variants: AdvlustV
   const patterns = new Set<string>();
   
   options.forEach(opt => {
-    if (opt.name.toLowerCase().includes('pattern') || opt.name.toLowerCase().includes('beam')) {
+    const optName = opt.name.toLowerCase();
+    if (optName.includes('optic') || optName.includes('pattern') || optName.includes('beam')) {
       opt.values.forEach(v => patterns.add(v));
     }
   });
   
   if (patterns.size === 0) {
+    variants.forEach(v => {
+      if (v.option1) patterns.add(v.option1);
+    });
+  }
+  
+  if (patterns.size === 0) {
     const beamKeywords = ["Driving", "Fog", "Flood", "Spot", "Combo", "Wide"];
     variants.forEach(v => {
       beamKeywords.forEach(kw => {
-        if (v.title.includes(kw) || v.option1?.includes(kw) || v.option2?.includes(kw)) {
+        if (v.title.includes(kw)) {
           patterns.add(kw);
         }
       });
@@ -208,16 +211,26 @@ function getColorsFromOptions(options: AdvlustOption[], variants: AdvlustVariant
   const colors = new Set<string>();
   
   options.forEach(opt => {
-    if (opt.name.toLowerCase().includes('color') || opt.name.toLowerCase().includes('temp')) {
+    const optName = opt.name.toLowerCase();
+    if (optName.includes('color') && !optName.includes('optic')) {
       opt.values.forEach(v => colors.add(v));
     }
   });
   
   if (colors.size === 0) {
+    options.forEach(opt => {
+      const optName = opt.name.toLowerCase();
+      if (optName.includes('power') || optName.includes('level') || optName.includes('watt')) {
+        opt.values.forEach(v => colors.add(v));
+      }
+    });
+  }
+  
+  if (colors.size === 0) {
     const colorKeywords = ["White", "Yellow", "Amber", "Red", "Blue"];
     variants.forEach(v => {
       colorKeywords.forEach(kw => {
-        if (v.title.includes(kw) || v.option1?.includes(kw) || v.option2?.includes(kw)) {
+        if (v.title.includes(kw) || v.option2?.includes(kw)) {
           colors.add(kw);
         }
       });
@@ -228,7 +241,7 @@ function getColorsFromOptions(options: AdvlustOption[], variants: AdvlustVariant
 }
 
 export async function importAllAdvlustProducts() {
-  console.log("Starting full Advlust import with complete details...");
+  console.log("Starting full Advlust import with complete variant details...");
   
   const response = await fetch("https://advlust.com/products.json?limit=250");
   const data = await response.json();
@@ -243,7 +256,7 @@ export async function importAllAdvlustProducts() {
   const categoryIdMap: Record<string, string> = {};
   
   for (const name of categoryNames) {
-    const slug = createSlug(name);
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
     const existing = await db.select().from(categories).where(eq(categories.slug, slug));
     if (existing.length > 0) {
       categoryIdMap[name] = existing[0].id;
@@ -278,13 +291,13 @@ export async function importAllAdvlustProducts() {
       : Math.round(basePrice * 1.2);
     
     const series = getSeriesFromTitle(advProduct.title);
-    const slug = createSlug(advProduct.title) + '-' + advProduct.handle;
+    const slug = createSlug(advProduct.title, advProduct.handle);
     
     const fullDescription = extractTextContent(advProduct.body_html);
-    const shortDescription = fullDescription.substring(0, 250).trim();
+    const shortDescription = fullDescription.substring(0, 300).trim();
     const features = extractFeatures(advProduct.body_html);
-    const specs = extractSpecs(advProduct.body_html);
-    const whatsInBox = extractInstallation(advProduct.body_html);
+    const specs = extractSpecs(advProduct.body_html, advProduct.options || [], advProduct.variants);
+    const whatsInBox = extractWhatsInBox(advProduct.body_html);
     const beamPatterns = getBeamPatternsFromOptions(advProduct.options || [], advProduct.variants);
     const colors = getColorsFromOptions(advProduct.options || [], advProduct.variants);
     const images = advProduct.images.map(img => img.src);
@@ -319,29 +332,13 @@ export async function importAllAdvlustProducts() {
         ? Math.round(parseFloat(variant.compare_at_price)) 
         : null;
       
-      let beamPattern: string | null = null;
-      let color: string | null = null;
+      const beamPattern = variant.option1 || null;
+      const color = variant.option2 || variant.option3 || null;
       
-      const beamKeywords = ["Driving", "Fog", "Flood", "Spot", "Combo", "Wide"];
-      const colorKeywords = ["White", "Yellow", "Amber", "Red", "Blue"];
-      
-      beamKeywords.forEach(kw => {
-        if (variant.title.includes(kw) || variant.option1?.includes(kw) || variant.option2?.includes(kw)) {
-          beamPattern = kw;
-        }
-      });
-      
-      colorKeywords.forEach(kw => {
-        if (variant.title.includes(kw) || variant.option1?.includes(kw) || variant.option2?.includes(kw)) {
-          color = kw;
-        }
-      });
-      
-      const uniqueSku = `${variant.sku || 'DD'}-${advProduct.id}-${variant.id}`;
       await db.insert(productVariants).values({
         productId: newProduct.id,
         name: variant.title !== "Default Title" ? variant.title : advProduct.title,
-        sku: uniqueSku,
+        sku: variant.sku || `DD-${advProduct.id}-${variant.id}`,
         price: variantPrice,
         compareAtPrice: variantComparePrice,
         beamPattern,
@@ -374,9 +371,29 @@ export async function importAllAdvlustProducts() {
     }
     
     imported++;
-    console.log(`Imported: ${advProduct.title}`);
+    console.log(`Imported: ${advProduct.title} (${advProduct.variants.length} variants)`);
   }
   
   console.log(`\nImport complete! Imported: ${imported}, Skipped: ${skipped}`);
   return { imported, skipped, total: advlustProducts.length };
+}
+
+export async function reimportAllProducts() {
+  console.log("Deleting existing imported products...");
+  
+  const importedProducts = await db.select({ id: products.id })
+    .from(products)
+    .where(sql`advlust_product_id IS NOT NULL`);
+  
+  console.log(`Found ${importedProducts.length} products to delete`);
+  
+  for (const p of importedProducts) {
+    await db.delete(productVariants).where(eq(productVariants.productId, p.id));
+    await db.delete(productMedia).where(eq(productMedia.productId, p.id));
+    await db.delete(productCategories).where(eq(productCategories.productId, p.id));
+    await db.delete(products).where(eq(products.id, p.id));
+  }
+  
+  console.log("Deleted. Now re-importing...");
+  return await importAllAdvlustProducts();
 }
