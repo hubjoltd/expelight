@@ -576,14 +576,30 @@ export function Header() {
                         View All {parent.name}
                       </Link>
                       {parent.children.map((child) => (
-                        <Link
-                          key={child.id}
-                          href={`/category/${child.slug}`}
-                          className="block px-4 py-2 text-xs text-zinc-500 hover:text-white"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          {child.name}
-                        </Link>
+                        <div key={child.id}>
+                          <Link
+                            href={`/category/${child.slug}`}
+                            className="flex items-center gap-1 px-4 py-2 text-xs text-zinc-300 hover:text-white font-medium"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            <ChevronRight className="w-3 h-3" />
+                            {child.name}
+                          </Link>
+                          {child.children && child.children.length > 0 && (
+                            <div className="ml-4">
+                              {child.children.map((subChild) => (
+                                <Link
+                                  key={subChild.id}
+                                  href={`/category/${subChild.slug}`}
+                                  className="block px-4 py-1.5 text-xs text-zinc-500 hover:text-white"
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                  {subChild.name}
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       ))}
                     </div>
                   )}
