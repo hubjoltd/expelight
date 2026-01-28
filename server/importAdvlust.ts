@@ -255,10 +255,10 @@ export async function importAllAdvlustProducts() {
     
     const baseVariant = advProduct.variants[0];
     const basePrice = baseVariant 
-      ? Math.round(parseFloat(baseVariant.price) * 85)
+      ? Math.round(parseFloat(baseVariant.price))
       : 15000;
     const comparePrice = baseVariant?.compare_at_price 
-      ? Math.round(parseFloat(baseVariant.compare_at_price) * 85)
+      ? Math.round(parseFloat(baseVariant.compare_at_price))
       : Math.round(basePrice * 1.2);
     
     const series = getSeriesFromTitle(advProduct.title);
@@ -295,9 +295,9 @@ export async function importAllAdvlustProducts() {
     }).returning();
     
     for (const variant of advProduct.variants) {
-      const variantPrice = Math.round(parseFloat(variant.price) * 85);
+      const variantPrice = Math.round(parseFloat(variant.price));
       const variantComparePrice = variant.compare_at_price 
-        ? Math.round(parseFloat(variant.compare_at_price) * 85) 
+        ? Math.round(parseFloat(variant.compare_at_price)) 
         : null;
       
       let beamPattern: string | null = null;

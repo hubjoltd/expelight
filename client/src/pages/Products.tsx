@@ -370,7 +370,7 @@ export default function Products() {
 
                             {product.originalPrice && product.originalPrice > product.price && (
                               <Badge className="absolute top-3 right-3 bg-primary text-white border-none">
-                                Save ₹{((product.originalPrice - product.price) / 100).toLocaleString()}
+                                Save ₹{(product.originalPrice - product.price).toLocaleString("en-IN")}
                               </Badge>
                             )}
 
@@ -385,11 +385,11 @@ export default function Products() {
                             </h3>
                             <div className="flex items-baseline gap-2">
                               <span className="text-lg font-bold text-white">
-                                ₹{(product.price / 100).toLocaleString()}
+                                ₹{product.price.toLocaleString("en-IN")}
                               </span>
                               {product.originalPrice && product.originalPrice > product.price && (
                                 <span className="text-sm text-zinc-500 line-through">
-                                  ₹{(product.originalPrice / 100).toLocaleString()}
+                                  ₹{product.originalPrice.toLocaleString("en-IN")}
                                 </span>
                               )}
                             </div>

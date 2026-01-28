@@ -275,7 +275,7 @@ export function Header() {
                                   {product.name}
                                 </p>
                                 <p className="text-xs text-primary font-medium">
-                                  ₹{(product.price / 100).toLocaleString()}
+                                  ₹{product.price.toLocaleString("en-IN")}
                                 </p>
                               </div>
                             </Link>
@@ -340,7 +340,7 @@ export function Header() {
                         )}
                       </div>
                       <p className="text-sm text-primary font-medium">
-                        {"\u20B9"}{(product.price / 100).toLocaleString()}
+                        ₹{product.price.toLocaleString("en-IN")}
                       </p>
                     </Link>
                   ))}
