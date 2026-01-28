@@ -382,6 +382,13 @@ export function ProductPage({ product }: ProductPageProps) {
                 Installation
               </TabsTrigger>
               <TabsTrigger 
+                value="partnumbers" 
+                className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none text-zinc-400 data-[state=active]:text-white pb-4"
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Part Numbers
+              </TabsTrigger>
+              <TabsTrigger 
                 value="qa" 
                 className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none text-zinc-400 data-[state=active]:text-white pb-4"
               >
@@ -430,8 +437,26 @@ export function ProductPage({ product }: ProductPageProps) {
             </TabsContent>
 
             <TabsContent value="specifications" className="mt-0">
-              <div className="max-w-3xl">
+              <div className="max-w-4xl">
                 <h3 className="text-xl font-semibold text-white mb-6">Technical Specifications</h3>
+                <p className="text-sm text-zinc-500 mb-4">NOTE: Specifications listed here are for each individual pod.</p>
+                
+                {(product as any).specificationsTable && (
+                  <div className="bg-zinc-900/30 rounded-lg border border-zinc-800 overflow-hidden mb-8">
+                    {Object.entries(JSON.parse((product as any).specificationsTable)).map(([key, value], index, arr) => (
+                      <div 
+                        key={key} 
+                        className={`flex justify-between items-center px-6 py-4 ${
+                          index !== arr.length - 1 ? "border-b border-zinc-800" : ""
+                        }`}
+                      >
+                        <span className="text-zinc-500 font-medium">{key}</span>
+                        <span className="text-white">{value as string}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
                 <div className="bg-zinc-900/30 rounded-lg border border-zinc-800 overflow-hidden">
                   {specifications.map((spec, index) => (
                     <div 
@@ -451,6 +476,26 @@ export function ProductPage({ product }: ProductPageProps) {
             <TabsContent value="installation" className="mt-0">
               <div>
                 <h3 className="text-xl font-semibold text-white mb-6">Installation Guide</h3>
+                
+                {(product as any).installationGuide && (() => {
+                  const guide = JSON.parse((product as any).installationGuide);
+                  return (
+                    <div className="bg-zinc-900/30 rounded-lg border border-zinc-800 p-6 mb-8">
+                      <p className="text-zinc-400 mb-4">{guide.note}</p>
+                      <div className="grid sm:grid-cols-2 gap-4">
+                        <div>
+                          <span className="text-zinc-500 font-medium">Installation Time:</span>
+                          <span className="text-white ml-2">{guide.installationTime}</span>
+                        </div>
+                        <div>
+                          <span className="text-zinc-500 font-medium">Tools Needed:</span>
+                          <span className="text-white ml-2">{guide.toolsNeeded}</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
+                
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {installationSteps.map((step) => (
                     <div 
@@ -492,6 +537,38 @@ export function ProductPage({ product }: ProductPageProps) {
                     </li>
                   </ul>
                 </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="partnumbers" className="mt-0">
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-4">Part Numbers</h3>
+                <p className="text-sm text-zinc-500 mb-6">The following part numbers are included with this listing:</p>
+                
+                {(product as any).partNumbers && (
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="bg-zinc-900/50 border-b border-zinc-800">
+                          <th className="text-left px-4 py-3 text-zinc-400 font-medium">SKU</th>
+                          <th className="text-left px-4 py-3 text-zinc-400 font-medium">Price</th>
+                          <th className="text-left px-4 py-3 text-zinc-400 font-medium">Name</th>
+                          <th className="text-left px-4 py-3 text-zinc-400 font-medium">Weight</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {JSON.parse((product as any).partNumbers).map((part: any, index: number) => (
+                          <tr key={index} className="border-b border-zinc-800 hover:bg-zinc-900/30">
+                            <td className="px-4 py-3 text-white font-mono text-sm">{part.sku}</td>
+                            <td className="px-4 py-3 text-primary">₹{part.price?.toLocaleString('en-IN')}</td>
+                            <td className="px-4 py-3 text-zinc-300">{part.name}</td>
+                            <td className="px-4 py-3 text-zinc-400">{part.weight || '-'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             </TabsContent>
 

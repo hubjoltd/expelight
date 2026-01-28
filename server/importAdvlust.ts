@@ -163,6 +163,63 @@ function extractSpecs(html: string, options: AdvlustOption[], variants: AdvlustV
   return specs.length > 0 ? specs : ["Premium LED Technology"];
 }
 
+function extractSpecificationsTable(html: string): object | null {
+  const specs: Record<string, string> = {};
+  const text = extractTextContent(html);
+  
+  const patterns = [
+    { key: "Main Beam Power (watts)", pattern: /Main Beam Power[^:]*:\s*([^\n]+)/i },
+    { key: "Backlight Power (watts)", pattern: /Backlight Power[^:]*:\s*([^\n]+)/i },
+    { key: "Main Beam Current (amps @ 12.8V)", pattern: /Main Beam Current[^:]*:\s*([^\n]+)/i },
+    { key: "Backlight Current (amps @ 12.8V)", pattern: /Backlight Current[^:]*:\s*([^\n]+)/i },
+    { key: "Color Temp (CCT)", pattern: /Color Temp[^:]*:\s*([^\n]+)/i },
+    { key: "Operating Voltage", pattern: /Operating Voltage[^:]*:\s*([^\n]+)/i },
+    { key: "Polarity", pattern: /Polarity[^:]*:\s*([^\n]+)/i },
+    { key: "Operating Temperature", pattern: /Operating Temperature[^:]*:\s*([^\n]+)/i },
+    { key: "LED Emitter", pattern: /LED Emitter[^:]*:\s*([^\n]+)/i },
+    { key: "Connector(s)", pattern: /Connector[^:]*:\s*([^\n]+)/i },
+    { key: "Driver Features", pattern: /Driver Features[^:]*:\s*([^\n]+)/i },
+    { key: "Materials", pattern: /Materials[^:]*:\s*([^\n]+)/i },
+    { key: "Cooling", pattern: /Cooling[^:]*:\s*([^\n]+)/i },
+    { key: "Intrusion Ratings", pattern: /Intrusion Rating[^:]*:\s*([^\n]+)/i },
+  ];
+  
+  for (const { key, pattern } of patterns) {
+    const match = text.match(pattern);
+    if (match) {
+      specs[key] = match[1].trim();
+    }
+  }
+  
+  return Object.keys(specs).length > 0 ? specs : null;
+}
+
+function extractPartNumbers(variants: AdvlustVariant[], title: string): object[] {
+  return variants.map(v => ({
+    sku: v.sku,
+    price: Math.round(parseFloat(v.price)),
+    name: v.title !== "Default Title" ? v.title : title,
+    weight: v.weight ? `${v.weight / 1000} lbs` : null,
+  }));
+}
+
+function extractInstallationGuide(html: string): object {
+  const text = extractTextContent(html);
+  const guide: Record<string, string> = {
+    installationTime: "30-60 minutes",
+    toolsNeeded: "Basic Toolset",
+    note: "We recommend using 5 ft-lbs of torque to install the long-end bolts, and adding Loctite to prevent the bolts from loosening after installation."
+  };
+  
+  const timeMatch = text.match(/Installation Time[^:]*:\s*([^\n]+)/i);
+  if (timeMatch) guide.installationTime = timeMatch[1].trim();
+  
+  const toolsMatch = text.match(/Tools Needed[^:]*:\s*([^\n]+)/i);
+  if (toolsMatch) guide.toolsNeeded = toolsMatch[1].trim();
+  
+  return guide;
+}
+
 function extractWhatsInBox(html: string): string[] {
   const results: string[] = [];
   
@@ -193,11 +250,10 @@ function extractWhatsInBox(html: string): string[] {
 }
 
 function createSlug(title: string, handle: string): string {
-  const base = title.toLowerCase()
+  return handle || title.toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/-+/g, '-')
     .replace(/^-|-$/g, '');
-  return base + '-' + handle;
 }
 
 function getSeriesFromTitle(title: string): string {
@@ -317,6 +373,10 @@ export async function importAllAdvlustProducts() {
     const colors = getColorsFromOptions(advProduct.options || [], advProduct.variants);
     const images = advProduct.images.map(img => img.src);
     
+    const specificationsTable = extractSpecificationsTable(advProduct.body_html);
+    const partNumbers = extractPartNumbers(advProduct.variants, advProduct.title);
+    const installationGuide = extractInstallationGuide(advProduct.body_html);
+    
     const [newProduct] = await db.insert(products).values({
       name: advProduct.title,
       slug,
@@ -331,6 +391,9 @@ export async function importAllAdvlustProducts() {
       colors,
       features,
       specs,
+      specificationsTable: specificationsTable ? JSON.stringify(specificationsTable) : null,
+      partNumbers: JSON.stringify(partNumbers),
+      installationGuide: JSON.stringify(installationGuide),
       whatsInBox,
       warrantyYears: 8,
       images: images.length > 0 ? images : [],

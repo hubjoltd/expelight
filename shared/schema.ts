@@ -112,6 +112,10 @@ export const products = pgTable("products", {
   colors: text("colors").array().notNull(), // White, Yellow
   features: text("features").array().notNull(),
   specs: text("specs").array().notNull(),
+  specificationsTable: text("specifications_table"), // JSON for specs table from advlust
+  partNumbers: text("part_numbers"), // JSON for part numbers table
+  qaContent: text("qa_content"), // JSON for Q&A section
+  installationGuide: text("installation_guide"), // JSON for installation info
   whatsInBox: text("whats_in_box").array().notNull(),
   warrantyYears: integer("warranty_years").notNull().default(8),
   images: text("images").array().notNull(),
