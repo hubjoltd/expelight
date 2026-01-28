@@ -126,13 +126,13 @@ export function Header() {
       data-testid="header"
     >
       <div className="max-w-[1440px] mx-auto px-4 md:px-8">
-        <div className="flex items-center justify-between h-24 md:h-20">
+        <div className="flex items-center justify-between h-28 md:h-24">
           <Link href="/" className="flex items-center" data-testid="logo-link">
             <img 
               src={expelightLogo} 
               alt="Expelight" 
               className="h-auto w-auto"
-              style={{ height: '60px' }}
+              style={{ height: '100px' }}
             />
           </Link>
 
