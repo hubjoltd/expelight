@@ -42,12 +42,23 @@ export function Header() {
     queryKey: ["/api/products"],
   });
 
-  // Build hierarchical category structure
+  // Build hierarchical category structure with 3 levels
   const parentCategories = categories.filter(c => c.level === 0);
-  const categoriesWithChildren: CategoryWithChildren[] = parentCategories.map(parent => ({
-    ...parent,
-    children: categories.filter(c => c.parentId === parent.id)
-  }));
+  const categoriesWithChildren: CategoryWithChildren[] = parentCategories.map(parent => {
+    const children = categories.filter(c => c.parentId === parent.id);
+    return {
+      ...parent,
+      children: children.map(child => ({
+        ...child,
+        children: categories.filter(c => c.parentId === child.id)
+      }))
+    };
+  });
+
+  // Get Off-Road category with full hierarchy for mega menu
+  const offRoadCategory = categoriesWithChildren.find(c => c.slug === 'off-road');
+  const lampsCategory = categoriesWithChildren.find(c => c.slug === 'lamps');
+  const extrasCategory = categoriesWithChildren.find(c => c.slug === 'extras');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -174,11 +185,11 @@ export function Header() {
               {isMegaMenuOpen && (
                 <div 
                   className="absolute top-full left-1/2 -translate-x-1/2 pt-4"
-                  style={{ minWidth: "900px" }}
+                  style={{ minWidth: "1000px" }}
                 >
                   <div className="bg-[#0a0a0a] border border-zinc-800 rounded-lg shadow-2xl overflow-hidden">
                     <div className="p-6">
-                      <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center justify-between mb-6">
                         <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Shop by Category</h3>
                         <Link
                           href="/products"
@@ -190,62 +201,99 @@ export function Header() {
                         </Link>
                       </div>
                       
-                      <div className="grid grid-cols-3 gap-6">
-                        {categoriesWithChildren.map((parent) => (
-                          <div key={parent.id} className="space-y-3">
+                      <div className="grid grid-cols-4 gap-6">
+                        {/* Off-Road Column */}
+                        {offRoadCategory && (
+                          <div className="col-span-2">
                             <Link
-                              href={`/category/${parent.slug}`}
-                              className="block group"
+                              href={`/category/${offRoadCategory.slug}`}
+                              className="text-sm font-semibold text-white hover:text-primary transition-colors mb-3 block"
                               onClick={() => setIsMegaMenuOpen(false)}
                             >
-                              <div className="relative aspect-[16/9] rounded-lg overflow-hidden bg-zinc-800">
-                                {parent.imageUrl ? (
-                                  <img 
-                                    src={parent.imageUrl} 
-                                    alt={parent.name}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                  />
-                                ) : (
-                                  <div className="w-full h-full flex items-center justify-center">
-                                    <div className="w-8 h-8 rounded-full bg-primary/20" />
-                                  </div>
-                                )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                                <div className="absolute bottom-0 left-0 right-0 p-3">
-                                  <h4 className="font-semibold text-white text-sm group-hover:text-primary transition-colors">
-                                    {parent.name}
-                                  </h4>
-                                </div>
-                              </div>
+                              {offRoadCategory.name}
                             </Link>
-                            
-                            {parent.children && parent.children.length > 0 && (
-                              <div className="grid grid-cols-2 gap-2">
-                                {parent.children.slice(0, 6).map((child) => (
+                            <div className="grid grid-cols-2 gap-4">
+                              {offRoadCategory.children?.map((subcat) => (
+                                <div key={subcat.id} className="space-y-2">
                                   <Link
-                                    key={child.id}
-                                    href={`/category/${child.slug}`}
-                                    className="flex items-center gap-2 p-2 rounded-md hover:bg-zinc-800/50 transition-colors group/item"
+                                    href={`/category/${subcat.slug}`}
+                                    className="text-xs font-medium text-zinc-300 hover:text-primary transition-colors flex items-center gap-1"
                                     onClick={() => setIsMegaMenuOpen(false)}
                                   >
-                                    {child.imageUrl && (
-                                      <div className="w-8 h-8 rounded overflow-hidden flex-shrink-0 bg-zinc-800">
-                                        <img 
-                                          src={child.imageUrl} 
-                                          alt={child.name}
-                                          className="w-full h-full object-cover"
-                                        />
-                                      </div>
-                                    )}
-                                    <span className="text-xs text-zinc-400 group-hover/item:text-white transition-colors line-clamp-1">
-                                      {child.name}
-                                    </span>
+                                    <ChevronRight className="w-3 h-3" />
+                                    {subcat.name}
                                   </Link>
-                                ))}
-                              </div>
-                            )}
+                                  {subcat.children && subcat.children.length > 0 && (
+                                    <div className="pl-4 space-y-1">
+                                      {subcat.children.slice(0, 5).map((child) => (
+                                        <Link
+                                          key={child.id}
+                                          href={`/category/${child.slug}`}
+                                          className="block text-xs text-zinc-500 hover:text-white transition-colors"
+                                          onClick={() => setIsMegaMenuOpen(false)}
+                                        >
+                                          {child.name}
+                                        </Link>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        ))}
+                        )}
+                        
+                        {/* Lamps Column */}
+                        {lampsCategory && (
+                          <div>
+                            <Link
+                              href={`/category/${lampsCategory.slug}`}
+                              className="text-sm font-semibold text-white hover:text-primary transition-colors mb-3 block"
+                              onClick={() => setIsMegaMenuOpen(false)}
+                            >
+                              {lampsCategory.name}
+                            </Link>
+                            <div className="space-y-2">
+                              {lampsCategory.children?.map((subcat) => (
+                                <Link
+                                  key={subcat.id}
+                                  href={`/category/${subcat.slug}`}
+                                  className="text-xs text-zinc-400 hover:text-white transition-colors flex items-center gap-1 py-1"
+                                  onClick={() => setIsMegaMenuOpen(false)}
+                                >
+                                  <ChevronRight className="w-3 h-3" />
+                                  {subcat.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        
+                        {/* Extras Column */}
+                        {extrasCategory && (
+                          <div>
+                            <Link
+                              href={`/category/${extrasCategory.slug}`}
+                              className="text-sm font-semibold text-white hover:text-primary transition-colors mb-3 block"
+                              onClick={() => setIsMegaMenuOpen(false)}
+                            >
+                              {extrasCategory.name}
+                            </Link>
+                            <div className="space-y-2">
+                              {extrasCategory.children?.map((subcat) => (
+                                <Link
+                                  key={subcat.id}
+                                  href={`/category/${subcat.slug}`}
+                                  className="text-xs text-zinc-400 hover:text-white transition-colors flex items-center gap-1 py-1"
+                                  onClick={() => setIsMegaMenuOpen(false)}
+                                >
+                                  <ChevronRight className="w-3 h-3" />
+                                  {subcat.name}
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
