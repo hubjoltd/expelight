@@ -55,11 +55,16 @@ I prefer iterative development with clear communication on progress. Before maki
 - **Advlust.com**: External Shopify store used as a source for product import. 104 products imported with full details including images, SKUs, prices, specifications, and variants.
 
 ## Recent Updates
-- **Hierarchical Category Structure (Jan 2026)**: Organized categories into parent-child hierarchy matching advlust.com:
-  - **Off-Road Lighting**: SS5 LED Pods (7), SS3 LED Pods (12), SSC2 LED Pods (9), SSC1 LED Pods (8), Rock Lights (12), Vehicle Brackets & Kits (4)
-  - **LED Light Bars**: SS5 CrossLink Light Bars (9), Stage Series Light Bars (6)
-  - **Lamps**: Fog Light Kits (6), Reverse Light Kits (2), Ditch Light Kits (2)
-  - **Accessories**: Wiring Harnesses (9), Mounting Brackets (6), Pod Covers (8), Bezels & Gaskets (2), Controllers & Switches (2)
+- **Category Images & Navigation Update (Jan 2026)**: 
+  - Added CDN images from advlust.com to all categories (banners for parent categories, product images for sub-categories)
+  - Updated mega menu to show 3-column layout with category images and hover effects
+  - Removed "Shop by Series" section from navigation
+  - Added "View All Products" link in mega menu
+  - Logo size increased to 60px height
+- **3-Level Category Hierarchy with Images (Jan 2026)**: 
+  - **Off-Road** (banner: offroad-banner.jpg): LED Light Bars, LED Pods (SSC1, SSC2, SS3, SS5), Brackets & Kits, Switch Panel, Hitch Mount, Rock Lights (Single-Color, RGBW), Accessories (Bezels, Brackets & Mounts, Covers, Hardware Kits, Replacement Lenses, Wiring Harnesses)
+  - **Lamps** (banner: lamp-banner.jpg): Headlights, Sidemarkers, Turn Signals, Fog Lamps
+  - **Extras** (banner: extra-banner.jpg): Controllers, LED Wiring and Installation, Anti-Flicker Modules, Flashers and Resistors, Power/Dimmers/Drivers
 - **Original SKUs (Jan 2026)**: Product variants now use original advlust.com SKUs (e.g., ADV5011, DD6794) with duplicate detection
 - **Enhanced Product Import (Jan 2026)**: Re-imported all 104 products from advlust.com with complete details:
   - Full product descriptions (up to 7000+ characters per product)
