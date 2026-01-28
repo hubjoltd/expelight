@@ -229,6 +229,11 @@ export function ProductPage({ product }: ProductPageProps) {
               <Badge variant="outline" className="text-zinc-400 border-zinc-700 bg-zinc-900/50">
                 {product.series} Series
               </Badge>
+              {product.isPreOrder && (
+                <Badge className="bg-amber-500/20 text-amber-400 border-amber-500/30">
+                  Pre-Order
+                </Badge>
+              )}
             </div>
             
             {(selectedVariant?.sku || product.sku) && (
@@ -359,6 +364,22 @@ export function ProductPage({ product }: ProductPageProps) {
               )}
             </Button>
 
+            {product.isPreOrder && (
+              <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg" data-testid="pre-order-notice">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center flex-shrink-0">
+                    <Truck className="w-4 h-4 text-amber-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-amber-400">Pre-Order Item</p>
+                    <p className="text-sm text-zinc-400 mt-1">
+                      {product.preOrderMessage || "This is a pre-order item. Expected delivery: 6-8 weeks. In-stock items in your order will be shipped together with pre-order items."}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-2 gap-4 py-4">
               <div className="flex items-center gap-2 text-sm text-zinc-400">
                 <Shield className="w-4 h-4 text-primary" />
@@ -366,7 +387,7 @@ export function ProductPage({ product }: ProductPageProps) {
               </div>
               <div className="flex items-center gap-2 text-sm text-zinc-400">
                 <Truck className="w-4 h-4 text-primary" />
-                <span>Free Shipping</span>
+                <span>{product.isPreOrder ? "6-8 Weeks Delivery" : "Free Shipping"}</span>
               </div>
             </div>
           </div>
