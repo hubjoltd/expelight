@@ -74,37 +74,40 @@ export function ProductPage({ product }: ProductPageProps) {
     setIsAdding(false);
   };
 
-  const faqItems = [
-    {
-      question: "Is this product compatible with my vehicle?",
-      answer: "Please use our Vehicle Fit Finder tool to check compatibility with your specific vehicle make and model. Most of our products are designed to be universal-fit with included mounting hardware."
-    },
-    {
-      question: "What is the warranty coverage?",
-      answer: `This product comes with a comprehensive ${product.warrantyYears}-year warranty covering all manufacturing defects. Our warranty demonstrates our confidence in the quality and durability of Diode Dynamics products.`
-    },
-    {
-      question: "How difficult is the installation?",
-      answer: "Most Diode Dynamics products are designed for plug-and-play installation. Basic automotive electrical knowledge is helpful but not required. Detailed installation guides are included with every product."
-    },
-    {
-      question: "What beam pattern should I choose?",
-      answer: "Spot patterns provide focused long-range illumination, ideal for off-road driving. Flood patterns offer wide coverage for work areas and peripheral vision. Combo patterns combine both for versatile lighting."
-    },
-    {
-      question: "Are these products street legal?",
-      answer: "Our SAE-compliant products are designed to meet regulations. However, auxiliary lighting laws vary by region. Check your local regulations before use on public roads."
-    }
-  ];
+  // Use dynamic Q&A content from database if available, otherwise use defaults
+  const faqItems = (product as any).qaContent 
+    ? JSON.parse((product as any).qaContent)
+    : [
+        {
+          question: "Is this product compatible with my vehicle?",
+          answer: "Please use our Vehicle Fit Finder tool to check compatibility with your specific vehicle make and model. Most of our products are designed to be universal-fit with included mounting hardware."
+        },
+        {
+          question: "What is the warranty coverage?",
+          answer: `This product comes with a comprehensive ${product.warrantyYears}-year warranty covering all manufacturing defects. Our warranty demonstrates our confidence in the quality and durability of Diode Dynamics products.`
+        },
+        {
+          question: "How difficult is the installation?",
+          answer: "Most Diode Dynamics products are designed for plug-and-play installation. Basic automotive electrical knowledge is helpful but not required. Detailed installation guides are included with every product."
+        }
+      ];
 
-  const installationSteps = [
-    { step: 1, title: "Unpack & Inspect", description: "Carefully unpack all components and verify contents match the included parts list." },
-    { step: 2, title: "Plan Mounting Location", description: "Determine optimal mounting position considering visibility, clearance, and wiring access." },
-    { step: 3, title: "Mount the Light", description: "Use included hardware to secure the light fixture. Ensure stable, vibration-resistant mounting." },
-    { step: 4, title: "Route Wiring", description: "Run wiring harness through firewall or along existing wire channels. Avoid heat sources and moving parts." },
-    { step: 5, title: "Connect Power", description: "Connect to vehicle battery or auxiliary power. Follow included wiring diagram for proper connections." },
-    { step: 6, title: "Test & Adjust", description: "Verify operation and adjust beam angle as needed for optimal illumination." }
-  ];
+  // Use dynamic installation steps from database if available
+  const installGuide = (product as any).installationGuide ? JSON.parse((product as any).installationGuide) : null;
+  const installationSteps = installGuide?.steps 
+    ? installGuide.steps.map((step: string, idx: number) => ({
+        step: idx + 1,
+        title: `Step ${idx + 1}`,
+        description: step
+      }))
+    : [
+        { step: 1, title: "Unpack & Inspect", description: "Carefully unpack all components and verify contents match the included parts list." },
+        { step: 2, title: "Plan Mounting Location", description: "Determine optimal mounting position considering visibility, clearance, and wiring access." },
+        { step: 3, title: "Mount the Light", description: "Use included hardware to secure the light fixture. Ensure stable, vibration-resistant mounting." },
+        { step: 4, title: "Route Wiring", description: "Run wiring harness through firewall or along existing wire channels. Avoid heat sources and moving parts." },
+        { step: 5, title: "Connect Power", description: "Connect to vehicle battery or auxiliary power. Follow included wiring diagram for proper connections." },
+        { step: 6, title: "Test & Adjust", description: "Verify operation and adjust beam angle as needed for optimal illumination." }
+      ];
 
   const specifications = [
     { label: "SKU / Part Number", value: product.sku || "N/A" },
@@ -555,24 +558,43 @@ export function ProductPage({ product }: ProductPageProps) {
               <div>
                 <h3 className="text-xl font-semibold text-white mb-6">Installation Guide</h3>
                 
-                {(product as any).installationGuide && (() => {
-                  const guide = JSON.parse((product as any).installationGuide);
-                  return (
-                    <div className="bg-zinc-900/30 rounded-lg border border-zinc-800 p-6 mb-8">
-                      <p className="text-zinc-400 mb-4">{guide.note}</p>
-                      <div className="grid sm:grid-cols-2 gap-4">
+                {installGuide && (
+                  <div className="bg-zinc-900/30 rounded-lg border border-zinc-800 p-6 mb-8">
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                      {installGuide.installationTime && (
                         <div>
                           <span className="text-zinc-500 font-medium">Installation Time:</span>
-                          <span className="text-white ml-2">{guide.installationTime}</span>
+                          <span className="text-white ml-2">{installGuide.installationTime}</span>
                         </div>
+                      )}
+                      {installGuide.difficulty && (
                         <div>
-                          <span className="text-zinc-500 font-medium">Tools Needed:</span>
-                          <span className="text-white ml-2">{guide.toolsNeeded}</span>
+                          <span className="text-zinc-500 font-medium">Difficulty:</span>
+                          <span className="text-white ml-2">{installGuide.difficulty}</span>
                         </div>
-                      </div>
+                      )}
+                      {installGuide.toolsNeeded && (
+                        <div className="sm:col-span-2 lg:col-span-1">
+                          <span className="text-zinc-500 font-medium">Tools Needed:</span>
+                          <span className="text-white ml-2">{installGuide.toolsNeeded}</span>
+                        </div>
+                      )}
                     </div>
-                  );
-                })()}
+                    {installGuide.notes && installGuide.notes.length > 0 && (
+                      <div className="border-t border-zinc-800 pt-4 mt-4">
+                        <h5 className="text-sm font-medium text-zinc-400 mb-2">Important Notes:</h5>
+                        <ul className="space-y-1">
+                          {installGuide.notes.map((note: string, idx: number) => (
+                            <li key={idx} className="text-sm text-zinc-300 flex items-start gap-2">
+                              <span className="text-primary mt-0.5">•</span>
+                              {note}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
                 
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {installationSteps.map((step) => (
