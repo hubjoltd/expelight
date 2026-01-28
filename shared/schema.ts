@@ -125,6 +125,8 @@ export const products = pgTable("products", {
   advlustProductId: text("advlust_product_id"), // Reference to Advlust product
   advlustHandle: text("advlust_handle"), // Advlust product handle/slug
   videoUrl: text("video_url"), // YouTube video URL for the product
+  isPreOrder: boolean("is_pre_order").default(false), // Pre-order items with 6-8 weeks delivery
+  preOrderMessage: text("pre_order_message"), // Custom pre-order message
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
