@@ -391,15 +391,14 @@ export function ProductPage({ product }: ProductPageProps) {
             </TabsList>
 
             <TabsContent value="description" className="mt-0">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-4">Product Description</h3>
-                  <p className="text-zinc-400 leading-relaxed mb-6">{product.shortDescription}</p>
-                  <p className="text-zinc-500 leading-relaxed">
-                    Experience the difference of engineering-grade LED lighting from Diode Dynamics. 
-                    This {product.series} Series product represents the pinnacle of automotive lighting technology, 
-                    featuring TIR optics for maximum light output and efficiency.
-                  </p>
+              <div className="grid md:grid-cols-3 gap-8">
+                <div className="md:col-span-2">
+                  <h3 className="text-xl font-semibold text-white mb-4">Overview</h3>
+                  <div className="text-zinc-400 leading-relaxed space-y-4 whitespace-pre-line">
+                    {product.fullDescription?.split('\n\n').map((paragraph, idx) => (
+                      <p key={idx}>{paragraph}</p>
+                    )) || <p>{product.shortDescription}</p>}
+                  </div>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-white mb-4">Key Features</h3>

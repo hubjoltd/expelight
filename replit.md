@@ -55,12 +55,21 @@ I prefer iterative development with clear communication on progress. Before maki
 - **Advlust.com**: External Shopify store used as a source for product import. 104 products imported with full details including images, SKUs, prices, specifications, and variants.
 
 ## Recent Updates
-- **Product Import (Jan 2026)**: Imported all 104 products from advlust.com with complete details:
-  - Product images, SKUs, and prices (converted to INR at ~85x rate)
-  - Beam patterns and color variants extracted from product options
-  - Specifications extracted from product descriptions
-  - Features including IP ratings, compliance, materials
+- **Enhanced Product Import (Jan 2026)**: Re-imported all 104 products from advlust.com with complete details:
+  - Full product descriptions (up to 7000+ characters per product)
+  - All variant options with beam patterns (e.g., "2 Spot + 2 Driving + 2 Combo")
+  - Power level variants (Sport 40W, Pro 90W)
+  - Features extracted from HTML (TIR optics, waterproof ratings, etc.)
+  - "What's in the Box" items extracted from product listings
+  - Specifications including optic options and power levels
   - 17 categories auto-created based on product types
-- **SKU Display Enhancement**: SKU now displayed prominently in bold white text on product pages
-- **Variant Selection**: Price and SKU dynamically update when selecting different beam patterns/colors
+  - Unique SKUs per variant to prevent duplicates
+- **Product Page Improvements**:
+  - Full overview description displayed in Description tab
+  - Key features with bullet points
+  - Actual "What's in the Box" contents from advlust.com
+  - Technical specifications table
+  - Installation guide with step-by-step instructions
+  - Q&A section for common questions
+- **Google Domain Verification**: Added google9b70b42b655e5d1d.html for domain verification
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"

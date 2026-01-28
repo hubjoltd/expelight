@@ -152,13 +152,32 @@ function extractSpecs(html: string, options: AdvlustOption[], variants: AdvlustV
 }
 
 function extractWhatsInBox(html: string): string[] {
-  const items = extractListItems(html, 'In the Box');
-  if (items.length > 0) return items.slice(0, 10);
+  const results: string[] = [];
   
-  const included = extractListItems(html, "What's Included");
-  if (included.length > 0) return included.slice(0, 10);
+  const boxMatch = html.match(/<strong>In the Box:<\/strong>\s*<ul>([\s\S]*?)<\/ul>/i);
+  if (boxMatch) {
+    const listItems = boxMatch[1].match(/<li[^>]*>([\s\S]*?)<\/li>/gi);
+    if (listItems) {
+      listItems.forEach(li => {
+        const text = extractTextContent(li).trim();
+        if (text && text.length > 2) {
+          results.push(text);
+        }
+      });
+    }
+  }
   
-  return ["Mounting Hardware Included", "Installation Guide", "Wiring Connector"];
+  if (results.length === 0) {
+    const items = extractListItems(html, 'In the Box');
+    if (items.length > 0) return items.slice(0, 10);
+  }
+  
+  if (results.length === 0) {
+    const included = extractListItems(html, "What's Included");
+    if (included.length > 0) return included.slice(0, 10);
+  }
+  
+  return results.length > 0 ? results : ["Mounting Hardware Included", "Installation Guide", "Wiring Connector"];
 }
 
 function createSlug(title: string, handle: string): string {
