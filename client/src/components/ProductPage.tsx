@@ -519,12 +519,55 @@ export function ProductPage({ product }: ProductPageProps) {
                   {(product as any).specificationsTable && (() => {
                     try {
                       const specTable = JSON.parse((product as any).specificationsTable);
-                      return Object.entries(specTable).map(([key, value], index) => (
-                        <div key={`spec-${index}`} className="flex items-start gap-2">
-                          <span className="text-sm font-semibold text-zinc-300 min-w-[200px]">{key}:</span>
-                          <span className="text-sm text-zinc-400">{value as string}</span>
-                        </div>
-                      ));
+                      const { variantSpecs, ...regularSpecs } = specTable;
+                      
+                      return (
+                        <>
+                          {/* Variant Comparison Table */}
+                          {variantSpecs && variantSpecs.length > 0 && (
+                            <div className="mb-8">
+                              <h4 className="text-lg font-semibold text-white mb-4">Variant Comparison</h4>
+                              <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                  <thead>
+                                    <tr className="border-b border-zinc-700">
+                                      <th className="text-left py-3 px-4 text-zinc-400 font-medium">Variant</th>
+                                      <th className="text-left py-3 px-4 text-zinc-400 font-medium">Peak Beam Intensity</th>
+                                      <th className="text-left py-3 px-4 text-zinc-400 font-medium">Illuminance @ 10m</th>
+                                      <th className="text-left py-3 px-4 text-zinc-400 font-medium">Measured Output</th>
+                                      <th className="text-left py-3 px-4 text-zinc-400 font-medium">Raw Output</th>
+                                      <th className="text-left py-3 px-4 text-zinc-400 font-medium">Output Color</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {variantSpecs.map((spec: any, idx: number) => (
+                                      <tr key={idx} className="border-b border-zinc-800 hover:bg-zinc-800/50">
+                                        <td className="py-3 px-4 text-zinc-300 font-medium">{spec.name}</td>
+                                        <td className="py-3 px-4 text-zinc-400">{spec.peakIntensity}</td>
+                                        <td className="py-3 px-4 text-zinc-400">{spec.illuminance}</td>
+                                        <td className="py-3 px-4 text-zinc-400">{spec.measuredOutput}</td>
+                                        <td className="py-3 px-4 text-zinc-400">{spec.rawOutput}</td>
+                                        <td className="py-3 px-4 text-zinc-400">{spec.outputColor}</td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          )}
+                          
+                          {/* Regular Specifications */}
+                          <div className="space-y-3">
+                            <h4 className="text-lg font-semibold text-white mb-4">Technical Specifications</h4>
+                            {Object.entries(regularSpecs).map(([key, value], index) => (
+                              <div key={`spec-${index}`} className="flex items-start gap-2">
+                                <span className="text-sm font-semibold text-zinc-300 min-w-[200px]">{key}:</span>
+                                <span className="text-sm text-zinc-400">{value as string}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      );
                     } catch { return null; }
                   })()}
                 </div>

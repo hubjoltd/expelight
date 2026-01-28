@@ -93,9 +93,18 @@ I prefer iterative development with clear communication on progress. Before maki
   - Added Stage Series LED Light Bars and SS5 CrossLink LED Light Bars subcategories
   - Added Backlight subcategory under Accessories
   - Fixed category slug mappings for better product organization
-- **Video URLs (Jan 2026)**: 87 products now have YouTube video URLs:
-  - SS5 products: ducfZoq5Lj4
-  - SS3 products: Yo33t3Y3Qf4
-  - Stage Series products: 17IDSk05rqw
+- **Video URLs (Jan 2026)**: 87 products now have YouTube video URLs
+- **Specifications Tab with Variant Comparison Table (Jan 2026)**:
+  - 80 products updated with real specifications data from advlust.com
+  - Variant Comparison Table displaying: Peak Beam Intensity, Illuminance @ 10m, Measured Output, Raw Output, Output Color
+  - Technical Specifications matching advlust.com: Power, Voltage, Current, LED Emitter, Materials, IP Rating, etc.
+  - SS3 specs: Up to 170,000 cd (Driving White Pro), 40W Sport / 90W Pro
+  - SS5 specs: Up to 420,000 cd (Spot White Pro), 40W Sport / 90W Pro  
+  - Stage Series Light Bar specs: 55,000-165,000 cd depending on size
+  - SSC1/SSC2 specs with proper power and lumen values
+- **Mobile Menu with 3-Level Nested Categories (Jan 2026)**:
+  - Parent categories expandable with chevron icons
+  - Subcategories shown with chevron-right indicators
+  - Third-level categories indented for visual hierarchy
 - **Google Domain Verification**: Added google9b70b42b655e5d1d.html for domain verification
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"
