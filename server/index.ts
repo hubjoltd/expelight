@@ -6,7 +6,8 @@ import { createServer } from "http";
 
 const app = express();
 
-// Serve invoices directory statically
+// Serve public directory statically (for Google verification, invoices, etc.)
+app.use(express.static(path.join(process.cwd(), "public")));
 app.use("/invoices", express.static(path.join(process.cwd(), "public", "invoices")));
 const httpServer = createServer(app);
 
