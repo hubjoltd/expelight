@@ -474,38 +474,76 @@ export function ProductPage({ product }: ProductPageProps) {
 
             <TabsContent value="specifications" className="mt-0">
               <div className="max-w-4xl">
-                <h3 className="text-xl font-semibold text-white mb-6">Technical Specifications</h3>
-                <p className="text-sm text-zinc-500 mb-4">NOTE: Specifications listed here are for each individual pod.</p>
+                <h3 className="text-xl font-semibold text-white mb-4">Specifications</h3>
+                <p className="text-sm text-zinc-500 mb-6">NOTE: Specifications listed here are for each individual pod.</p>
                 
-                {(product as any).specificationsTable && (
-                  <div className="bg-zinc-900/30 rounded-lg border border-zinc-800 overflow-hidden mb-8">
-                    {Object.entries(JSON.parse((product as any).specificationsTable)).map(([key, value], index, arr) => (
-                      <div 
-                        key={key} 
-                        className={`flex justify-between items-center px-6 py-4 ${
-                          index !== arr.length - 1 ? "border-b border-zinc-800" : ""
-                        }`}
-                      >
-                        <span className="text-zinc-500 font-medium">{key}</span>
-                        <span className="text-white">{value as string}</span>
-                      </div>
-                    ))}
+                {/* Variant Comparison Table - Like advlust.com */}
+                {variants.length > 0 && (
+                  <div className="mb-8 overflow-x-auto">
+                    <table className="w-full border-collapse">
+                      <thead>
+                        <tr className="bg-zinc-900/50">
+                          <th className="border border-zinc-700 px-3 py-2 text-left text-xs font-semibold text-zinc-400">Lens Color/Optics</th>
+                          <th className="border border-zinc-700 px-3 py-2 text-center text-xs font-semibold text-zinc-400">Peak Beam Intensity<br/>(candela)</th>
+                          <th className="border border-zinc-700 px-3 py-2 text-center text-xs font-semibold text-zinc-400">Illuminance<br/>(lux @ 10m)</th>
+                          <th className="border border-zinc-700 px-3 py-2 text-center text-xs font-semibold text-zinc-400">Measured Output<br/>(lumens)</th>
+                          <th className="border border-zinc-700 px-3 py-2 text-center text-xs font-semibold text-zinc-400">Raw Output<br/>(lumens)</th>
+                          <th className="border border-zinc-700 px-3 py-2 text-center text-xs font-semibold text-zinc-400">Output Color</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {variants.map((variant: any, idx: number) => (
+                          <tr key={idx} className={idx % 2 === 0 ? 'bg-zinc-900/20' : 'bg-zinc-900/40'}>
+                            <td className="border border-zinc-700 px-3 py-2 text-sm text-zinc-300">{variant.name || variant.beamPattern || 'Standard'}</td>
+                            <td className="border border-zinc-700 px-3 py-2 text-center text-sm text-zinc-300">{variant.peakIntensity || '-'}</td>
+                            <td className="border border-zinc-700 px-3 py-2 text-center text-sm text-zinc-300">{variant.illuminance || '-'}</td>
+                            <td className="border border-zinc-700 px-3 py-2 text-center text-sm text-zinc-300">{variant.measuredOutput || '-'}</td>
+                            <td className="border border-zinc-700 px-3 py-2 text-center text-sm text-zinc-300">{variant.rawOutput || '-'}</td>
+                            <td className="border border-zinc-700 px-3 py-2 text-center text-sm text-zinc-300">{variant.outputColor || '6000K White'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 )}
-                
-                <div className="bg-zinc-900/30 rounded-lg border border-zinc-800 overflow-hidden">
+
+                {/* Technical Specifications List */}
+                <div className="space-y-2 mb-8">
+                  <h4 className="text-sm font-medium text-zinc-400 mb-3 underline cursor-pointer hover:text-primary">What do these terms mean?</h4>
                   {specifications.map((spec, index) => (
-                    <div 
-                      key={index} 
-                      className={`flex justify-between items-center px-6 py-4 ${
-                        index !== specifications.length - 1 ? "border-b border-zinc-800" : ""
-                      }`}
-                    >
-                      <span className="text-zinc-500 font-medium">{spec.label}</span>
-                      <span className="text-white">{spec.value}</span>
+                    <div key={index} className="flex items-start gap-2">
+                      <span className="text-sm font-semibold text-zinc-300 min-w-[200px]">{spec.label}:</span>
+                      <span className="text-sm text-zinc-400">{spec.value}</span>
                     </div>
                   ))}
+                  {(product as any).specificationsTable && (() => {
+                    try {
+                      const specTable = JSON.parse((product as any).specificationsTable);
+                      return Object.entries(specTable).map(([key, value], index) => (
+                        <div key={`spec-${index}`} className="flex items-start gap-2">
+                          <span className="text-sm font-semibold text-zinc-300 min-w-[200px]">{key}:</span>
+                          <span className="text-sm text-zinc-400">{value as string}</span>
+                        </div>
+                      ));
+                    } catch { return null; }
+                  })()}
                 </div>
+
+                {/* What's Included Section */}
+                {(product as any).whatsInBox && (product as any).whatsInBox.length > 0 && (
+                  <div className="mt-8">
+                    <h4 className="text-lg font-semibold text-white mb-4">What's Included</h4>
+                    <p className="text-sm text-zinc-400">100% Satisfaction Guarantee</p>
+                    <ul className="mt-3 space-y-2">
+                      {(product as any).whatsInBox.map((item: string, idx: number) => (
+                        <li key={idx} className="flex items-center gap-2 text-sm text-zinc-300">
+                          <Check className="w-4 h-4 text-primary" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             </TabsContent>
 
