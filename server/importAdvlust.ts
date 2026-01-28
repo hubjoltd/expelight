@@ -41,37 +41,33 @@ interface AdvlustProduct {
   options: AdvlustOption[];
 }
 
-const categoryMappings: Record<string, { keywords: string[] }> = {
-  "SS5 LED Pods": { keywords: ["SS5 LED Pod", "SS5 White", "SS5 Yellow", "SS5 Add-On", "SS5 Pro"] },
-  "SS5 CrossLink Light Bars": { keywords: ["SS5 CrossLink"] },
-  "SS3 LED Pods": { keywords: ["SS3 LED Pod", "SS3 White", "SS3 Yellow", "SS3 Max", "SS3 Pro", "SS3 Sport"] },
-  "SSC1 LED Pods": { keywords: ["SSC1 LED Pod", "SSC1 White", "SSC1 Yellow", "SSC1"] },
-  "SSC2 LED Pods": { keywords: ["SSC2 LED Pod", "SSC2 White", "SSC2 Yellow", "SSC2"] },
-  "Stage Series Light Bars": { keywords: ["Light Bar", "Stage Series 6", "Stage Series 12", "Stage Series 18"] },
-  "Rock Lights": { keywords: ["Rock Light"] },
-  "Pod Covers": { keywords: ["LED Pod Cover", "Pod Cover"] },
-  "Fog Light Mounting Kits": { keywords: ["Fog Light Mounting", "Type SV", "Type GM", "Type CH", "Type B", "Type FBS"] },
-  "Ditch Light Kits": { keywords: ["Ditch Light", "Ditch Bracket"] },
-  "Wiring Harnesses": { keywords: ["Wiring Harness", "Harness", "Splitter", "Pigtail"] },
-  "Mounting Brackets": { keywords: ["Bracket", "Mount Kit", "Mounting Kit", "A-Pillar"] },
-  "Bezels & Gaskets": { keywords: ["Bezel", "Gasket"] },
-  "Controllers & Switches": { keywords: ["Controller", "Switch Panel", "D-Switch"] },
-  "Vehicle-Specific Kits": { keywords: ["Jeep", "Ford F-150", "Colorado", "Canyon", "Sierra", "Mustang", "Wrangler", "Gladiator", "Bronco", "Ranger", "Tacoma", "4Runner", "Tundra"] },
-  "LED Headlights": { keywords: ["Elite LED Headlight", "Headlights", "LED Headlight"] },
-  "Sidemarkers": { keywords: ["Sidemarker", "Side Marker"] },
-  "Reverse Light Kits": { keywords: ["Reverse", "HitchMount", "Backup"] },
+const categoryMappings: Record<string, { slug: string, keywords: string[] }> = {
+  "SS5 LED Pods": { slug: "ss5-led-pods", keywords: ["SS5 LED Pod", "SS5 White", "SS5 Yellow", "SS5 Add-On", "SS5 Pro"] },
+  "SS5 CrossLink Light Bars": { slug: "ss5-crosslink-light-bars", keywords: ["SS5 CrossLink"] },
+  "SS3 LED Pods": { slug: "ss3-led-pods", keywords: ["SS3 LED Pod", "SS3 White", "SS3 Yellow", "SS3 Max", "SS3 Pro", "SS3 Sport"] },
+  "SSC1 LED Pods": { slug: "ssc1-led-pods", keywords: ["SSC1 LED Pod", "SSC1 White", "SSC1 Yellow", "SSC1"] },
+  "SSC2 LED Pods": { slug: "ssc2-led-pods", keywords: ["SSC2 LED Pod", "SSC2 White", "SSC2 Yellow", "SSC2"] },
+  "Stage Series Light Bars": { slug: "stage-series-light-bars", keywords: ["Light Bar", "Stage Series 6", "Stage Series 12", "Stage Series 18"] },
+  "Rock Lights": { slug: "rock-lights", keywords: ["Rock Light"] },
+  "Pod Covers": { slug: "pod-covers", keywords: ["LED Pod Cover", "Pod Cover"] },
+  "Fog Light Kits": { slug: "fog-light-kits", keywords: ["Fog Light Mounting", "Type SV", "Type GM", "Type CH", "Type B", "Type FBS"] },
+  "Ditch Light Kits": { slug: "ditch-light-kits", keywords: ["Ditch Light", "Ditch Bracket"] },
+  "Wiring Harnesses": { slug: "wiring-harnesses", keywords: ["Wiring Harness", "Harness", "Splitter", "Pigtail"] },
+  "Mounting Brackets": { slug: "mounting-brackets", keywords: ["Bracket", "Mount Kit", "Mounting Kit", "A-Pillar"] },
+  "Bezels & Gaskets": { slug: "bezels-gaskets", keywords: ["Bezel", "Gasket"] },
+  "Controllers & Switches": { slug: "controllers-switches", keywords: ["Controller", "Switch Panel", "D-Switch"] },
+  "Vehicle Brackets & Kits": { slug: "vehicle-brackets-kits", keywords: ["Jeep", "Ford F-150", "Colorado", "Canyon", "Sierra", "Mustang", "Wrangler", "Gladiator", "Bronco", "Ranger", "Tacoma", "4Runner", "Tundra"] },
+  "Replacement Lenses": { slug: "replacement-lenses", keywords: ["Replacement Lens", "Lens Kit"] },
+  "Reverse Light Kits": { slug: "reverse-light-kits", keywords: ["Reverse", "HitchMount", "Backup"] },
 };
 
-function getCategoryForProduct(title: string, productType: string): string {
+function getCategorySlugForProduct(title: string, productType: string): string {
   for (const [category, config] of Object.entries(categoryMappings)) {
     if (config.keywords.some(keyword => title.toLowerCase().includes(keyword.toLowerCase()))) {
-      return category;
+      return config.slug;
     }
   }
-  if (productType && productType.trim()) {
-    return productType;
-  }
-  return "Other Accessories";
+  return "mounting-brackets";
 }
 
 function extractTextContent(html: string): string {
@@ -268,28 +264,12 @@ export async function importAllAdvlustProducts() {
   
   console.log(`Found ${advlustProducts.length} products from Advlust.com`);
   
-  const categoryNamesSet = new Set<string>();
-  advlustProducts.forEach(p => categoryNamesSet.add(getCategoryForProduct(p.title, p.product_type)));
-  const categoryNames = Array.from(categoryNamesSet);
-  
-  const categoryIdMap: Record<string, string> = {};
-  
-  for (const name of categoryNames) {
-    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-    const existing = await db.select().from(categories).where(eq(categories.slug, slug));
-    if (existing.length > 0) {
-      categoryIdMap[name] = existing[0].id;
-    } else {
-      const [newCat] = await db.insert(categories).values({
-        name,
-        slug,
-        level: 0,
-        isActive: true,
-      }).returning();
-      categoryIdMap[name] = newCat.id;
-      console.log(`Created category: ${name}`);
-    }
-  }
+  const allCategories = await db.select().from(categories);
+  const categorySlugMap: Record<string, string> = {};
+  allCategories.forEach(cat => {
+    categorySlugMap[cat.slug] = cat.id;
+  });
+  console.log(`Loaded ${allCategories.length} existing categories`);
   
   let imported = 0;
   let skipped = 0;
@@ -391,8 +371,8 @@ export async function importAllAdvlustProducts() {
       });
     }
     
-    const categoryName = getCategoryForProduct(advProduct.title, advProduct.product_type);
-    const categoryId = categoryIdMap[categoryName];
+    const categorySlug = getCategorySlugForProduct(advProduct.title, advProduct.product_type);
+    const categoryId = categorySlugMap[categorySlug];
     if (categoryId) {
       await db.insert(productCategories).values({
         productId: newProduct.id,

@@ -55,6 +55,12 @@ I prefer iterative development with clear communication on progress. Before maki
 - **Advlust.com**: External Shopify store used as a source for product import. 104 products imported with full details including images, SKUs, prices, specifications, and variants.
 
 ## Recent Updates
+- **Hierarchical Category Structure (Jan 2026)**: Organized categories into parent-child hierarchy matching advlust.com:
+  - **Off-Road Lighting**: SS5 LED Pods (7), SS3 LED Pods (12), SSC2 LED Pods (9), SSC1 LED Pods (8), Rock Lights (12), Vehicle Brackets & Kits (4)
+  - **LED Light Bars**: SS5 CrossLink Light Bars (9), Stage Series Light Bars (6)
+  - **Lamps**: Fog Light Kits (6), Reverse Light Kits (2), Ditch Light Kits (2)
+  - **Accessories**: Wiring Harnesses (9), Mounting Brackets (6), Pod Covers (8), Bezels & Gaskets (2), Controllers & Switches (2)
+- **Original SKUs (Jan 2026)**: Product variants now use original advlust.com SKUs (e.g., ADV5011, DD6794) with duplicate detection
 - **Enhanced Product Import (Jan 2026)**: Re-imported all 104 products from advlust.com with complete details:
   - Full product descriptions (up to 7000+ characters per product)
   - All variant options with beam patterns (e.g., "2 Spot + 2 Driving + 2 Combo")
@@ -62,7 +68,6 @@ I prefer iterative development with clear communication on progress. Before maki
   - Features extracted from HTML (TIR optics, waterproof ratings, etc.)
   - "What's in the Box" items extracted from product listings
   - Specifications including optic options and power levels
-  - 17 categories auto-created based on product types
   - Unique SKUs per variant to prevent duplicates
 - **Product Page Improvements**:
   - Full overview description displayed in Description tab
