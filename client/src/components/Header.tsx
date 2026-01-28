@@ -104,11 +104,6 @@ export function Header() {
 
   const featuredProducts = products.slice(0, 3);
 
-  const seriesInfo = [
-    { name: "Sport Series", description: "Daily driver upgrades", color: "text-zinc-400", href: "/products?series=sport" },
-    { name: "Pro Series", description: "Weekend warrior", color: "text-white", href: "/products?series=pro" },
-    { name: "Max Series", description: "Competition grade", color: "text-primary", href: "/products?series=max" },
-  ];
 
   return (
     <header
@@ -120,12 +115,13 @@ export function Header() {
       data-testid="header"
     >
       <div className="max-w-[1440px] mx-auto px-4 md:px-8">
-        <div className="flex items-center justify-between h-20 md:h-16">
+        <div className="flex items-center justify-between h-24 md:h-20">
           <Link href="/" className="flex items-center" data-testid="logo-link">
             <img 
               src={expelightLogo} 
               alt="Expelight" 
-              className="h-8 w-auto"
+              className="h-auto w-auto"
+              style={{ height: '60px' }}
             />
           </Link>
 
@@ -181,106 +177,75 @@ export function Header() {
                   style={{ minWidth: "900px" }}
                 >
                   <div className="bg-[#0a0a0a] border border-zinc-800 rounded-lg shadow-2xl overflow-hidden">
-                    <div className="grid grid-cols-12 gap-0">
-                      <div className="col-span-3 bg-zinc-900/50 p-5 border-r border-zinc-800">
-                        <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-4">Shop by Series</h3>
-                        <div className="space-y-1">
-                          {seriesInfo.map((series) => (
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Shop by Category</h3>
+                        <Link
+                          href="/products"
+                          className="flex items-center gap-2 text-xs text-primary hover:text-primary/80 transition-colors"
+                          onClick={() => setIsMegaMenuOpen(false)}
+                        >
+                          <Grid3X3 className="w-3 h-3" />
+                          View All Products
+                        </Link>
+                      </div>
+                      
+                      <div className="grid grid-cols-3 gap-6">
+                        {categoriesWithChildren.map((parent) => (
+                          <div key={parent.id} className="space-y-3">
                             <Link
-                              key={series.name}
-                              href={series.href}
-                              className="block p-3 rounded-lg hover:bg-zinc-800/50 transition-colors group"
+                              href={`/category/${parent.slug}`}
+                              className="block group"
                               onClick={() => setIsMegaMenuOpen(false)}
                             >
-                              <span className={`font-medium ${series.color} group-hover:text-white`}>
-                                {series.name}
-                              </span>
-                              <p className="text-xs text-zinc-500 mt-0.5">{series.description}</p>
-                            </Link>
-                          ))}
-                        </div>
-                        
-                        <div className="mt-4 pt-4 border-t border-zinc-800">
-                          <Link
-                            href="/products"
-                            className="flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors"
-                            onClick={() => setIsMegaMenuOpen(false)}
-                          >
-                            <Grid3X3 className="w-4 h-4" />
-                            View All Products
-                          </Link>
-                        </div>
-                      </div>
-
-                      <div className="col-span-6 p-5 border-r border-zinc-800">
-                        <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-4">Categories</h3>
-                        <div className="grid grid-cols-2 gap-4">
-                          {categoriesWithChildren.map((parent) => (
-                            <div key={parent.id}>
-                              <Link
-                                href={parent.children && parent.children.length > 0 
-                                  ? `/category/${parent.slug}` 
-                                  : `/products?category=${encodeURIComponent(parent.name)}`
-                                }
-                                className="font-medium text-white hover:text-primary transition-colors text-sm"
-                                onClick={() => setIsMegaMenuOpen(false)}
-                              >
-                                {parent.name}
-                              </Link>
-                              {parent.children && parent.children.length > 0 && (
-                                <div className="mt-2 space-y-1">
-                                  {parent.children.map((child) => (
-                                    <Link
-                                      key={child.id}
-                                      href={`/category/${child.slug}`}
-                                      className="flex items-center gap-1 text-xs text-zinc-500 hover:text-white transition-colors py-0.5"
-                                      onClick={() => setIsMegaMenuOpen(false)}
-                                    >
-                                      <ChevronRight className="w-3 h-3" />
-                                      {child.name}
-                                    </Link>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="col-span-3 p-5 bg-zinc-900/30">
-                        <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-4">Featured</h3>
-                        <div className="space-y-3">
-                          {featuredProducts.map((product) => (
-                            <Link
-                              key={product.id}
-                              href={`/product/${product.slug}`}
-                              className="flex items-center gap-3 p-2 rounded-lg hover:bg-zinc-800/50 transition-colors group"
-                              onClick={() => setIsMegaMenuOpen(false)}
-                            >
-                              <div className="w-10 h-10 bg-zinc-800 rounded-md overflow-hidden flex-shrink-0">
-                                {product.images?.[0] ? (
+                              <div className="relative aspect-[16/9] rounded-lg overflow-hidden bg-zinc-800">
+                                {parent.imageUrl ? (
                                   <img 
-                                    src={product.images[0]} 
-                                    alt={product.name}
-                                    className="w-full h-full object-cover"
+                                    src={parent.imageUrl} 
+                                    alt={parent.name}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                   />
                                 ) : (
                                   <div className="w-full h-full flex items-center justify-center">
-                                    <div className="w-5 h-5 rounded-full bg-primary/20" />
+                                    <div className="w-8 h-8 rounded-full bg-primary/20" />
                                   </div>
                                 )}
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <p className="text-xs text-zinc-300 group-hover:text-white line-clamp-1 transition-colors">
-                                  {product.name}
-                                </p>
-                                <p className="text-xs text-primary font-medium">
-                                  ₹{product.price.toLocaleString("en-IN")}
-                                </p>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                                <div className="absolute bottom-0 left-0 right-0 p-3">
+                                  <h4 className="font-semibold text-white text-sm group-hover:text-primary transition-colors">
+                                    {parent.name}
+                                  </h4>
+                                </div>
                               </div>
                             </Link>
-                          ))}
-                        </div>
+                            
+                            {parent.children && parent.children.length > 0 && (
+                              <div className="grid grid-cols-2 gap-2">
+                                {parent.children.slice(0, 6).map((child) => (
+                                  <Link
+                                    key={child.id}
+                                    href={`/category/${child.slug}`}
+                                    className="flex items-center gap-2 p-2 rounded-md hover:bg-zinc-800/50 transition-colors group/item"
+                                    onClick={() => setIsMegaMenuOpen(false)}
+                                  >
+                                    {child.imageUrl && (
+                                      <div className="w-8 h-8 rounded overflow-hidden flex-shrink-0 bg-zinc-800">
+                                        <img 
+                                          src={child.imageUrl} 
+                                          alt={child.name}
+                                          className="w-full h-full object-cover"
+                                        />
+                                      </div>
+                                    )}
+                                    <span className="text-xs text-zinc-400 group-hover/item:text-white transition-colors line-clamp-1">
+                                      {child.name}
+                                    </span>
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
