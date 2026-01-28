@@ -625,22 +625,26 @@ export function ProductPage({ product }: ProductPageProps) {
                 
                 {(product as any).partNumbers && (
                   <div className="overflow-x-auto">
-                    <table className="w-full border-collapse">
+                    <table className="w-full border-collapse text-sm">
                       <thead>
                         <tr className="bg-zinc-900/50 border-b border-zinc-800">
-                          <th className="text-left px-4 py-3 text-zinc-400 font-medium">SKU</th>
-                          <th className="text-left px-4 py-3 text-zinc-400 font-medium">Price</th>
-                          <th className="text-left px-4 py-3 text-zinc-400 font-medium">Name</th>
-                          <th className="text-left px-4 py-3 text-zinc-400 font-medium">Weight</th>
+                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">SKU</th>
+                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Price</th>
+                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Name</th>
+                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Weight</th>
+                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Driver</th>
+                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Components</th>
                         </tr>
                       </thead>
                       <tbody>
                         {JSON.parse((product as any).partNumbers).map((part: any, index: number) => (
                           <tr key={index} className="border-b border-zinc-800 hover:bg-zinc-900/30">
-                            <td className="px-4 py-3 text-white font-mono text-sm">{part.sku}</td>
-                            <td className="px-4 py-3 text-primary">₹{part.price?.toLocaleString('en-IN')}</td>
-                            <td className="px-4 py-3 text-zinc-300">{part.name}</td>
-                            <td className="px-4 py-3 text-zinc-400">{part.weight || '-'}</td>
+                            <td className="px-3 py-2 text-white font-mono text-xs">{part.sku}</td>
+                            <td className="px-3 py-2 text-primary text-xs">₹{part.price?.toLocaleString('en-IN')}</td>
+                            <td className="px-3 py-2 text-zinc-300 text-xs">{part.name}</td>
+                            <td className="px-3 py-2 text-zinc-400 text-xs">{part.weight || '-'}</td>
+                            <td className="px-3 py-2 text-zinc-400 text-xs">{part.driver || '-'}</td>
+                            <td className="px-3 py-2 text-zinc-400 text-xs max-w-[200px]">{part.components || '-'}</td>
                           </tr>
                         ))}
                       </tbody>
