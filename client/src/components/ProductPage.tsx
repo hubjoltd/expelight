@@ -477,46 +477,8 @@ export function ProductPage({ product }: ProductPageProps) {
                 <h3 className="text-xl font-semibold text-white mb-4">Specifications</h3>
                 <p className="text-sm text-zinc-500 mb-6">NOTE: Specifications listed here are for each individual pod.</p>
                 
-                {/* Variant Comparison Table - Like advlust.com */}
-                {variants.length > 0 && (
-                  <div className="mb-8 overflow-x-auto">
-                    <table className="w-full border-collapse">
-                      <thead>
-                        <tr className="bg-zinc-900/50">
-                          <th className="border border-zinc-700 px-3 py-2 text-left text-xs font-semibold text-zinc-400">Lens Color/Optics</th>
-                          <th className="border border-zinc-700 px-3 py-2 text-center text-xs font-semibold text-zinc-400">Peak Beam Intensity<br/>(candela)</th>
-                          <th className="border border-zinc-700 px-3 py-2 text-center text-xs font-semibold text-zinc-400">Illuminance<br/>(lux @ 10m)</th>
-                          <th className="border border-zinc-700 px-3 py-2 text-center text-xs font-semibold text-zinc-400">Measured Output<br/>(lumens)</th>
-                          <th className="border border-zinc-700 px-3 py-2 text-center text-xs font-semibold text-zinc-400">Raw Output<br/>(lumens)</th>
-                          <th className="border border-zinc-700 px-3 py-2 text-center text-xs font-semibold text-zinc-400">Output Color</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {variants.map((variant: any, idx: number) => (
-                          <tr key={idx} className={idx % 2 === 0 ? 'bg-zinc-900/20' : 'bg-zinc-900/40'}>
-                            <td className="border border-zinc-700 px-3 py-2 text-sm text-zinc-300">{variant.name || variant.beamPattern || 'Standard'}</td>
-                            <td className="border border-zinc-700 px-3 py-2 text-center text-sm text-zinc-300">{variant.peakIntensity || '-'}</td>
-                            <td className="border border-zinc-700 px-3 py-2 text-center text-sm text-zinc-300">{variant.illuminance || '-'}</td>
-                            <td className="border border-zinc-700 px-3 py-2 text-center text-sm text-zinc-300">{variant.measuredOutput || '-'}</td>
-                            <td className="border border-zinc-700 px-3 py-2 text-center text-sm text-zinc-300">{variant.rawOutput || '-'}</td>
-                            <td className="border border-zinc-700 px-3 py-2 text-center text-sm text-zinc-300">{variant.outputColor || '6000K White'}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-
-                {/* Technical Specifications List */}
-                <div className="space-y-2 mb-8">
-                  <h4 className="text-sm font-medium text-zinc-400 mb-3 underline cursor-pointer hover:text-primary">What do these terms mean?</h4>
-                  {specifications.map((spec, index) => (
-                    <div key={index} className="flex items-start gap-2">
-                      <span className="text-sm font-semibold text-zinc-300 min-w-[200px]">{spec.label}:</span>
-                      <span className="text-sm text-zinc-400">{spec.value}</span>
-                    </div>
-                  ))}
-                  {(product as any).specificationsTable && (() => {
+                {/* Specifications from advlust.com */}
+                {(product as any).specificationsTable && (() => {
                     try {
                       const specTable = JSON.parse((product as any).specificationsTable);
                       const { variantSpecs, ...regularSpecs } = specTable;
@@ -570,7 +532,6 @@ export function ProductPage({ product }: ProductPageProps) {
                       );
                     } catch { return null; }
                   })()}
-                </div>
 
                 {/* What's Included Section */}
                 {(product as any).whatsInBox && (product as any).whatsInBox.length > 0 && (
