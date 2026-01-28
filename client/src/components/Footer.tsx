@@ -17,7 +17,7 @@ export function Footer() {
               <img 
                 src={expelightLogo} 
                 alt="Expelight" 
-                className="h-16 md:h-20 w-auto"
+                className="h-20 md:h-20 w-auto"
               />
             </Link>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
