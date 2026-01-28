@@ -38,9 +38,19 @@ export function ProductPage({ product }: ProductPageProps) {
     enabled: !!product.id,
   });
 
-  const selectedVariant = variants.find(v => 
-    v.beamPattern === selectedBeamPattern && v.color === selectedColor
-  );
+  const selectedVariant = variants.find(v => {
+    if (v.beamPattern && v.color) {
+      return v.beamPattern === selectedBeamPattern && v.color === selectedColor;
+    }
+    if (v.beamPattern) {
+      return v.beamPattern === selectedBeamPattern;
+    }
+    if (v.name) {
+      return v.name.toLowerCase().includes(selectedBeamPattern?.toLowerCase() || '') ||
+             v.name.toLowerCase().includes(selectedColor?.toLowerCase() || '');
+    }
+    return false;
+  }) || variants[0];
 
   const handleAddToCart = async () => {
     setIsAdding(true);
