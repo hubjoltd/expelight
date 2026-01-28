@@ -504,21 +504,6 @@ export function Header() {
             ))}
             
             <div className="mt-4 pt-4 border-t border-zinc-800">
-              <h4 className="px-4 text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">Shop by Series</h4>
-              {seriesInfo.map((series) => (
-                <Link
-                  key={series.name}
-                  href={series.href}
-                  className="flex items-center justify-between px-4 py-3 text-sm text-zinc-400 hover:bg-zinc-800 hover:text-white rounded-md"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <span className={series.color}>{series.name}</span>
-                  <ChevronRight className="w-4 h-4" />
-                </Link>
-              ))}
-            </div>
-
-            <div className="mt-4 pt-4 border-t border-zinc-800">
               <h4 className="px-4 text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-2">Categories</h4>
               {categoriesWithChildren.map((parent) => (
                 <div key={parent.id}>

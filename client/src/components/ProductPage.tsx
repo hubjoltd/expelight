@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -37,6 +38,14 @@ export function ProductPage({ product }: ProductPageProps) {
     queryKey: ["/api/products", product.id, "variants"],
     enabled: !!product.id,
   });
+
+  const { data: allProducts = [] } = useQuery<Product[]>({
+    queryKey: ["/api/products"],
+  });
+
+  const similarProducts = allProducts
+    .filter(p => p.id !== product.id && p.series === product.series)
+    .slice(0, 4);
 
   const selectedVariant = variants.find(v => {
     if (v.beamPattern && v.color) {
@@ -126,20 +135,22 @@ export function ProductPage({ product }: ProductPageProps) {
                 <div className="w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse" />
               </div>
               
-              {showVideo ? (
-                <div className="w-full h-full relative z-10 bg-black flex items-center justify-center">
-                  <div className="text-center text-zinc-500">
-                    <Play className="w-16 h-16 mx-auto mb-4 text-primary" />
-                    <p>Product video coming soon</p>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="mt-4"
-                      onClick={() => setShowVideo(false)}
-                    >
-                      View Images
-                    </Button>
-                  </div>
+              {showVideo && (product as any).videoUrl ? (
+                <div className="w-full h-full relative z-10 bg-black">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${((product as any).videoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s]+)/) || [])[1] || ''}`}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="absolute top-4 right-4 bg-black/50"
+                    onClick={() => setShowVideo(false)}
+                  >
+                    View Images
+                  </Button>
                 </div>
               ) : product.images && product.images[currentImageIndex] ? (
                 <img
@@ -167,7 +178,7 @@ export function ProductPage({ product }: ProductPageProps) {
                 </div>
               )}
 
-              {!showVideo && (
+              {!showVideo && (product as any).videoUrl && (
                 <button
                   onClick={() => setShowVideo(true)}
                   className="absolute bottom-4 right-4 z-20 bg-black/70 hover:bg-black/90 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
@@ -246,46 +257,50 @@ export function ProductPage({ product }: ProductPageProps) {
 
             <p className="text-zinc-400">{product.shortDescription}</p>
 
-            <div>
-              <label className="text-sm font-medium mb-3 block text-zinc-300">Beam Pattern</label>
-              <div className="flex flex-wrap gap-2">
-                {product.beamPatterns.map((pattern) => (
-                  <button
-                    key={pattern}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                      selectedBeamPattern === pattern
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
-                    }`}
-                    onClick={() => setSelectedBeamPattern(pattern)}
-                    data-testid={`beam-pattern-${pattern.toLowerCase()}`}
-                  >
-                    {pattern}
-                  </button>
-                ))}
+            {product.beamPatterns && product.beamPatterns.length > 1 && (
+              <div>
+                <label className="text-sm font-medium mb-3 block text-zinc-300">Beam Pattern</label>
+                <div className="flex flex-wrap gap-2">
+                  {product.beamPatterns.map((pattern) => (
+                    <button
+                      key={pattern}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                        selectedBeamPattern === pattern
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
+                      }`}
+                      onClick={() => setSelectedBeamPattern(pattern)}
+                      data-testid={`beam-pattern-${pattern.toLowerCase()}`}
+                    >
+                      {pattern}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
-            <div>
-              <label className="text-sm font-medium mb-3 block text-zinc-300">Color Temperature</label>
-              <div className="flex flex-wrap gap-2">
-                {product.colors.map((color) => (
-                  <button
-                    key={color}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
-                      selectedColor === color
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
-                    }`}
-                    onClick={() => setSelectedColor(color)}
-                    data-testid={`color-${color.toLowerCase()}`}
-                  >
-                    <span className={`w-3 h-3 rounded-full ${color === "White" ? "bg-white" : "bg-yellow-400"}`} />
-                    {color}
-                  </button>
-                ))}
+            {product.colors && product.colors.length > 1 && (
+              <div>
+                <label className="text-sm font-medium mb-3 block text-zinc-300">Color Temperature</label>
+                <div className="flex flex-wrap gap-2">
+                  {product.colors.map((color) => (
+                    <button
+                      key={color}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
+                        selectedColor === color
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
+                      }`}
+                      onClick={() => setSelectedColor(color)}
+                      data-testid={`color-${color.toLowerCase()}`}
+                    >
+                      <span className={`w-3 h-3 rounded-full ${color === "White" ? "bg-white" : "bg-yellow-400"}`} />
+                      {color}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             <div>
               <label className="text-sm font-medium mb-3 block text-zinc-300">Quantity</label>
@@ -601,6 +616,43 @@ export function ProductPage({ product }: ProductPageProps) {
             </TabsContent>
           </Tabs>
         </div>
+
+        {similarProducts.length > 0 && (
+          <div className="mt-16" data-testid="similar-products">
+            <h2 className="text-2xl font-bold text-white mb-8">Similar Products</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {similarProducts.map((p) => (
+                <Link
+                  key={p.id}
+                  href={`/product/${p.slug}`}
+                  className="group bg-zinc-900/50 rounded-lg border border-zinc-800 overflow-hidden hover:border-zinc-600 transition-colors"
+                >
+                  <div className="aspect-square bg-zinc-900 overflow-hidden">
+                    {p.images?.[0] ? (
+                      <img
+                        src={p.images[0]}
+                        alt={p.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-full bg-primary/20" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <p className="text-sm text-zinc-300 line-clamp-2 group-hover:text-white transition-colors mb-2">
+                      {p.name}
+                    </p>
+                    <p className="text-primary font-semibold">
+                      ₹{p.price.toLocaleString("en-IN")}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

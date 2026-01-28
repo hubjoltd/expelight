@@ -124,6 +124,7 @@ export const products = pgTable("products", {
   isActive: boolean("is_active").default(true), // For enabling/disabling products
   advlustProductId: text("advlust_product_id"), // Reference to Advlust product
   advlustHandle: text("advlust_handle"), // Advlust product handle/slug
+  videoUrl: text("video_url"), // YouTube video URL for the product
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
