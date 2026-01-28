@@ -65,6 +65,28 @@ export default function AdminAdvlust() {
     existingProducts?.map(p => p.advlustProductId).filter(Boolean) || []
   );
 
+  const importAllMutation = useMutation({
+    mutationFn: async () => {
+      return await apiRequest("POST", "/api/admin/advlust/import-all");
+    },
+    onSuccess: async (response) => {
+      const result = await response.json();
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/products"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
+      toast({ 
+        title: "Bulk import complete",
+        description: `Imported ${result.imported} products, skipped ${result.skipped} already existing.`
+      });
+    },
+    onError: (error: Error) => {
+      toast({ 
+        title: "Import failed", 
+        description: error.message,
+        variant: "destructive" 
+      });
+    },
+  });
+
   const importMutation = useMutation({
     mutationFn: async ({ 
       advlustProduct, 
@@ -125,15 +147,25 @@ export default function AdminAdvlust() {
               <p className="text-zinc-400">Browse and import products from Advlust.com</p>
             </div>
           </div>
-          <Button 
-            onClick={() => refetch()} 
-            disabled={isFetching}
-            variant="outline"
-            data-testid="refresh-advlust"
-          >
-            <RefreshCw className={`h-4 w-4 mr-2 ${isFetching ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
+          <div className="flex gap-3">
+            <Button 
+              onClick={() => importAllMutation.mutate()}
+              disabled={importAllMutation.isPending}
+              data-testid="import-all-advlust"
+            >
+              <Download className={`h-4 w-4 mr-2 ${importAllMutation.isPending ? 'animate-spin' : ''}`} />
+              {importAllMutation.isPending ? "Importing All..." : "Import All Products"}
+            </Button>
+            <Button 
+              onClick={() => refetch()} 
+              disabled={isFetching}
+              variant="outline"
+              data-testid="refresh-advlust"
+            >
+              <RefreshCw className={`h-4 w-4 mr-2 ${isFetching ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
+          </div>
         </div>
 
         {isLoading ? (
