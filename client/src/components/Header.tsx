@@ -26,6 +26,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [expandedMobileCategory, setExpandedMobileCategory] = useState<string | null>(null);
+  const [expandedMobileSubcategory, setExpandedMobileSubcategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
@@ -577,27 +578,53 @@ export function Header() {
                       </Link>
                       {parent.children.map((child) => (
                         <div key={child.id}>
-                          <Link
-                            href={`/category/${child.slug}`}
-                            className="flex items-center gap-1 px-4 py-2 text-xs text-zinc-300 hover:text-white font-medium"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                          >
-                            <ChevronRight className="w-3 h-3" />
-                            {child.name}
-                          </Link>
-                          {child.children && child.children.length > 0 && (
-                            <div className="ml-4">
-                              {child.children.map((subChild) => (
-                                <Link
-                                  key={subChild.id}
-                                  href={`/category/${subChild.slug}`}
-                                  className="block px-4 py-1.5 text-xs text-zinc-500 hover:text-white"
-                                  onClick={() => setIsMobileMenuOpen(false)}
-                                >
-                                  {subChild.name}
-                                </Link>
-                              ))}
-                            </div>
+                          {child.children && child.children.length > 0 ? (
+                            <>
+                              <button
+                                className="flex items-center justify-between w-full px-4 py-2 text-xs text-zinc-300 hover:text-white font-medium"
+                                onClick={() => setExpandedMobileSubcategory(
+                                  expandedMobileSubcategory === child.id ? null : child.id
+                                )}
+                              >
+                                <span className="flex items-center gap-1">
+                                  <ChevronRight className={`w-3 h-3 transition-transform ${
+                                    expandedMobileSubcategory === child.id ? "rotate-90" : ""
+                                  }`} />
+                                  {child.name}
+                                </span>
+                                <span className="text-zinc-600 text-[10px]">{child.children.length}</span>
+                              </button>
+                              {expandedMobileSubcategory === child.id && (
+                                <div className="ml-4 border-l border-zinc-800">
+                                  <Link
+                                    href={`/category/${child.slug}`}
+                                    className="block px-4 py-1.5 text-xs text-primary"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                  >
+                                    View All {child.name}
+                                  </Link>
+                                  {child.children.map((subChild) => (
+                                    <Link
+                                      key={subChild.id}
+                                      href={`/category/${subChild.slug}`}
+                                      className="block px-4 py-1.5 text-xs text-zinc-500 hover:text-white"
+                                      onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                      {subChild.name}
+                                    </Link>
+                                  ))}
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <Link
+                              href={`/category/${child.slug}`}
+                              className="flex items-center gap-1 px-4 py-2 text-xs text-zinc-300 hover:text-white font-medium"
+                              onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                              <ChevronRight className="w-3 h-3" />
+                              {child.name}
+                            </Link>
                           )}
                         </div>
                       ))}
