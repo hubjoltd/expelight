@@ -35,6 +35,9 @@ export default function Products() {
   const categoryFromUrl = searchParams.get("category");
   const searchFromUrl = searchParams.get("search");
   const pageFromUrl = parseInt(searchParams.get("page") || "1");
+  const vehicleFromUrl = searchParams.get("vehicle");
+  const minPriceFromUrl = searchParams.get("minPrice");
+  const maxPriceFromUrl = searchParams.get("maxPrice");
   
   const [selectedSeries, setSelectedSeries] = useState<string>(seriesFromUrl || "all");
   const [selectedCategory, setSelectedCategory] = useState<string>(categoryFromUrl || "all");
@@ -42,6 +45,9 @@ export default function Products() {
   const [sortBy, setSortBy] = useState<string>("newest");
   const [currentPage, setCurrentPage] = useState(pageFromUrl);
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+  const [selectedVehicle, setSelectedVehicle] = useState<string>(vehicleFromUrl || "");
+  const [minPrice, setMinPrice] = useState<number | null>(minPriceFromUrl ? parseInt(minPriceFromUrl) : null);
+  const [maxPrice, setMaxPrice] = useState<number | null>(maxPriceFromUrl ? parseInt(maxPriceFromUrl) : null);
 
   const { data: products = [], isLoading } = useQuery<ProductWithCategories[]>({
     queryKey: ["/api/products"],
@@ -68,16 +74,38 @@ export default function Products() {
     if (categoryFromUrl) setSelectedCategory(categoryFromUrl);
     if (searchFromUrl) setSearchText(searchFromUrl);
     if (pageFromUrl) setCurrentPage(pageFromUrl);
-  }, [seriesFromUrl, categoryFromUrl, searchFromUrl, pageFromUrl]);
+    if (vehicleFromUrl) setSelectedVehicle(vehicleFromUrl);
+    if (minPriceFromUrl) setMinPrice(parseInt(minPriceFromUrl));
+    if (maxPriceFromUrl) setMaxPrice(parseInt(maxPriceFromUrl));
+  }, [seriesFromUrl, categoryFromUrl, searchFromUrl, pageFromUrl, vehicleFromUrl, minPriceFromUrl, maxPriceFromUrl]);
 
-  const updateUrl = (newSeries: string, newCategory: string, newPage: number, newSearch?: string) => {
-    const params = new URLSearchParams();
-    if (newSeries !== "all") params.set("series", newSeries);
-    if (newCategory !== "all") params.set("category", newCategory);
-    const effectiveSearch = newSearch !== undefined ? newSearch : searchText;
-    if (effectiveSearch) params.set("search", effectiveSearch);
-    if (newPage > 1) params.set("page", String(newPage));
-    const newUrl = params.toString() ? `/products?${params}` : "/products";
+  const updateUrl = (params: {
+    series?: string;
+    category?: string;
+    page?: number;
+    search?: string;
+    vehicle?: string;
+    minPrice?: number | null;
+    maxPrice?: number | null;
+  }) => {
+    const urlParams = new URLSearchParams();
+    const newSeries = params.series ?? selectedSeries;
+    const newCategory = params.category ?? selectedCategory;
+    const newPage = params.page ?? currentPage;
+    const newSearch = params.search ?? searchText;
+    const newVehicle = params.vehicle ?? selectedVehicle;
+    const newMinPrice = params.minPrice !== undefined ? params.minPrice : minPrice;
+    const newMaxPrice = params.maxPrice !== undefined ? params.maxPrice : maxPrice;
+    
+    if (newSeries !== "all") urlParams.set("series", newSeries);
+    if (newCategory !== "all") urlParams.set("category", newCategory);
+    if (newSearch) urlParams.set("search", newSearch);
+    if (newPage > 1) urlParams.set("page", String(newPage));
+    if (newVehicle) urlParams.set("vehicle", newVehicle);
+    if (newMinPrice) urlParams.set("minPrice", String(newMinPrice));
+    if (newMaxPrice) urlParams.set("maxPrice", String(newMaxPrice));
+    
+    const newUrl = urlParams.toString() ? `/products?${urlParams}` : "/products";
     setLocation(newUrl);
   };
 
@@ -113,7 +141,16 @@ export default function Products() {
       );
     }
     
-    return matchesSeries && matchesCategory && matchesSearch;
+    // Filter by price range
+    const matchesMinPrice = !minPrice || product.price >= minPrice;
+    const matchesMaxPrice = !maxPrice || product.price <= maxPrice;
+    
+    // Filter by vehicle (check compatible vehicles array)
+    const matchesVehicle = !selectedVehicle || (product.compatibleVehicles && product.compatibleVehicles.some(v => 
+      v.toLowerCase().includes(selectedVehicle.toLowerCase())
+    ));
+    
+    return matchesSeries && matchesCategory && matchesSearch && matchesMinPrice && matchesMaxPrice && matchesVehicle;
   });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -141,30 +178,46 @@ export default function Products() {
   const handleSeriesChange = (value: string) => {
     setSelectedSeries(value);
     setCurrentPage(1);
-    updateUrl(value, selectedCategory, 1);
+    updateUrl({ series: value, page: 1 });
   };
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
     setCurrentPage(1);
-    updateUrl(selectedSeries, value, 1);
+    updateUrl({ category: value, page: 1 });
   };
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    updateUrl(selectedSeries, selectedCategory, page);
+    updateUrl({ page });
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleVehicleChange = (value: string) => {
+    setSelectedVehicle(value);
+    setCurrentPage(1);
+    updateUrl({ vehicle: value, page: 1 });
+  };
+
+  const handlePriceRangeChange = (min: number | null, max: number | null) => {
+    setMinPrice(min);
+    setMaxPrice(max);
+    setCurrentPage(1);
+    updateUrl({ minPrice: min, maxPrice: max, page: 1 });
   };
 
   const clearFilters = () => {
     setSelectedSeries("all");
     setSelectedCategory("all");
     setSearchText("");
+    setSelectedVehicle("");
+    setMinPrice(null);
+    setMaxPrice(null);
     setCurrentPage(1);
     setLocation("/products");
   };
 
-  const hasActiveFilters = selectedSeries !== "all" || selectedCategory !== "all" || !!searchText;
+  const hasActiveFilters = selectedSeries !== "all" || selectedCategory !== "all" || !!searchText || !!selectedVehicle || !!minPrice || !!maxPrice;
 
   const getSeriesColor = (series: string) => {
     switch (series.toLowerCase()) {
@@ -266,6 +319,30 @@ export default function Products() {
                 </SelectContent>
               </Select>
 
+              <Select 
+                value={minPrice && maxPrice ? `${minPrice}-${maxPrice}` : "all"} 
+                onValueChange={(value) => {
+                  if (value === "all") {
+                    handlePriceRangeChange(null, null);
+                  } else {
+                    const [min, max] = value.split("-").map(Number);
+                    handlePriceRangeChange(min, max);
+                  }
+                }}
+              >
+                <SelectTrigger className="w-[160px] bg-[#0a0a0a] border-zinc-800/50 text-zinc-300" data-testid="filter-price">
+                  <SelectValue placeholder="Price Range" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Prices</SelectItem>
+                  <SelectItem value="0-10000">Under ₹10,000</SelectItem>
+                  <SelectItem value="10000-25000">₹10,000 - ₹25,000</SelectItem>
+                  <SelectItem value="25000-50000">₹25,000 - ₹50,000</SelectItem>
+                  <SelectItem value="50000-100000">₹50,000 - ₹1,00,000</SelectItem>
+                  <SelectItem value="100000-999999">Above ₹1,00,000</SelectItem>
+                </SelectContent>
+              </Select>
+
               {searchText && (
                 <Badge variant="secondary" className="gap-1 text-xs">
                   Search: "{searchText}"
@@ -273,7 +350,23 @@ export default function Products() {
                     onClick={() => {
                       setSearchText("");
                       setCurrentPage(1);
-                      updateUrl(selectedSeries, selectedCategory, 1, "");
+                      updateUrl({ search: "", page: 1 });
+                    }}
+                    className="ml-1 hover:text-white"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </Badge>
+              )}
+
+              {selectedVehicle && (
+                <Badge variant="secondary" className="gap-1 text-xs bg-primary/20 border-primary/30">
+                  Vehicle: {selectedVehicle}
+                  <button 
+                    onClick={() => {
+                      setSelectedVehicle("");
+                      setCurrentPage(1);
+                      updateUrl({ vehicle: "", page: 1 });
                     }}
                     className="ml-1 hover:text-white"
                   >

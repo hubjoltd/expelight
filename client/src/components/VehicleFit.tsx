@@ -212,7 +212,7 @@ export function VehicleFit() {
                 <Button
                   className="flex-1 h-12 bg-primary text-primary-foreground glow-red"
                   data-testid="view-upgrades"
-                  onClick={() => setLocation("/products")}
+                  onClick={() => setLocation(`/products?vehicle=${encodeURIComponent(selectedMake + ' ' + selectedModel)}`)}
                 >
                   View Upgrades
                   <ArrowRight className="w-4 h-4 ml-2" />
