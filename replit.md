@@ -52,4 +52,15 @@ I prefer iterative development with clear communication on progress. Before maki
 - **express-session**: For session management.
 - **PDFKit**: For generating PDF invoices.
 - **WhatsApp Cloud API**: For sending invoice PDFs to customers.
-- **Advlust.com**: External Shopify store used as a source for product import.
+- **Advlust.com**: External Shopify store used as a source for product import. 104 products imported with full details including images, SKUs, prices, specifications, and variants.
+
+## Recent Updates
+- **Product Import (Jan 2026)**: Imported all 104 products from advlust.com with complete details:
+  - Product images, SKUs, and prices (converted to INR at ~85x rate)
+  - Beam patterns and color variants extracted from product options
+  - Specifications extracted from product descriptions
+  - Features including IP ratings, compliance, materials
+  - 17 categories auto-created based on product types
+- **SKU Display Enhancement**: SKU now displayed prominently in bold white text on product pages
+- **Variant Selection**: Price and SKU dynamically update when selecting different beam patterns/colors
+- **Admin Credentials**: Username: "admin", Password: "Expelight@2024"

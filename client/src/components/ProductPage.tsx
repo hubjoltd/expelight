@@ -204,16 +204,20 @@ export function ProductPage({ product }: ProductPageProps) {
           </div>
 
           <div className="lg:sticky lg:top-24 lg:self-start space-y-6" data-testid="product-info">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <Badge variant="outline" className="text-zinc-400 border-zinc-700 bg-zinc-900/50">
                 {product.series} Series
               </Badge>
-              {(selectedVariant?.sku || product.sku) && (
-                <Badge variant="outline" className="text-zinc-500 border-zinc-800 bg-transparent font-mono text-xs">
-                  {selectedVariant?.sku || product.sku}
-                </Badge>
-              )}
             </div>
+            
+            {(selectedVariant?.sku || product.sku) && (
+              <div className="flex items-center gap-2">
+                <span className="text-zinc-500 text-sm">SKU:</span>
+                <span className="text-white font-bold text-lg font-mono tracking-wide">
+                  {selectedVariant?.sku || product.sku}
+                </span>
+              </div>
+            )}
 
             <h1 className="text-3xl md:text-4xl font-bold text-white" data-testid="product-title">
               {product.name}
