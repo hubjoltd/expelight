@@ -208,9 +208,9 @@ export function ProductPage({ product }: ProductPageProps) {
               <Badge variant="outline" className="text-zinc-400 border-zinc-700 bg-zinc-900/50">
                 {product.series} Series
               </Badge>
-              {product.sku && (
+              {(selectedVariant?.sku || product.sku) && (
                 <Badge variant="outline" className="text-zinc-500 border-zinc-800 bg-transparent font-mono text-xs">
-                  {product.sku}
+                  {selectedVariant?.sku || product.sku}
                 </Badge>
               )}
             </div>
