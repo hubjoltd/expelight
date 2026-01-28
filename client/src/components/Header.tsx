@@ -18,7 +18,7 @@ import expelightLogo from "@assets/Copy_of_Expelight_logo_1769590561985.png";
 import type { Category, Product } from "@shared/schema";
 
 interface CategoryWithChildren extends Category {
-  children?: Category[];
+  children?: CategoryWithChildren[];
 }
 
 export function Header() {
@@ -126,7 +126,7 @@ export function Header() {
       data-testid="header"
     >
       <div className="max-w-[1440px] mx-auto px-4 md:px-8">
-        <div className="flex items-center justify-between h-24">
+        <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center" data-testid="logo-link">
             <img 
               src={expelightLogo} 
