@@ -44,9 +44,9 @@ export function setupAuth(app: Express) {
       proxy: true,
       cookie: {
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
-        partitioned: true, // CHIPS: allows cookie in third-party iframe context
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        partitioned: isProduction, // CHIPS: allows cookie in third-party iframe context
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       },
     })
