@@ -120,12 +120,12 @@ export function Header() {
       data-testid="header"
     >
       <div className="max-w-[1440px] mx-auto px-4 md:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between h-14 md:h-16">
           <Link href="/" className="flex items-center" data-testid="logo-link">
             <img 
               src={expelightLogo} 
               alt="Expelight" 
-              className="h-20 md:h-12 w-auto"
+              className="h-24 md:h-16 w-auto"
             />
           </Link>
 

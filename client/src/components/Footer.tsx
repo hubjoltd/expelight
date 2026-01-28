@@ -10,14 +10,14 @@ export function Footer() {
     <footer className="bg-[#080808] border-t border-border/20" data-testid="footer">
       <div className="max-w-[1440px] mx-auto px-4 md:px-8">
         {/* Main footer content */}
-        <div className="py-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand column */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center mb-6" data-testid="footer-logo">
               <img 
                 src={expelightLogo} 
                 alt="Expelight" 
-                className="h-20 md:h-20 w-auto"
+                className="h-24 md:h-24 w-auto"
               />
             </Link>
             <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
