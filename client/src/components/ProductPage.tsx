@@ -43,8 +43,19 @@ export function ProductPage({ product }: ProductPageProps) {
     queryKey: ["/api/products"],
   });
 
+  const currentProductFromList = allProducts.find(p => p.id === product.id);
+  const currentCategoryIds: string[] = (currentProductFromList as any)?.categoryIds || [];
+
   const similarProducts = allProducts
-    .filter(p => p.id !== product.id && p.series === product.series)
+    .filter(p => {
+      if (p.id === product.id) return false;
+      if (currentCategoryIds.length > 0) {
+        const pCats: string[] = (p as any).categoryIds || [];
+        const hasSharedCategory = pCats.some((c: string) => currentCategoryIds.includes(c));
+        if (hasSharedCategory) return true;
+      }
+      return p.series === product.series;
+    })
     .slice(0, 4);
 
   const selectedVariant = variants.find(v => {
@@ -256,11 +267,7 @@ export function ProductPage({ product }: ProductPageProps) {
               <span className="text-4xl font-bold text-white">
                 ₹{(selectedVariant?.price || product.price).toLocaleString("en-IN")}
               </span>
-              {(selectedVariant?.compareAtPrice || product.originalPrice) && (
-                <span className="text-xl text-zinc-500 line-through">
-                  ₹{(selectedVariant?.compareAtPrice || product.originalPrice || 0).toLocaleString("en-IN")}
-                </span>
-              )}
+              
             </div>
 
             <p className="text-zinc-400">{product.shortDescription}</p>
@@ -606,7 +613,7 @@ export function ProductPage({ product }: ProductPageProps) {
                 )}
                 
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {installationSteps.map((step) => (
+                  {installationSteps.map((step: any) => (
                     <div 
                       key={step.step} 
                       className="bg-zinc-900/30 rounded-lg border border-zinc-800 p-6 hover:border-zinc-700 transition-colors"
@@ -689,7 +696,7 @@ export function ProductPage({ product }: ProductPageProps) {
               <div className="max-w-3xl">
                 <h3 className="text-xl font-semibold text-white mb-6">Frequently Asked Questions</h3>
                 <Accordion type="single" collapsible className="w-full">
-                  {faqItems.map((faq, index) => (
+                  {faqItems.map((faq: any, index: number) => (
                     <AccordionItem key={index} value={`faq-${index}`} className="border-zinc-800">
                       <AccordionTrigger className="text-left text-zinc-300 hover:text-white">
                         {faq.question}

@@ -12,19 +12,20 @@ import {
 import { Car, Search, ArrowRight, CheckCircle2 } from "lucide-react";
 
 const vehicleData = {
-  makes: ["Mahindra", "Toyota", "Maruti Suzuki", "Force", "Isuzu", "Mercedes-Benz", "BMW", "Audi", "Land Rover", "Porsche", "Jeep"],
+  makes: ["Mahindra", "Toyota", "Maruti Suzuki", "Suzuki", "Force", "Isuzu", "Jeep", "Mercedes-Benz", "BMW", "Audi", "Land Rover", "Porsche"],
   models: {
-    Mahindra: ["Thar (2020+)", "Scorpio-N", "Scorpio Classic", "XUV700", "Bolero"],
-    Toyota: ["Hilux", "Fortuner", "Land Cruiser", "Land Cruiser Prado"],
+    Mahindra: ["Thar", "Thar Roxx", "Scorpio-N", "Scorpio Classic", "XUV700", "Bolero"],
+    Toyota: ["Hilux", "Fortuner", "Innova Crysta", "Hycross", "Land Cruiser", "Land Cruiser Prado"],
     "Maruti Suzuki": ["Jimny", "Gypsy"],
+    Suzuki: ["Jimny"],
     Force: ["Gurkha"],
     Isuzu: ["V-Cross", "MU-X"],
+    Jeep: ["Wrangler", "Grand Cherokee", "Compass", "Meridian"],
     "Mercedes-Benz": ["G-Class", "GLE", "GLS", "GLC", "AMG GT"],
     BMW: ["X5", "X6", "X7", "7 Series", "M Series"],
     Audi: ["Q7", "Q8", "RS Q8", "e-tron GT", "A8"],
     "Land Rover": ["Defender", "Range Rover", "Range Rover Sport", "Discovery"],
     Porsche: ["Cayenne", "Macan", "Panamera", "911"],
-    Jeep: ["Wrangler", "Grand Cherokee", "Compass", "Meridian"],
   } as Record<string, string[]>,
 };
 

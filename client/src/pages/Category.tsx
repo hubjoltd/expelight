@@ -210,11 +210,7 @@ export default function CategoryPage() {
                           <span className="text-lg font-bold text-white">
                             ₹{product.price.toLocaleString("en-IN")}
                           </span>
-                          {product.originalPrice && product.originalPrice > product.price && (
-                            <span className="text-sm text-zinc-500 line-through">
-                              ₹{product.originalPrice.toLocaleString("en-IN")}
-                            </span>
-                          )}
+                          
                         </div>
                         {product.sku && (
                           <p className="text-xs text-zinc-600">SKU: {product.sku}</p>

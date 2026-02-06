@@ -359,9 +359,7 @@ export async function importAllAdvlustProducts() {
     
     const baseVariant = advProduct.variants[0];
     const basePrice = baseVariant ? Math.round(parseFloat(baseVariant.price)) : 15000;
-    const comparePrice = baseVariant?.compare_at_price 
-      ? Math.round(parseFloat(baseVariant.compare_at_price))
-      : Math.round(basePrice * 1.2);
+    const comparePrice = null;
     
     const series = getSeriesFromTitle(advProduct.title);
     const slug = createSlug(advProduct.title, advProduct.handle);
@@ -408,9 +406,7 @@ export async function importAllAdvlustProducts() {
     
     for (const variant of advProduct.variants) {
       const variantPrice = Math.round(parseFloat(variant.price));
-      const variantComparePrice = variant.compare_at_price 
-        ? Math.round(parseFloat(variant.compare_at_price)) 
-        : null;
+      const variantComparePrice = null;
       
       const beamPattern = variant.option1 || null;
       const color = variant.option2 || variant.option3 || null;

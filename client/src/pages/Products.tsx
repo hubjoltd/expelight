@@ -461,11 +461,7 @@ export default function Products() {
                               </div>
                             )}
 
-                            {product.originalPrice && product.originalPrice > product.price && (
-                              <Badge className="absolute top-3 right-3 bg-primary text-white border-none">
-                                Save ₹{(product.originalPrice - product.price).toLocaleString("en-IN")}
-                              </Badge>
-                            )}
+                            
 
                             <Badge className={`absolute bottom-3 left-3 ${getSeriesColor(product.series)}`}>
                               {product.series} Series
@@ -480,11 +476,7 @@ export default function Products() {
                               <span className="text-lg font-bold text-white">
                                 ₹{product.price.toLocaleString("en-IN")}
                               </span>
-                              {product.originalPrice && product.originalPrice > product.price && (
-                                <span className="text-sm text-zinc-500 line-through">
-                                  ₹{product.originalPrice.toLocaleString("en-IN")}
-                                </span>
-                              )}
+                              
                             </div>
                             {product.sku && (
                               <p className="text-xs text-zinc-600">SKU: {product.sku}</p>
