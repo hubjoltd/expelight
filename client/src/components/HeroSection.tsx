@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Play, ChevronDown, Shield, Plane } from "lucide-react";
-import { motion } from "framer-motion";
-import heroVideo from "@assets/generated_videos/suv_headlights_cutting_through_fog.mp4";
+import { Play, ChevronDown, Shield, Plane, Power } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import tharLightsOff from "@assets/thar-lights-off.png";
+import tharLightsOn from "@assets/thar-lights-on.png";
 
 export function HeroSection() {
+  const [lightsOn, setLightsOn] = useState(false);
+
   const scrollToProducts = () => {
     document.getElementById("stage-selector")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -13,23 +17,22 @@ export function HeroSection() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       data-testid="hero-section"
     >
-      {/* Full-screen looped video background */}
       <div className="absolute inset-0 bg-[#050505]">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-70"
-          data-testid="hero-video"
-        >
-          <source src={heroVideo} type="video/mp4" />
-        </video>
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={lightsOn ? "on" : "off"}
+            src={lightsOn ? tharLightsOn : tharLightsOff}
+            alt={lightsOn ? "Thar with LED lights on" : "Thar in darkness"}
+            className="absolute inset-0 w-full h-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: lightsOn ? 0.85 : 0.5 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+          />
+        </AnimatePresence>
         
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/30" />
         
-        {/* Gradient overlays for premium look */}
         <div
           className="absolute inset-0"
           style={{
@@ -39,19 +42,31 @@ export function HeroSection() {
             `,
           }}
         />
+
+        {lightsOn && (
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              background: `
+                radial-gradient(ellipse at 40% 60%, rgba(255,255,255,0.06) 0%, transparent 40%),
+                radial-gradient(ellipse at 60% 60%, rgba(255,255,255,0.06) 0%, transparent 40%)
+              `,
+            }}
+          />
+        )}
       </div>
 
-      {/* Fog/mist effect at bottom */}
       <div className="absolute bottom-0 left-0 right-0 h-60 bg-gradient-to-t from-background via-background/80 to-transparent" />
 
-      {/* Content */}
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 md:px-8 text-center mt-20">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          {/* Main Headline */}
           <h1
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 drop-shadow-lg"
             data-testid="hero-headline"
@@ -61,16 +76,32 @@ export function HeroSection() {
             <span className="text-white">Been Missing.</span>
           </h1>
 
-          {/* Sub-headline */}
           <p
-            className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-12 drop-shadow-md"
+            className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8 drop-shadow-md"
             data-testid="hero-subheadline"
           >
             Engineering-grade lighting systems for the modern Indian explorer.
           </p>
 
+          <div className="flex justify-center mb-10">
+            <Button
+              variant="outline"
+              onClick={() => setLightsOn(!lightsOn)}
+              className={`rounded-full border-2 transition-all duration-500 ${
+                lightsOn
+                  ? "border-primary bg-primary/20 text-white shadow-[0_0_30px_rgba(229,57,53,0.4)]"
+                  : "border-white/30 bg-white/5 text-white/70"
+              }`}
+              data-testid="toggle-lights-button"
+            >
+              <Power className={`w-5 h-5 transition-colors duration-500 ${lightsOn ? "text-primary" : ""}`} />
+              <span className="text-sm font-medium tracking-wide uppercase">
+                {lightsOn ? "Lights On" : "Tap to Turn On Lights"}
+              </span>
+            </Button>
+          </div>
+
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            {/* Primary CTA - Ghost button with glowing border */}
             <motion.div
               animate={{
                 boxShadow: [
@@ -93,7 +124,6 @@ export function HeroSection() {
               </Button>
             </motion.div>
 
-            {/* Secondary CTA - Watch the Difference */}
             <Button
               variant="ghost"
               size="lg"
@@ -110,7 +140,6 @@ export function HeroSection() {
             </Button>
           </div>
 
-          {/* Official Partner Badge Strip - Monochromatic 50% opacity */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -118,7 +147,6 @@ export function HeroSection() {
             className="flex flex-wrap items-center justify-center gap-6 md:gap-10"
             data-testid="partner-badges"
           >
-            {/* Diode Dynamics Logo + Text */}
             <div className="flex items-center gap-3 opacity-50 hover:opacity-70 transition-opacity">
               <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">
                 <span className="text-white font-bold text-xs">DD</span>
@@ -128,10 +156,8 @@ export function HeroSection() {
               </span>
             </div>
 
-            {/* Divider */}
             <div className="hidden md:block w-px h-6 bg-white/20" />
 
-            {/* 8-Year Warranty */}
             <div className="flex items-center gap-2 opacity-50 hover:opacity-70 transition-opacity">
               <Shield className="w-5 h-5 text-white" />
               <span className="text-xs text-white uppercase tracking-wider">
@@ -139,10 +165,8 @@ export function HeroSection() {
               </span>
             </div>
 
-            {/* Divider */}
             <div className="hidden md:block w-px h-6 bg-white/20" />
 
-            {/* Express Air Shipping */}
             <div className="flex items-center gap-2 opacity-50 hover:opacity-70 transition-opacity">
               <Plane className="w-5 h-5 text-white" />
               <span className="text-xs text-white uppercase tracking-wider">
@@ -153,7 +177,6 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
       <motion.div
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         animate={{ y: [0, 10, 0] }}

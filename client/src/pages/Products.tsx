@@ -446,9 +446,9 @@ export default function Products() {
                               <motion.img
                                 src={product.images[0]}
                                 alt={product.name}
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-contain p-2"
                                 animate={{
-                                  scale: hoveredProduct === product.id ? 1.05 : 1
+                                  scale: hoveredProduct === product.id ? 1.08 : 1
                                 }}
                                 transition={{ duration: 0.4 }}
                                 onError={(e) => {

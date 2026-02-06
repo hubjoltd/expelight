@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/accordion";
 import { 
   ShoppingBag, Shield, Truck, Check, Minus, Plus, Loader2, CheckCircle, 
-  Play, FileText, Wrench, HelpCircle, Box, Star, ChevronRight, Clock
+  Play, FileText, Wrench, HelpCircle, Box, Star, ChevronRight, Clock,
+  ZoomIn, ZoomOut
 } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useToast } from "@/hooks/use-toast";
@@ -31,8 +32,50 @@ export function ProductPage({ product }: ProductPageProps) {
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(1);
+  const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const imageContainerRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCart();
   const { toast } = useToast();
+
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(prev + 0.5, 3));
+  };
+
+  const handleZoomOut = () => {
+    const newZoom = Math.max(zoomLevel - 0.5, 1);
+    setZoomLevel(newZoom);
+    if (newZoom === 1) setPanPosition({ x: 0, y: 0 });
+  };
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    if (zoomLevel <= 1) return;
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - panPosition.x, y: e.clientY - panPosition.y });
+  }, [zoomLevel, panPosition]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging || zoomLevel <= 1) return;
+    setPanPosition({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y });
+  }, [isDragging, dragStart, zoomLevel]);
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  const handleWheel = useCallback((e: React.WheelEvent) => {
+    if (zoomLevel <= 1 && e.deltaY > 0) return;
+    e.preventDefault();
+    if (e.deltaY < 0) {
+      setZoomLevel(prev => Math.min(prev + 0.25, 3));
+    } else {
+      const newZoom = Math.max(zoomLevel - 0.25, 1);
+      setZoomLevel(newZoom);
+      if (newZoom === 1) setPanPosition({ x: 0, y: 0 });
+    }
+  }, [zoomLevel]);
 
   const { data: variants = [] } = useQuery<any[]>({
     queryKey: ["/api/products", product.id, "variants"],
@@ -144,6 +187,13 @@ export function ProductPage({ product }: ProductPageProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="aspect-square bg-[#0a0a0a] rounded-lg overflow-hidden border border-zinc-800/50 relative"
+              ref={imageContainerRef}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              onWheel={handleWheel}
+              style={{ cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default' }}
             >
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse" />
@@ -170,7 +220,12 @@ export function ProductPage({ product }: ProductPageProps) {
                 <img
                   src={product.images[currentImageIndex]}
                   alt={product.name}
-                  className="w-full h-full object-cover relative z-10"
+                  className="w-full h-full object-contain relative z-10 select-none"
+                  style={{
+                    transform: `scale(${zoomLevel}) translate(${panPosition.x / zoomLevel}px, ${panPosition.y / zoomLevel}px)`,
+                    transition: isDragging ? 'none' : 'transform 0.3s ease',
+                  }}
+                  draggable={false}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-zinc-900 via-zinc-800/20 to-zinc-900 relative z-10">
@@ -192,15 +247,44 @@ export function ProductPage({ product }: ProductPageProps) {
                 </div>
               )}
 
+              {!showVideo && (
+                <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    onClick={(e) => { e.stopPropagation(); handleZoomIn(); }}
+                    className="bg-black/70 text-white"
+                    data-testid="zoom-in-button"
+                  >
+                    <ZoomIn className="w-5 h-5" />
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    onClick={(e) => { e.stopPropagation(); handleZoomOut(); }}
+                    className="bg-black/70 text-white"
+                    data-testid="zoom-out-button"
+                  >
+                    <ZoomOut className="w-5 h-5" />
+                  </Button>
+                  {zoomLevel > 1 && (
+                    <Badge variant="secondary" className="bg-black/70 text-white text-xs justify-center" data-testid="zoom-level-display">
+                      {Math.round(zoomLevel * 100)}%
+                    </Badge>
+                  )}
+                </div>
+              )}
+
               {!showVideo && (product as any).videoUrl && (
-                <button
+                <Button
+                  variant="secondary"
                   onClick={() => setShowVideo(true)}
-                  className="absolute bottom-4 right-4 z-20 bg-black/70 hover:bg-black/90 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                  className="absolute bottom-4 right-4 z-20 bg-black/70 text-white"
                   data-testid="play-video-button"
                 >
                   <Play className="w-4 h-4" />
                   Watch Video
-                </button>
+                </Button>
               )}
             </motion.div>
 
@@ -219,6 +303,8 @@ export function ProductPage({ product }: ProductPageProps) {
                   onClick={() => {
                     setCurrentImageIndex(index);
                     setShowVideo(false);
+                    setZoomLevel(1);
+                    setPanPosition({ x: 0, y: 0 });
                   }}
                   data-testid={`thumbnail-${index}`}
                 >
@@ -226,7 +312,7 @@ export function ProductPage({ product }: ProductPageProps) {
                     <img
                       src={item}
                       alt={`${product.name} ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain p-1"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
