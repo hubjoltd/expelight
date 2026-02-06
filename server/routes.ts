@@ -1074,5 +1074,16 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/admin/import-missing-skus", isAdmin, async (req: Request, res) => {
+    try {
+      const { importMissingSKUs } = await import("./importMissingSKUs");
+      const results = await importMissingSKUs();
+      res.json(results);
+    } catch (error) {
+      console.error("Import error:", error);
+      res.status(500).json({ error: "Failed to import missing SKUs" });
+    }
+  });
+
   return httpServer;
 }
