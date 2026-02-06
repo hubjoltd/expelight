@@ -114,6 +114,22 @@ const featuredVideos: VideoItem[] = [
     duration: "4:45",
     category: "Installation"
   },
+  {
+    id: "7",
+    title: "SS3 Max LED Pod - Full Breakdown",
+    thumbnail: "https://img.youtube.com/vi/CqWYGEb6bJE/maxresdefault.jpg",
+    youtubeId: "CqWYGEb6bJE",
+    duration: "3:50",
+    category: "SS3 Series"
+  },
+  {
+    id: "8",
+    title: "Stage Series Backlit LED Pods Overview",
+    thumbnail: "https://img.youtube.com/vi/Q4FoBAHCfxQ/maxresdefault.jpg",
+    youtubeId: "Q4FoBAHCfxQ",
+    duration: "4:15",
+    category: "Stage Series"
+  },
 ];
 
 function VideoCard({ video, index }: { video: VideoItem; index: number }) {

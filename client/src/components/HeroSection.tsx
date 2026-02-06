@@ -1,12 +1,11 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Play, ChevronDown, Shield, Plane, Power } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import tharLightsOff from "@assets/thar-empty-lights-off.png";
-import tharLightsOn from "@assets/thar-driver-lights-on.png";
+import { Play, ChevronDown, Shield, Plane } from "lucide-react";
+import { motion } from "framer-motion";
+import heroVideo from "@assets/generated_videos/suv_headlights_cutting_through_fog.mp4";
 
 export function HeroSection() {
-  const [lightsOn, setLightsOn] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const scrollToProducts = () => {
     document.getElementById("stage-selector")?.scrollIntoView({ behavior: "smooth" });
@@ -18,45 +17,27 @@ export function HeroSection() {
       data-testid="hero-section"
     >
       <div className="absolute inset-0 bg-[#050505]">
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={lightsOn ? "on" : "off"}
-            src={lightsOn ? tharLightsOn : tharLightsOff}
-            alt={lightsOn ? "Thar with LED lights on" : "Thar in darkness"}
-            className="absolute inset-0 w-full h-full object-cover"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: lightsOn ? 0.85 : 0.5 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-          />
-        </AnimatePresence>
-        
+        <video
+          ref={videoRef}
+          src={heroVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-80"
+        />
+
         <div className="absolute inset-0 bg-black/30" />
-        
+
         <div
           className="absolute inset-0"
           style={{
             background: `
-              linear-gradient(to bottom, rgba(5,5,5,0.5) 0%, transparent 30%, transparent 60%, rgba(5,5,5,0.95) 100%),
+              linear-gradient(to bottom, rgba(5,5,5,0.6) 0%, transparent 30%, transparent 50%, rgba(5,5,5,0.95) 100%),
               radial-gradient(ellipse at 50% 100%, rgba(26, 26, 26, 0.8) 0%, transparent 50%)
             `,
           }}
         />
-
-        {lightsOn && (
-          <motion.div
-            className="absolute inset-0 pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            style={{
-              background: `
-                radial-gradient(ellipse at 40% 60%, rgba(255,255,255,0.06) 0%, transparent 40%),
-                radial-gradient(ellipse at 60% 60%, rgba(255,255,255,0.06) 0%, transparent 40%)
-              `,
-            }}
-          />
-        )}
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-60 bg-gradient-to-t from-background via-background/80 to-transparent" />
@@ -77,29 +58,11 @@ export function HeroSection() {
           </h1>
 
           <p
-            className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8 drop-shadow-md"
+            className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 drop-shadow-md"
             data-testid="hero-subheadline"
           >
             Engineering-grade lighting systems for the modern Indian explorer.
           </p>
-
-          <div className="flex justify-center mb-10">
-            <Button
-              variant="outline"
-              onClick={() => setLightsOn(!lightsOn)}
-              className={`rounded-full border-2 transition-all duration-500 ${
-                lightsOn
-                  ? "border-primary bg-primary/20 text-white shadow-[0_0_30px_rgba(229,57,53,0.4)]"
-                  : "border-white/30 bg-white/5 text-white/70"
-              }`}
-              data-testid="toggle-lights-button"
-            >
-              <Power className={`w-5 h-5 transition-colors duration-500 ${lightsOn ? "text-primary" : ""}`} />
-              <span className="text-sm font-medium tracking-wide uppercase">
-                {lightsOn ? "Lights On" : "Tap to Turn On Lights"}
-              </span>
-            </Button>
-          </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <motion.div
@@ -116,7 +79,7 @@ export function HeroSection() {
               <Button
                 size="lg"
                 variant="outline"
-                className="relative px-10 py-6 text-base font-semibold bg-transparent border-2 border-primary text-white hover:bg-primary/10"
+                className="relative text-base font-semibold bg-transparent border-2 border-primary text-white"
                 onClick={scrollToProducts}
                 data-testid="cta-explore"
               >
@@ -127,13 +90,13 @@ export function HeroSection() {
             <Button
               variant="ghost"
               size="lg"
-              className="text-white/80 hover:text-white px-8 py-6 text-base group backdrop-blur-sm"
+              className="text-white/80 text-base group backdrop-blur-sm"
               onClick={() => {
                 document.getElementById("video-gallery")?.scrollIntoView({ behavior: "smooth" });
               }}
               data-testid="cta-watch"
             >
-              <div className="w-12 h-12 rounded-full border-2 border-white/40 flex items-center justify-center mr-3 group-hover:border-white/70 group-hover:bg-white/10 transition-all">
+              <div className="w-12 h-12 rounded-full border-2 border-white/40 flex items-center justify-center mr-3">
                 <Play className="w-5 h-5 ml-0.5 fill-white/80" />
               </div>
               Watch the Difference
@@ -147,7 +110,7 @@ export function HeroSection() {
             className="flex flex-wrap items-center justify-center gap-6 md:gap-10"
             data-testid="partner-badges"
           >
-            <div className="flex items-center gap-3 opacity-50 hover:opacity-70 transition-opacity">
+            <div className="flex items-center gap-3 opacity-50">
               <div className="w-8 h-8 rounded bg-white/10 flex items-center justify-center">
                 <span className="text-white font-bold text-xs">DD</span>
               </div>
@@ -158,7 +121,7 @@ export function HeroSection() {
 
             <div className="hidden md:block w-px h-6 bg-white/20" />
 
-            <div className="flex items-center gap-2 opacity-50 hover:opacity-70 transition-opacity">
+            <div className="flex items-center gap-2 opacity-50">
               <Shield className="w-5 h-5 text-white" />
               <span className="text-xs text-white uppercase tracking-wider">
                 8-Year Warranty
@@ -167,7 +130,7 @@ export function HeroSection() {
 
             <div className="hidden md:block w-px h-6 bg-white/20" />
 
-            <div className="flex items-center gap-2 opacity-50 hover:opacity-70 transition-opacity">
+            <div className="flex items-center gap-2 opacity-50">
               <Plane className="w-5 h-5 text-white" />
               <span className="text-xs text-white uppercase tracking-wider">
                 Express Air Shipping
