@@ -356,7 +356,7 @@ export function ProductPage({ product }: ProductPageProps) {
               
             </div>
 
-            <p className="text-zinc-400">{product.shortDescription}</p>
+            <p className="text-zinc-400 text-justify">{product.shortDescription}</p>
 
             {product.beamPatterns && product.beamPatterns.length > 1 && (
               <div>
@@ -542,7 +542,7 @@ export function ProductPage({ product }: ProductPageProps) {
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="md:col-span-2">
                   <h3 className="text-xl font-semibold text-white mb-4">Overview</h3>
-                  <div className="text-zinc-400 leading-relaxed space-y-4 whitespace-pre-line">
+                  <div className="text-zinc-400 leading-relaxed space-y-4 whitespace-pre-line text-justify">
                     {product.fullDescription?.split('\n\n').map((paragraph, idx) => (
                       <p key={idx}>{paragraph}</p>
                     )) || <p>{product.shortDescription}</p>}

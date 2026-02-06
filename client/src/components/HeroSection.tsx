@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Play, ChevronDown, Shield, Plane, Power } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import tharLightsOff from "@assets/thar-lights-off.png";
-import tharLightsOn from "@assets/thar-lights-on.png";
+import tharLightsOff from "@assets/thar-empty-lights-off.png";
+import tharLightsOn from "@assets/thar-driver-lights-on.png";
 
 export function HeroSection() {
   const [lightsOn, setLightsOn] = useState(false);
