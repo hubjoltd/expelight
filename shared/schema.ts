@@ -187,6 +187,10 @@ export const orders = pgTable("orders", {
   shippingAddress: text("shipping_address").notNull(),
   phone: text("phone").notNull(),
   email: text("email").notNull(),
+  razorpayOrderId: text("razorpay_order_id"),
+  razorpayPaymentId: text("razorpay_payment_id"),
+  razorpaySignature: text("razorpay_signature"),
+  paymentStatus: text("payment_status").default("pending"), // pending, paid, failed
   createdAt: timestamp("created_at").defaultNow(),
 });
 

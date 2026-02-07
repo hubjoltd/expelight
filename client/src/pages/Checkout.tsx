@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Header } from "@/components/Header";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Shield, CheckCircle, Truck } from "lucide-react";
+import { ArrowLeft, Shield, CheckCircle, Truck, CreditCard, Lock } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useAuth } from "@/hooks/use-auth";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -23,11 +23,18 @@ interface CartItemWithProduct {
   product: Product;
 }
 
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
+
 export default function Checkout() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [razorpayLoaded, setRazorpayLoaded] = useState(false);
 
   const [formData, setFormData] = useState({
     email: user?.email || "",
@@ -35,22 +42,46 @@ export default function Checkout() {
     shippingAddress: "",
   });
 
+  useEffect(() => {
+    if (document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]')) {
+      setRazorpayLoaded(true);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => setRazorpayLoaded(true);
+    document.body.appendChild(script);
+  }, []);
+
   const { data: cartItems = [], isLoading } = useQuery<CartItemWithProduct[]>({
     queryKey: ["/api/cart"],
     enabled: isAuthenticated,
   });
 
-  const createOrderMutation = useMutation({
+  const { data: razorpayKeyData } = useQuery<{ key: string }>({
+    queryKey: ["/api/razorpay/key"],
+  });
+
+  const createRazorpayOrder = useMutation({
     mutationFn: async (orderData: any) => {
-      return apiRequest("POST", "/api/orders", orderData);
+      const res = await apiRequest("POST", "/api/razorpay/create-order", orderData);
+      return res.json();
+    },
+  });
+
+  const verifyPayment = useMutation({
+    mutationFn: async (paymentData: any) => {
+      const res = await apiRequest("POST", "/api/razorpay/verify-payment", paymentData);
+      return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/cart"] });
       setOrderPlaced(true);
-      toast({ title: "Order placed successfully!" });
+      toast({ title: "Payment successful! Order confirmed." });
     },
     onError: () => {
-      toast({ title: "Failed to place order", variant: "destructive" });
+      toast({ title: "Payment verification failed. Please contact support.", variant: "destructive" });
     },
   });
 
@@ -61,28 +92,78 @@ export default function Checkout() {
   const shipping = subtotal >= 25000 ? 0 : 500;
   const total = subtotal + shipping;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.phone || !formData.shippingAddress) {
       toast({ title: "Please fill in all fields", variant: "destructive" });
       return;
     }
 
-    const orderData = {
-      items: cartItems.map(item => ({
-        productId: item.productId,
-        productName: item.product?.name,
-        quantity: item.quantity,
-        price: item.product?.price,
-      })),
-      totalAmount: total,
-      email: formData.email || user?.email || "",
-      phone: formData.phone,
-      shippingAddress: formData.shippingAddress,
-    };
+    if (!razorpayLoaded || !window.Razorpay) {
+      toast({ title: "Payment system is loading. Please try again.", variant: "destructive" });
+      return;
+    }
 
-    createOrderMutation.mutate(orderData);
+    try {
+      const orderData = {
+        items: cartItems.map(item => ({
+          productId: item.productId,
+          productName: item.product?.name,
+          quantity: item.quantity,
+          price: item.product?.price,
+        })),
+        totalAmount: total,
+        email: formData.email || user?.email || "",
+        phone: formData.phone,
+        shippingAddress: formData.shippingAddress,
+      };
+
+      const razorpayOrder = await createRazorpayOrder.mutateAsync(orderData);
+
+      const options = {
+        key: razorpayKeyData?.key,
+        amount: razorpayOrder.amount,
+        currency: razorpayOrder.currency,
+        name: "Expelight",
+        description: "Premium Automotive LED Lighting",
+        order_id: razorpayOrder.razorpayOrderId,
+        handler: function (response: any) {
+          verifyPayment.mutate({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            orderId: razorpayOrder.orderId,
+          });
+        },
+        prefill: {
+          name: user?.username || "",
+          email: formData.email || user?.email || "",
+          contact: formData.phone,
+        },
+        theme: {
+          color: "#E53935",
+          backdrop_color: "rgba(5, 5, 5, 0.85)",
+        },
+        modal: {
+          ondismiss: function () {
+            toast({ title: "Payment cancelled", variant: "destructive" });
+          },
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on("payment.failed", function (response: any) {
+        toast({
+          title: "Payment failed",
+          description: response.error?.description || "Please try again",
+          variant: "destructive",
+        });
+      });
+      rzp.open();
+    } catch (error) {
+      toast({ title: "Failed to initiate payment", variant: "destructive" });
+    }
   };
 
   if (authLoading || isLoading) {
@@ -102,7 +183,7 @@ export default function Checkout() {
             <h1 className="text-2xl font-bold text-white mb-4">Sign in to checkout</h1>
             <p className="text-zinc-500 mb-8">Login to complete your order.</p>
             <a href="/api/login">
-              <Button className="bg-primary hover:bg-primary/90">
+              <Button>
                 Login / Sign Up
               </Button>
             </a>
@@ -133,7 +214,7 @@ export default function Checkout() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h1 className="text-3xl font-bold text-white mb-4">Order Confirmed!</h1>
+              <h1 className="text-3xl font-bold text-white mb-4">Payment Successful!</h1>
               <p className="text-zinc-400 mb-8">
                 Thank you for your order. We'll send you a confirmation email with tracking details.
               </p>
@@ -144,7 +225,7 @@ export default function Checkout() {
                   </Button>
                 </Link>
                 <Link href="/products">
-                  <Button className="bg-primary hover:bg-primary/90">
+                  <Button>
                     Continue Shopping
                   </Button>
                 </Link>
@@ -166,7 +247,7 @@ export default function Checkout() {
             <h1 className="text-2xl font-bold text-white mb-4">Your cart is empty</h1>
             <p className="text-zinc-500 mb-8">Add some products before checking out.</p>
             <Link href="/products">
-              <Button className="bg-primary hover:bg-primary/90">Browse Products</Button>
+              <Button>Browse Products</Button>
             </Link>
           </div>
         </main>
@@ -174,6 +255,8 @@ export default function Checkout() {
       </div>
     );
   }
+
+  const isProcessing = createRazorpayOrder.isPending || verifyPayment.isPending;
 
   return (
     <div className="min-h-screen bg-[#050505]" data-testid="checkout-page">
@@ -195,7 +278,6 @@ export default function Checkout() {
           </motion.h1>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Checkout form */}
             <div className="lg:col-span-2">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -205,7 +287,7 @@ export default function Checkout() {
                 <Card className="bg-[#0a0a0a] border-zinc-800/30 p-6">
                   <h2 className="text-xl font-bold text-white mb-6">Shipping Information</h2>
 
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                  <form onSubmit={handlePayment} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div>
                         <Label htmlFor="email" className="text-zinc-400">Email</Label>
@@ -216,7 +298,7 @@ export default function Checkout() {
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           className="mt-1.5 bg-zinc-900 border-zinc-800 text-white"
                           placeholder="your@email.com"
-                          data-testid="email-input"
+                          data-testid="input-email"
                         />
                       </div>
                       <div>
@@ -229,7 +311,7 @@ export default function Checkout() {
                           className="mt-1.5 bg-zinc-900 border-zinc-800 text-white"
                           placeholder="+91 98765 43210"
                           required
-                          data-testid="phone-input"
+                          data-testid="input-phone"
                         />
                       </div>
                     </div>
@@ -243,11 +325,11 @@ export default function Checkout() {
                         className="mt-1.5 bg-zinc-900 border-zinc-800 text-white min-h-[100px]"
                         placeholder="Full address including city, state, and PIN code"
                         required
-                        data-testid="address-input"
+                        data-testid="input-address"
                       />
                     </div>
 
-                    <div className="flex items-center gap-3 p-4 bg-zinc-900/50 rounded-lg">
+                    <div className="flex items-center gap-3 p-4 bg-zinc-900/50 rounded-md">
                       <Truck className="w-5 h-5 text-zinc-400" />
                       <div>
                         <p className="text-sm font-medium text-white">Express Air Shipping</p>
@@ -255,34 +337,43 @@ export default function Checkout() {
                       </div>
                     </div>
 
+                    <div className="flex items-center gap-3 p-4 bg-zinc-900/50 rounded-md border border-zinc-800/50">
+                      <CreditCard className="w-5 h-5 text-primary" />
+                      <div>
+                        <p className="text-sm font-medium text-white">Pay with Razorpay</p>
+                        <p className="text-xs text-zinc-500">UPI, Cards, Net Banking, Wallets</p>
+                      </div>
+                    </div>
+
                     <Button
                       type="submit"
-                      className="w-full bg-primary hover:bg-primary/90 h-12"
-                      disabled={createOrderMutation.isPending}
-                      data-testid="place-order-button"
+                      className="w-full bg-primary"
+                      size="lg"
+                      disabled={isProcessing}
+                      data-testid="button-pay-now"
                     >
-                      {createOrderMutation.isPending ? (
+                      {isProcessing ? (
                         <span className="flex items-center gap-2">
                           <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
                           Processing...
                         </span>
                       ) : (
-                        <>
-                          Place Order - ₹{total.toLocaleString("en-IN")}
-                        </>
+                        <span className="flex items-center gap-2">
+                          <Lock className="w-4 h-4" />
+                          Pay Now - {"\u20B9"}{total.toLocaleString("en-IN")}
+                        </span>
                       )}
                     </Button>
 
                     <div className="flex items-center justify-center gap-2 text-xs text-zinc-500">
                       <Shield className="w-4 h-4" />
-                      <span>Your payment information is secure and encrypted</span>
+                      <span>Secured by Razorpay. 100% safe and encrypted payments.</span>
                     </div>
                   </form>
                 </Card>
               </motion.div>
             </div>
 
-            {/* Order summary */}
             <div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -292,16 +383,16 @@ export default function Checkout() {
                 <Card className="bg-[#0a0a0a] border-zinc-800/30 p-6 sticky top-24">
                   <h2 className="text-xl font-bold text-white mb-6">Order Summary</h2>
 
-                  {/* Cart items summary */}
                   <div className="space-y-4 mb-6">
                     {cartItems.map((item) => (
                       <div key={item.id} className="flex gap-3">
-                        <div className="w-16 h-16 bg-zinc-900 rounded-lg overflow-hidden flex-shrink-0">
+                        <div className="w-16 h-16 bg-zinc-900 rounded-md overflow-hidden flex-shrink-0">
                           {item.product?.images?.[0] ? (
                             <img
                               src={item.product.images[0]}
                               alt={item.product.name}
                               className="w-full h-full object-cover"
+                              data-testid={`img-cart-item-${item.id}`}
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
@@ -314,7 +405,7 @@ export default function Checkout() {
                           <p className="text-xs text-zinc-500 mt-1">Qty: {item.quantity}</p>
                         </div>
                         <p className="text-sm font-medium text-white">
-                          ₹{((item.product?.price || 0) * item.quantity).toLocaleString("en-IN")}
+                          {"\u20B9"}{((item.product?.price || 0) * item.quantity).toLocaleString("en-IN")}
                         </p>
                       </div>
                     ))}
@@ -323,21 +414,21 @@ export default function Checkout() {
                   <div className="border-t border-zinc-800 pt-4 space-y-3">
                     <div className="flex justify-between text-zinc-400 text-sm">
                       <span>Subtotal</span>
-                      <span>₹{subtotal.toLocaleString("en-IN")}</span>
+                      <span>{"\u20B9"}{subtotal.toLocaleString("en-IN")}</span>
                     </div>
                     <div className="flex justify-between text-zinc-400 text-sm">
                       <span>Shipping</span>
                       <span className={shipping === 0 ? "text-emerald-400" : ""}>
-                        {shipping === 0 ? "FREE" : `₹${shipping.toLocaleString("en-IN")}`}
+                        {shipping === 0 ? "FREE" : `\u20B9${shipping.toLocaleString("en-IN")}`}
                       </span>
                     </div>
                     <div className="flex justify-between text-white font-bold text-lg pt-2 border-t border-zinc-800">
                       <span>Total</span>
-                      <span>₹{total.toLocaleString("en-IN")}</span>
+                      <span>{"\u20B9"}{total.toLocaleString("en-IN")}</span>
                     </div>
                   </div>
 
-                  <div className="mt-6 p-4 bg-emerald-500/10 rounded-lg">
+                  <div className="mt-6 p-4 bg-emerald-500/10 rounded-md">
                     <div className="flex items-center gap-2 text-emerald-400 text-sm">
                       <CheckCircle className="w-4 h-4" />
                       <span>8-Year Manufacturer Warranty</span>

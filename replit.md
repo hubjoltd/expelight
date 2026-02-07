@@ -115,4 +115,12 @@ I prefer iterative development with clear communication on progress. Before maki
   - Subcategories shown with chevron-right indicators
   - Third-level categories indented for visual hierarchy
 - **Google Domain Verification**: Added google9b70b42b655e5d1d.html for domain verification
+- **Razorpay Payment Integration (Feb 2026)**:
+  - Integrated Razorpay checkout for online payments (UPI, Cards, Net Banking, Wallets)
+  - Removed COD (Cash on Delivery) option
+  - Backend: `/api/razorpay/create-order` creates Razorpay order, `/api/razorpay/verify-payment` verifies payment signature
+  - Orders table extended with `razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`, `payment_status` fields
+  - Payment flow: Create order -> Razorpay checkout popup -> Verify signature -> Confirm order
+  - Test keys currently in use (RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET env vars) - switch to production keys when ready
+  - Razorpay SDK: `razorpay` npm package for server-side, Checkout.js script loaded dynamically on frontend
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"
