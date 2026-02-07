@@ -31,9 +31,8 @@ export function setupAuth(app: Express) {
     createTableIfMissing: true,
   });
 
-  // Replit serves over HTTPS, so we need secure cookies
-  const isProduction = process.env.NODE_ENV === "production";
   const isReplit = !!process.env.REPL_ID;
+  const needsSecureCookies = isReplit || process.env.NODE_ENV === "production";
   
   app.use(
     session({
@@ -44,9 +43,9 @@ export function setupAuth(app: Express) {
       proxy: true,
       cookie: {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? "none" : "lax",
-        partitioned: isProduction, // CHIPS: allows cookie in third-party iframe context
+        secure: needsSecureCookies,
+        sameSite: needsSecureCookies ? "none" : "lax",
+        partitioned: needsSecureCookies,
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       },
     })
