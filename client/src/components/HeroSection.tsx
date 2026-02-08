@@ -27,14 +27,11 @@ export function HeroSection() {
           className="absolute inset-0 w-full h-full object-cover opacity-80"
         />
 
-        <div className="absolute inset-0 bg-black/30" />
-
         <div
           className="absolute inset-0"
           style={{
             background: `
-              linear-gradient(to bottom, rgba(5,5,5,0.6) 0%, transparent 30%, transparent 50%, rgba(5,5,5,0.95) 100%),
-              radial-gradient(ellipse at 50% 100%, rgba(26, 26, 26, 0.8) 0%, transparent 50%)
+              linear-gradient(to bottom, transparent 0%, transparent 60%, rgba(5,5,5,0.85) 100%)
             `,
           }}
         />

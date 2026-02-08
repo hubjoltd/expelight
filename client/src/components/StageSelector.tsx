@@ -40,7 +40,6 @@ const seriesData: SeriesCard[] = [
     borderColor: "border-zinc-400",
     glowColor: "rgba(255, 255, 255, 0.4)",
     features: ["4x Brighter", "Dark Highways", "Thar Favorite"],
-    isPopular: true,
   },
   {
     id: "max",
@@ -52,6 +51,7 @@ const seriesData: SeriesCard[] = [
     borderColor: "border-primary",
     glowColor: "rgba(229, 57, 53, 0.5)",
     features: ["Max Distance", "Rally Proven", "Pro Teams"],
+    isPopular: true,
   },
 ];
 
