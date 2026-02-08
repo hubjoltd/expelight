@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { Lightbulb, Zap, Target, Shield, Plus, Check } from "lucide-react";
+import { Lightbulb, Zap, Target, Shield, Plus } from "lucide-react";
 
 import tharLightsOn from "@assets/thar-lights-on.png";
 import povBright from "@assets/Untitled_design_(3)_1770531526694.jpg";
@@ -29,7 +29,6 @@ const faqs: FAQItem[] = [
 export function ScienceOfLight() {
   const [sliderValue, setSliderValue] = useState(0);
   const [isAutoAnimating, setIsAutoAnimating] = useState(true);
-  const [lightsOn, setLightsOn] = useState(false);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const comparisonRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(comparisonRef, { once: false, amount: 0.3 });
@@ -52,10 +51,6 @@ export function ScienceOfLight() {
 
   const handleSliderInteraction = () => {
     setIsAutoAnimating(false);
-  };
-
-  const handleLightsToggle = () => {
-    setLightsOn((prev) => !prev);
   };
 
   return (
@@ -367,106 +362,10 @@ export function ScienceOfLight() {
             >
               See the Difference
             </motion.h3>
-            <p className="text-zinc-500">Tap to turn on the lights or drag the slider to compare</p>
+            <p className="text-zinc-500">Drag the slider to compare stock halogens vs Diode Dynamics TIR</p>
           </motion.div>
 
-          {/* Tap to activate lights - interactive */}
           <div className="max-w-4xl mx-auto">
-            <div
-              className="relative rounded-2xl overflow-hidden aspect-[16/9] bg-[#0a0a0a] border border-zinc-800/50 cursor-pointer select-none"
-              onClick={handleLightsToggle}
-              data-testid="lights-toggle-area"
-            >
-              {/* Lights OFF - dim POV */}
-              <img 
-                src={povDim} 
-                alt="Driver POV with stock halogen headlights - dim visibility" 
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-
-              {/* Lights ON - bright POV - fades in */}
-              <motion.div
-                className="absolute inset-0"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: lightsOn ? 1 : 0 }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-              >
-                <img 
-                  src={povBright} 
-                  alt="Driver POV with Diode Dynamics TIR LED headlights - bright focused beam" 
-                  className="w-full h-full object-cover"
-                />
-                {/* Beam glow effects when lights are on */}
-                <motion.div 
-                  className="absolute bottom-0 left-1/4 w-40 h-96 bg-gradient-to-t from-white/30 via-white/10 to-transparent blur-xl"
-                  animate={{ opacity: [0.4, 0.7, 0.4] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-                <motion.div 
-                  className="absolute bottom-0 right-1/4 w-40 h-96 bg-gradient-to-t from-white/30 via-white/10 to-transparent blur-xl"
-                  animate={{ opacity: [0.4, 0.7, 0.4] }}
-                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
-                />
-              </motion.div>
-
-              {/* Label overlays */}
-              <AnimatePresence mode="wait">
-                {!lightsOn ? (
-                  <motion.div
-                    key="lights-off-label"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="absolute inset-0 flex flex-col items-center justify-center z-10"
-                  >
-                    <motion.div
-                      className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center mb-4"
-                      animate={{
-                        boxShadow: [
-                          "0 0 15px rgba(255,255,255,0.1)",
-                          "0 0 30px rgba(255,255,255,0.3)",
-                          "0 0 15px rgba(255,255,255,0.1)"
-                        ]
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      <Zap className="w-8 h-8 text-white/60" />
-                    </motion.div>
-                    <p className="text-white/80 text-sm font-medium drop-shadow-lg">Tap to turn on lights</p>
-                    <p className="text-zinc-500 text-xs mt-1">Experience the difference</p>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="lights-on-label"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                    className="absolute bottom-6 left-6 z-10"
-                  >
-                    <p className="text-white text-sm font-semibold drop-shadow-lg">Diode Dynamics TIR</p>
-                    <p className="text-zinc-300 text-xs mt-1 drop-shadow-lg">Bright & Focused</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Tap again hint when lights are on */}
-              {lightsOn && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.5 }}
-                  className="absolute bottom-6 right-6 z-10"
-                >
-                  <p className="text-zinc-500 text-xs">Tap to turn off</p>
-                </motion.div>
-              )}
-            </div>
-
-            {/* Comparison slider below */}
-            <div className="mt-8">
-              <p className="text-zinc-500 text-sm text-center mb-4">Drag to compare or watch the auto-animation</p>
               <div
                 className="relative rounded-2xl overflow-hidden aspect-[16/9] bg-[#0a0a0a] border border-zinc-800/50 cursor-ew-resize"
                 onMouseDown={handleSliderInteraction}
@@ -551,7 +450,6 @@ export function ScienceOfLight() {
                   className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
                 />
               </div>
-            </div>
 
             {/* Auto-animation toggle */}
             <div className="flex justify-center mt-4">
@@ -564,7 +462,7 @@ export function ScienceOfLight() {
                 }`}
                 data-testid="auto-animate-toggle"
               >
-                {isAutoAnimating ? "Auto-animating..." : "Resume auto-animation"}
+                {isAutoAnimating ? "Comparing..." : "Replay comparison"}
               </button>
             </div>
           </div>
