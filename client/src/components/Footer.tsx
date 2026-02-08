@@ -25,30 +25,36 @@ export function Footer() {
               Official India Partner for Diode Dynamics USA. Engineering-grade lighting systems for the modern Indian explorer.
             </p>
             <div className="flex gap-3">
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-md border-border/30 hover:border-primary/50 hover:text-primary"
-                data-testid="social-instagram"
-              >
-                <SiInstagram className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-md border-border/30 hover:border-primary/50 hover:text-primary"
-                data-testid="social-youtube"
-              >
-                <SiYoutube className="w-4 h-4" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-md border-border/30 hover:border-primary/50 hover:text-primary"
-                data-testid="social-facebook"
-              >
-                <SiFacebook className="w-4 h-4" />
-              </Button>
+              <a href="https://www.instagram.com/expelight" target="_blank" rel="noopener noreferrer">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-md border-border/30"
+                  data-testid="social-instagram"
+                >
+                  <SiInstagram className="w-4 h-4" />
+                </Button>
+              </a>
+              <a href="https://www.youtube.com/@DiodeDynamics" target="_blank" rel="noopener noreferrer">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-md border-border/30"
+                  data-testid="social-youtube"
+                >
+                  <SiYoutube className="w-4 h-4" />
+                </Button>
+              </a>
+              <a href="https://www.facebook.com/share/17y9WtmQCr/" target="_blank" rel="noopener noreferrer">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="rounded-md border-border/30"
+                  data-testid="social-facebook"
+                >
+                  <SiFacebook className="w-4 h-4" />
+                </Button>
+              </a>
             </div>
           </div>
 
@@ -83,7 +89,7 @@ export function Footer() {
             <h4 className="font-semibold mb-6 text-sm uppercase tracking-wider">Support</h4>
             <ul className="space-y-4">
               {[
-                { label: "FAQs", href: "/science#faq" },
+                { label: "FAQs", href: "/#faq" },
                 { label: "Shipping & Returns", href: "/shipping" },
                 { label: "Track Order", href: "/track" },
               ].map((link) => (

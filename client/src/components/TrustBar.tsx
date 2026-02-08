@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import { Plug, Flag, Shield, MessageCircle } from "lucide-react";
+import { Target, Flag, Shield, MessageCircle, Wrench } from "lucide-react";
 
 const trustPillars = [
   {
-    icon: Plug,
-    title: "NO CUTTING",
-    description: "100% Plug & Play. No warranty void.",
+    icon: Shield,
+    title: "COP-FRIENDLY BEAM PATTERN",
+    description: "Focused light output. No glare. No trouble.",
   },
   {
     icon: Flag,
@@ -13,9 +13,9 @@ const trustPillars = [
     description: "Designed in St. Louis. Not generic Chinese LEDs.",
   },
   {
-    icon: Shield,
-    title: "STREET LEGAL",
-    description: "SAE Compliant Patterns. Cop-magnet free.",
+    icon: Wrench,
+    title: "OEM-GRADE FITMENT",
+    description: "Engineered to fit like factory. Zero modifications.",
   },
   {
     icon: MessageCircle,

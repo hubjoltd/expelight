@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { ChevronDown, Lightbulb, Zap, Target, Shield, Plus, Check } from "lucide-react";
+import { useState, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Lightbulb, Zap, Target, Shield, Plus, Check } from "lucide-react";
 
 import tharLightsOn from "@assets/thar-lights-on.png";
-import tharLightsOff from "@assets/thar-lights-off.png";
+import povBright from "@assets/Untitled_design_(3)_1770531526694.jpg";
+import povDim from "@assets/Untitled_design_(3)_(1)_1770531526717.jpg";
 
 interface FAQItem {
   question: string;
@@ -26,36 +27,8 @@ const faqs: FAQItem[] = [
 ];
 
 export function ScienceOfLight() {
-  const [sliderValue, setSliderValue] = useState(0);
-  const [isAutoAnimating, setIsAutoAnimating] = useState(true);
-  const [lightsOn, setLightsOn] = useState(false);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const comparisonRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(comparisonRef, { once: false, amount: 0.3 });
-
-  useEffect(() => {
-    if (!isInView || !isAutoAnimating) return;
-
-    const interval = setInterval(() => {
-      setSliderValue((prev) => {
-        if (prev >= 100) {
-          setTimeout(() => setSliderValue(0), 1000);
-          return 100;
-        }
-        return prev + 1;
-      });
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, [isInView, isAutoAnimating]);
-
-  const handleSliderInteraction = () => {
-    setIsAutoAnimating(false);
-  };
-
-  const handleLightsToggle = () => {
-    setLightsOn((prev) => !prev);
-  };
 
   return (
     <section
@@ -344,7 +317,7 @@ export function ScienceOfLight() {
           </div>
         </div>
 
-        {/* Auto-animated Comparison Slider Section */}
+        {/* See the Difference - POV Comparison */}
         <div className="border-t border-zinc-800/50 pt-20 mb-24" ref={comparisonRef}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -366,215 +339,64 @@ export function ScienceOfLight() {
             >
               See the Difference
             </motion.h3>
-            <p className="text-zinc-500">Tap to turn on the lights or drag the slider to compare</p>
+            <p className="text-zinc-500">Real driver's POV with Diode Dynamics TIR optics</p>
           </motion.div>
 
-          {/* Tap to activate lights - Thar interactive */}
-          <div className="max-w-4xl mx-auto">
-            <div
-              className="relative rounded-2xl overflow-hidden aspect-[16/9] bg-[#0a0a0a] border border-zinc-800/50 cursor-pointer select-none"
-              onClick={handleLightsToggle}
-              data-testid="lights-toggle-area"
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-6">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative rounded-xl overflow-hidden border border-zinc-800/50"
             >
-              {/* Lights OFF - Thar in darkness */}
               <img 
-                src={tharLightsOff} 
-                alt="Mahindra Thar with lights off in darkness" 
-                className="absolute inset-0 w-full h-full object-cover"
+                src={povDim} 
+                alt="Driver POV with stock headlights - dim visibility" 
+                className="w-full aspect-[16/10] object-cover"
               />
-
-              {/* Lights ON - Thar with bright LEDs - fades in */}
-              <motion.div
-                className="absolute inset-0"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: lightsOn ? 1 : 0 }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-              >
-                <img 
-                  src={tharLightsOn} 
-                  alt="Mahindra Thar with Diode Dynamics LED lights on" 
-                  className="w-full h-full object-cover"
-                />
-                {/* Beam glow effects when lights are on */}
-                <motion.div 
-                  className="absolute bottom-0 left-1/4 w-40 h-96 bg-gradient-to-t from-white/30 via-white/10 to-transparent blur-xl"
-                  animate={{ opacity: [0.4, 0.7, 0.4] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-                <motion.div 
-                  className="absolute bottom-0 right-1/4 w-40 h-96 bg-gradient-to-t from-white/30 via-white/10 to-transparent blur-xl"
-                  animate={{ opacity: [0.4, 0.7, 0.4] }}
-                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
-                />
-              </motion.div>
-
-              {/* Label overlays */}
-              <AnimatePresence mode="wait">
-                {!lightsOn ? (
-                  <motion.div
-                    key="lights-off-label"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="absolute inset-0 flex flex-col items-center justify-center z-10"
-                  >
-                    <motion.div
-                      className="w-20 h-20 rounded-full border-2 border-white/30 flex items-center justify-center mb-4"
-                      animate={{
-                        boxShadow: [
-                          "0 0 15px rgba(255,255,255,0.1)",
-                          "0 0 30px rgba(255,255,255,0.3)",
-                          "0 0 15px rgba(255,255,255,0.1)"
-                        ]
-                      }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      <Zap className="w-8 h-8 text-white/60" />
-                    </motion.div>
-                    <p className="text-white/80 text-sm font-medium drop-shadow-lg">Tap to start vehicle lights</p>
-                    <p className="text-zinc-500 text-xs mt-1">Experience the difference</p>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="lights-on-label"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                    className="absolute bottom-6 left-6 z-10"
-                  >
-                    <p className="text-white text-sm font-semibold drop-shadow-lg">Diode Dynamics TIR</p>
-                    <p className="text-zinc-300 text-xs mt-1 drop-shadow-lg">Bright & Focused</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Tap again hint when lights are on */}
-              {lightsOn && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.5 }}
-                  className="absolute bottom-6 right-6 z-10"
-                >
-                  <p className="text-zinc-500 text-xs">Tap to turn off</p>
-                </motion.div>
-              )}
-            </div>
-
-            {/* Comparison slider below */}
-            <div className="mt-8">
-              <p className="text-zinc-500 text-sm text-center mb-4">Drag to compare or watch the auto-animation</p>
-              <div
-                className="relative rounded-2xl overflow-hidden aspect-[16/9] bg-[#0a0a0a] border border-zinc-800/50 cursor-ew-resize"
-                onMouseDown={handleSliderInteraction}
-                onTouchStart={handleSliderInteraction}
-              >
-                {/* Stock side - Thar lights off */}
-                <div className="absolute inset-0">
-                  <img 
-                    src={tharLightsOff} 
-                    alt="Mahindra Thar with stock lights off" 
-                    className="w-full h-full object-cover brightness-75"
-                  />
-                  <div className="absolute inset-0 bg-black/30" />
-                  <div className="absolute bottom-8 right-8 text-right z-10">
-                    <p className="text-zinc-500 text-sm font-medium">Lights Off</p>
-                    <p className="text-zinc-600 text-xs mt-1">Stock Setup</p>
-                  </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 rounded-full bg-red-500" />
+                  <p className="text-red-400 text-sm font-semibold uppercase tracking-wider">Before</p>
                 </div>
-
-                {/* Diode Dynamics side - Thar lights on */}
-                <motion.div
-                  className="absolute inset-y-0 left-0 overflow-hidden"
-                  style={{ width: `${sliderValue}%` }}
-                >
-                  <div 
-                    className="h-full relative"
-                    style={{ width: `${100 * 100 / Math.max(sliderValue, 1)}%` }}
-                  >
-                    <img 
-                      src={tharLightsOn} 
-                      alt="Mahindra Thar with Diode Dynamics LED lights on" 
-                      className="w-full h-full object-cover"
-                    />
-                    <motion.div 
-                      className="absolute bottom-0 left-1/4 w-40 h-96 bg-gradient-to-t from-white/25 via-white/10 to-transparent blur-xl"
-                      animate={{ opacity: [0.4, 0.7, 0.4] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    />
-                    <motion.div 
-                      className="absolute bottom-0 right-1/4 w-40 h-96 bg-gradient-to-t from-white/25 via-white/10 to-transparent blur-xl"
-                      animate={{ opacity: [0.4, 0.7, 0.4] }}
-                      transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
-                    />
-                    <div className="absolute bottom-8 left-8 z-10">
-                      <p className="text-white text-sm font-medium drop-shadow-lg">Diode Dynamics TIR</p>
-                      <p className="text-zinc-300 text-xs mt-1 drop-shadow-lg">Bright & Focused</p>
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* Slider handle */}
-                <motion.div
-                  className="absolute inset-y-0 w-1 bg-white/80 cursor-ew-resize z-20"
-                  style={{ left: `${sliderValue}%` }}
-                  animate={{
-                    boxShadow: [
-                      "0 0 10px rgba(255,255,255,0.5)",
-                      "0 0 20px rgba(255,255,255,0.8)",
-                      "0 0 10px rgba(255,255,255,0.5)"
-                    ]
-                  }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center">
-                    <div className="flex gap-0.5">
-                      <div className="w-0.5 h-4 bg-zinc-400 rounded" />
-                      <div className="w-0.5 h-4 bg-zinc-400 rounded" />
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* Interactive slider overlay */}
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={sliderValue}
-                  onChange={(e) => {
-                    setSliderValue(Number(e.target.value));
-                    setIsAutoAnimating(false);
-                  }}
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-30"
-                />
+                <p className="text-zinc-400 text-xs">Stock halogen headlights</p>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Explore button */}
-            <div className="flex justify-center mt-4">
-              <button
-                onClick={() => setIsAutoAnimating(!isAutoAnimating)}
-                className={`text-sm px-6 py-2.5 rounded-full transition-colors font-medium ${
-                  isAutoAnimating 
-                    ? "bg-primary text-white border border-primary shadow-lg shadow-primary/30" 
-                    : "bg-zinc-800 text-zinc-300 border border-zinc-700"
-                }`}
-              >
-                Explore with Expelight
-              </button>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="relative rounded-xl overflow-hidden border border-primary/30"
+            >
+              <img 
+                src={povBright} 
+                alt="Driver POV with Diode Dynamics TIR LED headlights - bright focused beam" 
+                className="w-full aspect-[16/10] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <p className="text-emerald-400 text-sm font-semibold uppercase tracking-wider">After</p>
+                </div>
+                <p className="text-zinc-400 text-xs">Diode Dynamics TIR LED upgrade</p>
+              </div>
+            </motion.div>
           </div>
         </div>
 
         {/* Modern FAQ Section */}
         <motion.div
+          id="faq"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto"
+          className="max-w-4xl mx-auto scroll-mt-24"
         >
           <div className="text-center mb-12">
             <motion.h3 
