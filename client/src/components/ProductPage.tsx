@@ -275,20 +275,9 @@ export function ProductPage({ product }: ProductPageProps) {
                 </div>
               )}
 
-              {!showVideo && (product as any).videoUrl && (
-                <Button
-                  variant="secondary"
-                  onClick={() => setShowVideo(true)}
-                  className="absolute bottom-4 right-4 z-20 bg-black/70 text-white"
-                  data-testid="play-video-button"
-                >
-                  <Play className="w-4 h-4" />
-                  Watch Video
-                </Button>
-              )}
             </motion.div>
 
-            <div className="grid grid-cols-5 gap-3">
+            <div className={`grid gap-3 ${product.videoUrl ? 'grid-cols-6' : 'grid-cols-5'}`}>
               {(product.images && product.images.length > 0
                 ? product.images.slice(0, 5)
                 : [0, 1, 2, 3, 4]
@@ -321,6 +310,22 @@ export function ProductPage({ product }: ProductPageProps) {
                   )}
                 </button>
               ))}
+              {product.videoUrl && (
+                <button
+                  onClick={() => setShowVideo(true)}
+                  className={`aspect-square bg-[#0a0a0a] rounded-md border transition-all flex flex-col items-center justify-center gap-1 hover-elevate ${
+                    showVideo
+                      ? "border-primary ring-2 ring-primary/30"
+                      : "border-zinc-800/50"
+                  }`}
+                  data-testid="play-video-button"
+                >
+                  <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                    <Play className="w-4 h-4 text-primary ml-0.5" />
+                  </div>
+                  <span className="text-[10px] text-zinc-400">Video</span>
+                </button>
+              )}
             </div>
           </div>
 
