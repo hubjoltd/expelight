@@ -89,7 +89,7 @@ export function Footer() {
             <h4 className="font-semibold mb-6 text-sm uppercase tracking-wider">Support</h4>
             <ul className="space-y-4">
               {[
-                { label: "FAQs", href: "/#faq" },
+                { label: "FAQs", href: "/faqs" },
                 { label: "Shipping & Returns", href: "/shipping" },
                 { label: "Track Order", href: "/track" },
               ].map((link) => (

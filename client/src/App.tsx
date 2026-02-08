@@ -35,6 +35,7 @@ import PreOrderPolicy from "@/pages/policies/PreOrderPolicy";
 import GrievanceRedressal from "@/pages/policies/GrievanceRedressal";
 import TermsConditions from "@/pages/policies/TermsConditions";
 import PrivacyPolicy from "@/pages/policies/PrivacyPolicy";
+import FAQs from "@/pages/FAQs";
 import NotFound from "@/pages/not-found";
 
 function ScrollToTop() {
@@ -74,6 +75,7 @@ function Router() {
       <Route path="/admin/blog" component={AdminBlog} />
       <Route path="/blog/:slug?" component={Blog} />
       <Route path="/contact" component={Contact} />
+      <Route path="/faqs" component={FAQs} />
       <Route path="/policies/returns-warranty" component={ReturnsWarranty} />
       <Route path="/policies/shipping-delivery" component={ShippingDelivery} />
       <Route path="/policies/cancellation" component={CancellationPolicy} />
