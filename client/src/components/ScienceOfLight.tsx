@@ -376,9 +376,8 @@ export function ScienceOfLight() {
                   <img 
                     src={povDim} 
                     alt="Driver POV with stock halogen headlights" 
-                    className="w-full h-full object-cover brightness-75"
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-black/30" />
                   <div className="absolute bottom-8 right-8 text-right z-10">
                     <p className="text-zinc-500 text-sm font-medium">Stock Halogens</p>
                     <p className="text-zinc-600 text-xs mt-1">Dim & Scattered</p>
