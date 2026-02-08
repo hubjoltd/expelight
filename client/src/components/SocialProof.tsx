@@ -68,66 +68,66 @@ interface VideoItem {
 const featuredVideos: VideoItem[] = [
   {
     id: "1",
-    title: "SS5 LED Pod - The Brightest 5\" Pod on Earth",
-    thumbnail: "https://img.youtube.com/vi/DjWQAadoHmU/maxresdefault.jpg",
+    title: "NEW Stage Series Lightbars - Power & Control",
+    thumbnail: "https://img.youtube.com/vi/DjWQAadoHmU/hqdefault.jpg",
     youtubeId: "DjWQAadoHmU",
-    duration: "3:45",
+    duration: "9:36",
     category: "Product Showcase"
   },
   {
     id: "2",
-    title: "Stage Series 2\" LED Pod - SS2 Sport Overview",
-    thumbnail: "https://img.youtube.com/vi/1xNRyNBwjHk/maxresdefault.jpg",
-    youtubeId: "1xNRyNBwjHk",
-    duration: "2:30",
+    title: "SS5 Stage Series 5\" LED Pod - Overview",
+    thumbnail: "https://img.youtube.com/vi/ducfZoq5Lj4/hqdefault.jpg",
+    youtubeId: "ducfZoq5Lj4",
+    duration: "4:30",
     category: "Product Showcase"
   },
   {
     id: "3",
-    title: "Stage Series LED Light Bars - Complete Overview",
-    thumbnail: "https://img.youtube.com/vi/P_L940KOrqE/maxresdefault.jpg",
-    youtubeId: "P_L940KOrqE",
-    duration: "4:15",
-    category: "Product Showcase"
-  },
-  {
-    id: "4",
-    title: "SS3 LED Pod - The Original Stage Series Pod",
-    thumbnail: "https://img.youtube.com/vi/xXFi2jKEeA0/maxresdefault.jpg",
-    youtubeId: "xXFi2jKEeA0",
-    duration: "3:20",
-    category: "Product Showcase"
-  },
-  {
-    id: "5",
-    title: "SSC1 LED Pod - Ultra Compact Auxiliary Light",
-    thumbnail: "https://img.youtube.com/vi/wXHkJJw-EKE/maxresdefault.jpg",
-    youtubeId: "wXHkJJw-EKE",
-    duration: "2:55",
-    category: "Product Showcase"
-  },
-  {
-    id: "6",
-    title: "Total Internal Reflection (TIR) Optics Explained",
-    thumbnail: "https://img.youtube.com/vi/T7xJJ9gv-ys/maxresdefault.jpg",
-    youtubeId: "T7xJJ9gv-ys",
+    title: "TIR Optics Explained - Total Internal Reflection",
+    thumbnail: "https://img.youtube.com/vi/17IDSk05rqw/hqdefault.jpg",
+    youtubeId: "17IDSk05rqw",
     duration: "3:15",
     category: "Technology"
   },
   {
+    id: "4",
+    title: "LED Optics EXPLAINED - Reflector, Projector & TIR",
+    thumbnail: "https://img.youtube.com/vi/HfRWoWJhcfM/hqdefault.jpg",
+    youtubeId: "HfRWoWJhcfM",
+    duration: "4:10",
+    category: "Technology"
+  },
+  {
+    id: "5",
+    title: "LED Output Specs Explained - Candela, Lux & Lumens",
+    thumbnail: "https://img.youtube.com/vi/ODU-l_G8B2s/hqdefault.jpg",
+    youtubeId: "ODU-l_G8B2s",
+    duration: "3:45",
+    category: "Technology"
+  },
+  {
+    id: "6",
+    title: "NEW Stage Series Lightbars - SEMA 2024 Debut",
+    thumbnail: "https://img.youtube.com/vi/H4s4F4TYfo8/hqdefault.jpg",
+    youtubeId: "H4s4F4TYfo8",
+    duration: "2:30",
+    category: "Product Showcase"
+  },
+  {
     id: "7",
-    title: "Stage Series Rock Lights - RGBW LED",
-    thumbnail: "https://img.youtube.com/vi/6OfntJRqsUU/maxresdefault.jpg",
-    youtubeId: "6OfntJRqsUU",
-    duration: "2:40",
+    title: "SS3 Stage Series LED Pod - Beam Patterns Overview",
+    thumbnail: "https://img.youtube.com/vi/16Wqr4cxOEI/hqdefault.jpg",
+    youtubeId: "16Wqr4cxOEI",
+    duration: "3:20",
     category: "Product Showcase"
   },
   {
     id: "8",
-    title: "SS5 CrossLink LED Light Bar System",
-    thumbnail: "https://img.youtube.com/vi/o8B5OZSo4K8/maxresdefault.jpg",
-    youtubeId: "o8B5OZSo4K8",
-    duration: "4:20",
+    title: "SS3 SAE Fog & Driving LED Pods - Complete Guide",
+    thumbnail: "https://img.youtube.com/vi/sipi34x6la0/hqdefault.jpg",
+    youtubeId: "sipi34x6la0",
+    duration: "4:00",
     category: "Product Showcase"
   },
 ];
