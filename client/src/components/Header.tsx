@@ -133,7 +133,7 @@ export function Header() {
               src={expelightLogo} 
               alt="Expelight" 
               className="h-auto w-auto"
-              style={{ height: '80px' }}
+              style={{ height: '100px' }}
             />
           </Link>
 
