@@ -58,11 +58,27 @@ export async function registerRoutes(
         existing.push(mapping.categoryId);
         productCategoryMap.set(mapping.productId, existing);
       }
+
+      // Get all variant SKUs grouped by product
+      const allVariants = await db
+        .select({
+          productId: productVariants.productId,
+          sku: productVariants.sku
+        })
+        .from(productVariants);
+
+      const productVariantSkusMap = new Map<string, string[]>();
+      for (const v of allVariants) {
+        const existing = productVariantSkusMap.get(v.productId) || [];
+        if (v.sku) existing.push(v.sku);
+        productVariantSkusMap.set(v.productId, existing);
+      }
       
-      // Add categoryIds to each product
+      // Add categoryIds and variantSkus to each product
       const productsWithCategories = allProducts.map(product => ({
         ...product,
-        categoryIds: productCategoryMap.get(product.id) || []
+        categoryIds: productCategoryMap.get(product.id) || [],
+        variantSkus: productVariantSkusMap.get(product.id) || []
       }));
       
       res.json(productsWithCategories);

@@ -130,14 +130,16 @@ export default function Products() {
       }
     }
     
-    // Filter by search text (name, SKU, or description)
+    // Filter by search text (name, SKU, or description, including all variant SKUs)
     let matchesSearch = !searchText;
     if (searchText) {
       const query = searchText.toLowerCase();
+      const matchesVariantSku = (product as any).variantSkus?.some((s: string) => s.toLowerCase().includes(query));
       matchesSearch = (
         product.name.toLowerCase().includes(query) ||
         product.sku?.toLowerCase().includes(query) ||
-        product.shortDescription?.toLowerCase().includes(query)
+        product.shortDescription?.toLowerCase().includes(query) ||
+        matchesVariantSku
       );
     }
     

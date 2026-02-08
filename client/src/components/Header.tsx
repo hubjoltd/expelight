@@ -79,13 +79,15 @@ export function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = products.filter((product: any) => {
     if (!searchQuery.trim()) return false;
     const query = searchQuery.toLowerCase();
+    const matchesVariantSku = product.variantSkus?.some((s: string) => s.toLowerCase().includes(query));
     return (
       product.name.toLowerCase().includes(query) ||
       product.sku?.toLowerCase().includes(query) ||
-      product.shortDescription?.toLowerCase().includes(query)
+      product.shortDescription?.toLowerCase().includes(query) ||
+      matchesVariantSku
     );
   }).slice(0, 6);
 
