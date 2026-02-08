@@ -3,6 +3,7 @@ import path from "path";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import { seedMissingProducts } from "./seedMissingProducts";
 
 const app = express();
 
@@ -68,6 +69,7 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  await seedMissingProducts();
   await registerRoutes(httpServer, app);
 
   app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
