@@ -167,8 +167,9 @@ export default function Checkout() {
         });
       });
       rzp.open();
-    } catch (error) {
-      toast({ title: "Failed to initiate payment", variant: "destructive" });
+    } catch (error: any) {
+      const message = error?.message || "Failed to initiate payment. Please try again.";
+      toast({ title: message, variant: "destructive" });
     }
   };
 

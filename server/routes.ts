@@ -302,11 +302,13 @@ export async function registerRoutes(
       let subtotal = 0;
       const orderItems = userCartItems.map(item => {
         const product = allProducts.find((p: any) => p?.id === item.productId);
-        const price = product?.price || 0;
+        const price = item.variantPrice || product?.price || 0;
         subtotal += price * item.quantity;
         return {
           productId: item.productId,
           productName: product?.name || "Unknown",
+          variantName: item.variantName || null,
+          variantSku: item.variantSku || null,
           quantity: item.quantity,
           price,
         };
@@ -342,9 +344,13 @@ export async function registerRoutes(
         amount: razorpayOrder.amount,
         currency: razorpayOrder.currency,
       });
-    } catch (error) {
-      console.error("Error creating Razorpay order:", error);
-      res.status(500).json({ error: "Failed to create order" });
+    } catch (error: any) {
+      console.error("Error creating Razorpay order:", error?.message || error);
+      if (error?.statusCode === 401 || error?.error?.description?.includes("authentication")) {
+        res.status(500).json({ error: "Payment gateway authentication failed. Please check Razorpay API keys." });
+      } else {
+        res.status(500).json({ error: error?.error?.description || "Failed to create order" });
+      }
     }
   });
 
