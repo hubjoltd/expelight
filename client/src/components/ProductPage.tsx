@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/accordion";
 import { 
   ShoppingBag, Shield, Truck, Check, Minus, Plus, Loader2, CheckCircle, 
-  Play, FileText, Wrench, HelpCircle, Box, Star, ChevronRight, Clock,
+  Play, FileText, Wrench, HelpCircle, Box, Star, ChevronRight, ChevronLeft, Clock,
   ZoomIn, ZoomOut
 } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
@@ -40,6 +40,10 @@ export function ProductPage({ product }: ProductPageProps) {
   const [panPosition, setPanPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [swipeOffset, setSwipeOffset] = useState(0);
+  const [isSwiping, setIsSwiping] = useState(false);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCart();
   const { toast } = useToast();
@@ -80,6 +84,83 @@ export function ProductPage({ product }: ProductPageProps) {
       if (newZoom === 1) setPanPosition({ x: 0, y: 0 });
     }
   }, [zoomLevel]);
+
+  const totalSlides = (product.images?.length || 0) + (product.videoUrl ? 1 : 0);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (zoomLevel > 1) return;
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+    setIsSwiping(true);
+    setSwipeOffset(0);
+  }, [zoomLevel]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (zoomLevel > 1 || touchStart === null) return;
+    const currentTouch = e.targetTouches[0].clientX;
+    setTouchEnd(currentTouch);
+    setSwipeOffset(currentTouch - touchStart);
+  }, [zoomLevel, touchStart]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (zoomLevel > 1 || touchStart === null || touchEnd === null) {
+      setIsSwiping(false);
+      setSwipeOffset(0);
+      return;
+    }
+    const distance = touchStart - touchEnd;
+    const minSwipeDistance = 50;
+    const imageCount = product.images?.length || 0;
+
+    if (Math.abs(distance) >= minSwipeDistance) {
+      if (distance > 0) {
+        if (showVideo) {
+          // already at end
+        } else if (currentImageIndex < imageCount - 1) {
+          setCurrentImageIndex(prev => prev + 1);
+        } else if (product.videoUrl) {
+          setShowVideo(true);
+        }
+      } else {
+        if (showVideo) {
+          setShowVideo(false);
+          setCurrentImageIndex(imageCount - 1);
+        } else if (currentImageIndex > 0) {
+          setCurrentImageIndex(prev => prev - 1);
+        }
+      }
+      setZoomLevel(1);
+      setPanPosition({ x: 0, y: 0 });
+    }
+    setTouchStart(null);
+    setTouchEnd(null);
+    setIsSwiping(false);
+    setSwipeOffset(0);
+  }, [touchStart, touchEnd, currentImageIndex, showVideo, product.images, product.videoUrl, zoomLevel]);
+
+  const goToPrevImage = () => {
+    if (showVideo) {
+      setShowVideo(false);
+      setCurrentImageIndex((product.images?.length || 1) - 1);
+    } else if (currentImageIndex > 0) {
+      setCurrentImageIndex(prev => prev - 1);
+    }
+    setZoomLevel(1);
+    setPanPosition({ x: 0, y: 0 });
+  };
+
+  const goToNextImage = () => {
+    const imageCount = product.images?.length || 0;
+    if (!showVideo && currentImageIndex < imageCount - 1) {
+      setCurrentImageIndex(prev => prev + 1);
+    } else if (!showVideo && product.videoUrl) {
+      setShowVideo(true);
+    }
+    setZoomLevel(1);
+    setPanPosition({ x: 0, y: 0 });
+  };
+
+  const currentSlideIndex = showVideo ? (product.images?.length || 0) : currentImageIndex;
 
   const { data: variants = [] } = useQuery<any[]>({
     queryKey: ["/api/products", product.id, "variants"],
@@ -219,6 +300,9 @@ export function ProductPage({ product }: ProductPageProps) {
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
               onWheel={handleWheel}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
               style={{ cursor: zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default' }}
             >
               <div className="absolute inset-0 flex items-center justify-center">
@@ -248,8 +332,8 @@ export function ProductPage({ product }: ProductPageProps) {
                   alt={product.name}
                   className="w-full h-full object-contain relative z-10 select-none"
                   style={{
-                    transform: `scale(${zoomLevel}) translate(${panPosition.x / zoomLevel}px, ${panPosition.y / zoomLevel}px)`,
-                    transition: isDragging ? 'none' : 'transform 0.3s ease',
+                    transform: `scale(${zoomLevel}) translate(${panPosition.x / zoomLevel}px, ${panPosition.y / zoomLevel}px)${isSwiping && zoomLevel <= 1 ? ` translateX(${swipeOffset * 0.3}px)` : ''}`,
+                    transition: isDragging || isSwiping ? 'none' : 'transform 0.3s ease',
                   }}
                   draggable={false}
                 />
@@ -274,7 +358,7 @@ export function ProductPage({ product }: ProductPageProps) {
               )}
 
               {!showVideo && (
-                <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+                <div className="absolute top-4 right-4 z-20 hidden md:flex flex-col gap-2">
                   <Button
                     size="icon"
                     variant="secondary"
@@ -298,6 +382,74 @@ export function ProductPage({ product }: ProductPageProps) {
                       {Math.round(zoomLevel * 100)}%
                     </Badge>
                   )}
+                </div>
+              )}
+
+              {!showVideo && currentSlideIndex > 0 && (
+                <button
+                  onClick={goToPrevImage}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-black/60 flex items-center justify-center text-white/80 hover:bg-black/80 transition-colors"
+                  data-testid="prev-image-button"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+              )}
+              {!showVideo && currentSlideIndex < totalSlides - 1 && (
+                <button
+                  onClick={goToNextImage}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-black/60 flex items-center justify-center text-white/80 hover:bg-black/80 transition-colors"
+                  data-testid="next-image-button"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              )}
+              {showVideo && (
+                <button
+                  onClick={goToPrevImage}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 md:w-10 md:h-10 rounded-full bg-black/60 flex items-center justify-center text-white/80 hover:bg-black/80 transition-colors"
+                  data-testid="prev-image-button-video"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+              )}
+
+              {totalSlides > 1 && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 md:hidden">
+                  {Array.from({ length: Math.min(totalSlides, 10) }).map((_, i) => {
+                    const isVideoSlide = i === (product.images?.length || 0);
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => {
+                          if (isVideoSlide) {
+                            setShowVideo(true);
+                          } else {
+                            setShowVideo(false);
+                            setCurrentImageIndex(i);
+                          }
+                          setZoomLevel(1);
+                          setPanPosition({ x: 0, y: 0 });
+                        }}
+                        className={`rounded-full transition-all ${
+                          currentSlideIndex === i
+                            ? "w-6 h-2 bg-white"
+                            : "w-2 h-2 bg-white/40"
+                        }`}
+                        data-testid={`dot-indicator-${i}`}
+                      />
+                    );
+                  })}
+                  {totalSlides > 10 && (
+                    <span className="text-white/50 text-[10px] ml-1">+{totalSlides - 10}</span>
+                  )}
+                </div>
+              )}
+
+              {totalSlides > 1 && (
+                <div className="absolute top-3 left-3 z-20 md:hidden">
+                  <span className="bg-black/60 text-white/80 text-xs px-2 py-1 rounded-full">
+                    {currentSlideIndex + 1} / {totalSlides}
+                  </span>
                 </div>
               )}
 
