@@ -455,7 +455,7 @@ export function ProductPage({ product }: ProductPageProps) {
 
             </motion.div>
 
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
+            <div className="hidden md:flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
               {(product.images && product.images.length > 0
                 ? product.images
                 : []
