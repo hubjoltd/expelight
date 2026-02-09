@@ -185,7 +185,7 @@ export function ProductPage({ product }: ProductPageProps) {
       ];
 
   const specifications = [
-    { label: "SKU / Part Number", value: product.sku || "N/A" },
+    { label: "SKU / Part Number", value: selectedVariant?.sku || product.sku || "N/A" },
     { label: "Series", value: product.series + " Series" },
     { label: "Warranty", value: `${product.warrantyYears} Years` },
     { label: "Available Colors", value: product.colors.join(", ") },
@@ -795,30 +795,68 @@ export function ProductPage({ product }: ProductPageProps) {
                 <h3 className="text-xl font-semibold text-white mb-4">Part Numbers</h3>
                 <p className="text-sm text-zinc-500 mb-6">The following part numbers are included with this listing:</p>
                 
-                {(product as any).partNumbers && (
+                {variants.length > 0 ? (
                   <div className="overflow-x-auto">
                     <table className="w-full border-collapse text-sm">
                       <thead>
                         <tr className="bg-zinc-900/50 border-b border-zinc-800">
                           <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">SKU</th>
-                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Price</th>
                           <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Name</th>
-                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Weight</th>
-                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Driver</th>
-                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Components</th>
+                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Price</th>
+                          {variants.some((v: any) => v.beamPattern) && (
+                            <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Beam Pattern</th>
+                          )}
+                          {variants.some((v: any) => v.color) && (
+                            <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Color</th>
+                          )}
+                          {variants.some((v: any) => v.size) && (
+                            <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Size</th>
+                          )}
                         </tr>
                       </thead>
                       <tbody>
-                        {JSON.parse((product as any).partNumbers).map((part: any, index: number) => (
-                          <tr key={index} className="border-b border-zinc-800 hover:bg-zinc-900/30">
-                            <td className="px-3 py-2 text-white font-mono text-xs">{part.sku}</td>
-                            <td className="px-3 py-2 text-primary text-xs">₹{part.price?.toLocaleString('en-IN')}</td>
-                            <td className="px-3 py-2 text-zinc-300 text-xs">{part.name}</td>
-                            <td className="px-3 py-2 text-zinc-400 text-xs">{part.weight || '-'}</td>
-                            <td className="px-3 py-2 text-zinc-400 text-xs">{part.driver || '-'}</td>
-                            <td className="px-3 py-2 text-zinc-400 text-xs max-w-[200px]">{part.components || '-'}</td>
+                        {variants.map((variant: any, index: number) => (
+                          <tr 
+                            key={variant.id} 
+                            className={`border-b border-zinc-800 ${
+                              selectedVariant?.id === variant.id 
+                                ? "bg-primary/10" 
+                                : "hover:bg-zinc-900/30"
+                            }`}
+                          >
+                            <td className="px-3 py-2 text-white font-mono text-xs">{variant.sku}</td>
+                            <td className="px-3 py-2 text-zinc-300 text-xs">{variant.name || '-'}</td>
+                            <td className="px-3 py-2 text-primary text-xs">₹{variant.price?.toLocaleString('en-IN')}</td>
+                            {variants.some((v: any) => v.beamPattern) && (
+                              <td className="px-3 py-2 text-zinc-400 text-xs">{variant.beamPattern || '-'}</td>
+                            )}
+                            {variants.some((v: any) => v.color) && (
+                              <td className="px-3 py-2 text-zinc-400 text-xs">{variant.color || '-'}</td>
+                            )}
+                            {variants.some((v: any) => v.size) && (
+                              <td className="px-3 py-2 text-zinc-400 text-xs">{variant.size || '-'}</td>
+                            )}
                           </tr>
                         ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr className="bg-zinc-900/50 border-b border-zinc-800">
+                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">SKU</th>
+                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Name</th>
+                          <th className="text-left px-3 py-2 text-zinc-400 font-medium text-xs">Price</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-zinc-800">
+                          <td className="px-3 py-2 text-white font-mono text-xs">{product.sku}</td>
+                          <td className="px-3 py-2 text-zinc-300 text-xs">{product.name}</td>
+                          <td className="px-3 py-2 text-primary text-xs">₹{product.price?.toLocaleString('en-IN')}</td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
