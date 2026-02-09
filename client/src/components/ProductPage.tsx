@@ -303,14 +303,14 @@ export function ProductPage({ product }: ProductPageProps) {
 
             </motion.div>
 
-            <div className={`grid gap-3 ${product.videoUrl ? 'grid-cols-6' : 'grid-cols-5'}`}>
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
               {(product.images && product.images.length > 0
-                ? product.images.slice(0, 5)
-                : [0, 1, 2, 3, 4]
+                ? product.images
+                : []
               ).map((item, index) => (
                 <button
                   key={index}
-                  className={`aspect-square bg-[#0a0a0a] rounded-md border transition-all overflow-hidden ${
+                  className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-[#0a0a0a] rounded-md border transition-all overflow-hidden ${
                     currentImageIndex === index && !showVideo
                       ? "border-primary ring-2 ring-primary/30"
                       : "border-zinc-800/50 hover:border-zinc-600"
@@ -323,23 +323,17 @@ export function ProductPage({ product }: ProductPageProps) {
                   }}
                   data-testid={`thumbnail-${index}`}
                 >
-                  {typeof item === "string" ? (
-                    <img
-                      src={item}
-                      alt={`${product.name} ${index + 1}`}
-                      className="w-full h-full object-contain p-1"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <div className="w-8 h-8 rounded-full bg-primary/20" />
-                    </div>
-                  )}
+                  <img
+                    src={item}
+                    alt={`${product.name} ${index + 1}`}
+                    className="w-full h-full object-contain p-1"
+                  />
                 </button>
               ))}
               {product.videoUrl && (
                 <button
                   onClick={() => setShowVideo(true)}
-                  className={`aspect-square bg-[#0a0a0a] rounded-md border transition-all flex flex-col items-center justify-center gap-1 hover-elevate ${
+                  className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-[#0a0a0a] rounded-md border transition-all flex flex-col items-center justify-center gap-1 hover-elevate ${
                     showVideo
                       ? "border-primary ring-2 ring-primary/30"
                       : "border-zinc-800/50"
