@@ -460,7 +460,8 @@ export function ProductPage({ product }: ProductPageProps) {
               <button
                 onClick={() => {
                   if (thumbContainerRef.current) {
-                    thumbContainerRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+                    const thumbWidth = thumbContainerRef.current.querySelector('button')?.offsetWidth || 80;
+                    thumbContainerRef.current.scrollBy({ left: -(thumbWidth + 8) * 4, behavior: 'smooth' });
                   }
                 }}
                 className="flex-shrink-0 w-7 h-7 rounded-full bg-zinc-800/80 flex items-center justify-center text-white/70 hover:bg-zinc-700 transition-colors"
@@ -470,7 +471,7 @@ export function ProductPage({ product }: ProductPageProps) {
               </button>
               <div
                 ref={thumbContainerRef}
-                className="flex gap-2 overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent scroll-smooth"
+                className="flex gap-2 overflow-x-hidden scroll-smooth"
               >
                 {(product.images && product.images.length > 0
                   ? product.images
@@ -478,11 +479,12 @@ export function ProductPage({ product }: ProductPageProps) {
                 ).map((item, index) => (
                   <button
                     key={index}
-                    className={`flex-shrink-0 w-14 h-14 md:w-20 md:h-20 bg-[#0a0a0a] rounded-md border transition-all overflow-hidden ${
+                    className={`flex-shrink-0 bg-[#0a0a0a] rounded-md border transition-all overflow-hidden ${
                       currentImageIndex === index && !showVideo
                         ? "border-primary ring-2 ring-primary/30"
                         : "border-zinc-800/50 hover:border-zinc-600"
                     }`}
+                    style={{ width: 'calc((100% - 24px) / 4)', aspectRatio: '1' }}
                     onClick={() => {
                       setCurrentImageIndex(index);
                       setShowVideo(false);
@@ -501,11 +503,12 @@ export function ProductPage({ product }: ProductPageProps) {
                 {product.videoUrl && (
                   <button
                     onClick={() => setShowVideo(true)}
-                    className={`flex-shrink-0 w-14 h-14 md:w-20 md:h-20 bg-[#0a0a0a] rounded-md border transition-all flex flex-col items-center justify-center gap-1 hover-elevate ${
+                    className={`flex-shrink-0 bg-[#0a0a0a] rounded-md border transition-all flex flex-col items-center justify-center gap-1 hover-elevate ${
                       showVideo
                         ? "border-primary ring-2 ring-primary/30"
                         : "border-zinc-800/50"
                     }`}
+                    style={{ width: 'calc((100% - 24px) / 4)', aspectRatio: '1' }}
                     data-testid="play-video-button"
                   >
                     <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
@@ -518,7 +521,8 @@ export function ProductPage({ product }: ProductPageProps) {
               <button
                 onClick={() => {
                   if (thumbContainerRef.current) {
-                    thumbContainerRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+                    const thumbWidth = thumbContainerRef.current.querySelector('button')?.offsetWidth || 80;
+                    thumbContainerRef.current.scrollBy({ left: (thumbWidth + 8) * 4, behavior: 'smooth' });
                   }
                 }}
                 className="flex-shrink-0 w-7 h-7 rounded-full bg-zinc-800/80 flex items-center justify-center text-white/70 hover:bg-zinc-700 transition-colors"
