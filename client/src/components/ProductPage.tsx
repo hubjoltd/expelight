@@ -45,6 +45,7 @@ export function ProductPage({ product }: ProductPageProps) {
   const [swipeOffset, setSwipeOffset] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
   const imageContainerRef = useRef<HTMLDivElement>(null);
+  const thumbContainerRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCart();
   const { toast } = useToast();
 
@@ -455,49 +456,76 @@ export function ProductPage({ product }: ProductPageProps) {
 
             </motion.div>
 
-            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
-              {(product.images && product.images.length > 0
-                ? product.images
-                : []
-              ).map((item, index) => (
-                <button
-                  key={index}
-                  className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-[#0a0a0a] rounded-md border transition-all overflow-hidden ${
-                    currentImageIndex === index && !showVideo
-                      ? "border-primary ring-2 ring-primary/30"
-                      : "border-zinc-800/50 hover:border-zinc-600"
-                  }`}
-                  onClick={() => {
-                    setCurrentImageIndex(index);
-                    setShowVideo(false);
-                    setZoomLevel(1);
-                    setPanPosition({ x: 0, y: 0 });
-                  }}
-                  data-testid={`thumbnail-${index}`}
-                >
-                  <img
-                    src={item}
-                    alt={`${product.name} ${index + 1}`}
-                    className="w-full h-full object-contain p-1"
-                  />
-                </button>
-              ))}
-              {product.videoUrl && (
-                <button
-                  onClick={() => setShowVideo(true)}
-                  className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-[#0a0a0a] rounded-md border transition-all flex flex-col items-center justify-center gap-1 hover-elevate ${
-                    showVideo
-                      ? "border-primary ring-2 ring-primary/30"
-                      : "border-zinc-800/50"
-                  }`}
-                  data-testid="play-video-button"
-                >
-                  <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Play className="w-4 h-4 text-primary ml-0.5" />
-                  </div>
-                  <span className="text-[10px] text-zinc-400">Video</span>
-                </button>
-              )}
+            <div className="relative flex items-center gap-1">
+              <button
+                onClick={() => {
+                  if (thumbContainerRef.current) {
+                    thumbContainerRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+                  }
+                }}
+                className="flex-shrink-0 w-7 h-7 rounded-full bg-zinc-800/80 flex items-center justify-center text-white/70 hover:bg-zinc-700 transition-colors"
+                data-testid="thumb-scroll-left"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <div
+                ref={thumbContainerRef}
+                className="flex gap-2 overflow-x-auto scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent scroll-smooth"
+              >
+                {(product.images && product.images.length > 0
+                  ? product.images
+                  : []
+                ).map((item, index) => (
+                  <button
+                    key={index}
+                    className={`flex-shrink-0 w-14 h-14 md:w-20 md:h-20 bg-[#0a0a0a] rounded-md border transition-all overflow-hidden ${
+                      currentImageIndex === index && !showVideo
+                        ? "border-primary ring-2 ring-primary/30"
+                        : "border-zinc-800/50 hover:border-zinc-600"
+                    }`}
+                    onClick={() => {
+                      setCurrentImageIndex(index);
+                      setShowVideo(false);
+                      setZoomLevel(1);
+                      setPanPosition({ x: 0, y: 0 });
+                    }}
+                    data-testid={`thumbnail-${index}`}
+                  >
+                    <img
+                      src={item}
+                      alt={`${product.name} ${index + 1}`}
+                      className="w-full h-full object-contain p-1"
+                    />
+                  </button>
+                ))}
+                {product.videoUrl && (
+                  <button
+                    onClick={() => setShowVideo(true)}
+                    className={`flex-shrink-0 w-14 h-14 md:w-20 md:h-20 bg-[#0a0a0a] rounded-md border transition-all flex flex-col items-center justify-center gap-1 hover-elevate ${
+                      showVideo
+                        ? "border-primary ring-2 ring-primary/30"
+                        : "border-zinc-800/50"
+                    }`}
+                    data-testid="play-video-button"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                      <Play className="w-4 h-4 text-primary ml-0.5" />
+                    </div>
+                    <span className="text-[10px] text-zinc-400">Video</span>
+                  </button>
+                )}
+              </div>
+              <button
+                onClick={() => {
+                  if (thumbContainerRef.current) {
+                    thumbContainerRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+                  }
+                }}
+                className="flex-shrink-0 w-7 h-7 rounded-full bg-zinc-800/80 flex items-center justify-center text-white/70 hover:bg-zinc-700 transition-colors"
+                data-testid="thumb-scroll-right"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
           </div>
 
