@@ -105,8 +105,6 @@ export function ProductPage({ product }: ProductPageProps) {
     })
     .slice(0, 4);
 
-  const hasBeamOrColorVariants = variants.some((v: any) => v.beamPattern || v.color);
-
   useEffect(() => {
     if (skuParam && variants.length > 0 && !skuInitialized) {
       const matchIdx = variants.findIndex((v: any) => v.sku?.toLowerCase() === skuParam.toLowerCase());
@@ -120,21 +118,23 @@ export function ProductPage({ product }: ProductPageProps) {
     }
   }, [skuParam, variants, skuInitialized]);
 
-  const selectedVariant = hasBeamOrColorVariants
-    ? (variants.find(v => {
-        if (v.beamPattern && v.color) {
-          return v.beamPattern === selectedBeamPattern && v.color === selectedColor;
+  useEffect(() => {
+    if (variants.length > 0) {
+      const match = variants.find((v: any) => {
+        const beamMatch = !v.beamPattern || v.beamPattern === selectedBeamPattern;
+        const colorMatch = !v.color || v.color === selectedColor;
+        return beamMatch && colorMatch;
+      });
+      if (match) {
+        const idx = variants.indexOf(match);
+        if (idx >= 0 && idx !== selectedVariantIndex) {
+          setSelectedVariantIndex(idx);
         }
-        if (v.beamPattern) {
-          return v.beamPattern === selectedBeamPattern;
-        }
-        if (v.name) {
-          return v.name.toLowerCase().includes(selectedBeamPattern?.toLowerCase() || '') ||
-                 v.name.toLowerCase().includes(selectedColor?.toLowerCase() || '');
-        }
-        return false;
-      }) || variants[0])
-    : variants[selectedVariantIndex] || variants[0];
+      }
+    }
+  }, [selectedBeamPattern, selectedColor, variants]);
+
+  const selectedVariant = variants[selectedVariantIndex] || variants[0];
 
   const handleAddToCart = async () => {
     setIsAdding(true);
@@ -384,7 +384,7 @@ export function ProductPage({ product }: ProductPageProps) {
 
             <p className="text-zinc-400 text-justify">{product.shortDescription}</p>
 
-            {!hasBeamOrColorVariants && variants.length > 1 && (
+            {!(product.beamPatterns?.length > 1) && !(product.colors?.length > 1) && variants.length > 1 && (
               <div>
                 <label className="text-sm font-medium mb-3 block text-zinc-300">Option</label>
                 <div className="flex flex-wrap gap-2">
