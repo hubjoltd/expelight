@@ -139,7 +139,12 @@ export function ProductPage({ product }: ProductPageProps) {
   const handleAddToCart = async () => {
     setIsAdding(true);
     try {
-      await addToCart(product.id, quantity);
+      const variantInfo = selectedVariant ? {
+        variantSku: selectedVariant.sku,
+        variantPrice: selectedVariant.price,
+        variantName: selectedVariant.name || selectedVariant.sku,
+      } : undefined;
+      await addToCart(product.id, quantity, variantInfo);
       setJustAdded(true);
       toast({ title: `${product.name} added to cart!` });
       setTimeout(() => setJustAdded(false), 2000);

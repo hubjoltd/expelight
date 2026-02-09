@@ -7,12 +7,18 @@ interface CartItem {
   id: string;
   productId: string;
   quantity: number;
+  variantSku?: string;
+  variantPrice?: number;
+  variantName?: string;
   product?: Product;
 }
 
 interface LocalCartItem {
   productId: string;
   quantity: number;
+  variantSku?: string;
+  variantPrice?: number;
+  variantName?: string;
 }
 
 const CART_STORAGE_KEY = "expelight_cart";
@@ -68,11 +74,13 @@ export function useCart() {
     queryKey: ["/api/products"],
   });
 
-  // Enrich local cart with product data
   const enrichedLocalCart: CartItem[] = localCart.map((item, index) => ({
     id: `local-${index}`,
     productId: item.productId,
     quantity: item.quantity,
+    variantSku: item.variantSku,
+    variantPrice: item.variantPrice,
+    variantName: item.variantName,
     product: products.find((p) => p.id === item.productId),
   }));
 
@@ -84,27 +92,25 @@ export function useCart() {
 
   // Add to cart (local or server)
   const addToCart = useCallback(
-    async (productId: string, quantity: number = 1) => {
+    async (productId: string, quantity: number = 1, variantInfo?: { variantSku?: string; variantPrice?: number; variantName?: string }) => {
       if (isAuthenticated) {
-        // Add to server
         const res = await fetch("/api/cart", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ productId, quantity }),
+          body: JSON.stringify({ productId, quantity, ...variantInfo }),
           credentials: "include",
         });
         if (res.ok) {
           queryClient.invalidateQueries({ queryKey: ["/api/cart"] });
         }
       } else {
-        // Add to local cart
         const current = getLocalCart();
-        const existingIndex = current.findIndex((item) => item.productId === productId);
+        const existingIndex = current.findIndex((item) => item.productId === productId && item.variantSku === (variantInfo?.variantSku || undefined));
         
         if (existingIndex >= 0) {
           current[existingIndex].quantity += quantity;
         } else {
-          current.push({ productId, quantity });
+          current.push({ productId, quantity, ...variantInfo });
         }
         
         setLocalCart(current);
@@ -173,7 +179,7 @@ export function useCart() {
       await fetch("/api/cart", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: item.productId, quantity: item.quantity }),
+        body: JSON.stringify({ productId: item.productId, quantity: item.quantity, variantSku: item.variantSku, variantPrice: item.variantPrice, variantName: item.variantName }),
         credentials: "include",
       });
     }

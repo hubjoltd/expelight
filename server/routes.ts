@@ -203,23 +203,37 @@ export async function registerRoutes(
   app.post("/api/cart", isAuthenticated, async (req: Request, res) => {
     try {
       const userId = req.session.userId!;
-      const { productId, quantity = 1 } = req.body;
+      const { productId, quantity = 1, variantSku } = req.body;
       
-      // Check if item already in cart
+      let resolvedPrice: number | null = null;
+      let resolvedName: string | null = null;
+      let resolvedSku: string | null = variantSku || null;
+
+      if (resolvedSku) {
+        const [variant] = await db.select().from(productVariants)
+          .where(eq(productVariants.sku, resolvedSku));
+        if (variant) {
+          resolvedPrice = variant.price;
+          resolvedName = variant.name;
+        }
+      }
+
       const existing = await db.select().from(cartItems)
-        .where(and(eq(cartItems.userId, userId), eq(cartItems.productId, productId)));
+        .where(
+          resolvedSku
+            ? and(eq(cartItems.userId, userId), eq(cartItems.productId, productId), eq(cartItems.variantSku, resolvedSku))
+            : and(eq(cartItems.userId, userId), eq(cartItems.productId, productId), isNull(cartItems.variantSku))
+        );
       
       if (existing.length > 0) {
-        // Update quantity
         const [updated] = await db.update(cartItems)
           .set({ quantity: existing[0].quantity + quantity })
           .where(eq(cartItems.id, existing[0].id))
           .returning();
         res.json(updated);
       } else {
-        // Add new item
         const [item] = await db.insert(cartItems)
-          .values({ userId, productId, quantity })
+          .values({ userId, productId, quantity, variantSku: resolvedSku, variantPrice: resolvedPrice, variantName: resolvedName })
           .returning();
         res.json(item);
       }

@@ -170,6 +170,9 @@ export const cartItems = pgTable("cart_items", {
   userId: varchar("user_id").notNull(),
   productId: varchar("product_id").notNull(),
   quantity: integer("quantity").notNull().default(1),
+  variantSku: text("variant_sku"),
+  variantPrice: integer("variant_price"),
+  variantName: text("variant_name"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

@@ -20,6 +20,9 @@ interface CartItemWithProduct {
   id: string;
   productId: string;
   quantity: number;
+  variantSku?: string;
+  variantPrice?: number;
+  variantName?: string;
   product: Product;
 }
 
@@ -86,7 +89,8 @@ export default function Checkout() {
   });
 
   const subtotal = cartItems.reduce((sum, item) => {
-    return sum + (item.product?.price || 0) * item.quantity;
+    const price = item.variantPrice || item.product?.price || 0;
+    return sum + price * item.quantity;
   }, 0);
 
   const shipping = subtotal >= 25000 ? 0 : 500;
@@ -111,7 +115,9 @@ export default function Checkout() {
           productId: item.productId,
           productName: item.product?.name,
           quantity: item.quantity,
-          price: item.product?.price,
+          price: item.variantPrice || item.product?.price,
+          variantSku: item.variantSku,
+          variantName: item.variantName,
         })),
         totalAmount: total,
         email: formData.email || user?.email || "",
@@ -402,10 +408,13 @@ export default function Checkout() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm text-white line-clamp-2">{item.product?.name}</p>
+                          {item.variantName && (
+                            <p className="text-xs text-zinc-500">{item.variantName}</p>
+                          )}
                           <p className="text-xs text-zinc-500 mt-1">Qty: {item.quantity}</p>
                         </div>
                         <p className="text-sm font-medium text-white">
-                          {"\u20B9"}{((item.product?.price || 0) * item.quantity).toLocaleString("en-IN")}
+                          {"\u20B9"}{((item.variantPrice || item.product?.price || 0) * item.quantity).toLocaleString("en-IN")}
                         </p>
                       </div>
                     ))}

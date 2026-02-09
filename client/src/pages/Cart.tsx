@@ -16,7 +16,8 @@ export default function Cart() {
   const { toast } = useToast();
 
   const subtotal = cartItems.reduce((sum, item) => {
-    return sum + (item.product?.price || 0) * item.quantity;
+    const price = item.variantPrice || item.product?.price || 0;
+    return sum + price * item.quantity;
   }, 0);
 
   const shipping = subtotal >= 25000 ? 0 : 500;
@@ -138,6 +139,11 @@ export default function Cart() {
                               <h3 className="font-medium text-white line-clamp-2">
                                 {item.product?.name}
                               </h3>
+                              {item.variantName && (
+                                <p className="text-xs text-zinc-500 mt-1">
+                                  {item.variantName} {item.variantSku && `(${item.variantSku})`}
+                                </p>
+                              )}
                             </div>
                             <Button
                               variant="ghost"
@@ -175,9 +181,8 @@ export default function Cart() {
                               </Button>
                             </div>
 
-                            {/* Price */}
                             <p className="text-lg font-bold text-white">
-                              ₹{((item.product?.price || 0) * item.quantity).toLocaleString("en-IN")}
+                              ₹{((item.variantPrice || item.product?.price || 0) * item.quantity).toLocaleString("en-IN")}
                             </p>
                           </div>
                         </div>
