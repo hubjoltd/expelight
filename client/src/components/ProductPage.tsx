@@ -358,7 +358,7 @@ export function ProductPage({ product }: ProductPageProps) {
               )}
 
               {!showVideo && (
-                <div className="absolute top-4 right-4 z-20 hidden md:flex flex-col gap-2">
+                <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
                   <Button
                     size="icon"
                     variant="secondary"
@@ -455,7 +455,7 @@ export function ProductPage({ product }: ProductPageProps) {
 
             </motion.div>
 
-            <div className="hidden md:flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
               {(product.images && product.images.length > 0
                 ? product.images
                 : []
