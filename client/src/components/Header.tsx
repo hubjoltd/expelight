@@ -331,7 +331,7 @@ export function Header() {
                   {filteredProducts.map((product) => (
                     <Link
                       key={product.id}
-                      href={`/product/${product.slug}`}
+                      href={`/product/${product.slug}${product.displaySku && product.displaySku !== product.sku ? `?sku=${product.displaySku}` : ''}`}
                       className="flex items-center gap-3 p-3 hover:bg-zinc-800 transition-colors"
                       onClick={() => {
                         setShowSearchResults(false);
@@ -506,7 +506,7 @@ export function Header() {
               {filteredProducts.map((product) => (
                 <Link
                   key={product.id}
-                  href={`/product/${product.slug}`}
+                  href={`/product/${product.slug}${product.displaySku && product.displaySku !== product.sku ? `?sku=${product.displaySku}` : ''}`}
                   className="flex items-center gap-3 p-3 hover:bg-zinc-800 transition-colors"
                   onClick={() => {
                     setSearchQuery("");

@@ -1,5 +1,5 @@
-import { useState, useRef, useCallback } from "react";
-import { Link } from "wouter";
+import { useState, useRef, useCallback, useEffect } from "react";
+import { Link, useSearch } from "wouter";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -25,8 +25,12 @@ interface ProductPageProps {
 }
 
 export function ProductPage({ product }: ProductPageProps) {
+  const searchString = useSearch();
+  const skuParam = new URLSearchParams(searchString).get("sku");
   const [selectedBeamPattern, setSelectedBeamPattern] = useState(product.beamPatterns[0]);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [skuInitialized, setSkuInitialized] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
@@ -101,19 +105,36 @@ export function ProductPage({ product }: ProductPageProps) {
     })
     .slice(0, 4);
 
-  const selectedVariant = variants.find(v => {
-    if (v.beamPattern && v.color) {
-      return v.beamPattern === selectedBeamPattern && v.color === selectedColor;
+  const hasBeamOrColorVariants = variants.some((v: any) => v.beamPattern || v.color);
+
+  useEffect(() => {
+    if (skuParam && variants.length > 0 && !skuInitialized) {
+      const matchIdx = variants.findIndex((v: any) => v.sku?.toLowerCase() === skuParam.toLowerCase());
+      if (matchIdx >= 0) {
+        setSelectedVariantIndex(matchIdx);
+        const matched = variants[matchIdx];
+        if (matched.beamPattern) setSelectedBeamPattern(matched.beamPattern);
+        if (matched.color) setSelectedColor(matched.color);
+      }
+      setSkuInitialized(true);
     }
-    if (v.beamPattern) {
-      return v.beamPattern === selectedBeamPattern;
-    }
-    if (v.name) {
-      return v.name.toLowerCase().includes(selectedBeamPattern?.toLowerCase() || '') ||
-             v.name.toLowerCase().includes(selectedColor?.toLowerCase() || '');
-    }
-    return false;
-  }) || variants[0];
+  }, [skuParam, variants, skuInitialized]);
+
+  const selectedVariant = hasBeamOrColorVariants
+    ? (variants.find(v => {
+        if (v.beamPattern && v.color) {
+          return v.beamPattern === selectedBeamPattern && v.color === selectedColor;
+        }
+        if (v.beamPattern) {
+          return v.beamPattern === selectedBeamPattern;
+        }
+        if (v.name) {
+          return v.name.toLowerCase().includes(selectedBeamPattern?.toLowerCase() || '') ||
+                 v.name.toLowerCase().includes(selectedColor?.toLowerCase() || '');
+        }
+        return false;
+      }) || variants[0])
+    : variants[selectedVariantIndex] || variants[0];
 
   const handleAddToCart = async () => {
     setIsAdding(true);
@@ -362,6 +383,28 @@ export function ProductPage({ product }: ProductPageProps) {
             </div>
 
             <p className="text-zinc-400 text-justify">{product.shortDescription}</p>
+
+            {!hasBeamOrColorVariants && variants.length > 1 && (
+              <div>
+                <label className="text-sm font-medium mb-3 block text-zinc-300">Option</label>
+                <div className="flex flex-wrap gap-2">
+                  {variants.map((variant: any, idx: number) => (
+                    <button
+                      key={variant.id}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                        selectedVariantIndex === idx
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
+                      }`}
+                      onClick={() => setSelectedVariantIndex(idx)}
+                      data-testid={`variant-${idx}`}
+                    >
+                      {variant.name || variant.sku}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {product.beamPatterns && product.beamPatterns.length > 1 && (
               <div>
