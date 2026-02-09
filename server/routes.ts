@@ -299,10 +299,16 @@ export async function registerRoutes(
       const productIds = userCartItems.map(item => item.productId);
       const allProducts = await db.select().from(products).where(inArray(products.id, productIds));
 
+      const variantSkus = userCartItems.map(item => item.variantSku).filter(Boolean) as string[];
+      const allVariants = variantSkus.length > 0
+        ? await db.select().from(productVariants).where(inArray(productVariants.sku, variantSkus))
+        : [];
+
       let subtotal = 0;
       const orderItems = userCartItems.map(item => {
         const product = allProducts.find((p: any) => p?.id === item.productId);
-        const price = item.variantPrice || product?.price || 0;
+        const variant = item.variantSku ? allVariants.find((v: any) => v.sku === item.variantSku) : null;
+        const price = variant?.price || product?.price || 0;
         subtotal += price * item.quantity;
         return {
           productId: item.productId,
