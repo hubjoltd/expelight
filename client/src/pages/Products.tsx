@@ -480,9 +480,14 @@ export default function Products() {
                               </span>
                               
                             </div>
-                            {product.sku && (
-                              <p className="text-xs text-zinc-600">SKU: {product.sku}</p>
-                            )}
+                            {(() => {
+                              const query = searchText?.toLowerCase();
+                              const matchedSku = query && (product as any).variantSkus?.find((s: string) => s.toLowerCase().includes(query));
+                              const displaySku = matchedSku || product.sku;
+                              return displaySku ? (
+                                <p className="text-xs text-zinc-600">SKU: {displaySku}</p>
+                              ) : null;
+                            })()}
                           </div>
                         </Card>
                       </Link>
