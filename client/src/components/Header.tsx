@@ -138,7 +138,7 @@ export function Header() {
             <img 
               src={expelightLogo} 
               alt="Expelight" 
-              className="h-auto w-auto max-h-[60px] md:max-h-[180px]"
+              className="h-auto w-auto max-h-[100px] md:max-h-[180px]"
             />
           </Link>
 
