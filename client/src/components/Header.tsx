@@ -89,6 +89,10 @@ export function Header() {
       product.shortDescription?.toLowerCase().includes(query) ||
       matchesVariantSku
     );
+  }).map((product: any) => {
+    const query = searchQuery.toLowerCase();
+    const matchedVariantSku = product.variantSkus?.find((s: string) => s.toLowerCase().includes(query));
+    return { ...product, displaySku: matchedVariantSku || product.sku };
   }).slice(0, 6);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -134,8 +138,7 @@ export function Header() {
             <img 
               src={expelightLogo} 
               alt="Expelight" 
-              className="h-auto w-auto"
-              style={{ height: '180px' }}
+              className="h-auto w-auto max-h-[60px] md:max-h-[180px]"
             />
           </Link>
 
@@ -351,8 +354,8 @@ export function Header() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm text-white truncate">{product.name}</p>
-                        {product.sku && (
-                          <p className="text-xs text-zinc-500">SKU: {product.sku}</p>
+                        {product.displaySku && (
+                          <p className="text-xs text-zinc-500">SKU: {product.displaySku}</p>
                         )}
                       </div>
                       <p className="text-sm text-primary font-medium">
@@ -521,8 +524,8 @@ export function Header() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-white truncate">{product.name}</p>
-                    {product.sku && (
-                      <p className="text-xs text-zinc-500">SKU: {product.sku}</p>
+                    {product.displaySku && (
+                      <p className="text-xs text-zinc-500">SKU: {product.displaySku}</p>
                     )}
                   </div>
                 </Link>
