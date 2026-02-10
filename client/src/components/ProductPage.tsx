@@ -44,6 +44,7 @@ export function ProductPage({ product }: ProductPageProps) {
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [swipeOffset, setSwipeOffset] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
+  const [descriptionExpanded, setDescriptionExpanded] = useState(false);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const thumbContainerRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCart();
@@ -773,10 +774,30 @@ export function ProductPage({ product }: ProductPageProps) {
               <div className="grid md:grid-cols-3 gap-8">
                 <div className="md:col-span-2">
                   <h3 className="text-xl font-semibold text-white mb-4">Overview</h3>
-                  <div className="text-zinc-400 leading-relaxed space-y-4 whitespace-pre-line text-justify">
-                    {product.fullDescription?.split('\n\n').map((paragraph, idx) => (
-                      <p key={idx}>{paragraph}</p>
-                    )) || <p>{product.shortDescription}</p>}
+                  <div className="relative">
+                    <div 
+                      className={`text-zinc-400 leading-relaxed space-y-4 whitespace-pre-line text-justify overflow-hidden transition-all duration-300 ${
+                        !descriptionExpanded ? 'max-h-[500px]' : 'max-h-none'
+                      }`}
+                    >
+                      {product.fullDescription?.split('\n\n').map((paragraph, idx) => (
+                        <p key={idx}>{paragraph}</p>
+                      )) || <p>{product.shortDescription}</p>}
+                    </div>
+                    {((product.fullDescription?.length || 0) > 600 || (product.shortDescription?.length || 0) > 600) && (
+                      <>
+                        {!descriptionExpanded && (
+                          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none" />
+                        )}
+                        <button
+                          onClick={() => setDescriptionExpanded(!descriptionExpanded)}
+                          className="mt-3 text-primary hover:text-primary/80 text-sm font-medium transition-colors"
+                          data-testid="button-read-more"
+                        >
+                          {descriptionExpanded ? 'Show less' : 'Read more...'}
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div>
