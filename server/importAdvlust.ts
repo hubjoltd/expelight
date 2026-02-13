@@ -464,22 +464,9 @@ export async function importAllAdvlustProducts() {
   return { imported, skipped, total: advlustProducts.length };
 }
 
-export async function reimportAllProducts() {
-  console.log("Deleting existing imported products...");
-  
-  const importedProducts = await db.select({ id: products.id })
-    .from(products)
-    .where(sql`advlust_product_id IS NOT NULL`);
-  
-  console.log(`Found ${importedProducts.length} products to delete`);
-  
-  for (const p of importedProducts) {
-    await db.delete(productVariants).where(eq(productVariants.productId, p.id));
-    await db.delete(productMedia).where(eq(productMedia.productId, p.id));
-    await db.delete(productCategories).where(eq(productCategories.productId, p.id));
-    await db.delete(products).where(eq(products.id, p.id));
-  }
-  
-  console.log("Deleted. Now re-importing...");
-  return await importAllAdvlustProducts();
-}
+importAllAdvlustProducts()
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error("Error:", err);
+    process.exit(1);
+  });
