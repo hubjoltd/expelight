@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Filter, Shield, Truck, Zap, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Filter, Shield, Truck, Zap, ChevronLeft, ChevronRight, X, ArrowLeft } from "lucide-react";
 import type { Category, Product } from "@shared/schema";
 
 interface ProductWithCategories extends Product {
@@ -24,6 +24,201 @@ interface ProductWithCategories extends Product {
 }
 
 const PRODUCTS_PER_PAGE = 12;
+
+const CATEGORY_IMAGES: Record<string, { main: string; hover: string }> = {
+  "led-light-bars": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/LED_Lightbars-caetgory.jpg?v=1746200072",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Stage_Series_LED_Light_Bars-hover-category.jpg?v=1746201178",
+  },
+  "led-pods": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/LED_Pods-caetgory.jpg?v=1746200154",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/LED_Pods-hover-category.jpg?v=1746201354",
+  },
+  "brackets-kits": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Brackets_Kits-category.jpg?v=1746200250",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Brackets_Kits-hover-category.jpg?v=1746201422",
+  },
+  "switch-panel": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/D-Switch-category.jpg?v=1746200288",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/D_-_Switch-hover-category.jpg?v=1746201460",
+  },
+  "hitch-mount": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/HitchMount-category.jpg?v=1746200343",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/HitchMount-hover-category.jpg?v=1746201556",
+  },
+  "rock-lights": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/RockLigh-caetgory.jpg?v=1746200420",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Rock_Lights-hover-category.jpg?v=1746201590",
+  },
+  "accessories": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Accessories-caetgory.jpg?v=1746200447",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Accessories-hover-category.jpg?v=1746201615",
+  },
+  "headlights": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Headlights-category.jpg?v=1746202200",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Headlights-hover-category.jpg?v=1746202249",
+  },
+  "sidemarkers": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Sidemarkers-category.jpg?v=1746202260",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Sidemarkers-hover-category.jpg?v=1746202296",
+  },
+  "turn-signals": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Turn_Signals-category.jpg?v=1746202320",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Turn_Signals-hover-category.jpg?v=1746202350",
+  },
+  "fog-lamps": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Fog_Lamps-category.jpg?v=1746202360",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Fog_Lamps-hover-category.jpg?v=1746202380",
+  },
+  "controllers": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Controllers-category.jpg?v=1746202557",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Controllers-hover-category.jpg?v=1746203008",
+  },
+  "led-wiring-and-installation": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/LED_Wiring_and_Installation-category.jpg?v=1750059001",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/LED_Wiring_and_Installation-hover-category.jpg?v=1750059004",
+  },
+  "anti-flicker-modules": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Anti-Flicker_Modules-category.jpg?v=1746202577",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Anti-Flicker_Modules-hover-category.jpg?v=1746203041",
+  },
+  "flashers-and-resistors": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Flashers_and_Resistors-category.jpg?v=1746202624",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Flashers_and_Resistors-hover-category.jpg?v=1746203061",
+  },
+  "power-dimmers-and-drivers": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Power_Dimmers_and_Drivers-category.jpg?v=1750058931",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Power_Dimmers_and_Drivers-hover-category.jpg?v=1750058936",
+  },
+  "ssc1-led-pods": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/SSC1-Standard-category.jpg?v=1746425784",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/SSC1-Standard-hover-category.jpg?v=1746425784",
+  },
+  "ssc2-led-pods": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/SSC2_LED_Light_Pods-category.jpg?v=1746425784",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/SSC2_LED_Light_Pods-hover-category.jpg?v=1746425784",
+  },
+  "ss3-led-pods": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/SS3-Standard-category.jpg?v=1746425784",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/SS3-Standard-hover-category.jpg?v=1746425784",
+  },
+  "ss5-led-pods": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/SS5_LED_Light_Pods-category.jpg?v=1746425784",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/SS5_LED_Light_Pods-hover-category.jpg?v=1746425784",
+  },
+  "stage-series-light-bars": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Stage_Series_LED_Light_Bars-category.jpg?v=1746201178",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Stage_Series_LED_Light_Bars-hover-category.jpg?v=1746201178",
+  },
+  "ss5-crosslink-light-bars": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/SS5-LED-category.jpg?v=1746684675",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/SS5-LED-hover-category.jpg?v=1746684675",
+  },
+  "bezels": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Bezels-category.jpg?v=1745909229",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Bezels-hover-category.jpg?v=1746424735",
+  },
+  "brackets-mounts": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Brackets_Mounts-category.jpg?v=1745909254",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Brackets_Kits-hover-category_c9621e6d-8222-40a1-9025-074c319012e6.jpg?v=1746424735",
+  },
+  "covers": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Covers-category.jpg?v=1745909326",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Covers-hover-category.jpg?v=1746424735",
+  },
+  "hardware-kits": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Hardware_Kits-category.jpg?v=1745909344",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Hardware_Kits-hover-category.jpg?v=1746424735",
+  },
+  "replacement-lenses": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Replacement_Lenses-category.jpg?v=1745909377",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Replacement_Lenses-hover-category.jpg?v=1746424735",
+  },
+  "wiring-harnesses": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Wiring_Harnesses-category.jpg?v=1745909415",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Wiring_harness-hover-category.jpg?v=1746424735",
+  },
+  "single-color": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/RockLigh-caetgory.jpg?v=1746200420",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Rock_Lights-hover-category.jpg?v=1746201590",
+  },
+  "rgbw": {
+    main: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Rock_Lights-hover-category.jpg?v=1746201590",
+    hover: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/RockLigh-caetgory.jpg?v=1746200420",
+  },
+};
+
+const BANNER_IMAGES: Record<string, { desktop: string; mobile?: string }> = {
+  "off-road": {
+    desktop: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/offroad-banner.jpg?v=1746169190",
+    mobile: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/offroad-mobile-banner.jpg?v=1746170128",
+  },
+  "lamps": {
+    desktop: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/lamp-banner.jpg?v=1746188637",
+    mobile: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/lamp-mobile-banner.jpg?v=1746188632",
+  },
+  "extras": {
+    desktop: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/extra-banner.jpg?v=1746188640",
+    mobile: "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/extra-mobile-banner.jpg?v=1746188629",
+  },
+};
+
+function SubcategoryCard({ category, index }: { category: Category; index: number }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const images = CATEGORY_IMAGES[category.slug];
+  const mainImage = images?.main || category.imageUrl;
+  const hoverImage = images?.hover;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.1 * index, duration: 0.5 }}
+    >
+      <Link href={`/category/${category.slug}`} data-testid={`link-category-${category.slug}`}>
+        <div
+          className="group relative aspect-[4/5] rounded-lg overflow-hidden cursor-pointer"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          data-testid={`category-card-${category.slug}`}
+        >
+          {mainImage && (
+            <img
+              src={mainImage}
+              alt={category.name}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isHovered && hoverImage ? "opacity-0" : "opacity-100"}`}
+            />
+          )}
+          {hoverImage && (
+            <img
+              src={hoverImage}
+              alt={`${category.name} hover`}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isHovered ? "opacity-100" : "opacity-0"}`}
+            />
+          )}
+          {!mainImage && !hoverImage && (
+            <div className="absolute inset-0 bg-gradient-to-br from-zinc-800 to-zinc-900" />
+          )}
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+          <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
+            <h3 className="text-lg md:text-xl font-bold text-white uppercase tracking-wide group-hover:text-primary transition-colors duration-300">
+              {category.name}
+            </h3>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
+
+function getBannerForCategory(category: Category, parentCategory: Category | null, grandparentCategory: Category | null): { desktop: string; mobile?: string } | null {
+  if (BANNER_IMAGES[category.slug]) return BANNER_IMAGES[category.slug];
+  if (parentCategory && BANNER_IMAGES[parentCategory.slug]) return BANNER_IMAGES[parentCategory.slug];
+  if (grandparentCategory && BANNER_IMAGES[grandparentCategory.slug]) return BANNER_IMAGES[grandparentCategory.slug];
+  return null;
+}
 
 export default function CategoryPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -34,7 +229,6 @@ export default function CategoryPage() {
   const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
   const [minPrice, setMinPrice] = useState<number | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
-  const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
 
   const { data: categories = [], isLoading: categoriesLoading } = useQuery<Category[]>({
     queryKey: ["/api/categories"],
@@ -54,6 +248,8 @@ export default function CategoryPage() {
   const grandparentCategory = parentCategory?.parentId
     ? categories.find(c => c.id === parentCategory.parentId)
     : null;
+
+  const hasSubcategories = subcategories.length > 0;
 
   const getAllDescendantIds = (categoryId: string): string[] => {
     const children = categories.filter(c => c.parentId === categoryId);
@@ -75,14 +271,7 @@ export default function CategoryPage() {
     const matchesSeries = selectedSeries === "all" || product.series.toLowerCase() === selectedSeries.toLowerCase();
     const matchesMinPrice = !minPrice || product.price >= minPrice;
     const matchesMaxPrice = !maxPrice || product.price <= maxPrice;
-
-    let matchesSubcategory = !activeSubcategory;
-    if (activeSubcategory) {
-      const subIds = [activeSubcategory, ...getAllDescendantIds(activeSubcategory)];
-      matchesSubcategory = product.categoryIds?.some(cId => subIds.includes(cId)) ?? false;
-    }
-
-    return matchesSeries && matchesMinPrice && matchesMaxPrice && matchesSubcategory;
+    return matchesSeries && matchesMinPrice && matchesMaxPrice;
   });
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -117,11 +306,10 @@ export default function CategoryPage() {
     setSortBy("newest");
     setMinPrice(null);
     setMaxPrice(null);
-    setActiveSubcategory(null);
     setCurrentPage(1);
   };
 
-  const hasActiveFilters = selectedSeries !== "all" || !!minPrice || !!maxPrice || !!activeSubcategory;
+  const hasActiveFilters = selectedSeries !== "all" || !!minPrice || !!maxPrice;
 
   const getSeriesColor = (series: string) => {
     switch (series.toLowerCase()) {
@@ -139,19 +327,11 @@ export default function CategoryPage() {
       <div className="min-h-screen bg-[#050505]">
         <Header />
         <main className="pt-24 pb-20">
+          <Skeleton className="w-full h-[400px] bg-zinc-800 mb-8" />
           <div className="max-w-[1440px] mx-auto px-4 md:px-8">
-            <Skeleton className="h-12 w-64 bg-zinc-800 mb-4" />
-            <Skeleton className="h-6 w-96 bg-zinc-800/50 mb-8" />
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {[...Array(12)].map((_, i) => (
-                <Card key={i} className="bg-[#0a0a0a] border-zinc-800/30 overflow-hidden">
-                  <Skeleton className="aspect-[4/3] bg-zinc-900" />
-                  <div className="p-5 space-y-3">
-                    <Skeleton className="h-5 w-20 bg-zinc-800" />
-                    <Skeleton className="h-6 w-full bg-zinc-800" />
-                    <Skeleton className="h-8 w-24 bg-zinc-800" />
-                  </div>
-                </Card>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {[...Array(6)].map((_, i) => (
+                <Skeleton key={i} className="aspect-[4/5] bg-zinc-800 rounded-lg" />
               ))}
             </div>
           </div>
@@ -178,34 +358,101 @@ export default function CategoryPage() {
     );
   }
 
-  const breadcrumbs: { name: string; slug: string }[] = [];
-  if (grandparentCategory) breadcrumbs.push({ name: grandparentCategory.name, slug: grandparentCategory.slug });
-  if (parentCategory) breadcrumbs.push({ name: parentCategory.name, slug: parentCategory.slug });
+  const banner = getBannerForCategory(currentCategory, parentCategory ?? null, grandparentCategory ?? null);
+
+  if (hasSubcategories) {
+    return (
+      <div className="min-h-screen bg-[#050505]" data-testid="category-landing-page">
+        <Header />
+        <main className="pt-24 pb-20">
+          <div className="relative w-full overflow-hidden">
+            {banner?.mobile && (
+              <img
+                src={banner.mobile}
+                alt={currentCategory.name}
+                className="w-full md:hidden"
+              />
+            )}
+            {banner?.desktop && (
+              <img
+                src={banner.desktop}
+                alt={currentCategory.name}
+                className={`w-full ${banner.mobile ? "hidden md:block" : ""}`}
+              />
+            )}
+            {!banner && (
+              <div className="w-full h-[300px] md:h-[400px] bg-gradient-to-br from-zinc-900 to-[#050505]" />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
+            <div className="absolute bottom-6 md:bottom-10 left-0 right-0">
+              <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+                {parentCategory && (
+                  <Link
+                    href={`/category/${parentCategory.slug}`}
+                    className="flex items-center gap-2 text-zinc-400 hover:text-white mb-3 transition-colors text-sm"
+                    data-testid="link-back-parent"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    Back to {parentCategory.name}
+                  </Link>
+                )}
+                <motion.h1
+                  className="text-4xl md:text-5xl lg:text-7xl font-bold text-white"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  data-testid="text-category-title"
+                >
+                  {currentCategory.name}
+                </motion.h1>
+              </div>
+            </div>
+          </div>
+
+          <div className="max-w-[1440px] mx-auto px-4 md:px-8 mt-8 md:mt-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {subcategories.map((sub, index) => (
+                <SubcategoryCard key={sub.id} category={sub} index={index} />
+              ))}
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-[#050505]" data-testid="category-page">
+    <div className="min-h-screen bg-[#050505]" data-testid="category-products-page">
       <Header />
-
       <main className="pt-24 pb-20">
         <div className="max-w-[1440px] mx-auto px-4 md:px-8">
-          {breadcrumbs.length > 0 && (
+          {(parentCategory || grandparentCategory) && (
             <motion.div
               className="flex items-center gap-2 text-sm text-zinc-500 mb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               data-testid="breadcrumbs"
             >
-              <Link href="/products" className="hover:text-zinc-300 transition-colors">
-                All Products
+              <Link href="/categories" className="hover:text-zinc-300 transition-colors">
+                Categories
               </Link>
-              {breadcrumbs.map((crumb) => (
-                <span key={crumb.slug} className="flex items-center gap-2">
+              {grandparentCategory && (
+                <span className="flex items-center gap-2">
                   <ChevronRight className="w-3 h-3" />
-                  <Link href={`/category/${crumb.slug}`} className="hover:text-zinc-300 transition-colors">
-                    {crumb.name}
+                  <Link href={`/category/${grandparentCategory.slug}`} className="hover:text-zinc-300 transition-colors">
+                    {grandparentCategory.name}
                   </Link>
                 </span>
-              ))}
+              )}
+              {parentCategory && (
+                <span className="flex items-center gap-2">
+                  <ChevronRight className="w-3 h-3" />
+                  <Link href={`/category/${parentCategory.slug}`} className="hover:text-zinc-300 transition-colors">
+                    {parentCategory.name}
+                  </Link>
+                </span>
+              )}
               <ChevronRight className="w-3 h-3" />
               <span className="text-zinc-300">{currentCategory.name}</span>
             </motion.div>
@@ -244,44 +491,6 @@ export default function CategoryPage() {
               </div>
             ))}
           </motion.div>
-
-          {subcategories.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.25 }}
-              className="flex flex-wrap items-center gap-2 mb-6"
-            >
-              <span className="text-sm text-zinc-500 mr-1">Browse:</span>
-              <Button
-                variant={!activeSubcategory ? "default" : "outline"}
-                size="sm"
-                onClick={() => { setActiveSubcategory(null); setCurrentPage(1); }}
-                className={!activeSubcategory
-                  ? "bg-primary text-white"
-                  : "bg-transparent border-zinc-700 text-zinc-400"
-                }
-                data-testid="filter-subcategory-all"
-              >
-                All {currentCategory.name}
-              </Button>
-              {subcategories.map((sub) => (
-                <Button
-                  key={sub.id}
-                  variant={activeSubcategory === sub.id ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => { setActiveSubcategory(activeSubcategory === sub.id ? null : sub.id); setCurrentPage(1); }}
-                  className={activeSubcategory === sub.id
-                    ? "bg-primary text-white"
-                    : "bg-transparent border-zinc-700 text-zinc-400"
-                  }
-                  data-testid={`filter-subcategory-${sub.slug}`}
-                >
-                  {sub.name}
-                </Button>
-              ))}
-            </motion.div>
-          )}
 
           <motion.div
             className="flex flex-col lg:flex-row gap-4 mb-8 items-start lg:items-center justify-between"
