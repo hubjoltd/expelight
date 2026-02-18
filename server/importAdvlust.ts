@@ -372,19 +372,25 @@ export async function importAllAdvlustProducts() {
     const whatsInBox = extractWhatsInBox(advProduct.body_html);
     const beamPatterns = getBeamPatternsFromOptions(advProduct.options || [], advProduct.variants);
     const colors = getColorsFromOptions(advProduct.options || [], advProduct.variants);
-    const images = advProduct.images.map(img => img.src);
+    const images = new Set<string>(advProduct.images.map(img => img.src));
     
-    // Fallback for missing images - search for same model different color/pattern
-    if (images.length < 3) {
-      const modelPrefix = advProduct.title.split(' ')[0]; // e.g. "SS10"
-      const relatedImages = advlustProducts
-        .filter(p => p.id !== advProduct.id && p.title.startsWith(modelPrefix))
-        .flatMap(p => p.images.map(img => img.src))
-        .slice(0, 5);
-      
-      const uniqueRelated = relatedImages.filter(src => !images.includes(src));
-      images.push(...uniqueRelated.slice(0, 4 - images.length));
+    // Maximize images: find all related products in the same series/model
+    const modelName = advProduct.title.split(' ')[0]; // e.g. "SS3", "SS5", "SSC2"
+    const relatedProducts = advlustProducts.filter(p => 
+      p.id !== advProduct.id && 
+      (p.title.includes(modelName) || p.product_type === advProduct.product_type)
+    );
+
+    // Add unique images from related products to fill up the gallery
+    for (const rp of relatedProducts) {
+      for (const img of rp.images) {
+        if (images.size >= 12) break;
+        images.add(img.src);
+      }
+      if (images.size >= 12) break;
     }
+
+    const finalImages = Array.from(images);
     
     const specificationsTable = extractSpecificationsTable(advProduct.body_html);
     const partNumbers = extractPartNumbers(advProduct.variants, advProduct.title);
