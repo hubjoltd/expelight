@@ -20,7 +20,7 @@ interface AdvlustImage {
   src: string;
   position: number;
   alt: string | null;
-  variant_ids?: number[];
+  variant_ids: number[];
 }
 
 interface AdvlustOption {
@@ -415,7 +415,7 @@ export async function importAllAdvlustProducts() {
       installationGuide: JSON.stringify(installationGuide),
       whatsInBox,
       warrantyYears: 8,
-      images: images.length > 0 ? images : [],
+      images: finalImages,
       compatibleVehicles: [],
       isPopular: advProduct.variants.length > 3,
       isActive: true,
