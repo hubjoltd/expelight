@@ -776,15 +776,12 @@ export function ProductPage({ product }: ProductPageProps) {
                   <h3 className="text-xl font-semibold text-white mb-4">Overview</h3>
                   <div className="relative">
                     <div 
-                      className={`text-zinc-400 leading-relaxed space-y-4 whitespace-pre-line text-justify overflow-hidden transition-all duration-300 ${
+                      className={`prose prose-invert max-w-none text-zinc-400 leading-relaxed space-y-4 text-justify overflow-hidden transition-all duration-300 ${
                         !descriptionExpanded ? 'max-h-[500px]' : 'max-h-none'
                       }`}
-                    >
-                      {product.fullDescription?.split('\n\n').map((paragraph, idx) => (
-                        <p key={idx}>{paragraph}</p>
-                      )) || <p>{product.shortDescription}</p>}
-                    </div>
-                    {((product.fullDescription?.length || 0) > 600 || (product.shortDescription?.length || 0) > 600) && (
+                      dangerouslySetInnerHTML={{ __html: product.fullDescription || product.shortDescription }}
+                    />
+                    {((product.fullDescription?.length || 0) > 600) && (
                       <>
                         {!descriptionExpanded && (
                           <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none" />
