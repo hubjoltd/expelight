@@ -374,6 +374,18 @@ export async function importAllAdvlustProducts() {
     const colors = getColorsFromOptions(advProduct.options || [], advProduct.variants);
     const images = advProduct.images.map(img => img.src);
     
+    // Fallback for missing images - search for same model different color/pattern
+    if (images.length < 3) {
+      const modelPrefix = advProduct.title.split(' ')[0]; // e.g. "SS10"
+      const relatedImages = advlustProducts
+        .filter(p => p.id !== advProduct.id && p.title.startsWith(modelPrefix))
+        .flatMap(p => p.images.map(img => img.src))
+        .slice(0, 5);
+      
+      const uniqueRelated = relatedImages.filter(src => !images.includes(src));
+      images.push(...uniqueRelated.slice(0, 4 - images.length));
+    }
+    
     const specificationsTable = extractSpecificationsTable(advProduct.body_html);
     const partNumbers = extractPartNumbers(advProduct.variants, advProduct.title);
     const installationGuide = extractInstallationGuide(advProduct.body_html);
