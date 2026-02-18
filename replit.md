@@ -123,4 +123,12 @@ I prefer iterative development with clear communication on progress. Before maki
   - Payment flow: Create order -> Razorpay checkout popup -> Verify signature -> Confirm order
   - Test keys currently in use (RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET env vars) - switch to production keys when ready
   - Razorpay SDK: `razorpay` npm package for server-side, Checkout.js script loaded dynamically on frontend
+- **DiodeDynamics Product Import (Feb 2026)**:
+  - Imported 37 new products from DiodeDynamics.com with 155+ new variants
+  - Total: 136 active products, 357 variants, 797 media entries
+  - All 234 requested SKUs confirmed in database (DD6440P through DD8815)
+  - Products include: C2 2.0 LED Pods, SS6/SS10/SS20/SS30/SS40 Light Bars, SSC1 pods, wiring harnesses, brackets, covers, bezels
+  - Import scripts: server/importDiodeDynamics.ts (DD page scraper), server/enrichImages.ts (image enrichment)
+  - Fixed case-sensitive SKU matching issues
+  - Updated variant names with descriptive beam pattern/mount type info
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"
