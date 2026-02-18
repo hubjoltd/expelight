@@ -112,6 +112,7 @@ export function Header() {
   ];
 
   const categoryLinks = [
+    { href: "/categories", label: "Categories" },
     { href: "/category/off-road", label: "Off-Road" },
     { href: "/category/lamps", label: "Lamps" },
     { href: "/category/extras", label: "Extras" },

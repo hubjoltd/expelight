@@ -26,6 +26,7 @@ import AdminOrders from "@/pages/AdminOrders";
 import AdminAdvlust from "@/pages/AdminAdvlust";
 import AdminBlog from "@/pages/AdminBlog";
 import Category from "@/pages/Category";
+import Categories from "@/pages/Categories";
 import Blog from "@/pages/Blog";
 import Contact from "@/pages/Contact";
 import ReturnsWarranty from "@/pages/policies/ReturnsWarranty";
@@ -53,6 +54,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/products" component={Products} />
+      <Route path="/categories" component={Categories} />
       <Route path="/category/:slug" component={Category} />
       <Route path="/product/:slug" component={ProductDetail} />
       <Route path="/science" component={Science} />
