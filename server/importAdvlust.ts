@@ -20,6 +20,7 @@ interface AdvlustImage {
   src: string;
   position: number;
   alt: string | null;
+  variant_ids?: number[];
 }
 
 interface AdvlustOption {
@@ -413,6 +414,11 @@ export async function importAllAdvlustProducts() {
       
       const baseSku = variant.sku || `DD-${advProduct.id}`;
       
+      // Find variant image if it exists
+      const variantImage = advProduct.images.find(img => 
+        img.variant_ids && img.variant_ids.includes(variant.id)
+      );
+      
       const existingVariant = await db.select({ id: productVariants.id })
         .from(productVariants)
         .where(eq(productVariants.sku, baseSku))
@@ -433,6 +439,7 @@ export async function importAllAdvlustProducts() {
         stockQuantity: 10,
         isAvailable: true,
         weight: variant.weight ? String(variant.weight) : null,
+        imageUrl: variantImage?.src || null,
       });
     }
     

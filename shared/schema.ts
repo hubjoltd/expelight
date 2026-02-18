@@ -55,6 +55,7 @@ export const productVariants = pgTable("product_variants", {
   stockQuantity: integer("stock_quantity").default(0),
   isAvailable: boolean("is_available").default(true),
   weight: decimal("weight", { precision: 10, scale: 2 }),
+  imageUrl: text("image_url"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

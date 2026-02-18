@@ -212,10 +212,21 @@ export function ProductPage({ product }: ProductPageProps) {
         const idx = variants.indexOf(match);
         if (idx >= 0 && idx !== selectedVariantIndex) {
           setSelectedVariantIndex(idx);
+          // Update image if variant has one
+          if (match.imageUrl) {
+            const imgIdx = product.images.indexOf(match.imageUrl);
+            if (imgIdx >= 0) {
+              setCurrentImageIndex(imgIdx);
+              setShowVideo(false);
+            } else {
+              // Add to images if not present (though it should be)
+              // Or just show it directly if needed
+            }
+          }
         }
       }
     }
-  }, [selectedBeamPattern, selectedColor, variants]);
+  }, [selectedBeamPattern, selectedColor, variants, product.images]);
 
   const selectedVariant = variants[selectedVariantIndex] || variants[0];
 
