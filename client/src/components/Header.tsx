@@ -111,6 +111,12 @@ export function Header() {
     { href: "/vehicle-fit", label: "Fit Your Vehicle" },
   ];
 
+  const categoryLinks = [
+    { href: "/category/off-road", label: "Off-Road" },
+    { href: "/category/lamps", label: "Lamps" },
+    { href: "/category/extras", label: "Extras" },
+  ];
+
   const getInitials = (firstName?: string | null, lastName?: string | null, username?: string) => {
     if (firstName || lastName) {
       const f = firstName?.charAt(0) || '';
@@ -142,7 +148,7 @@ export function Header() {
             />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8" data-testid="desktop-nav">
+          <nav className="hidden md:flex items-center gap-6 lg:gap-8" data-testid="desktop-nav">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -158,6 +164,21 @@ export function Header() {
               </Link>
             ))}
             
+            {categoryLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition-colors ${
+                  location === link.href
+                    ? "text-primary"
+                    : "text-zinc-400 hover:text-white"
+                }`}
+                data-testid={`nav-link-${link.label.toLowerCase().replace(/\s+/g, "-")}`}
+              >
+                {link.label}
+              </Link>
+            ))}
+
             <div 
               className="relative"
               onMouseEnter={() => setIsMegaMenuOpen(true)}
@@ -195,7 +216,7 @@ export function Header() {
                 >
                   <div className="bg-[#0a0a0a] border border-zinc-800 rounded-lg shadow-2xl overflow-hidden">
                     <div className="p-6">
-                      <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
                         <h3 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Shop by Category</h3>
                         <Link
                           href="/products"
@@ -208,7 +229,6 @@ export function Header() {
                       </div>
                       
                       <div className="grid grid-cols-4 gap-6">
-                        {/* Off-Road Column */}
                         {offRoadCategory && (
                           <div className="col-span-2">
                             <Link
@@ -249,7 +269,6 @@ export function Header() {
                           </div>
                         )}
                         
-                        {/* Lamps Column */}
                         {lampsCategory && (
                           <div>
                             <Link
@@ -275,7 +294,6 @@ export function Header() {
                           </div>
                         )}
                         
-                        {/* Extras Column */}
                         {extrasCategory && (
                           <div>
                             <Link
