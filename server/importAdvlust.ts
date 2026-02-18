@@ -364,8 +364,8 @@ export async function importAllAdvlustProducts() {
     const series = getSeriesFromTitle(advProduct.title);
     const slug = createSlug(advProduct.title, advProduct.handle);
     
-    const fullDescription = extractTextContent(advProduct.body_html);
-    const shortDescription = fullDescription.substring(0, 300).trim();
+    const fullDescription = advProduct.body_html; // Keep original HTML for full detail
+    const shortDescription = extractTextContent(advProduct.body_html).substring(0, 300).trim();
     const features = extractFeatures(advProduct.body_html);
     const specs = extractSpecs(advProduct.body_html, advProduct.options || [], advProduct.variants);
     const whatsInBox = extractWhatsInBox(advProduct.body_html);
@@ -464,7 +464,19 @@ export async function importAllAdvlustProducts() {
   return { imported, skipped, total: advlustProducts.length };
 }
 
-importAllAdvlustProducts()
+export async function reimportAllProducts() {
+  console.log("Deleting ALL existing products to ensure full description import...");
+  
+  await db.delete(productVariants);
+  await db.delete(productMedia);
+  await db.delete(productCategories);
+  await db.delete(products);
+  
+  console.log("Deleted. Now re-importing all products from Advlust...");
+  return await importAllAdvlustProducts();
+}
+
+reimportAllProducts()
   .then(() => process.exit(0))
   .catch((err) => {
     console.error("Error:", err);
