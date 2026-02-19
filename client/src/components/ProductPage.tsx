@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { Link, useSearch } from "wouter";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -50,6 +50,21 @@ export function ProductPage({ product }: ProductPageProps) {
   const { addToCart } = useCart();
   const { toast } = useToast();
 
+  const { data: variants = [] } = useQuery<any[]>({
+    queryKey: ["/api/products", product.id, "variants"],
+    enabled: !!product.id,
+  });
+
+  const displayImages = useMemo(() => {
+    const baseImages = product.images || [];
+    if (variants.length === 0) return baseImages;
+    const variantImgUrls = variants
+      .map((v: any) => v.imageUrl)
+      .filter((url: string | null) => url && !baseImages.includes(url));
+    const uniqueVariantImgs = Array.from(new Set(variantImgUrls)) as string[];
+    return [...baseImages, ...uniqueVariantImgs];
+  }, [product.images, variants]);
+
   const handleZoomIn = () => {
     setZoomLevel(prev => Math.min(prev + 0.5, 3));
   };
@@ -87,7 +102,7 @@ export function ProductPage({ product }: ProductPageProps) {
     }
   }, [zoomLevel]);
 
-  const totalSlides = (product.images?.length || 0) + (product.videoUrl ? 1 : 0);
+  const totalSlides = (displayImages.length || 0) + (product.videoUrl ? 1 : 0);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (zoomLevel > 1) return;
@@ -112,7 +127,7 @@ export function ProductPage({ product }: ProductPageProps) {
     }
     const distance = touchStart - touchEnd;
     const minSwipeDistance = 50;
-    const imageCount = product.images?.length || 0;
+    const imageCount = displayImages.length || 0;
 
     if (Math.abs(distance) >= minSwipeDistance) {
       if (distance > 0) {
@@ -138,12 +153,12 @@ export function ProductPage({ product }: ProductPageProps) {
     setTouchEnd(null);
     setIsSwiping(false);
     setSwipeOffset(0);
-  }, [touchStart, touchEnd, currentImageIndex, showVideo, product.images, product.videoUrl, zoomLevel]);
+  }, [touchStart, touchEnd, currentImageIndex, showVideo, displayImages, product.videoUrl, zoomLevel]);
 
   const goToPrevImage = () => {
     if (showVideo) {
       setShowVideo(false);
-      setCurrentImageIndex((product.images?.length || 1) - 1);
+      setCurrentImageIndex((displayImages.length || 1) - 1);
     } else if (currentImageIndex > 0) {
       setCurrentImageIndex(prev => prev - 1);
     }
@@ -152,7 +167,7 @@ export function ProductPage({ product }: ProductPageProps) {
   };
 
   const goToNextImage = () => {
-    const imageCount = product.images?.length || 0;
+    const imageCount = displayImages.length || 0;
     if (!showVideo && currentImageIndex < imageCount - 1) {
       setCurrentImageIndex(prev => prev + 1);
     } else if (!showVideo && product.videoUrl) {
@@ -162,12 +177,7 @@ export function ProductPage({ product }: ProductPageProps) {
     setPanPosition({ x: 0, y: 0 });
   };
 
-  const currentSlideIndex = showVideo ? (product.images?.length || 0) : currentImageIndex;
-
-  const { data: variants = [] } = useQuery<any[]>({
-    queryKey: ["/api/products", product.id, "variants"],
-    enabled: !!product.id,
-  });
+  const currentSlideIndex = showVideo ? displayImages.length : currentImageIndex;
 
   const { data: allProducts = [] } = useQuery<Product[]>({
     queryKey: ["/api/products"],
@@ -201,6 +211,17 @@ export function ProductPage({ product }: ProductPageProps) {
     }
   }, [skuParam, variants, skuInitialized]);
 
+  const switchToVariantImage = useCallback((variant: any) => {
+    if (!variant?.imageUrl) return;
+    const imgIdx = displayImages.indexOf(variant.imageUrl);
+    if (imgIdx >= 0) {
+      setCurrentImageIndex(imgIdx);
+      setShowVideo(false);
+      setZoomLevel(1);
+      setPanPosition({ x: 0, y: 0 });
+    }
+  }, [displayImages]);
+
   useEffect(() => {
     if (variants.length > 0) {
       const match = variants.find((v: any) => {
@@ -212,21 +233,21 @@ export function ProductPage({ product }: ProductPageProps) {
         const idx = variants.indexOf(match);
         if (idx >= 0 && idx !== selectedVariantIndex) {
           setSelectedVariantIndex(idx);
-          // Update image if variant has one
-          if (match.imageUrl) {
-            const imgIdx = product.images.indexOf(match.imageUrl);
-            if (imgIdx >= 0) {
-              setCurrentImageIndex(imgIdx);
-              setShowVideo(false);
-            } else {
-              // Add to images if not present (though it should be)
-              // Or just show it directly if needed
-            }
-          }
+          switchToVariantImage(match);
         }
       }
     }
-  }, [selectedBeamPattern, selectedColor, variants, product.images]);
+  }, [selectedBeamPattern, selectedColor, variants, switchToVariantImage, selectedVariantIndex]);
+
+  const lastSwitchedVariantRef = useRef<number>(-1);
+  useEffect(() => {
+    if (variants.length > 0 && variants[selectedVariantIndex] && displayImages.length > 0) {
+      if (lastSwitchedVariantRef.current !== selectedVariantIndex) {
+        lastSwitchedVariantRef.current = selectedVariantIndex;
+        switchToVariantImage(variants[selectedVariantIndex]);
+      }
+    }
+  }, [selectedVariantIndex, variants, displayImages, switchToVariantImage]);
 
   const selectedVariant = variants[selectedVariantIndex] || variants[0];
 
@@ -339,9 +360,9 @@ export function ProductPage({ product }: ProductPageProps) {
                     View Images
                   </Button>
                 </div>
-              ) : product.images && product.images[currentImageIndex] ? (
+              ) : displayImages && displayImages[currentImageIndex] ? (
                 <img
-                  src={product.images[currentImageIndex]}
+                  src={displayImages[currentImageIndex]}
                   alt={product.name}
                   className="w-full h-full object-contain relative z-10 select-none"
                   style={{
@@ -429,7 +450,7 @@ export function ProductPage({ product }: ProductPageProps) {
               {totalSlides > 1 && (
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 md:hidden">
                   {Array.from({ length: Math.min(totalSlides, 10) }).map((_, i) => {
-                    const isVideoSlide = i === (product.images?.length || 0);
+                    const isVideoSlide = i === displayImages.length;
                     return (
                       <button
                         key={i}
@@ -485,8 +506,8 @@ export function ProductPage({ product }: ProductPageProps) {
                 ref={thumbContainerRef}
                 className="flex gap-2 overflow-x-hidden scroll-smooth"
               >
-                {(product.images && product.images.length > 0
-                  ? product.images
+                {(displayImages.length > 0
+                  ? displayImages
                   : []
                 ).map((item, index) => (
                   <button
@@ -591,7 +612,9 @@ export function ProductPage({ product }: ProductPageProps) {
                           ? "bg-primary text-primary-foreground"
                           : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
                       }`}
-                      onClick={() => setSelectedVariantIndex(idx)}
+                      onClick={() => {
+                        setSelectedVariantIndex(idx);
+                      }}
                       data-testid={`variant-${idx}`}
                     >
                       {variant.name || variant.sku}
