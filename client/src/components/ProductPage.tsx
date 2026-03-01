@@ -90,6 +90,21 @@ export function ProductPage({ product }: ProductPageProps) {
     return variantColors;
   }, [variants, product.colors]);
 
+  const modelVariants = useMemo(() => {
+    if (variants.length <= 1) return [];
+    const hasMultipleBeams = availableBeamPatterns.length > 1;
+    const hasMultipleColors = availableColors.length > 1;
+    const matching = variants.filter((v: any) => {
+      const beamMatch = !hasMultipleBeams || !v.beamPattern || v.beamPattern === selectedBeamPattern;
+      const colorMatch = !hasMultipleColors || !v.color || v.color === selectedColor;
+      return beamMatch && colorMatch;
+    });
+    if (matching.length <= 1) return [];
+    return matching;
+  }, [variants, availableBeamPatterns, availableColors, selectedBeamPattern, selectedColor]);
+
+  const [selectedModelIndex, setSelectedModelIndex] = useState(0);
+
   const displayImages = useMemo(() => {
     const baseImages = product.images || [];
     if (variants.length === 0) return baseImages;
@@ -233,6 +248,8 @@ export function ProductPage({ product }: ProductPageProps) {
     })
     .slice(0, 4);
 
+  const [skuModelSynced, setSkuModelSynced] = useState(false);
+
   useEffect(() => {
     if (variants.length > 0 && !skuInitialized) {
       if (skuParam) {
@@ -242,6 +259,7 @@ export function ProductPage({ product }: ProductPageProps) {
           const matched = variants[matchIdx];
           if (matched.beamPattern) setSelectedBeamPattern(matched.beamPattern);
           if (matched.color) setSelectedColor(matched.color);
+          setSkuModelSynced(false);
           setSkuInitialized(true);
           return;
         }
@@ -257,6 +275,19 @@ export function ProductPage({ product }: ProductPageProps) {
     }
   }, [skuParam, variants, skuInitialized, availableBeamPatterns, availableColors, selectedBeamPattern, selectedColor]);
 
+  useEffect(() => {
+    if (skuParam && skuInitialized && !skuModelSynced && modelVariants.length > 0) {
+      const matched = variants[selectedVariantIndex];
+      if (matched) {
+        const modelIdx = modelVariants.indexOf(matched);
+        if (modelIdx >= 0) {
+          setSelectedModelIndex(modelIdx);
+        }
+      }
+      setSkuModelSynced(true);
+    }
+  }, [skuParam, skuInitialized, skuModelSynced, modelVariants, variants, selectedVariantIndex]);
+
   const switchToVariantImage = useCallback((variant: any) => {
     if (!variant?.imageUrl) return;
     const imgIdx = displayImages.indexOf(variant.imageUrl);
@@ -269,21 +300,34 @@ export function ProductPage({ product }: ProductPageProps) {
   }, [displayImages]);
 
   useEffect(() => {
+    setSelectedModelIndex(0);
+  }, [selectedBeamPattern, selectedColor]);
+
+  useEffect(() => {
     if (variants.length > 0) {
-      const match = variants.find((v: any) => {
-        const beamMatch = !v.beamPattern || v.beamPattern === selectedBeamPattern;
-        const colorMatch = !v.color || v.color === selectedColor;
-        return beamMatch && colorMatch;
-      });
-      if (match) {
-        const idx = variants.indexOf(match);
+      if (modelVariants.length > 0) {
+        const picked = modelVariants[selectedModelIndex] || modelVariants[0];
+        const idx = variants.indexOf(picked);
         if (idx >= 0) {
           setSelectedVariantIndex(idx);
-          switchToVariantImage(match);
+          switchToVariantImage(picked);
+        }
+      } else {
+        const match = variants.find((v: any) => {
+          const beamMatch = !v.beamPattern || v.beamPattern === selectedBeamPattern;
+          const colorMatch = !v.color || v.color === selectedColor;
+          return beamMatch && colorMatch;
+        });
+        if (match) {
+          const idx = variants.indexOf(match);
+          if (idx >= 0) {
+            setSelectedVariantIndex(idx);
+            switchToVariantImage(match);
+          }
         }
       }
     }
-  }, [selectedBeamPattern, selectedColor, variants, switchToVariantImage]);
+  }, [selectedBeamPattern, selectedColor, selectedModelIndex, modelVariants, variants, switchToVariantImage]);
 
   useEffect(() => {
     if (variants.length > 0 && variants[selectedVariantIndex] && displayImages.length > 0) {
@@ -642,7 +686,7 @@ export function ProductPage({ product }: ProductPageProps) {
 
             <p className="text-zinc-400 text-justify">{product.shortDescription}</p>
 
-            {!(availableBeamPatterns?.length > 1) && !(availableColors?.length > 1) && variants.length > 1 && (
+            {!(availableBeamPatterns?.length > 1) && !(availableColors?.length > 1) && modelVariants.length === 0 && variants.length > 1 && (
               <div>
                 <label className="text-sm font-medium mb-3 block text-zinc-300">Option</label>
                 <div className="flex flex-wrap gap-2">
@@ -706,6 +750,30 @@ export function ProductPage({ product }: ProductPageProps) {
                     >
                       <span className={`w-3 h-3 rounded-full`} style={{ backgroundColor: getColorHex(color) }} />
                       {color}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {modelVariants.length > 0 && (
+              <div>
+                <label className="text-sm font-medium mb-3 block text-zinc-300">Model</label>
+                <div className="flex flex-wrap gap-2">
+                  {modelVariants.map((variant: any, idx: number) => (
+                    <button
+                      key={variant.id}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                        selectedModelIndex === idx
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
+                      }`}
+                      onClick={() => {
+                        setSelectedModelIndex(idx);
+                      }}
+                      data-testid={`model-${idx}`}
+                    >
+                      {variant.name || variant.sku}
                     </button>
                   ))}
                 </div>
