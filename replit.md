@@ -164,12 +164,15 @@ I prefer iterative development with clear communication on progress. Before maki
   - Enable All / Disable All bulk action buttons
   - Inline edit for variant name and price
   - Disabled variants are filtered out from the product page (beam patterns, colors, and option buttons only show enabled variants)
-- **Product Image Fix & CDN Gallery Enrichment (Mar 2026)**:
-  - Fixed systemic image mismatch across all 234 SKUs (wrong product images assigned to wrong products)
-  - Fetched correct images from Diode Dynamics CloudFront CDN (dxv0kh7euhy9z.cloudfront.net) for every SKU
-  - Enriched image galleries via HEAD-request CDN probing: discovered 400+ additional product images
-  - Curated oversized SS3 galleries (47→12 images per product) for optimal browsing
-  - Final distribution: 5 products at 2 images, 28 at 3, 20 at 4, 17 at 5, 10 at 6, 10 at 7, 9 at 8, 11 at 9, 14 at 10-14 images
-  - Total: 131 products, 357 variants, 821 media entries
+- **Product Image Fix & Advlust Gallery Integration (Mar 2026)**:
+  - Discovered DD CloudFront CDN serves 18318-byte watermark placeholders for many image URLs (135 out of 414 unique URLs)
+  - Replaced all DD CDN placeholder images with real product photos from advlust.com Shopify CDN
+  - Fetched advlust.com product catalog (94 products, 209 SKUs) and matched to our 131 products by SKU and name
+  - 125 products now have advlust.com real product images as primary gallery source
+  - Variant images mapped to correct beam pattern/color photos from product gallery (357/357 variants matched)
+  - Variant image switching now works: selecting different beam/color options changes the displayed image
+  - Final distribution: 4 at 2, 10 at 3, 6 at 4, 2 at 5, 12 at 6, 12 at 7, 7 at 8, 9 at 9, 8 at 10, 5 at 11, up to 24 images
+  - Total: 131 products, 357 variants, 1393 media entries
+  - Image sources: advlust.com Shopify CDN (primary), DD CloudFront CDN (supplementary real images only)
   - Re-exported seedData.json with camelCase keys matching seed script expectations
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"
