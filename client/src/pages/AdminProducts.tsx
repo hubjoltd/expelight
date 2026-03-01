@@ -138,7 +138,7 @@ export default function AdminProducts() {
     const [togglingId, setTogglingId] = useState<string | null>(null);
     const [showAddForm, setShowAddForm] = useState(false);
     const [newVariant, setNewVariant] = useState({
-      name: "", sku: "", price: 0, beamPattern: "", color: "", imageUrl: "", compareAtPrice: 0,
+      name: "", sku: "", price: 0, beamPattern: "", color: "", model: "", imageUrl: "", compareAtPrice: 0,
     });
 
     const toggleMutation = useMutation({
@@ -181,7 +181,7 @@ export default function AdminProducts() {
         queryClient.invalidateQueries({ queryKey: ["/api/admin/products", productId, "variants"] });
         queryClient.invalidateQueries({ queryKey: ["/api/products", productId, "variants"] });
         setShowAddForm(false);
-        setNewVariant({ name: "", sku: "", price: 0, beamPattern: "", color: "", imageUrl: "", compareAtPrice: 0 });
+        setNewVariant({ name: "", sku: "", price: 0, beamPattern: "", color: "", model: "", imageUrl: "", compareAtPrice: 0 });
         toast({ title: "Variant created" });
       },
       onError: () => {
@@ -222,6 +222,7 @@ export default function AdminProducts() {
         price: newVariant.price,
         beamPattern: newVariant.beamPattern || null,
         color: newVariant.color || null,
+        model: newVariant.model || null,
         imageUrl: newVariant.imageUrl || null,
         compareAtPrice: newVariant.compareAtPrice || null,
         isAvailable: true,
@@ -295,7 +296,7 @@ export default function AdminProducts() {
         {showAddForm && (
           <div className="mb-4 p-3 border border-red-900/50 rounded-md bg-zinc-900 space-y-2">
             <h4 className="text-xs font-semibold text-red-400 mb-2">New Variant</h4>
-            <p className="text-[10px] text-zinc-500 -mt-1 mb-1">Beam Pattern, Color, and Name drive the 3 product page selectors. Set matching values across variants to group them.</p>
+            <p className="text-[10px] text-zinc-500 -mt-1 mb-1">Beam Pattern, Color, and Model drive the product page selectors. Model is optional — only needed when beam + color don't uniquely identify a variant.</p>
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <Label className="text-[10px] text-zinc-400">SKU *</Label>
@@ -319,39 +320,17 @@ export default function AdminProducts() {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2">
               <div>
-                <Label className="text-[10px] text-zinc-400">Beam Pattern <span className="text-zinc-600">(Selector 1)</span></Label>
-                <Input
-                  value={newVariant.beamPattern}
-                  onChange={(e) => setNewVariant({ ...newVariant, beamPattern: e.target.value })}
-                  className="h-7 text-xs"
-                  placeholder="e.g. Spot, Flood, Driving"
-                  data-testid="input-new-variant-beam"
-                />
-              </div>
-              <div>
-                <Label className="text-[10px] text-zinc-400">Color <span className="text-zinc-600">(Selector 2)</span></Label>
-                <Input
-                  value={newVariant.color}
-                  onChange={(e) => setNewVariant({ ...newVariant, color: e.target.value })}
-                  className="h-7 text-xs"
-                  placeholder="e.g. White, Amber, Red"
-                  data-testid="input-new-variant-color"
-                />
-              </div>
-              <div>
-                <Label className="text-[10px] text-zinc-400">Name / Model <span className="text-zinc-600">(Selector 3)</span></Label>
+                <Label className="text-[10px] text-zinc-400">Name *</Label>
                 <Input
                   value={newVariant.name}
                   onChange={(e) => setNewVariant({ ...newVariant, name: e.target.value })}
                   className="h-7 text-xs"
-                  placeholder="e.g. Sport ABL, Pro MBL"
+                  placeholder="e.g. Combo / White"
                   data-testid="input-new-variant-name"
                 />
               </div>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
               <div>
                 <Label className="text-[10px] text-zinc-400">Compare At Price</Label>
                 <Input
@@ -361,6 +340,38 @@ export default function AdminProducts() {
                   className="h-7 text-xs"
                   placeholder="Original price"
                   data-testid="input-new-variant-compare-price"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <div>
+                <Label className="text-[10px] text-zinc-400">Beam Pattern</Label>
+                <Input
+                  value={newVariant.beamPattern}
+                  onChange={(e) => setNewVariant({ ...newVariant, beamPattern: e.target.value })}
+                  className="h-7 text-xs"
+                  placeholder="e.g. Spot, Driving"
+                  data-testid="input-new-variant-beam"
+                />
+              </div>
+              <div>
+                <Label className="text-[10px] text-zinc-400">Color</Label>
+                <Input
+                  value={newVariant.color}
+                  onChange={(e) => setNewVariant({ ...newVariant, color: e.target.value })}
+                  className="h-7 text-xs"
+                  placeholder="e.g. White, Amber"
+                  data-testid="input-new-variant-color"
+                />
+              </div>
+              <div>
+                <Label className="text-[10px] text-zinc-400">Model</Label>
+                <Input
+                  value={newVariant.model}
+                  onChange={(e) => setNewVariant({ ...newVariant, model: e.target.value })}
+                  className="h-7 text-xs"
+                  placeholder="e.g. Sport, Pro, Max"
+                  data-testid="input-new-variant-model"
                 />
               </div>
             </div>
@@ -469,33 +480,33 @@ export default function AdminProducts() {
                     </div>
                     <div className="grid grid-cols-3 gap-2">
                       <div>
-                        <Label className="text-[10px] text-zinc-400">Beam Pattern <span className="text-zinc-600">(Selector 1)</span></Label>
+                        <Label className="text-[10px] text-zinc-400">Beam Pattern</Label>
                         <Input
                           value={editValues.beamPattern || ""}
                           onChange={(e) => setEditValues({ ...editValues, beamPattern: e.target.value })}
                           className="h-7 text-xs"
-                          placeholder="e.g. Spot, Flood, Driving"
+                          placeholder="e.g. Spot, Driving"
                           data-testid={`input-variant-beam-${variant.sku}`}
                         />
                       </div>
                       <div>
-                        <Label className="text-[10px] text-zinc-400">Color <span className="text-zinc-600">(Selector 2)</span></Label>
+                        <Label className="text-[10px] text-zinc-400">Color</Label>
                         <Input
                           value={editValues.color || ""}
                           onChange={(e) => setEditValues({ ...editValues, color: e.target.value })}
                           className="h-7 text-xs"
-                          placeholder="e.g. White, Amber, Red"
+                          placeholder="e.g. White, Amber"
                           data-testid={`input-variant-color-${variant.sku}`}
                         />
                       </div>
                       <div>
-                        <Label className="text-[10px] text-zinc-400">Name / Model <span className="text-zinc-600">(Selector 3)</span></Label>
+                        <Label className="text-[10px] text-zinc-400">Model</Label>
                         <Input
-                          value={editValues.name || ""}
-                          onChange={(e) => setEditValues({ ...editValues, name: e.target.value })}
+                          value={editValues.model || ""}
+                          onChange={(e) => setEditValues({ ...editValues, model: e.target.value })}
                           className="h-7 text-xs"
-                          placeholder="e.g. Sport ABL, Pro MBL"
-                          data-testid={`input-variant-name-${variant.sku}`}
+                          placeholder="e.g. Sport, Pro, Max"
+                          data-testid={`input-variant-model-${variant.sku}`}
                         />
                       </div>
                     </div>
@@ -544,6 +555,7 @@ export default function AdminProducts() {
                               compareAtPrice: editValues.compareAtPrice || null,
                               beamPattern: editValues.beamPattern || null,
                               color: editValues.color || null,
+                              model: editValues.model || null,
                               imageUrl: editValues.imageUrl || null,
                             },
                           })
@@ -587,6 +599,11 @@ export default function AdminProducts() {
                             {variant.color}
                           </Badge>
                         )}
+                        {variant.model && (
+                          <Badge variant="outline" className="text-[10px] h-4 px-1 border-blue-700 text-blue-400">
+                            {variant.model}
+                          </Badge>
+                        )}
                       </div>
                       <p className="text-xs text-zinc-300 truncate mt-0.5">{variant.name}</p>
                     </div>
@@ -608,6 +625,7 @@ export default function AdminProducts() {
                             compareAtPrice: variant.compareAtPrice || 0,
                             beamPattern: variant.beamPattern || "",
                             color: variant.color || "",
+                            model: variant.model || "",
                             imageUrl: variant.imageUrl || "",
                           });
                         }}

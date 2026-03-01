@@ -51,6 +51,7 @@ export const productVariants = pgTable("product_variants", {
   compareAtPrice: integer("compare_at_price"),
   color: text("color"),
   beamPattern: text("beam_pattern"),
+  model: text("model"),
   size: text("size"),
   stockQuantity: integer("stock_quantity").default(0),
   isAvailable: boolean("is_available").default(true),

@@ -704,7 +704,7 @@ export function ProductPage({ product }: ProductPageProps) {
                       }}
                       data-testid={`variant-${idx}`}
                     >
-                      {variant.name || variant.sku}
+                      {variant.model || variant.name || variant.sku}
                     </button>
                   ))}
                 </div>
@@ -773,7 +773,7 @@ export function ProductPage({ product }: ProductPageProps) {
                       }}
                       data-testid={`model-${idx}`}
                     >
-                      {variant.name || variant.sku}
+                      {variant.model || variant.name || variant.sku}
                     </button>
                   ))}
                 </div>
