@@ -133,7 +133,9 @@ I prefer iterative development with clear communication on progress. Before maki
   - Updated variant names with descriptive beam pattern/mount type info
 - **Automatic Category & Product Seeding (Mar 2026)**:
   - Created `server/seedMissingCategories.ts` - idempotent startup seeder for all 38 categories with images and product-category mappings
-  - Runs automatically on every server start alongside `seedMissingProducts`
+  - Rewrote `server/seedMissingProducts.ts` to seed all 131 products, 356 variants, and 734 media entries from `server/seedData.json`
+  - Both run automatically on every server start, ensuring full data availability
   - Upserts missing categories, updates images/hierarchy for existing ones, and backfills product-category mappings
   - Consolidates data from `updateCategories.ts`, `createParentCategories.ts`, and `updateCategoryImages.ts` into a single startup function
+  - Product data exported from database to `server/seedData.json` (2MB) for reliable offline seeding
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"
