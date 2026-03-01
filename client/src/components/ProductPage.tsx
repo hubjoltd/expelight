@@ -711,7 +711,7 @@ export function ProductPage({ product }: ProductPageProps) {
               </div>
             )}
 
-            {availableBeamPatterns && availableBeamPatterns.length > 1 && (
+            {availableBeamPatterns && availableBeamPatterns.length >= 1 && (
               <div>
                 <label className="text-sm font-medium mb-3 block text-zinc-300">Beam Pattern</label>
                 <div className="flex flex-wrap gap-2">
@@ -733,7 +733,7 @@ export function ProductPage({ product }: ProductPageProps) {
               </div>
             )}
 
-            {availableColors && availableColors.length > 1 && (
+            {availableColors && availableColors.length >= 1 && (
               <div>
                 <label className="text-sm font-medium mb-3 block text-zinc-300">Color Temperature</label>
                 <div className="flex flex-wrap gap-2">
@@ -776,6 +776,17 @@ export function ProductPage({ product }: ProductPageProps) {
                       {variant.model || variant.name || variant.sku}
                     </button>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {modelVariants.length === 0 && variants.length === 1 && variants[0]?.model && (
+              <div>
+                <label className="text-sm font-medium mb-3 block text-zinc-300">Model</label>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground" data-testid="model-single">
+                    {variants[0].model}
+                  </span>
                 </div>
               </div>
             )}
