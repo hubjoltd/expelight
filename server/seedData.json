@@ -59,6 +59,16 @@
         "isAvailable": true
       },
       {
+        "name": "Combo / White",
+        "sku": "DD6864P",
+        "price": 30799,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2014_toyota_4runner_ss3_ditch_light_creative_close_rh_on_4_1024x1024.jpg?v=1755069600",
+        "isAvailable": true
+      },
+      {
         "name": "Spot / White",
         "sku": "DD6860P",
         "price": 30799,
@@ -69,33 +79,23 @@
         "isAvailable": true
       },
       {
-        "name": "Spot / Without Backlight",
-        "sku": "DD6123P",
-        "price": 25299,
-        "compareAtPrice": null,
-        "beamPattern": "Spot",
-        "color": "Without Backlight",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6903p_ss3_abl_max_spot_white_pair_1_1024x1024.jpg?v=1756041370",
-        "isAvailable": true
-      },
-      {
         "name": "Spot / Amber",
         "sku": "DD6861P",
         "price": 30799,
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6903p_ss3_abl_max_spot_white_pair_1_1024x1024.jpg?v=1756041370",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_led_pod_backlight_collage_b_3_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       },
       {
-        "name": "Combo / White",
-        "sku": "DD6864P",
-        "price": 30799,
+        "name": "Spot / Without Backlight",
+        "sku": "DD6123P",
+        "price": 25299,
         "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6886p_ss3_abl_pro_combo_white_pair_1_1_1024x1024.jpg?v=1748854536",
+        "beamPattern": "Spot",
+        "color": "Without Backlight",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79733_1024x1024.jpg?v=1755069600",
         "isAvailable": true
       },
       {
@@ -290,13 +290,13 @@
         "isAvailable": true
       },
       {
-        "name": "Spot / Amber",
-        "sku": "DD6419P",
+        "name": "Combo / Amber",
+        "sku": "DD6409P",
         "price": 37399,
         "compareAtPrice": null,
-        "beamPattern": "Spot",
+        "beamPattern": "Combo",
         "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ssc2_vs_competitors_collage_-_white_spot_-_all_1024x1024.jpg?v=1747829476",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_toyota_4runner_c2_creative_close_roof_white_abacklight_on_backlight_-_labeled_1024x1024.jpg?v=1747829476",
         "isAvailable": true
       },
       {
@@ -306,17 +306,17 @@
         "compareAtPrice": null,
         "beamPattern": "Driving",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6403p_c2_pro_white_driving_standard_abl_1024x1024.jpg?v=1747829476",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/pnwor_subaru_legacy_ssc2_close_1024x1024.jpg?v=1747829476",
         "isAvailable": true
       },
       {
-        "name": "Combo / Amber",
-        "sku": "DD6409P",
+        "name": "Spot / Amber",
+        "sku": "DD6419P",
         "price": 37399,
         "compareAtPrice": null,
-        "beamPattern": "Combo",
+        "beamPattern": "Spot",
         "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6408p_c2_pro_white_combo_standard_wbl_-_pro_titled_1024x1024.jpg?v=1747829476",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_c2_led_pod_backlight_collage_-_white_c_1024x1024.jpg?v=1755886715",
         "isAvailable": true
       },
       {
@@ -326,7 +326,7 @@
         "compareAtPrice": null,
         "beamPattern": "Fog",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6406p_c2_pro_white_fog_standard_abl_1024x1024.jpg?v=1747829476",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_c2_led_pod_real_world_output_pattern_graphic_1024x1024.jpg?v=1753260330",
         "isAvailable": true
       }
     ],
@@ -398,261 +398,6 @@
       {
         "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/0/2016_toyota_tacoma_c2_universal_close_on_1.jpg",
         "sortOrder": 16
-      }
-    ]
-  },
-  {
-    "name": "SS10 SAE/DOT White LED Light Bar (one)",
-    "slug": "ss10-sae-dot-white-led-light-bar-one",
-    "sku": "DD8180",
-    "shortDescription": "Features Patented TIR Optics for maximum efficiency and output. Upgraded beam patterns engineered for real-world performance. Modern welcome sequence and selectable backlight with SmartSelect technology. Now available in Sport, Pro, and Max power levels. Durable aluminum housing with ASTM-standard p",
-    "price": 97299,
-    "images": [
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5030_ss18_white_combo_1024x1024.jpg?v=1750682378",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_camp_ss18_close_on_2-StageSeries18_1024x1024.jpg?v=1750682378",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/drivingpattern_optic_b-StageSeries12_1024x1024.jpg?v=1750682378",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/diode12_driving-StageSeries12_1024x1024.jpg?v=1750682378",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_mud_1-labled-StageSeries18_1024x1024.jpg?v=1750682378",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_18_inch_1024x1024.jpg?v=1750685642",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_all_size_outdoor_output_collage_b-StageSeries12_1024x1024.jpg?v=1750682378",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/tir_optic_sign_10_1500x1000_10-StageSeries12_1024x1024.jpg?v=1750685377",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_1d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_4d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_5d_outdoor_output_collage_1024x1024.jpg?v=1750682634",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_spec_diagram_750_website_1-StageSeries12_1024x1024.jpg?v=1750685377",
-      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8189_ss10_sport_white_spot_standard_abl_1.jpg",
-      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/0/2019_can_am_x3_studio_installed_shock_mount_ss10_abl.jpg"
-    ],
-    "features": [
-      "Patented TIR Optics for maximum efficiency and output.",
-      "Upgraded beam patterns engineered for real-world performance.",
-      "Modern welcome sequence and selectable backlight with SmartSelect technology.",
-      "Now available in Sport, Pro, and Max power levels.",
-      "Durable aluminum housing with ASTM-standard powdercoat finish.",
-      "Built for the extreme with IP69K waterproof rating.",
-      "Limited Lifetime Warranty.",
-      "Made in USA with Global Materials."
-    ],
-    "beamPatterns": [
-      "SAE"
-    ],
-    "colors": [
-      "White"
-    ],
-    "series": "Pro",
-    "variants": [
-      {
-        "name": "SS10 Pro White Driving Standard ABL",
-        "sku": "DD8192",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Driving",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Sport White Spot Standard MBL",
-        "sku": "DD8190",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Spot",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8189_ss10_sport_white_spot_standard_abl_1.jpg",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Pro White Driving Standard",
-        "sku": "DD8194",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Driving",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Pro White Driving Standard MBL",
-        "sku": "DD8193",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Driving",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Pro White Combo Standard",
-        "sku": "DD8197",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_18_inch_1024x1024.jpg?v=1750685642",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Pro White Combo Standard ABL",
-        "sku": "DD8195",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_all_size_outdoor_output_collage_b-StageSeries12_1024x1024.jpg?v=1750682378",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Pro White Combo Standard MBL",
-        "sku": "DD8196",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_camp_ss18_close_on_2-StageSeries18_1024x1024.jpg?v=1750682378",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Sport White Spot Standard",
-        "sku": "DD8191",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Spot",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8189_ss10_sport_white_spot_standard_abl_1.jpg",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Sport White Driving Standard",
-        "sku": "DD8182",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Driving",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Sport White Combo Standard MBL",
-        "sku": "DD8184",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_5d_outdoor_output_collage_1024x1024.jpg?v=1750682634",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Sport White Combo Standard ABL",
-        "sku": "DD8183",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_spec_diagram_750_website_1-StageSeries12_1024x1024.jpg?v=1750685377",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Sport White Driving Standard MBL",
-        "sku": "DD8181",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Driving",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Sport White Combo Standard",
-        "sku": "DD8185",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/tir_optic_sign_10_1500x1000_10-StageSeries12_1024x1024.jpg?v=1750685377",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Sport White Driving Standard ABL",
-        "sku": "DD8180",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Driving",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
-        "isAvailable": true
-      },
-      {
-        "name": "SS10 Sport White Spot Standard ABL",
-        "sku": "DD8189",
-        "price": 97299,
-        "compareAtPrice": null,
-        "beamPattern": "Spot",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8189_ss10_sport_white_spot_standard_abl_1.jpg",
-        "isAvailable": true
-      }
-    ],
-    "media": [
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
-        "sortOrder": 0
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5030_ss18_white_combo_1024x1024.jpg?v=1750682378",
-        "sortOrder": 1
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_camp_ss18_close_on_2-StageSeries18_1024x1024.jpg?v=1750682378",
-        "sortOrder": 2
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/drivingpattern_optic_b-StageSeries12_1024x1024.jpg?v=1750682378",
-        "sortOrder": 3
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/diode12_driving-StageSeries12_1024x1024.jpg?v=1750682378",
-        "sortOrder": 4
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_mud_1-labled-StageSeries18_1024x1024.jpg?v=1750682378",
-        "sortOrder": 5
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_18_inch_1024x1024.jpg?v=1750685642",
-        "sortOrder": 6
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_all_size_outdoor_output_collage_b-StageSeries12_1024x1024.jpg?v=1750682378",
-        "sortOrder": 7
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/tir_optic_sign_10_1500x1000_10-StageSeries12_1024x1024.jpg?v=1750685377",
-        "sortOrder": 8
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_1d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
-        "sortOrder": 9
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_4d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
-        "sortOrder": 10
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_5d_outdoor_output_collage_1024x1024.jpg?v=1750682634",
-        "sortOrder": 11
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_spec_diagram_750_website_1-StageSeries12_1024x1024.jpg?v=1750685377",
-        "sortOrder": 12
-      },
-      {
-        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8189_ss10_sport_white_spot_standard_abl_1.jpg",
-        "sortOrder": 13
-      },
-      {
-        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/0/2019_can_am_x3_studio_installed_shock_mount_ss10_abl.jpg",
-        "sortOrder": 14
       }
     ]
   },
@@ -792,6 +537,263 @@
     ]
   },
   {
+    "name": "SS10 SAE/DOT White LED Light Bar (one)",
+    "slug": "ss10-sae-dot-white-led-light-bar-one",
+    "sku": "DD8180",
+    "shortDescription": "Features Patented TIR Optics for maximum efficiency and output. Upgraded beam patterns engineered for real-world performance. Modern welcome sequence and selectable backlight with SmartSelect technology. Now available in Sport, Pro, and Max power levels. Durable aluminum housing with ASTM-standard p",
+    "price": 97299,
+    "images": [
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5030_ss18_white_combo_1024x1024.jpg?v=1750682378",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_camp_ss18_close_on_2-StageSeries18_1024x1024.jpg?v=1750682378",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/drivingpattern_optic_b-StageSeries12_1024x1024.jpg?v=1750682378",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/diode12_driving-StageSeries12_1024x1024.jpg?v=1750682378",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_mud_1-labled-StageSeries18_1024x1024.jpg?v=1750682378",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_18_inch_1024x1024.jpg?v=1750685642",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_all_size_outdoor_output_collage_b-StageSeries12_1024x1024.jpg?v=1750682378",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/tir_optic_sign_10_1500x1000_10-StageSeries12_1024x1024.jpg?v=1750685377",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_1d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_4d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_5d_outdoor_output_collage_1024x1024.jpg?v=1750682634",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_spec_diagram_750_website_1-StageSeries12_1024x1024.jpg?v=1750685377",
+      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8189_ss10_sport_white_spot_standard_abl_1.jpg",
+      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/0/2019_can_am_x3_studio_installed_shock_mount_ss10_abl.jpg"
+    ],
+    "features": [
+      "Patented TIR Optics for maximum efficiency and output.",
+      "Upgraded beam patterns engineered for real-world performance.",
+      "Modern welcome sequence and selectable backlight with SmartSelect technology.",
+      "Now available in Sport, Pro, and Max power levels.",
+      "Durable aluminum housing with ASTM-standard powdercoat finish.",
+      "Built for the extreme with IP69K waterproof rating.",
+      "Limited Lifetime Warranty.",
+      "Made in USA with Global Materials."
+    ],
+    "beamPatterns": [
+      "Driving",
+      "Spot",
+      "Combo"
+    ],
+    "colors": [
+      "White"
+    ],
+    "series": "Pro",
+    "variants": [
+      {
+        "name": "SS10 Pro White Driving Standard ABL",
+        "sku": "DD8192",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Driving",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Sport White Spot Standard MBL",
+        "sku": "DD8190",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Spot",
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8189_ss10_sport_white_spot_standard_abl_1.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Pro White Driving Standard MBL",
+        "sku": "DD8193",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Driving",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/drivingpattern_optic_b-StageSeries12_1024x1024.jpg?v=1750682378",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Sport White Spot Standard",
+        "sku": "DD8191",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Spot",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_all_size_outdoor_output_collage_b-StageSeries12_1024x1024.jpg?v=1750682378",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Pro White Combo Standard ABL",
+        "sku": "DD8195",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_1d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Pro White Combo Standard MBL",
+        "sku": "DD8196",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_4d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Pro White Combo Standard",
+        "sku": "DD8197",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5030_ss18_white_combo_1024x1024.jpg?v=1750682378",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Pro White Driving Standard",
+        "sku": "DD8194",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Driving",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_camp_ss18_close_on_2-StageSeries18_1024x1024.jpg?v=1750682378",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Sport White Spot Standard ABL",
+        "sku": "DD8189",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Spot",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/tir_optic_sign_10_1500x1000_10-StageSeries12_1024x1024.jpg?v=1750685377",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Sport White Combo Standard",
+        "sku": "DD8185",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/0/2019_can_am_x3_studio_installed_shock_mount_ss10_abl.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Sport White Combo Standard MBL",
+        "sku": "DD8184",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_5d_outdoor_output_collage_1024x1024.jpg?v=1750682634",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Sport White Combo Standard ABL",
+        "sku": "DD8183",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_spec_diagram_750_website_1-StageSeries12_1024x1024.jpg?v=1750685377",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Sport White Driving Standard",
+        "sku": "DD8182",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Driving",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/diode12_driving-StageSeries12_1024x1024.jpg?v=1750682378",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Sport White Driving Standard MBL",
+        "sku": "DD8181",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Driving",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_mud_1-labled-StageSeries18_1024x1024.jpg?v=1750682378",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Sport White Driving Standard ABL",
+        "sku": "DD8180",
+        "price": 97299,
+        "compareAtPrice": null,
+        "beamPattern": "Driving",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_18_inch_1024x1024.jpg?v=1750685642",
+        "isAvailable": true
+      }
+    ],
+    "media": [
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
+        "sortOrder": 0
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5030_ss18_white_combo_1024x1024.jpg?v=1750682378",
+        "sortOrder": 1
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_camp_ss18_close_on_2-StageSeries18_1024x1024.jpg?v=1750682378",
+        "sortOrder": 2
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/drivingpattern_optic_b-StageSeries12_1024x1024.jpg?v=1750682378",
+        "sortOrder": 3
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/diode12_driving-StageSeries12_1024x1024.jpg?v=1750682378",
+        "sortOrder": 4
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_mud_1-labled-StageSeries18_1024x1024.jpg?v=1750682378",
+        "sortOrder": 5
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_18_inch_1024x1024.jpg?v=1750685642",
+        "sortOrder": 6
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_all_size_outdoor_output_collage_b-StageSeries12_1024x1024.jpg?v=1750682378",
+        "sortOrder": 7
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/tir_optic_sign_10_1500x1000_10-StageSeries12_1024x1024.jpg?v=1750685377",
+        "sortOrder": 8
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_1d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
+        "sortOrder": 9
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_4d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
+        "sortOrder": 10
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_5d_outdoor_output_collage_1024x1024.jpg?v=1750682634",
+        "sortOrder": 11
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_spec_diagram_750_website_1-StageSeries12_1024x1024.jpg?v=1750685377",
+        "sortOrder": 12
+      },
+      {
+        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8189_ss10_sport_white_spot_standard_abl_1.jpg",
+        "sortOrder": 13
+      },
+      {
+        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/0/2019_can_am_x3_studio_installed_shock_mount_ss10_abl.jpg",
+        "sortOrder": 14
+      }
+    ]
+  },
+  {
     "name": "Stage Series 2in LED Pod Cover, Clear (one)",
     "slug": "stage-series-2in-led-pod-cover-clear-one",
     "sku": "DD6602",
@@ -897,23 +899,13 @@
     "series": "Pro",
     "variants": [
       {
-        "name": "White Clear Lens",
-        "sku": "DD7466",
-        "price": 549,
-        "compareAtPrice": null,
-        "beamPattern": "Clear",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7466_rocklight_lens_detail_clear_white_1_1024x1024.jpg?v=1753280811",
-        "isAvailable": true
-      },
-      {
         "name": "Green Clear Lens",
         "sku": "DD7469",
         "price": 549,
         "compareAtPrice": null,
         "beamPattern": "Clear",
         "color": "Green",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7466_rocklight_lens_clear_white_2_1024x1024.jpg?v=1753280811",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7466_rocklight_lens_detail_clear_white_1_1024x1024.jpg?v=1753280811",
         "isAvailable": true
       },
       {
@@ -934,6 +926,16 @@
         "beamPattern": "Clear",
         "color": "Amber",
         "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_rock_light_lens_color_options_b_1_1024x1024.jpg?v=1753280811",
+        "isAvailable": true
+      },
+      {
+        "name": "White Clear Lens",
+        "sku": "DD7466",
+        "price": 549,
+        "compareAtPrice": null,
+        "beamPattern": "Clear",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7466_rocklight_lens_clear_white_2_1024x1024.jpg?v=1753280811",
         "isAvailable": true
       },
       {
@@ -1022,7 +1024,7 @@
         "compareAtPrice": null,
         "beamPattern": "Default Title",
         "color": null,
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6814p_ss5_universal_bracket_kit_pair_1_1024x1024.jpg?v=1766383091",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6814s_ss5_universal_bracket_kit_single_1024x1024.jpg?v=1766383091",
         "isAvailable": true
       },
       {
@@ -1032,7 +1034,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6814s_ss5_universal_bracket_kit_single_1024x1024.jpg?v=1766383091",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6814p_ss5_universal_bracket_kit_pair_1_1024x1024.jpg?v=1766383091",
         "isAvailable": true
       }
     ],
@@ -1102,33 +1104,23 @@
     "series": "Max",
     "variants": [
       {
-        "name": "2 Spot + 2 Driving + 2 Combo / Sport (40 watts)",
-        "sku": "ADV5011",
-        "price": 169999,
-        "compareAtPrice": null,
-        "beamPattern": "2 Spot + 2 Driving + 2 Combo",
-        "color": "Sport (40 watts)",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Driving_1024x1024.jpg?v=1767167872",
-        "isAvailable": true
-      },
-      {
-        "name": "2 Spot + 2 Driving + 2 Combo / Pro (90 watts)",
-        "sku": "ADV5001",
-        "price": 263999,
-        "compareAtPrice": null,
-        "beamPattern": "2 Spot + 2 Driving + 2 Combo",
-        "color": "Pro (90 watts)",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Spot_1024x1024.jpg?v=1767167872",
-        "isAvailable": true
-      },
-      {
         "name": "2 Driving + 2 Combo + 2 Driving / Sport (40 watts)",
         "sku": "ADV5012",
         "price": 169999,
         "compareAtPrice": null,
         "beamPattern": "2 Driving + 2 Combo + 2 Driving",
         "color": "Sport (40 watts)",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_drone_output_collage_1_1024x1024.jpg?v=1767167872",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_backlight_collage_8_1024x1024.jpg?v=1766396023",
+        "isAvailable": true
+      },
+      {
+        "name": "2 Spot + 2 Driving + 2 Combo / Sport (40 watts)",
+        "sku": "ADV5011",
+        "price": 169999,
+        "compareAtPrice": null,
+        "beamPattern": "2 Spot + 2 Driving + 2 Combo",
+        "color": "Sport (40 watts)",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_assembled_1024x1024.jpg?v=1766396023",
         "isAvailable": true
       },
       {
@@ -1138,7 +1130,17 @@
         "compareAtPrice": null,
         "beamPattern": "2 Driving + 2 Combo + 2 Driving",
         "color": "Pro (90 watts)",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_wall_output_collage_1_1024x1024.jpg?v=1767167872",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_crosslink_6_pod_lightbar_dimensional_drawing_1024x1024.jpg?v=1767167872",
+        "isAvailable": true
+      },
+      {
+        "name": "2 Spot + 2 Driving + 2 Combo / Pro (90 watts)",
+        "sku": "ADV5001",
+        "price": 263999,
+        "compareAtPrice": null,
+        "beamPattern": "2 Spot + 2 Driving + 2 Combo",
+        "color": "Pro (90 watts)",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_kit_us_ss2_1024x1024.jpg?v=1767167872",
         "isAvailable": true
       },
       {
@@ -1148,7 +1150,7 @@
         "compareAtPrice": null,
         "beamPattern": "2 Driving+ 2 Spot + 2 Driving",
         "color": "Sport (40 watts)",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_crosslink_6_pod_lightbar_dimensional_drawing_1024x1024.jpg?v=1767167872",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_wall_output_collage_1_1024x1024.jpg?v=1767167872",
         "isAvailable": true
       },
       {
@@ -1158,17 +1160,7 @@
         "compareAtPrice": null,
         "beamPattern": "2 Driving+ 2 Spot + 2 Driving",
         "color": "Pro (90 watts)",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_kit_us_ss2_1024x1024.jpg?v=1767167872",
-        "isAvailable": true
-      },
-      {
-        "name": "2 Combo + 2 Driving + 2 Combo / Sport (40 watts)",
-        "sku": "ADV5014",
-        "price": 169999,
-        "compareAtPrice": null,
-        "beamPattern": "2 Combo + 2 Driving + 2 Combo",
-        "color": "Sport (40 watts)",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_backlight_collage_8_1024x1024.jpg?v=1766396023",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Spot_1024x1024.jpg?v=1767167872",
         "isAvailable": true
       },
       {
@@ -1178,7 +1170,17 @@
         "compareAtPrice": null,
         "beamPattern": "2 Combo + 2 Driving + 2 Combo",
         "color": "Pro (90 watts)",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_assembled_1024x1024.jpg?v=1766396023",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Driving_1024x1024.jpg?v=1767167872",
+        "isAvailable": true
+      },
+      {
+        "name": "2 Combo + 2 Driving + 2 Combo / Sport (40 watts)",
+        "sku": "ADV5014",
+        "price": 169999,
+        "compareAtPrice": null,
+        "beamPattern": "2 Combo + 2 Driving + 2 Combo",
+        "color": "Sport (40 watts)",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_drone_output_collage_1_1024x1024.jpg?v=1767167872",
         "isAvailable": true
       }
     ],
@@ -1274,7 +1276,11 @@
       "Designed, torture tested and assembled in USA"
     ],
     "beamPatterns": [
-      "Standard"
+      "Flood",
+      "Combo/Driving",
+      "SAE Fog/Wide",
+      "Spot",
+      "SAE Driving"
     ],
     "colors": [
       "White"
@@ -1282,43 +1288,13 @@
     "series": "Pro",
     "variants": [
       {
-        "name": "C2 2.0 Bezel Flood",
-        "sku": "DD8559",
-        "price": 899,
-        "compareAtPrice": null,
-        "beamPattern": "Flood",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8555_c2_gen2_bezel_flush_front_detail_-_titled.jpg",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Flush Mount Kit",
-        "sku": "DD8555S",
-        "price": 899,
-        "compareAtPrice": null,
-        "beamPattern": null,
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8555s_c2_gen2_bezel_flush_single_b_1.jpg",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Bezel Combo/Driving",
-        "sku": "DD8558",
-        "price": 899,
-        "compareAtPrice": null,
-        "beamPattern": "Combo/Driving",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8554_c2_gen2_bezel_standard_front_detail_-_titled.jpg",
-        "isAvailable": true
-      },
-      {
         "name": "C2 2.0 Bezel SAE Fog/Wide",
         "sku": "DD8557",
         "price": 899,
         "compareAtPrice": null,
         "beamPattern": "SAE Fog/Wide",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6370_ss3_bezel_flush_single_titled_1_1024x1024.jpg?v=1753291194",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8554_c2_gen2_bezel_standard_front_detail_-_titled.jpg",
         "isAvailable": true
       },
       {
@@ -1328,7 +1304,7 @@
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6367_ss3_bezel_standard_single_-_titled_1024x1024.jpg?v=1753291214",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8555_c2_gen2_bezel_flush_front_detail_-_titled.jpg",
         "isAvailable": true
       },
       {
@@ -1338,7 +1314,37 @@
         "compareAtPrice": null,
         "beamPattern": "SAE Driving",
         "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8555s_c2_gen2_bezel_flush_single_b_1.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Bezel Flood",
+        "sku": "DD8559",
+        "price": 899,
+        "compareAtPrice": null,
+        "beamPattern": "Flood",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6367_ss3_bezel_standard_single_-_titled_1024x1024.jpg?v=1753291214",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Flush Mount Kit",
+        "sku": "DD8555S",
+        "price": 899,
+        "compareAtPrice": null,
+        "beamPattern": null,
+        "color": "White",
         "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6369_ss3_bezel_angled_single_left_-_titled_1024x1024.jpg?v=1753291194",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Bezel Combo/Driving",
+        "sku": "DD8558",
+        "price": 899,
+        "compareAtPrice": null,
+        "beamPattern": "Combo/Driving",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6370_ss3_bezel_flush_single_titled_1_1024x1024.jpg?v=1753291194",
         "isAvailable": true
       }
     ],
@@ -1518,22 +1524,22 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd4103_ss5_crosslink_splitter_harness_extended.jpg",
-        "isAvailable": true
-      },
-      {
-        "name": "Reverse Wiring Kit Universal",
-        "sku": "DD4104",
-        "price": 5999,
-        "compareAtPrice": null,
-        "beamPattern": null,
-        "color": "White",
         "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd4102_universal_backup_kit_4_pin_harness.jpg",
         "isAvailable": true
       },
       {
         "name": "Reverse Wiring Kit Flush",
         "sku": "DD4103",
+        "price": 5999,
+        "compareAtPrice": null,
+        "beamPattern": null,
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd4103_ss5_crosslink_splitter_harness_extended.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "Reverse Wiring Kit Universal",
+        "sku": "DD4104",
         "price": 5999,
         "compareAtPrice": null,
         "beamPattern": null,
@@ -1607,7 +1613,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8573p_c2r_white_flood_flush_pair_built_-_titled.jpg",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6720p_ss3_pro_combo_white_pair_titled_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       },
       {
@@ -1617,7 +1623,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8573p_c2r_white_flood_flush_pair_built_-_titled.jpg",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/pnwor_subaru_crosstrek_flushmount_2_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       }
     ],
@@ -1913,7 +1919,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7423p_c1r_flood_white_standard_pair_w_packaging_1024x1024.jpg?v=1753181963",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7423p_c1r_flood_white_wbl_standard_pair_front_titled_1024x1024.jpg?v=1753181963",
         "isAvailable": true
       },
       {
@@ -3752,7 +3758,7 @@
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6881p_ss3_wbl_pro_spot_white_pair_1_1_1024x1024.jpg?v=1756040568",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79733_1024x1024.jpg?v=1755069600",
         "isAvailable": true
       },
       {
@@ -3762,16 +3768,6 @@
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "Without Backlight",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6886p_ss3_abl_pro_combo_white_pair_1_1_c529288c-9814-44aa-86ca-1b7f8e4a4beb_1024x1024.jpg?v=1756040531",
-        "isAvailable": true
-      },
-      {
-        "name": "Combo / Amber",
-        "sku": "DD6886P",
-        "price": 44499,
-        "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "Amber",
         "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6886p_ss3_abl_pro_combo_white_pair_1_1_c529288c-9814-44aa-86ca-1b7f8e4a4beb_1024x1024.jpg?v=1756040531",
         "isAvailable": true
       },
@@ -3786,23 +3782,23 @@
         "isAvailable": true
       },
       {
+        "name": "Combo / Amber",
+        "sku": "DD6886P",
+        "price": 44499,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "Amber",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_led_pod_backlight_collage_b_3_1024x1024.jpg?v=1755888549",
+        "isAvailable": true
+      },
+      {
         "name": "Driving / Amber",
         "sku": "DD6874P",
         "price": 44499,
         "compareAtPrice": null,
         "beamPattern": "Driving",
         "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6128p_ss3_pro_driving_white_pair_w_packaging_1024x1024.jpg?v=1755069600",
-        "isAvailable": true
-      },
-      {
-        "name": "Combo / White",
-        "sku": "DD6885P",
-        "price": 44499,
-        "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6886p_ss3_abl_pro_combo_white_pair_1_1_c529288c-9814-44aa-86ca-1b7f8e4a4beb_1024x1024.jpg?v=1756040531",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6128p_ss3_pro_1024x1024.jpg?v=1755069600",
         "isAvailable": true
       },
       {
@@ -3812,7 +3808,17 @@
         "compareAtPrice": null,
         "beamPattern": "Driving",
         "color": "Without Backlight",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6128p_ss3_pro_driving_white_pair_w_packaging_1024x1024.jpg?v=1755069600",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2014_toyota_4runner_ss3_ditch_light_creative_close_rh_on_4_1024x1024.jpg?v=1755069600",
+        "isAvailable": true
+      },
+      {
+        "name": "Combo / White",
+        "sku": "DD6885P",
+        "price": 44499,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79738_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       }
     ],
@@ -4069,8 +4075,8 @@
     "series": "Pro",
     "variants": [
       {
-        "name": "SS3 LED Pod Cover, Clear (one)",
-        "sku": "DD6264",
+        "name": "SS3 Pod Cover Standard Clear",
+        "sku": "DD6261",
         "price": 699,
         "compareAtPrice": null,
         "beamPattern": null,
@@ -4079,8 +4085,8 @@
         "isAvailable": true
       },
       {
-        "name": "SS3 Pod Cover Standard Clear",
-        "sku": "DD6261",
+        "name": "SS3 LED Pod Cover, Clear (one)",
+        "sku": "DD6264",
         "price": 699,
         "compareAtPrice": null,
         "beamPattern": null,
@@ -4794,7 +4800,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd6120s_ss3_sport_driving_white_single_-_sport_titled.jpg",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6124p_ss3_sport_driving_yellow_pair_-_sport_titled_1024x1024.jpg?v=1753266180",
         "isAvailable": true
       },
       {
@@ -4804,7 +4810,7 @@
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6124p_ss3_sport_driving_yellow_pair_-_sport_titled_1024x1024.jpg?v=1753266180",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2018_subaru_crosstrek_ditch_pro_yellow_combo_creative_close_on_2_1_1024x1024.jpg?v=1753273933",
         "isAvailable": true
       }
     ],
@@ -5008,7 +5014,7 @@
         "compareAtPrice": null,
         "beamPattern": "White Combo",
         "color": "Sport (40 watts)",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_backlight_collage_8_1024x1024.jpg?v=1766396023",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6794_ss5_lightbar_white_combo_4_crosslink_assembled_e0eacdd7-e175-4a67-b757-081bbbe08f84_1024x1024.jpg?v=1766395458",
         "isAvailable": true
       },
       {
@@ -5018,7 +5024,7 @@
         "compareAtPrice": null,
         "beamPattern": "White Combo",
         "color": "Pro (90 watts)",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6794_ss5_lightbar_white_combo_4_crosslink_assembled_e0eacdd7-e175-4a67-b757-081bbbe08f84_1024x1024.jpg?v=1766395458",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_backlight_collage_8_1024x1024.jpg?v=1766396023",
         "isAvailable": true
       }
     ],
@@ -5116,13 +5122,13 @@
         "isAvailable": true
       },
       {
-        "name": "Wide / Red",
-        "sku": "DD6441P",
+        "name": "Wide / White",
+        "sku": "DD6439P",
         "price": 20049,
         "compareAtPrice": null,
         "beamPattern": "Wide",
-        "color": "Red",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6441p_ssc1_sport_wide_white_rbl_standard_pair_front_1024x1024.jpg?v=1748492382",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2022_ford_f150_vegas_creative_c1_close_3_1024x1024.jpg?v=1748492382",
         "isAvailable": true
       },
       {
@@ -5136,23 +5142,13 @@
         "isAvailable": true
       },
       {
-        "name": "Wide / White",
-        "sku": "DD6439P",
-        "price": 20049,
-        "compareAtPrice": null,
-        "beamPattern": "Wide",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6441p_ssc1_sport_wide_white_rbl_standard_pair_front_1024x1024.jpg?v=1748492382",
-        "isAvailable": true
-      },
-      {
         "name": "Flood / Red",
         "sku": "DD6446P",
         "price": 20049,
         "compareAtPrice": null,
         "beamPattern": "Flood",
         "color": "Red",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6445p_ssc1_sport_flood_white_abl_standard_pair_front_1024x1024.jpg?v=1747637114",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2022_ford_f150_vegas_creative_c1_close_12_1024x1024.jpg?v=1748492382",
         "isAvailable": true
       },
       {
@@ -5162,7 +5158,17 @@
         "compareAtPrice": null,
         "beamPattern": "Flood",
         "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6445p_ssc1_sport_flood_white_abl_standard_pair_front_1024x1024.jpg?v=1747637114",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6450p_ssc1_sport_spot_white_abl_standard_pair_w_packaging_1024x1024.jpg?v=1748492382",
+        "isAvailable": true
+      },
+      {
+        "name": "Wide / Red",
+        "sku": "DD6441P",
+        "price": 20049,
+        "compareAtPrice": null,
+        "beamPattern": "Wide",
+        "color": "Red",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_snow_day_creative_ssc1_close_1_1024x1024.jpg?v=1748492382",
         "isAvailable": true
       },
       {
@@ -5182,7 +5188,7 @@
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6449p_ssc1_sport_spot_white_wbl_standard_pair_front_titled_1024x1024.jpg?v=1747636814",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2018_jeep_jl_c1_sport_white_abl_cowl_close_backlight_1024x1024.jpg?v=1748492382",
         "isAvailable": true
       },
       {
@@ -5192,7 +5198,7 @@
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6449p_ssc1_sport_spot_white_wbl_standard_pair_front_titled_1024x1024.jpg?v=1747636814",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_c1_led_pod_backlight_collage_-_white_b_7_1024x1024.jpg?v=1748492382",
         "isAvailable": true
       }
     ],
@@ -5434,16 +5440,6 @@
         "isAvailable": true
       },
       {
-        "name": "Spot / White",
-        "sku": "DD6397P",
-        "price": 24199,
-        "compareAtPrice": null,
-        "beamPattern": "Spot",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ssc2_vs_competitors_collage_-_white_spot_-_all_1024x1024.jpg?v=1747829476",
-        "isAvailable": true
-      },
-      {
         "name": "Fog / Amber",
         "sku": "DD6385P",
         "price": 24199,
@@ -5454,13 +5450,23 @@
         "isAvailable": true
       },
       {
+        "name": "Spot / White",
+        "sku": "DD6397P",
+        "price": 24199,
+        "compareAtPrice": null,
+        "beamPattern": "Spot",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_toyota_4runner_c2_creative_close_roof_white_abacklight_on_backlight_-_labeled_1024x1024.jpg?v=1747829476",
+        "isAvailable": true
+      },
+      {
         "name": "Combo / White",
         "sku": "DD6387P",
         "price": 24199,
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6387p_c2_sport_white_combo_standard_wbl_-_sport_titled_1024x1024.jpg?v=1748493008",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/pnwor_subaru_legacy_ssc2_close_1024x1024.jpg?v=1747829476",
         "isAvailable": true
       },
       {
@@ -5470,7 +5476,7 @@
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "Red",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6387p_c2_sport_white_combo_standard_wbl_-_sport_titled_1024x1024.jpg?v=1748493008",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6387p_c2_sport_white_combo_standard_wbl_packaging_-_logos_1024x1024.jpg?v=1747829476",
         "isAvailable": true
       },
       {
@@ -5500,17 +5506,7 @@
         "compareAtPrice": null,
         "beamPattern": "Flood",
         "color": "Red",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6394p_c2_sport_white_flood_standard_rbl_1024x1024.jpg?v=1755868608",
-        "isAvailable": true
-      },
-      {
-        "name": "Fog / White",
-        "sku": "DD6384P",
-        "price": 24199,
-        "compareAtPrice": null,
-        "beamPattern": "Fog",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6385p_c2_sport_white_fog_standard_abl_1024x1024.jpg?v=1747654799",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_c2_sport_white_led_pod_wall_output_collage_-_standard_b_1024x1024.jpg?v=1747829476",
         "isAvailable": true
       },
       {
@@ -5520,7 +5516,17 @@
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "Red",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ssc2_vs_competitors_collage_-_white_spot_-_all_1024x1024.jpg?v=1747829476",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_c2_led_pod_backlight_collage_-_white_c_1024x1024.jpg?v=1755886715",
+        "isAvailable": true
+      },
+      {
+        "name": "Fog / White",
+        "sku": "DD6384P",
+        "price": 24199,
+        "compareAtPrice": null,
+        "beamPattern": "Fog",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_c2_pro_white_led_pod_wall_output_collage_-_standard_b_1024x1024.jpg?v=1747829476",
         "isAvailable": true
       }
     ],
@@ -6088,7 +6094,7 @@
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6490p_ss3_max_spot_white_pair_1_1_1024x1024.jpg?v=1756040176",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2014_toyota_4runner_ss3_ditch_light_creative_close_rh_on_4_1024x1024.jpg?v=1755069600",
         "isAvailable": true
       },
       {
@@ -6112,6 +6118,16 @@
         "isAvailable": true
       },
       {
+        "name": "Driving / Without Backlight",
+        "sku": "DD6487P",
+        "price": 61599,
+        "compareAtPrice": null,
+        "beamPattern": "Driving",
+        "color": "Without Backlight",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79733_1024x1024.jpg?v=1755069600",
+        "isAvailable": true
+      },
+      {
         "name": "Combo / Amber",
         "sku": "DD6907P",
         "price": 65999,
@@ -6122,23 +6138,13 @@
         "isAvailable": true
       },
       {
-        "name": "Driving / Without Backlight",
-        "sku": "DD6487P",
-        "price": 61599,
-        "compareAtPrice": null,
-        "beamPattern": "Driving",
-        "color": "Without Backlight",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6487p_ss3_max_driving_white_pair_-_max_titled_1024x1024.jpg?v=1752573685",
-        "isAvailable": true
-      },
-      {
         "name": "Spot / White",
         "sku": "DD6902P",
         "price": 65999,
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6490p_ss3_max_spot_white_pair_1_1_1024x1024.jpg?v=1756040176",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6128p_ss3_pro_driving_white_pair_w_packaging_1024x1024.jpg?v=1755069600",
         "isAvailable": true
       }
     ],
@@ -6303,23 +6309,23 @@
     "series": "Pro",
     "variants": [
       {
-        "name": "SS5 CrossLink 3-Pod 18.5-inch LED Light Bar (one)",
-        "sku": "DD7204",
-        "price": 72999,
-        "compareAtPrice": null,
-        "beamPattern": null,
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_assembled_1024x1024.jpg?v=1766396023",
-        "isAvailable": true
-      },
-      {
         "name": "SS5 CrossLink 5-Pod White Combo",
         "sku": "DD6792",
         "price": 72999,
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_kit_us_ss2_1024x1024.jpg?v=1767167872",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_assembled_1024x1024.jpg?v=1766396023",
+        "isAvailable": true
+      },
+      {
+        "name": "SS5 CrossLink 3-Pod 18.5-inch LED Light Bar (one)",
+        "sku": "DD7204",
+        "price": 72999,
+        "compareAtPrice": null,
+        "beamPattern": null,
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_backlight_collage_8_1024x1024.jpg?v=1766396023",
         "isAvailable": true
       }
     ],
@@ -6778,7 +6784,11 @@
       "Made in USA with Global Materials"
     ],
     "beamPatterns": [
-      "SAE"
+      "Combo/Driving",
+      "Flood",
+      "Spot",
+      "SAE Driving",
+      "SAE Fog/Wide"
     ],
     "colors": [
       "White"
@@ -6792,7 +6802,7 @@
         "compareAtPrice": null,
         "beamPattern": "Combo/Driving",
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8093p_c2_gen2_sport_white_combo_standard_rbl_pair_built_-_titled.jpg",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6718p_ss3_sport_combo_white_pair_w_packaging_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       },
       {
@@ -6806,23 +6816,13 @@
         "isAvailable": true
       },
       {
-        "name": "C2 2.0 Sport White Combo/Driving (pair)",
-        "sku": "DD8094P",
-        "price": 32399,
-        "compareAtPrice": null,
-        "beamPattern": "Combo/Driving",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8093p_c2_gen2_sport_white_combo_standard_rbl_pair_built_-_titled.jpg",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Sport White Flood RBL (pair)",
-        "sku": "DD8096P",
+        "name": "C2 2.0 Sport White Flood (pair)",
+        "sku": "DD8097P",
         "price": 32399,
         "compareAtPrice": null,
         "beamPattern": "Flood",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6917p_ss3_sport_rbl_flood_white_pair_1024x1024.jpg?v=1755887501",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_flush_mount_dimensoinal_drawing_d_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       },
       {
@@ -6832,7 +6832,7 @@
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6913p_ss3_sport_wbl_fog_white_pair_kit_usa_1024x1024.jpg?v=1755888549",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/pnwor_subaru_crosstrek_flushmount_2_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       },
       {
@@ -6842,7 +6842,7 @@
         "compareAtPrice": null,
         "beamPattern": "SAE Driving",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_flush_mount_dimensoinal_drawing_d_1024x1024.jpg?v=1755888549",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_led_pod_backlight_collage_b_3_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       },
       {
@@ -6856,73 +6856,33 @@
         "isAvailable": true
       },
       {
+        "name": "C2 2.0 Sport White Combo/Driving (pair)",
+        "sku": "DD8094P",
+        "price": 32399,
+        "compareAtPrice": null,
+        "beamPattern": "Combo/Driving",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79738_1024x1024.jpg?v=1755888549",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Sport White Flood RBL (pair)",
+        "sku": "DD8096P",
+        "price": 32399,
+        "compareAtPrice": null,
+        "beamPattern": "Flood",
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8093p_c2_gen2_sport_white_combo_standard_rbl_pair_built_-_titled.jpg",
+        "isAvailable": true
+      },
+      {
         "name": "C2 2.0 Sport White SAE Fog/Wide ABL (pair)",
         "sku": "DD8090P",
         "price": 32399,
         "compareAtPrice": null,
         "beamPattern": "SAE Fog/Wide",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6913p_ss3_sport_wbl_fog_white_pair_kit_usa_1024x1024.jpg?v=1755888549",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Sport White Flood (pair)",
-        "sku": "DD8097P",
-        "price": 32399,
-        "compareAtPrice": null,
-        "beamPattern": "Flood",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6917p_ss3_sport_rbl_flood_white_pair_1024x1024.jpg?v=1755887501",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Max White Spot RBL (pair)",
-        "sku": "DD8119P",
-        "price": 32399,
-        "compareAtPrice": null,
-        "beamPattern": "Spot",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6917p_ss3_sport_rbl_flood_white_pair_1024x1024.jpg?v=1755887501",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Max White Flood ABL (pair)",
-        "sku": "DD8115P",
-        "price": 32399,
-        "compareAtPrice": null,
-        "beamPattern": "Flood",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6917p_ss3_sport_rbl_flood_white_pair_1024x1024.jpg?v=1755887501",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Sport White Spot (pair)",
-        "sku": "DD8100P",
-        "price": 32399,
-        "compareAtPrice": null,
-        "beamPattern": "Spot",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220w-spt_254515_.jpg",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Max White Spot (pair)",
-        "sku": "DD8120P",
-        "price": 32399,
-        "compareAtPrice": null,
-        "beamPattern": "Spot",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8094p_c2_gen2_sport_yellow_combo_standard_abl_pair_built_-_titled.jpg",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Max White Spot ABL (pair)",
-        "sku": "DD8118P",
-        "price": 32399,
-        "compareAtPrice": null,
-        "beamPattern": "Spot",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220y-spt_254351_.jpg",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8106p_c2_gen2_pro_yellow_combo_standard_abl_pair_built_-_titled.jpg",
         "isAvailable": true
       },
       {
@@ -6932,7 +6892,57 @@
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8122p_c2_gen2_sport_white_combo_flush_rbl_pair_pod_-_titled.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Max White Flood ABL (pair)",
+        "sku": "DD8115P",
+        "price": 32399,
+        "compareAtPrice": null,
+        "beamPattern": "Flood",
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220w-spt_254515_.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Max White Spot RBL (pair)",
+        "sku": "DD8119P",
+        "price": 32399,
+        "compareAtPrice": null,
+        "beamPattern": "Spot",
+        "color": "White",
         "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8105p_c2_gen2_pro_white_combo_standard_rbl_pair_built_-_titled.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Sport White Spot (pair)",
+        "sku": "DD8100P",
+        "price": 32399,
+        "compareAtPrice": null,
+        "beamPattern": "Spot",
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220y-spt_254351_.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Max White Spot (pair)",
+        "sku": "DD8120P",
+        "price": 32399,
+        "compareAtPrice": null,
+        "beamPattern": "Spot",
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220w-pro_254563_.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Max White Spot ABL (pair)",
+        "sku": "DD8118P",
+        "price": 32399,
+        "compareAtPrice": null,
+        "beamPattern": "Spot",
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8113p_c2_gen2_max_white_combo_standard_rbl_pair_built_-_titled.jpg",
         "isAvailable": true
       },
       {
@@ -6942,47 +6952,17 @@
         "compareAtPrice": null,
         "beamPattern": "SAE Driving",
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220w-pro_254563_.jpg",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8114p_c2_gen2_max_yellow_combo_standard_abl_pair_built_-_titled.jpg",
         "isAvailable": true
       },
       {
-        "name": "C2 2.0 Sport White SAE Driving MBL (pair)",
-        "sku": "DD8104P",
+        "name": "C2 2.0 Sport White SAE Driving (pair)",
+        "sku": "DD8101P",
         "price": 32399,
         "compareAtPrice": null,
         "beamPattern": "SAE Driving",
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8122p_c2_gen2_sport_white_combo_flush_rbl_pair_pod_-_titled.jpg",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Sport White Combo/Driving MBL (pair)",
-        "sku": "DD8106P",
-        "price": 32399,
-        "compareAtPrice": null,
-        "beamPattern": "Combo/Driving",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8093p_c2_gen2_sport_white_combo_standard_rbl_pair_built_-_titled.jpg",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Sport White Flood MBL (pair)",
-        "sku": "DD8107P",
-        "price": 32399,
-        "compareAtPrice": null,
-        "beamPattern": "Flood",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6917p_ss3_sport_rbl_flood_white_pair_1024x1024.jpg?v=1755887501",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Sport White Spot MBL (pair)",
-        "sku": "DD8110P",
-        "price": 32399,
-        "compareAtPrice": null,
-        "beamPattern": "Spot",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220y-pro_254378_.jpg",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/1/21_f150_flush_mount_c2r_detailed_2_reverse_5.jpg",
         "isAvailable": true
       },
       {
@@ -6992,7 +6972,17 @@
         "compareAtPrice": null,
         "beamPattern": "SAE Fog/Wide",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6913p_ss3_sport_wbl_fog_white_pair_kit_usa_1024x1024.jpg?v=1755888549",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220y-pro_254378_.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Sport White Combo/Driving MBL (pair)",
+        "sku": "DD8106P",
+        "price": 32399,
+        "compareAtPrice": null,
+        "beamPattern": "Combo/Driving",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_sport_led_pod_hq_wall_output_collage_2_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       },
       {
@@ -7002,7 +6992,7 @@
         "compareAtPrice": null,
         "beamPattern": "Combo/Driving",
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8093p_c2_gen2_sport_white_combo_standard_rbl_pair_built_-_titled.jpg",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_pro_led_pod_hq_wall_output_collage_9_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       },
       {
@@ -7012,7 +7002,7 @@
         "compareAtPrice": null,
         "beamPattern": "Combo/Driving",
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8093p_c2_gen2_sport_white_combo_standard_rbl_pair_built_-_titled.jpg",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_3_led_pod_output_patterns_real_world_b_3_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       },
       {
@@ -7026,13 +7016,33 @@
         "isAvailable": true
       },
       {
-        "name": "C2 2.0 Sport White SAE Driving (pair)",
-        "sku": "DD8101P",
+        "name": "C2 2.0 Sport White Flood MBL (pair)",
+        "sku": "DD8107P",
+        "price": 32399,
+        "compareAtPrice": null,
+        "beamPattern": "Flood",
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8094p_c2_gen2_sport_yellow_combo_standard_abl_pair_built_-_titled.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Sport White Spot MBL (pair)",
+        "sku": "DD8110P",
+        "price": 32399,
+        "compareAtPrice": null,
+        "beamPattern": "Spot",
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220w-max_254611_.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Sport White SAE Driving MBL (pair)",
+        "sku": "DD8104P",
         "price": 32399,
         "compareAtPrice": null,
         "beamPattern": "SAE Driving",
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8114p_c2_gen2_max_yellow_combo_standard_abl_pair_built_-_titled.jpg",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220y-max_254405_.jpg",
         "isAvailable": true
       },
       {
@@ -7401,7 +7411,7 @@
     "variants": [
       {
         "name": "SS5 CrossLink 5-Pod 31.5-inch LED Light Bar (one)",
-        "sku": "DD7254",
+        "sku": "DD7242",
         "price": 105499,
         "compareAtPrice": null,
         "beamPattern": null,
@@ -7411,7 +7421,7 @@
       },
       {
         "name": "SS5 CrossLink 5-Pod 31.5-inch LED Light Bar (one)",
-        "sku": "DD7242",
+        "sku": "DD7254",
         "price": 105499,
         "compareAtPrice": null,
         "beamPattern": null,
@@ -7524,7 +7534,7 @@
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": null,
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6768p_ss5_sport_white_spot_pair_assembled_1_1024x1024.jpg?v=1755755684",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6769p_ss5_sport_white_combo_pair_assembled_title2_1_1024x1024.jpg?v=1750829147",
         "isAvailable": true
       }
     ],
@@ -7617,16 +7627,6 @@
     "series": "Pro",
     "variants": [
       {
-        "name": "Light Bar Universal Bracket Kit - Short",
-        "sku": "DD8656",
-        "price": 4999,
-        "compareAtPrice": null,
-        "beamPattern": null,
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6814p_ss5_universal_bracket_kit_top_1024x1024.jpg?v=1766383091",
-        "isAvailable": true
-      },
-      {
         "name": "Light Bar Universal Bracket Kit - Long",
         "sku": "DD8657",
         "price": 4999,
@@ -7637,13 +7637,23 @@
         "isAvailable": true
       },
       {
+        "name": "Light Bar Universal Bracket Kit - Short",
+        "sku": "DD8656",
+        "price": 4999,
+        "compareAtPrice": null,
+        "beamPattern": null,
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6814s_ss5_universal_bracket_kit_single_1024x1024.jpg?v=1766383091",
+        "isAvailable": true
+      },
+      {
         "name": "Light Bar Universal Bracket Kit - Extended",
         "sku": "DD8815",
         "price": 4999,
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6814s_ss5_universal_bracket_kit_single_1024x1024.jpg?v=1766383091",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6814p_ss5_universal_bracket_kit_top_1024x1024.jpg?v=1766383091",
         "isAvailable": true
       }
     ],
@@ -7679,6 +7689,157 @@
       {
         "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8657_stage_series_cast_lightbar_universal_bracket_kit_1.jpg",
         "sortOrder": 7
+      }
+    ]
+  },
+  {
+    "name": "C2 2.0 SAE/DOT White Max LED Pod (pair)",
+    "slug": "c2-2-0-sae-dot-white-max-led-pod-pair",
+    "sku": "DD8240P",
+    "shortDescription": "Features Ultra-compact design for tight mounting spots Patented TIR optics for maximum output Up to 95% more power than C2 1.0 Available in Sport, Pro, and new 3900-lumen Max power levels Customizable mounting to dial in your setup Link multiple pods with CrossLink technology Limited Lifetime Warran",
+    "price": 60799,
+    "images": [
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6487p_ss3_max_driving_white_pair_-_max_titled_1024x1024.jpg?v=1752573685",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2014_toyota_4runner_ss3_ditch_light_creative_close_rh_on_4_1024x1024.jpg?v=1755069600",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6128p_ss3_pro_driving_white_pair_w_packaging_1024x1024.jpg?v=1755069600",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79733_1024x1024.jpg?v=1755069600",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_pro_led_pod_hq_wall_output_collage_9_1024x1024.jpg?v=1755888549",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_led_pod_backlight_collage_b_3_1024x1024.jpg?v=1755888549",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79738_1024x1024.jpg?v=1755888549",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_3_led_pod_output_patterns_real_world_b_3_1024x1024.jpg?v=1755888549",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6874p_ss3_abl_pro_driving_white_pair_kit_usa_1_1024x1024.jpg?v=1755069600",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_3_led_pod_dimensoinal_drawing_d_1_1024x1024.jpg?v=1755069600",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6487p_ss3_max_driving_white_pair_1_1_1024x1024.jpg?v=1756040078",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6489p_ss3_max_fog_white_pair_1_1_1024x1024.jpg?v=1756040163",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6490p_ss3_max_spot_white_pair_1_1_1024x1024.jpg?v=1756040176",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6491p_ss3_max_combo_white_pair_1_1_b0090a86-1cd1-47e9-9adc-73069aec0adf_1024x1024.jpg?v=1756040122",
+      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8113p_c2_gen2_max_white_combo_standard_rbl_pair_built_-_titled.jpg",
+      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220w-max_254611_.jpg"
+    ],
+    "features": [
+      "Ultra-compact design for tight mounting spots",
+      "Patented TIR optics for maximum output",
+      "Up to 95% more power than C2 1.0",
+      "Available in Sport, Pro, and new 3900-lumen Max power levels",
+      "Customizable mounting to dial in your setup",
+      "Link multiple pods with CrossLink technology",
+      "Limited Lifetime Warranty",
+      "Made in USA with Global Materials"
+    ],
+    "beamPatterns": [
+      "SAE Driving",
+      "SAE Fog/Wide"
+    ],
+    "colors": [
+      "White"
+    ],
+    "series": "Max",
+    "variants": [
+      {
+        "name": "C2 2.0 Max White SAE Driving RBL (pair)",
+        "sku": "DD8243P",
+        "price": 60799,
+        "compareAtPrice": null,
+        "beamPattern": "SAE Driving",
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8113p_c2_gen2_max_white_combo_standard_rbl_pair_built_-_titled.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Max White SAE Driving ABL (pair)",
+        "sku": "DD8242P",
+        "price": 60799,
+        "compareAtPrice": null,
+        "beamPattern": "SAE Driving",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6487p_ss3_max_driving_white_pair_-_max_titled_1024x1024.jpg?v=1752573685",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Max White SAE Fog/Wide RBL (pair)",
+        "sku": "DD8241P",
+        "price": 60799,
+        "compareAtPrice": null,
+        "beamPattern": "SAE Fog/Wide",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2014_toyota_4runner_ss3_ditch_light_creative_close_rh_on_4_1024x1024.jpg?v=1755069600",
+        "isAvailable": true
+      },
+      {
+        "name": "C2 2.0 Max White SAE Fog/Wide ABL (pair)",
+        "sku": "DD8240P",
+        "price": 60799,
+        "compareAtPrice": null,
+        "beamPattern": "SAE Fog/Wide",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6489p_ss3_max_fog_white_pair_1_1_1024x1024.jpg?v=1756040163",
+        "isAvailable": true
+      }
+    ],
+    "media": [
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6487p_ss3_max_driving_white_pair_-_max_titled_1024x1024.jpg?v=1752573685",
+        "sortOrder": 0
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2014_toyota_4runner_ss3_ditch_light_creative_close_rh_on_4_1024x1024.jpg?v=1755069600",
+        "sortOrder": 1
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6128p_ss3_pro_driving_white_pair_w_packaging_1024x1024.jpg?v=1755069600",
+        "sortOrder": 2
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79733_1024x1024.jpg?v=1755069600",
+        "sortOrder": 3
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_pro_led_pod_hq_wall_output_collage_9_1024x1024.jpg?v=1755888549",
+        "sortOrder": 4
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_led_pod_backlight_collage_b_3_1024x1024.jpg?v=1755888549",
+        "sortOrder": 5
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79738_1024x1024.jpg?v=1755888549",
+        "sortOrder": 6
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_3_led_pod_output_patterns_real_world_b_3_1024x1024.jpg?v=1755888549",
+        "sortOrder": 7
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6874p_ss3_abl_pro_driving_white_pair_kit_usa_1_1024x1024.jpg?v=1755069600",
+        "sortOrder": 8
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_3_led_pod_dimensoinal_drawing_d_1_1024x1024.jpg?v=1755069600",
+        "sortOrder": 9
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6487p_ss3_max_driving_white_pair_1_1_1024x1024.jpg?v=1756040078",
+        "sortOrder": 10
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6489p_ss3_max_fog_white_pair_1_1_1024x1024.jpg?v=1756040163",
+        "sortOrder": 11
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6490p_ss3_max_spot_white_pair_1_1_1024x1024.jpg?v=1756040176",
+        "sortOrder": 12
+      },
+      {
+        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6491p_ss3_max_combo_white_pair_1_1_b0090a86-1cd1-47e9-9adc-73069aec0adf_1024x1024.jpg?v=1756040122",
+        "sortOrder": 13
+      },
+      {
+        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8113p_c2_gen2_max_white_combo_standard_rbl_pair_built_-_titled.jpg",
+        "sortOrder": 14
+      },
+      {
+        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220w-max_254611_.jpg",
+        "sortOrder": 15
       }
     ]
   },
@@ -7791,156 +7952,6 @@
     ]
   },
   {
-    "name": "C2 2.0 SAE/DOT White Max LED Pod (pair)",
-    "slug": "c2-2-0-sae-dot-white-max-led-pod-pair",
-    "sku": "DD8240P",
-    "shortDescription": "Features Ultra-compact design for tight mounting spots Patented TIR optics for maximum output Up to 95% more power than C2 1.0 Available in Sport, Pro, and new 3900-lumen Max power levels Customizable mounting to dial in your setup Link multiple pods with CrossLink technology Limited Lifetime Warran",
-    "price": 60799,
-    "images": [
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6487p_ss3_max_driving_white_pair_-_max_titled_1024x1024.jpg?v=1752573685",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2014_toyota_4runner_ss3_ditch_light_creative_close_rh_on_4_1024x1024.jpg?v=1755069600",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6128p_ss3_pro_driving_white_pair_w_packaging_1024x1024.jpg?v=1755069600",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79733_1024x1024.jpg?v=1755069600",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_pro_led_pod_hq_wall_output_collage_9_1024x1024.jpg?v=1755888549",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_led_pod_backlight_collage_b_3_1024x1024.jpg?v=1755888549",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79738_1024x1024.jpg?v=1755888549",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_3_led_pod_output_patterns_real_world_b_3_1024x1024.jpg?v=1755888549",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6874p_ss3_abl_pro_driving_white_pair_kit_usa_1_1024x1024.jpg?v=1755069600",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_3_led_pod_dimensoinal_drawing_d_1_1024x1024.jpg?v=1755069600",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6487p_ss3_max_driving_white_pair_1_1_1024x1024.jpg?v=1756040078",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6489p_ss3_max_fog_white_pair_1_1_1024x1024.jpg?v=1756040163",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6490p_ss3_max_spot_white_pair_1_1_1024x1024.jpg?v=1756040176",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6491p_ss3_max_combo_white_pair_1_1_b0090a86-1cd1-47e9-9adc-73069aec0adf_1024x1024.jpg?v=1756040122",
-      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8113p_c2_gen2_max_white_combo_standard_rbl_pair_built_-_titled.jpg",
-      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220w-max_254611_.jpg"
-    ],
-    "features": [
-      "Ultra-compact design for tight mounting spots",
-      "Patented TIR optics for maximum output",
-      "Up to 95% more power than C2 1.0",
-      "Available in Sport, Pro, and new 3900-lumen Max power levels",
-      "Customizable mounting to dial in your setup",
-      "Link multiple pods with CrossLink technology",
-      "Limited Lifetime Warranty",
-      "Made in USA with Global Materials"
-    ],
-    "beamPatterns": [
-      "SAE"
-    ],
-    "colors": [
-      "White"
-    ],
-    "series": "Max",
-    "variants": [
-      {
-        "name": "C2 2.0 Max White SAE Driving ABL (pair)",
-        "sku": "DD8242P",
-        "price": 60799,
-        "compareAtPrice": null,
-        "beamPattern": "SAE Driving",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6128p_ss3_pro_driving_white_pair_w_packaging_1024x1024.jpg?v=1755069600",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Max White SAE Fog/Wide ABL (pair)",
-        "sku": "DD8240P",
-        "price": 60799,
-        "compareAtPrice": null,
-        "beamPattern": "SAE Fog/Wide",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6489p_ss3_max_fog_white_pair_1_1_1024x1024.jpg?v=1756040163",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Max White SAE Fog/Wide RBL (pair)",
-        "sku": "DD8241P",
-        "price": 60799,
-        "compareAtPrice": null,
-        "beamPattern": "SAE Fog/Wide",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6489p_ss3_max_fog_white_pair_1_1_1024x1024.jpg?v=1756040163",
-        "isAvailable": true
-      },
-      {
-        "name": "C2 2.0 Max White SAE Driving RBL (pair)",
-        "sku": "DD8243P",
-        "price": 60799,
-        "compareAtPrice": null,
-        "beamPattern": "SAE Driving",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6128p_ss3_pro_driving_white_pair_w_packaging_1024x1024.jpg?v=1755069600",
-        "isAvailable": true
-      }
-    ],
-    "media": [
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6487p_ss3_max_driving_white_pair_-_max_titled_1024x1024.jpg?v=1752573685",
-        "sortOrder": 0
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2014_toyota_4runner_ss3_ditch_light_creative_close_rh_on_4_1024x1024.jpg?v=1755069600",
-        "sortOrder": 1
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6128p_ss3_pro_driving_white_pair_w_packaging_1024x1024.jpg?v=1755069600",
-        "sortOrder": 2
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79733_1024x1024.jpg?v=1755069600",
-        "sortOrder": 3
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_pro_led_pod_hq_wall_output_collage_9_1024x1024.jpg?v=1755888549",
-        "sortOrder": 4
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_led_pod_backlight_collage_b_3_1024x1024.jpg?v=1755888549",
-        "sortOrder": 5
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2xss3w-pro_79738_1024x1024.jpg?v=1755888549",
-        "sortOrder": 6
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_3_led_pod_output_patterns_real_world_b_3_1024x1024.jpg?v=1755888549",
-        "sortOrder": 7
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6874p_ss3_abl_pro_driving_white_pair_kit_usa_1_1024x1024.jpg?v=1755069600",
-        "sortOrder": 8
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_3_led_pod_dimensoinal_drawing_d_1_1024x1024.jpg?v=1755069600",
-        "sortOrder": 9
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6487p_ss3_max_driving_white_pair_1_1_1024x1024.jpg?v=1756040078",
-        "sortOrder": 10
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6489p_ss3_max_fog_white_pair_1_1_1024x1024.jpg?v=1756040163",
-        "sortOrder": 11
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6490p_ss3_max_spot_white_pair_1_1_1024x1024.jpg?v=1756040176",
-        "sortOrder": 12
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6491p_ss3_max_combo_white_pair_1_1_b0090a86-1cd1-47e9-9adc-73069aec0adf_1024x1024.jpg?v=1756040122",
-        "sortOrder": 13
-      },
-      {
-        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8113p_c2_gen2_max_white_combo_standard_rbl_pair_built_-_titled.jpg",
-        "sortOrder": 14
-      },
-      {
-        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/x/2xc220w-max_254611_.jpg",
-        "sortOrder": 15
-      }
-    ]
-  },
-  {
     "name": "SS5 LED Pod Cover, Black (one)",
     "slug": "ss5-led-pod-cover-black-one",
     "sku": "DD7217",
@@ -7978,7 +7989,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "Black",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2020_jeep_gladiator_cowl_cover_logo_ss3_1024x1024.jpg?v=1750745133",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6263_ss3_cover_standard_black_installed_1024x1024.jpg?v=1750745133",
         "isAvailable": true
       },
       {
@@ -7988,7 +7999,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "Black",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6263_ss3_cover_standard_black_installed_1024x1024.jpg?v=1750745133",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2020_jeep_gladiator_cowl_cover_logo_ss3_1024x1024.jpg?v=1750745133",
         "isAvailable": true
       }
     ],
@@ -8157,7 +8168,7 @@
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": null,
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5052_ss18_amber_combo-flood_1024x1024.jpg?v=1750685642",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5038_ss18_amber_driving_b_1024x1024.jpg?v=1750685642",
         "isAvailable": true
       }
     ],
@@ -8554,7 +8565,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7216_ss5_crosslink_universal_bracket_kit_detail_1024x1024.jpg?v=1747633144",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7216_ss5_crosslink_universal_bracket_kit_1024x1024.jpg?v=1747633144",
         "isAvailable": true
       },
       {
@@ -8564,7 +8575,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7216_ss5_crosslink_universal_bracket_kit_1024x1024.jpg?v=1747633144",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7216_ss5_crosslink_universal_bracket_kit_back_1024x1024.jpg?v=1747633144",
         "isAvailable": true
       },
       {
@@ -8574,7 +8585,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7216_ss5_crosslink_universal_bracket_kit_back_1024x1024.jpg?v=1747633144",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7216_ss5_crosslink_universal_bracket_kit_detail_1024x1024.jpg?v=1747633144",
         "isAvailable": true
       }
     ],
@@ -8888,7 +8899,8 @@
       "Assembled in USA"
     ],
     "beamPatterns": [
-      "Standard"
+      "Combo",
+      "Spot"
     ],
     "colors": [
       "White"
@@ -8922,17 +8934,7 @@
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_wall_output_collage_1024x1024.jpg?v=1766384337",
-        "isAvailable": true
-      },
-      {
-        "name": "SS5 White Pro LED Pod (one)",
-        "sku": "DD6782SNB",
-        "price": 23399,
-        "compareAtPrice": null,
-        "beamPattern": null,
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_dimensoinal_drawing_2_2_1_1024x1024.jpg?v=1766384337",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6768snb_ss5_sport_white_spot_no_brackets_kit_1024x1024.jpg?v=1766384337",
         "isAvailable": true
       },
       {
@@ -8943,6 +8945,16 @@
         "beamPattern": null,
         "color": "White",
         "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_drone_output_collage_1024x1024.jpg?v=1766384337",
+        "isAvailable": true
+      },
+      {
+        "name": "SS5 White Pro LED Pod (one)",
+        "sku": "DD6782SNB",
+        "price": 23399,
+        "compareAtPrice": null,
+        "beamPattern": null,
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_wall_output_collage_1024x1024.jpg?v=1766384337",
         "isAvailable": true
       }
     ],
@@ -9720,7 +9732,8 @@
       "Made in USA with Global Materials."
     ],
     "beamPatterns": [
-      "Standard"
+      "Combo",
+      "Spot"
     ],
     "colors": [
       "White"
@@ -9808,23 +9821,13 @@
     "series": "Pro",
     "variants": [
       {
-        "name": "SS3 Security Hardware Kit - Flush Mount",
-        "sku": "DD7531",
-        "price": 449,
-        "compareAtPrice": null,
-        "beamPattern": null,
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd7531_ss5_universal_security_hw_kit.jpg",
-        "isAvailable": true
-      },
-      {
         "name": "SS3 Security Hardware Kit - Round",
         "sku": "DD7530",
         "price": 449,
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd7530_c2_c1_security_hw_kit.jpg",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd7529_ss3_security_hw_kit_1.jpg",
         "isAvailable": true
       },
       {
@@ -9834,7 +9837,17 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd7529_ss3_security_hw_kit_1.jpg",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd7531_ss5_universal_security_hw_kit.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "SS3 Security Hardware Kit - Flush Mount",
+        "sku": "DD7531",
+        "price": 449,
+        "compareAtPrice": null,
+        "beamPattern": null,
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd7530_c2_c1_security_hw_kit.jpg",
         "isAvailable": true
       },
       {
@@ -9960,7 +9973,9 @@
       "Made in USA with Global Materials."
     ],
     "beamPatterns": [
-      "Standard"
+      "Combo",
+      "Driving",
+      "Spot"
     ],
     "colors": [
       "White"
@@ -9974,7 +9989,17 @@
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_kit_us_ss2_1024x1024.jpg?v=1767167872",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_assembled_1024x1024.jpg?v=1766396023",
+        "isAvailable": true
+      },
+      {
+        "name": "SS10 Max White Combo Standard MBL",
+        "sku": "DD8208",
+        "price": 162199,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_wall_output_collage_1_1024x1024.jpg?v=1767167872",
         "isAvailable": true
       },
       {
@@ -9988,13 +10013,13 @@
         "isAvailable": true
       },
       {
-        "name": "SS10 Max White Combo Standard MBL",
-        "sku": "DD8208",
+        "name": "SS20 Sport White Combo Standard MBL",
+        "sku": "DD8220",
         "price": 162199,
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_kit_us_ss2_1024x1024.jpg?v=1767167872",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Combo_fb179a90-68fe-41a7-b241-197e2eecb546_1024x1024.jpg?v=1767167872",
         "isAvailable": true
       },
       {
@@ -10004,7 +10029,7 @@
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_kit_us_ss2_1024x1024.jpg?v=1767167872",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_drone_output_collage_1_1024x1024.jpg?v=1767167872",
         "isAvailable": true
       },
       {
@@ -10024,17 +10049,7 @@
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_kit_us_ss2_1024x1024.jpg?v=1767167872",
-        "isAvailable": true
-      },
-      {
-        "name": "SS20 Sport White Combo Standard MBL",
-        "sku": "DD8220",
-        "price": 162199,
-        "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_kit_us_ss2_1024x1024.jpg?v=1767167872",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_crosslink_6_pod_lightbar_dimensional_drawing_1024x1024.jpg?v=1767167872",
         "isAvailable": true
       },
       {
@@ -10044,7 +10059,7 @@
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_kit_us_ss2_1024x1024.jpg?v=1767167872",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8225_ss20_sport_white_spot_standard_abl_1.jpg",
         "isAvailable": true
       },
       {
@@ -10054,7 +10069,17 @@
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6798_ss5_lightbar_white_combo_6_crosslink_kit_us_ss2_1024x1024.jpg?v=1767167872",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/a/a/aa20_stage_series_lightbar_moonlight_offroad_park_creative_image-84.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "SS20 White LED Light Bar (one)",
+        "sku": "DD8203",
+        "price": 162199,
+        "compareAtPrice": null,
+        "beamPattern": null,
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss5_led_pod_backlight_collage_8_1024x1024.jpg?v=1766396023",
         "isAvailable": true
       },
       {
@@ -10065,16 +10090,6 @@
         "beamPattern": "Driving",
         "color": "White",
         "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Driving_1024x1024.jpg?v=1767167872",
-        "isAvailable": true
-      },
-      {
-        "name": "SS20 White LED Light Bar (one)",
-        "sku": "DD8203",
-        "price": 162199,
-        "compareAtPrice": null,
-        "beamPattern": null,
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/a/a/aa20_stage_series_lightbar_moonlight_offroad_park_creative_image-84.jpg",
         "isAvailable": true
       },
       {
@@ -10224,8 +10239,8 @@
       "Made in USA with Global Materials."
     ],
     "beamPatterns": [
-      "SAE/DOT Driving",
       "Combo",
+      "Driving",
       "Spot"
     ],
     "colors": [
@@ -10235,6 +10250,16 @@
     ],
     "series": "Pro",
     "variants": [
+      {
+        "name": "SS6 Sport White Combo Standard",
+        "sku": "DD8138S",
+        "price": 17099,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "Sport",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_lightbar_feature_graphic_-_ss10-ss20_6_1024x1024.jpg?v=1770025591",
+        "isAvailable": true
+      },
       {
         "name": "SS6 Max White Combo Standard",
         "sku": "DD8162S",
@@ -10246,23 +10271,13 @@
         "isAvailable": true
       },
       {
-        "name": "SS6 Sport White Combo Standard",
-        "sku": "DD8138S",
-        "price": 17099,
+        "name": "SS6 Pro White Combo Standard",
+        "sku": "DD8150S",
+        "price": 25599,
         "compareAtPrice": null,
         "beamPattern": "Combo",
-        "color": "Sport",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss6_power_levels_collage_-_yellow_combo_b_1024x1024.jpg?v=1770025591",
-        "isAvailable": true
-      },
-      {
-        "name": "SS6 Max White Driving Standard RBL",
-        "sku": "DD8157S",
-        "price": 34149,
-        "compareAtPrice": null,
-        "beamPattern": "Driving",
-        "color": "Max",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_lightbar_feature_graphic_-_ss10-ss20_6_1024x1024.jpg?v=1770025591",
+        "color": "Pro",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss6_standard_dimensoinal_graphic_b_2_1024x1024.jpg?v=1770025591",
         "isAvailable": true
       },
       {
@@ -10272,7 +10287,17 @@
         "compareAtPrice": null,
         "beamPattern": "Driving",
         "color": "Pro",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd8155s_ss6_pro_yellow_spot_standard_abl_single_1024x1024.jpg?v=1770025591",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8155s_ss6_pro_yellow_spot_standard_abl_single.jpg",
+        "isAvailable": true
+      },
+      {
+        "name": "SS6 Sport White Driving Standard RBL",
+        "sku": "DD8133S",
+        "price": 17099,
+        "compareAtPrice": null,
+        "beamPattern": "Driving",
+        "color": "Sport",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/4/24_toyota_tacoma_studio_install_detailed_universal_ss6_case_bl.jpg",
         "isAvailable": true
       },
       {
@@ -10286,13 +10311,13 @@
         "isAvailable": true
       },
       {
-        "name": "SS6 Pro White Combo Standard",
-        "sku": "DD8150S",
-        "price": 25599,
+        "name": "SS6 Max White Driving Standard RBL",
+        "sku": "DD8157S",
+        "price": 34149,
         "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "Pro",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss6_power_levels_collage_-_yellow_combo_b_1024x1024.jpg?v=1770025591",
+        "beamPattern": "Driving",
+        "color": "Max",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss6_lightbar_beam_pattern_graphic_2_1024x1024.jpg?v=1770025591",
         "isAvailable": true
       },
       {
@@ -10303,16 +10328,6 @@
         "beamPattern": "Spot",
         "color": "Pro",
         "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd8155s_ss6_pro_yellow_spot_standard_abl_single_1024x1024.jpg?v=1770025591",
-        "isAvailable": true
-      },
-      {
-        "name": "SS6 Sport White Driving Standard RBL",
-        "sku": "DD8133S",
-        "price": 17099,
-        "compareAtPrice": null,
-        "beamPattern": "Driving",
-        "color": "Sport",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8155s_ss6_pro_yellow_spot_standard_abl_single.jpg",
         "isAvailable": true
       }
     ],
@@ -10682,7 +10697,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8469_mini_crosslink_endmount_detail_2.jpg",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8469_mini_crosslink_endmount_kit.jpg",
         "isAvailable": true
       },
       {
@@ -10692,7 +10707,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8469_mini_crosslink_endmount_kit.jpg",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8469_mini_crosslink_endmount_detail_2.jpg",
         "isAvailable": true
       },
       {
@@ -10824,7 +10839,7 @@
         "compareAtPrice": null,
         "beamPattern": "Flood",
         "color": "Red",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6917p_ss3_sport_rbl_flood_white_pair_1024x1024.jpg?v=1755887501",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/pnwor_subaru_crosstrek_flushmount_2_1024x1024.jpg?v=1755888549",
         "isAvailable": true
       }
     ],
@@ -10939,23 +10954,23 @@
         "isAvailable": true
       },
       {
-        "name": "Wide / Amber",
-        "sku": "DD6455P",
-        "price": 26399,
-        "compareAtPrice": null,
-        "beamPattern": "Wide",
-        "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6441p_ssc1_sport_wide_white_rbl_standard_pair_front_1024x1024.jpg?v=1748492382",
-        "isAvailable": true
-      },
-      {
         "name": "Spot / Amber",
         "sku": "DD6465P",
         "price": 26399,
         "compareAtPrice": null,
         "beamPattern": "Spot",
         "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6464p_ssc1_pro_spot_white_wbl_standard_pair_front_titled_1024x1024.jpg?v=1748492382",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2022_ford_f150_vegas_creative_c1_close_3_1024x1024.jpg?v=1748492382",
+        "isAvailable": true
+      },
+      {
+        "name": "Wide / Amber",
+        "sku": "DD6455P",
+        "price": 26399,
+        "compareAtPrice": null,
+        "beamPattern": "Wide",
+        "color": "Amber",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_snow_day_creative_ssc1_close_1_1024x1024.jpg?v=1748492382",
         "isAvailable": true
       }
     ],
@@ -11074,7 +11089,7 @@
         "compareAtPrice": null,
         "beamPattern": "Flood",
         "color": "Red",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6471p_ssc1_sport_flood_white_rbl_flush_pair_front_1024x1024.jpg?v=1748494640",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6469p_ssc1_sport_flood_white_wbl_flush_pair_front_titled_1024x1024.jpg?v=1748494640",
         "isAvailable": true
       }
     ],
@@ -11894,7 +11909,11 @@
       "Made in USA with Global Materials."
     ],
     "beamPatterns": [
-      "SAE"
+      "Fog",
+      "Driving",
+      "Flood",
+      "Combo",
+      "Spot"
     ],
     "colors": [
       "White"
@@ -11902,13 +11921,13 @@
     "series": "Pro",
     "variants": [
       {
-        "name": "SS6 Sport White Fog Standard ABL",
-        "sku": "DD8134S",
+        "name": "SS6 Sport White Fog Standard RBL",
+        "sku": "DD8135S",
         "price": 33199,
         "compareAtPrice": null,
         "beamPattern": "Fog",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5030_ss18_white_combo_1024x1024.jpg?v=1750682378",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_mud_1-labled-StageSeries18_1024x1024.jpg?v=1750682378",
         "isAvailable": true
       },
       {
@@ -11932,23 +11951,23 @@
         "isAvailable": true
       },
       {
+        "name": "SS6 Sport White Fog Standard ABL",
+        "sku": "DD8134S",
+        "price": 33199,
+        "compareAtPrice": null,
+        "beamPattern": "Fog",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_camp_ss18_close_on_2-StageSeries18_1024x1024.jpg?v=1750682378",
+        "isAvailable": true
+      },
+      {
         "name": "SS6 Sport White Combo Standard RBL",
         "sku": "DD8137S",
         "price": 33199,
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/diode12_driving-StageSeries12_1024x1024.jpg?v=1750682378",
-        "isAvailable": true
-      },
-      {
-        "name": "SS6 Sport White Fog Standard RBL",
-        "sku": "DD8135S",
-        "price": 33199,
-        "compareAtPrice": null,
-        "beamPattern": "Fog",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_camp_ss18_close_on_2-StageSeries18_1024x1024.jpg?v=1750682378",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5030_ss18_white_combo_1024x1024.jpg?v=1750682378",
         "isAvailable": true
       },
       {
@@ -11958,7 +11977,7 @@
         "compareAtPrice": null,
         "beamPattern": "Flood",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_18_inch_1024x1024.jpg?v=1750685642",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_5d_outdoor_output_collage_1024x1024.jpg?v=1750682634",
         "isAvailable": true
       },
       {
@@ -11968,7 +11987,7 @@
         "compareAtPrice": null,
         "beamPattern": "Driving",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_1d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
         "isAvailable": true
       },
       {
@@ -11982,6 +12001,16 @@
         "isAvailable": true
       },
       {
+        "name": "SS6 Pro White Fog Standard RBL",
+        "sku": "DD8147S",
+        "price": 33199,
+        "compareAtPrice": null,
+        "beamPattern": "Fog",
+        "color": "White",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_18_inch_1024x1024.jpg?v=1750685642",
+        "isAvailable": true
+      },
+      {
         "name": "SS6 Max White Spot Standard ABL",
         "sku": "DD8166S",
         "price": 33199,
@@ -11992,13 +12021,23 @@
         "isAvailable": true
       },
       {
+        "name": "SS6 Max White Combo Standard ABL",
+        "sku": "DD8160S",
+        "price": 33199,
+        "compareAtPrice": null,
+        "beamPattern": "Combo",
+        "color": "White",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/4/24_toyota_tacoma_studio_install_detailed_universal_ss6_case_bl.jpg",
+        "isAvailable": true
+      },
+      {
         "name": "SS6 Pro White Combo Standard ABL",
         "sku": "DD8148S",
         "price": 33199,
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_5d_outdoor_output_collage_1024x1024.jpg?v=1750682634",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_spec_diagram_750_website_1-StageSeries12_1024x1024.jpg?v=1750685377",
         "isAvailable": true
       },
       {
@@ -12008,27 +12047,7 @@
         "compareAtPrice": null,
         "beamPattern": "Driving",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
-        "isAvailable": true
-      },
-      {
-        "name": "SS6 Max White Combo Standard ABL",
-        "sku": "DD8160S",
-        "price": 33199,
-        "compareAtPrice": null,
-        "beamPattern": "Combo",
-        "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd8154s_ss6_pro_white_spot_standard_abl_single.jpg",
-        "isAvailable": true
-      },
-      {
-        "name": "SS6 Pro White Fog Standard RBL",
-        "sku": "DD8147S",
-        "price": 33199,
-        "compareAtPrice": null,
-        "beamPattern": "Fog",
-        "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/tir_optic_sign_10_1500x1000_10-StageSeries12_1024x1024.jpg?v=1750685377",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series18_vs_competitor_4d_outdoor_output_collage_1024x1024.jpg?v=1750682378",
         "isAvailable": true
       },
       {
@@ -12048,7 +12067,7 @@
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "White",
-        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/2/4/24_toyota_tacoma_studio_install_detailed_universal_ss6_case_bl.jpg",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/diode12_driving-StageSeries12_1024x1024.jpg?v=1750682378",
         "isAvailable": true
       },
       {
@@ -12058,7 +12077,7 @@
         "compareAtPrice": null,
         "beamPattern": "Fog",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5030_ss18_white_combo_1024x1024.jpg?v=1750682378",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/stage_series_all_size_outdoor_output_collage_b-StageSeries12_1024x1024.jpg?v=1750682378",
         "isAvailable": true
       },
       {
@@ -12068,7 +12087,7 @@
         "compareAtPrice": null,
         "beamPattern": "Fog",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5016_18in_drivingpattern_b-StageSeries18_1024x1024.jpg?v=1750682378",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/tir_optic_sign_10_1500x1000_10-StageSeries12_1024x1024.jpg?v=1750685377",
         "isAvailable": true
       },
       {
@@ -12078,7 +12097,7 @@
         "compareAtPrice": null,
         "beamPattern": "Combo",
         "color": "White",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2016_ford_f150_stage_series_creative_camp_ss18_close_on_2-StageSeries18_1024x1024.jpg?v=1750682378",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd5030_ss18_white_combo_1024x1024.jpg?v=1750682378",
         "isAvailable": true
       }
     ],
@@ -12610,6 +12629,16 @@
     "series": "Pro",
     "variants": [
       {
+        "name": "Fog",
+        "sku": "DD5022S",
+        "price": 16499,
+        "compareAtPrice": null,
+        "beamPattern": "Fog",
+        "color": null,
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/Lightbars-category_1024x1024.jpg?v=1747475023",
+        "isAvailable": true
+      },
+      {
         "name": "Driving",
         "sku": "DD5014S",
         "price": 16499,
@@ -12620,23 +12649,13 @@
         "isAvailable": true
       },
       {
-        "name": "Fog",
-        "sku": "DD5022S",
-        "price": 16499,
-        "compareAtPrice": null,
-        "beamPattern": "Fog",
-        "color": null,
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/atv_ss6_wide_side2-Stage_Series_6_1024x1024.jpg?v=1747475059",
-        "isAvailable": true
-      },
-      {
         "name": "Flood",
         "sku": "DD6032S",
         "price": 16499,
         "compareAtPrice": null,
         "beamPattern": "Flood",
         "color": null,
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/diode12_driving-StageSeries12_1024x1024.jpg?v=1750682378",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/atv_ss6_wide_side2-Stage_Series_6_1024x1024.jpg?v=1747475059",
         "isAvailable": true
       }
     ],
@@ -13788,23 +13807,13 @@
     "series": "Pro",
     "variants": [
       {
-        "name": "Bare Wire / Red",
-        "sku": "DD7431",
-        "price": 7699,
-        "compareAtPrice": null,
-        "beamPattern": "Bare Wire",
-        "color": "Red",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7431_rocklight_red_hookup_single_180e50b2-35d2-4e2c-a1f9-62363e85c541_1024x1024.jpg?v=1755862759",
-        "isAvailable": true
-      },
-      {
         "name": "Bare Wire / Green",
         "sku": "DD7432",
         "price": 7699,
         "compareAtPrice": null,
         "beamPattern": "Bare Wire",
         "color": "Green",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7432_rocklight_green_hookup_single_99e886d7-d53f-468f-bd5b-d645e2fa0baf_1024x1024.jpg?v=1755862784",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2024_toyota_tacoma_detail_rocklight_white_3_1024x1024.jpg?v=1755764579",
         "isAvailable": true
       },
       {
@@ -13814,7 +13823,7 @@
         "compareAtPrice": null,
         "beamPattern": "Bare Wire",
         "color": "Blue",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7433_rocklight_blue_hookup_single_047fd1b5-2267-4ad5-b5cb-c8398bbe66a2_1024x1024.jpg?v=1755862793",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2022_ford_f150_vegas_creative_rocklight_medium_1_3_1024x1024.jpg?v=1747638070",
         "isAvailable": true
       },
       {
@@ -13824,7 +13833,17 @@
         "compareAtPrice": null,
         "beamPattern": "Bare Wire",
         "color": "Amber",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd7430_rocklight_amber_hookup_single_1024x1024.jpg?v=1755862728",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/rcklt-sc-2pk_210486_1024x1024.jpg?v=1755862618",
+        "isAvailable": true
+      },
+      {
+        "name": "Bare Wire / Red",
+        "sku": "DD7431",
+        "price": 7699,
+        "compareAtPrice": null,
+        "beamPattern": "Bare Wire",
+        "color": "Red",
+        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2024_toyota_tacoma_creative18_1_2_1024x1024.jpg?v=1755764579",
         "isAvailable": true
       },
       {
