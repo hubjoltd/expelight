@@ -76,15 +76,20 @@ export function ProductPage({ product }: ProductPageProps) {
     [allVariants]
   );
 
+  const isPlaceholder = (val: string) => {
+    const lower = val.trim().toLowerCase();
+    return lower === "default title" || lower === "default" || lower === "";
+  };
+
   const availableBeamPatterns = useMemo(() => {
     if (variants.length === 0) return [];
-    const variantBeams = [...new Set(variants.map((v: any) => v.beamPattern).filter(Boolean))];
+    const variantBeams = [...new Set(variants.map((v: any) => v.beamPattern).filter((b: string | null) => b && !isPlaceholder(b)))];
     return variantBeams;
   }, [variants]);
 
   const availableColors = useMemo(() => {
     if (variants.length === 0) return [];
-    const variantColors = [...new Set(variants.map((v: any) => v.color).filter(Boolean))];
+    const variantColors = [...new Set(variants.map((v: any) => v.color).filter((c: string | null) => c && !isPlaceholder(c)))];
     return variantColors;
   }, [variants]);
 
