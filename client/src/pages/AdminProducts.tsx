@@ -295,17 +295,8 @@ export default function AdminProducts() {
         {showAddForm && (
           <div className="mb-4 p-3 border border-red-900/50 rounded-md bg-zinc-900 space-y-2">
             <h4 className="text-xs font-semibold text-red-400 mb-2">New Variant</h4>
-            <div className="grid grid-cols-3 gap-2">
-              <div>
-                <Label className="text-[10px] text-zinc-400">Name *</Label>
-                <Input
-                  value={newVariant.name}
-                  onChange={(e) => setNewVariant({ ...newVariant, name: e.target.value })}
-                  className="h-7 text-xs"
-                  placeholder="e.g. Sport White Spot"
-                  data-testid="input-new-variant-name"
-                />
-              </div>
+            <p className="text-[10px] text-zinc-500 -mt-1 mb-1">Beam Pattern, Color, and Name drive the 3 product page selectors. Set matching values across variants to group them.</p>
+            <div className="grid grid-cols-2 gap-2">
               <div>
                 <Label className="text-[10px] text-zinc-400">SKU *</Label>
                 <Input
@@ -330,7 +321,7 @@ export default function AdminProducts() {
             </div>
             <div className="grid grid-cols-3 gap-2">
               <div>
-                <Label className="text-[10px] text-zinc-400">Beam Pattern</Label>
+                <Label className="text-[10px] text-zinc-400">Beam Pattern <span className="text-zinc-600">(Selector 1)</span></Label>
                 <Input
                   value={newVariant.beamPattern}
                   onChange={(e) => setNewVariant({ ...newVariant, beamPattern: e.target.value })}
@@ -340,15 +331,27 @@ export default function AdminProducts() {
                 />
               </div>
               <div>
-                <Label className="text-[10px] text-zinc-400">Color</Label>
+                <Label className="text-[10px] text-zinc-400">Color <span className="text-zinc-600">(Selector 2)</span></Label>
                 <Input
                   value={newVariant.color}
                   onChange={(e) => setNewVariant({ ...newVariant, color: e.target.value })}
                   className="h-7 text-xs"
-                  placeholder="e.g. White, Yellow"
+                  placeholder="e.g. White, Amber, Red"
                   data-testid="input-new-variant-color"
                 />
               </div>
+              <div>
+                <Label className="text-[10px] text-zinc-400">Name / Model <span className="text-zinc-600">(Selector 3)</span></Label>
+                <Input
+                  value={newVariant.name}
+                  onChange={(e) => setNewVariant({ ...newVariant, name: e.target.value })}
+                  className="h-7 text-xs"
+                  placeholder="e.g. Sport ABL, Pro MBL"
+                  data-testid="input-new-variant-name"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
               <div>
                 <Label className="text-[10px] text-zinc-400">Compare At Price</Label>
                 <Input
@@ -430,17 +433,7 @@ export default function AdminProducts() {
               >
                 {isEditing ? (
                   <div className="space-y-2">
-                    <div className="grid grid-cols-4 gap-2">
-                      <div>
-                        <Label className="text-[10px] text-zinc-400">Name</Label>
-                        <Input
-                          value={editValues.name || ""}
-                          onChange={(e) => setEditValues({ ...editValues, name: e.target.value })}
-                          className="h-7 text-xs"
-                          placeholder="Variant name"
-                          data-testid={`input-variant-name-${variant.sku}`}
-                        />
-                      </div>
+                    <div className="grid grid-cols-3 gap-2">
                       <div>
                         <Label className="text-[10px] text-zinc-400">SKU</Label>
                         <Input
@@ -474,9 +467,9 @@ export default function AdminProducts() {
                         />
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-3 gap-2">
                       <div>
-                        <Label className="text-[10px] text-zinc-400">Beam Pattern</Label>
+                        <Label className="text-[10px] text-zinc-400">Beam Pattern <span className="text-zinc-600">(Selector 1)</span></Label>
                         <Input
                           value={editValues.beamPattern || ""}
                           onChange={(e) => setEditValues({ ...editValues, beamPattern: e.target.value })}
@@ -486,13 +479,23 @@ export default function AdminProducts() {
                         />
                       </div>
                       <div>
-                        <Label className="text-[10px] text-zinc-400">Color</Label>
+                        <Label className="text-[10px] text-zinc-400">Color <span className="text-zinc-600">(Selector 2)</span></Label>
                         <Input
                           value={editValues.color || ""}
                           onChange={(e) => setEditValues({ ...editValues, color: e.target.value })}
                           className="h-7 text-xs"
-                          placeholder="e.g. White, Yellow"
+                          placeholder="e.g. White, Amber, Red"
                           data-testid={`input-variant-color-${variant.sku}`}
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-[10px] text-zinc-400">Name / Model <span className="text-zinc-600">(Selector 3)</span></Label>
+                        <Input
+                          value={editValues.name || ""}
+                          onChange={(e) => setEditValues({ ...editValues, name: e.target.value })}
+                          className="h-7 text-xs"
+                          placeholder="e.g. Sport ABL, Pro MBL"
+                          data-testid={`input-variant-name-${variant.sku}`}
                         />
                       </div>
                     </div>
