@@ -4048,18 +4048,11 @@
     "shortDescription": "Overview.\n\nThe SS3 LED Pod Cover will help keep your SS3 LED Pod clean and protected from dirt, dust, or whatever else the road throws your way. These covers are made out of a durable polycarbonate plastic that gives your SS3 LED Pod an extra layer of protection. They quickly snap on and off for eas",
     "price": 699,
     "images": [
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6263_ss3_cover_standard_black_installed_1024x1024.jpg?v=1750745133",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2020_jeep_gladiator_cowl_cover_logo_ss3_1024x1024.jpg?v=1750745133",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_black_cover_standard___round_2_1024x1024.jpg?v=1750745133",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6263_ss3_cover_standard_black-packaging_1_1024x1024.jpg?v=1750745133",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_led_pod_cover_collage_2_1024x1024.jpg?v=1750746129",
-      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6263_ss3_cover_standard_black-packaging_5dc5198b-9963-4ea9-833b-b3bd09131758_1024x1024.jpg?v=1755865107",
       "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/s/s/ss3_clear_cover_standard___round_2_1.jpg",
       "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd6261_ss3_cover_standard_clear_installed_1.jpg",
-      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/s/s/ss3_smoked_cover_standard___round_2.jpg",
-      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd6262_ss3_cover_standard_smoked_installed_1.jpg",
-      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/s/s/ss3_yellow_cover_standard___round_2.jpg",
-      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd6264_ss3_cover_standard_yellow_installed_1.jpg"
+      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/3587a0a2f04460e2c3314cded1962806/d/d/dd6261_ss3_cover_standard_clear-packaging_1.jpg",
+      "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/3587a0a2f04460e2c3314cded1962806/d/d/dd6265_ss3_cover_round_clear-packaging.jpg",
+      "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_led_pod_cover_collage_2_1024x1024.jpg?v=1750746129"
     ],
     "features": [
       "Premium LED Technology",
@@ -4075,84 +4068,46 @@
     "series": "Pro",
     "variants": [
       {
-        "name": "SS3 Pod Cover Standard Clear",
+        "name": "Standard",
         "sku": "DD6261",
         "price": 699,
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "Clear",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2020_jeep_gladiator_cowl_cover_logo_ss3_1024x1024.jpg?v=1750745133",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/3587a0a2f04460e2c3314cded1962806/d/d/dd6261_ss3_cover_standard_clear-packaging_1.jpg",
         "isAvailable": true
       },
       {
-        "name": "SS3 LED Pod Cover, Clear (one)",
-        "sku": "DD6264",
+        "name": "Round",
+        "sku": "DD6265",
         "price": 699,
         "compareAtPrice": null,
         "beamPattern": null,
         "color": "Clear",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6263_ss3_cover_standard_black_installed_1024x1024.jpg?v=1750745133",
-        "isAvailable": true
-      },
-      {
-        "name": "SS3 Pod Cover Round Clear",
-        "sku": "DD6262",
-        "price": 699,
-        "compareAtPrice": null,
-        "beamPattern": null,
-        "color": "Clear",
-        "imageUrl": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_black_cover_standard___round_2_1024x1024.jpg?v=1750745133",
+        "imageUrl": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/3587a0a2f04460e2c3314cded1962806/d/d/dd6265_ss3_cover_round_clear-packaging.jpg",
         "isAvailable": true
       }
     ],
     "media": [
       {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6263_ss3_cover_standard_black_installed_1024x1024.jpg?v=1750745133",
+        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/s/s/ss3_clear_cover_standard___round_2_1.jpg",
         "sortOrder": 0
       },
       {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/2020_jeep_gladiator_cowl_cover_logo_ss3_1024x1024.jpg?v=1750745133",
+        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd6261_ss3_cover_standard_clear_installed_1.jpg",
         "sortOrder": 1
       },
       {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_black_cover_standard___round_2_1024x1024.jpg?v=1750745133",
+        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/3587a0a2f04460e2c3314cded1962806/d/d/dd6261_ss3_cover_standard_clear-packaging_1.jpg",
         "sortOrder": 2
       },
       {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6263_ss3_cover_standard_black-packaging_1_1024x1024.jpg?v=1750745133",
+        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/3587a0a2f04460e2c3314cded1962806/d/d/dd6265_ss3_cover_round_clear-packaging.jpg",
         "sortOrder": 3
       },
       {
         "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/ss3_led_pod_cover_collage_2_1024x1024.jpg?v=1750746129",
         "sortOrder": 4
-      },
-      {
-        "url": "https://cdn.shopify.com/s/files/1/0928/3295/6702/files/dd6263_ss3_cover_standard_black-packaging_5dc5198b-9963-4ea9-833b-b3bd09131758_1024x1024.jpg?v=1755865107",
-        "sortOrder": 5
-      },
-      {
-        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/s/s/ss3_clear_cover_standard___round_2_1.jpg",
-        "sortOrder": 6
-      },
-      {
-        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd6261_ss3_cover_standard_clear_installed_1.jpg",
-        "sortOrder": 7
-      },
-      {
-        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/s/s/ss3_smoked_cover_standard___round_2.jpg",
-        "sortOrder": 8
-      },
-      {
-        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd6262_ss3_cover_standard_smoked_installed_1.jpg",
-        "sortOrder": 9
-      },
-      {
-        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/s/s/ss3_yellow_cover_standard___round_2.jpg",
-        "sortOrder": 10
-      },
-      {
-        "url": "https://dxv0kh7euhy9z.cloudfront.net/catalog/product/cache/514be37cf1810d98075a71c32f7b6a0f/d/d/dd6264_ss3_cover_standard_yellow_installed_1.jpg",
-        "sortOrder": 11
       }
     ]
   },
