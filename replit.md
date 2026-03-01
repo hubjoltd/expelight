@@ -133,9 +133,19 @@ I prefer iterative development with clear communication on progress. Before maki
   - Updated variant names with descriptive beam pattern/mount type info
 - **Automatic Full Database Seeding (Mar 2026)**:
   - All data is now seeded into the PostgreSQL database on every server start via idempotent seeders:
-    - `server/seedMissingProducts.ts` - 131 products, 356 variants, 734 media from `server/seedData.json`
+    - `server/seedMissingProducts.ts` - 131 products, 357 variants, 982 media from `server/seedData.json`
     - `server/seedMissingCategories.ts` - 38 categories with images, hierarchy, and product-category mappings
     - `server/seedVehiclesAndReviews.ts` - 20 vehicles (7 makes) and 5 verified reviews
   - Vehicle and review storage methods in `server/storage.ts` now read from the database instead of in-memory maps
-  - Product data exported to `server/seedData.json` (2MB) for reliable offline seeding
+  - Product data exported to `server/seedData.json` for reliable offline seeding
+- **Product Image & Data Enrichment (Mar 2026)**:
+  - Enriched all 131 products with multi-image galleries from advlust.com Shopify store
+  - Products matched by SKU (exact match) and product family (SS3, SS5, SSC1, C2, etc.) for image inheritance
+  - Images sourced from Shopify CDN (cdn.shopify.com) for reliable loading
+  - Updated product descriptions, features, "what's in the box" from Shopify product HTML
+  - Variant metadata updated: names, featured images, weights
+  - Fixed broken product name ("Search results for..." -> "SS6 SAE/DOT Yellow LED Light Bar (one)")
+  - Fixed mismatched images (wiring harnesses, bezels, mounting kits matched to correct product families)
+  - 128 products now have 3+ images, 3 products have 1-2 images (no Shopify equivalent available)
+  - Total: 131 products, 357 variants, 982 media entries
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"
