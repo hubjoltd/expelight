@@ -156,4 +156,11 @@ I prefer iterative development with clear communication on progress. Before maki
   - Fixed 36 products with ₹2,546 placeholder prices (set proper tier-based pricing)
   - Fixed bad variant names (DD8658S, DD8659S "Search results..." → proper names; DD7420 "C1" → "C1 LED Pod Kit"; DD7738 "No" → "White Standard")
   - Re-exported seed data: 131 products, 357 variants, 981 media
+- **Admin Variant Manager (Mar 2026)**:
+  - Added VariantManager component to admin product edit dialog
+  - Shows all variants with SKU, name, beam pattern, color, price
+  - Toggle switch to enable/disable individual variants (isAvailable field)
+  - Enable All / Disable All bulk action buttons
+  - Inline edit for variant name and price
+  - Disabled variants are filtered out from the product page (beam patterns, colors, and option buttons only show enabled variants)
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"

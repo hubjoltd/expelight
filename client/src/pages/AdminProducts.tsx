@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { ArrowLeft, Plus, Pencil, Trash2, Package, Search, AlertCircle } from "lucide-react";
+import { ArrowLeft, Plus, Pencil, Trash2, Package, Search, AlertCircle, Eye, EyeOff, Loader2 } from "lucide-react";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -114,6 +114,216 @@ export default function AdminProducts() {
       currency: "INR",
       maximumFractionDigits: 0,
     }).format(amount);
+  };
+
+  const VariantManager = ({ productId }: { productId: string }) => {
+    const { data: variants = [], isLoading } = useQuery<any[]>({
+      queryKey: ["/api/admin/products", productId, "variants"],
+      enabled: !!productId,
+    });
+
+    const [editingVariant, setEditingVariant] = useState<string | null>(null);
+    const [editValues, setEditValues] = useState<Record<string, any>>({});
+    const [togglingId, setTogglingId] = useState<string | null>(null);
+
+    const toggleMutation = useMutation({
+      mutationFn: async ({ id, isAvailable }: { id: string; isAvailable: boolean }) => {
+        setTogglingId(id);
+        return await apiRequest("PATCH", `/api/admin/variants/${id}`, { isAvailable });
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["/api/admin/products", productId, "variants"] });
+        queryClient.invalidateQueries({ queryKey: ["/api/products", productId, "variants"] });
+        setTogglingId(null);
+        toast({ title: "Variant updated" });
+      },
+      onError: () => {
+        setTogglingId(null);
+        toast({ title: "Failed to update variant", variant: "destructive" });
+      },
+    });
+
+    const updateVariantMutation = useMutation({
+      mutationFn: async ({ id, data }: { id: string; data: any }) => {
+        return await apiRequest("PATCH", `/api/admin/variants/${id}`, data);
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["/api/admin/products", productId, "variants"] });
+        queryClient.invalidateQueries({ queryKey: ["/api/products", productId, "variants"] });
+        setEditingVariant(null);
+        toast({ title: "Variant saved" });
+      },
+      onError: () => {
+        toast({ title: "Failed to save variant", variant: "destructive" });
+      },
+    });
+
+    const toggleAll = (enable: boolean) => {
+      variants.forEach((v: any) => {
+        if (v.isAvailable !== enable) {
+          toggleMutation.mutate({ id: v.id, isAvailable: enable });
+        }
+      });
+    };
+
+    if (isLoading) {
+      return (
+        <div className="p-4 border border-zinc-800 rounded-lg bg-zinc-900/50">
+          <div className="flex items-center gap-2 text-zinc-400 text-sm">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            Loading variants...
+          </div>
+        </div>
+      );
+    }
+
+    if (variants.length === 0) {
+      return (
+        <div className="p-4 border border-zinc-800 rounded-lg bg-zinc-900/50">
+          <p className="text-sm text-zinc-400">No variants found for this product.</p>
+        </div>
+      );
+    }
+
+    const enabledCount = variants.filter((v: any) => v.isAvailable !== false).length;
+
+    return (
+      <div className="p-4 border border-zinc-800 rounded-lg bg-zinc-900/50">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="text-sm font-semibold text-white">Variants ({variants.length})</h3>
+            <p className="text-xs text-zinc-400">
+              {enabledCount} enabled, {variants.length - enabledCount} disabled
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-7 text-xs"
+              onClick={() => toggleAll(true)}
+              data-testid="button-enable-all-variants"
+            >
+              <Eye className="w-3 h-3 mr-1" />
+              Enable All
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="h-7 text-xs"
+              onClick={() => toggleAll(false)}
+              data-testid="button-disable-all-variants"
+            >
+              <EyeOff className="w-3 h-3 mr-1" />
+              Disable All
+            </Button>
+          </div>
+        </div>
+        <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+          {variants.map((variant: any) => {
+            const isEditing = editingVariant === variant.id;
+            return (
+              <div
+                key={variant.id}
+                className={`flex items-center gap-3 p-3 rounded-md border transition-all ${
+                  variant.isAvailable === false
+                    ? "border-zinc-800 bg-zinc-900/50 opacity-60"
+                    : "border-zinc-700 bg-zinc-800/50"
+                }`}
+                data-testid={`variant-row-${variant.sku}`}
+              >
+                <Switch
+                  checked={variant.isAvailable !== false}
+                  onCheckedChange={(checked) =>
+                    toggleMutation.mutate({ id: variant.id, isAvailable: checked })
+                  }
+                  disabled={togglingId === variant.id}
+                  data-testid={`switch-variant-${variant.sku}`}
+                />
+                {isEditing ? (
+                  <div className="flex-1 grid grid-cols-3 gap-2">
+                    <Input
+                      value={editValues.name || ""}
+                      onChange={(e) => setEditValues({ ...editValues, name: e.target.value })}
+                      className="h-7 text-xs"
+                      placeholder="Variant name"
+                    />
+                    <Input
+                      type="number"
+                      value={editValues.price || ""}
+                      onChange={(e) => setEditValues({ ...editValues, price: parseInt(e.target.value) || 0 })}
+                      className="h-7 text-xs"
+                      placeholder="Price"
+                    />
+                    <div className="flex gap-1">
+                      <Button
+                        type="button"
+                        size="sm"
+                        className="h-7 text-xs px-2"
+                        onClick={() =>
+                          updateVariantMutation.mutate({
+                            id: variant.id,
+                            data: { name: editValues.name, price: editValues.price },
+                          })
+                        }
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 text-xs px-2"
+                        onClick={() => setEditingVariant(null)}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-mono text-zinc-400">{variant.sku}</span>
+                        {variant.beamPattern && (
+                          <Badge variant="outline" className="text-[10px] h-4 px-1">
+                            {variant.beamPattern}
+                          </Badge>
+                        )}
+                        {variant.color && (
+                          <Badge variant="outline" className="text-[10px] h-4 px-1 border-zinc-600">
+                            {variant.color}
+                          </Badge>
+                        )}
+                      </div>
+                      <p className="text-xs text-zinc-300 truncate mt-0.5">{variant.name}</p>
+                    </div>
+                    <span className="text-xs font-medium text-white whitespace-nowrap">
+                      ₹{variant.price?.toLocaleString("en-IN")}
+                    </span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6"
+                      onClick={() => {
+                        setEditingVariant(variant.id);
+                        setEditValues({ name: variant.name, price: variant.price });
+                      }}
+                      data-testid={`button-edit-variant-${variant.sku}`}
+                    >
+                      <Pencil className="w-3 h-3" />
+                    </Button>
+                  </>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
   };
 
   const ProductForm = ({ product, onSubmit, onCancel, fullProduct }: { 
@@ -331,40 +541,7 @@ export default function AdminProducts() {
             </div>
           </div>
 
-          <div className="p-4 border border-zinc-800 rounded-lg bg-zinc-900/50">
-            <h3 className="text-sm font-semibold text-white mb-4">Product Variants (Price Management)</h3>
-            <p className="text-xs text-zinc-400 mb-4">Set prices for specific beam pattern and color combinations.</p>
-            <div className="space-y-4">
-              {formData.beamPatterns.split(",").map(b => b.trim()).filter(Boolean).map(beam => (
-                formData.colors.split(",").map(c => c.trim()).filter(Boolean).map(color => {
-                  const variantKey = `${beam}-${color}`;
-                  return (
-                    <div key={variantKey} className="grid grid-cols-3 gap-4 items-end p-3 border border-zinc-800 rounded-md bg-zinc-900">
-                      <div className="text-sm font-medium text-zinc-300">
-                        {beam} / {color}
-                      </div>
-                      <div>
-                        <Label className="text-[10px] text-zinc-500">Price (INR)</Label>
-                        <Input 
-                          type="number" 
-                          placeholder={formData.price.toString()}
-                          className="h-8 text-xs"
-                        />
-                      </div>
-                      <div>
-                        <Label className="text-[10px] text-zinc-500">Orig. Price</Label>
-                        <Input 
-                          type="number" 
-                          placeholder={formData.originalPrice?.toString()}
-                          className="h-8 text-xs"
-                        />
-                      </div>
-                    </div>
-                  );
-                })
-              ))}
-            </div>
-          </div>
+          {product?.id && <VariantManager productId={product.id} />}
 
         <div>
           <Label htmlFor="features">Features (one per line)</Label>

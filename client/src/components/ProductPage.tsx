@@ -50,10 +50,29 @@ export function ProductPage({ product }: ProductPageProps) {
   const { addToCart } = useCart();
   const { toast } = useToast();
 
-  const { data: variants = [] } = useQuery<any[]>({
+  const { data: allVariants = [] } = useQuery<any[]>({
     queryKey: ["/api/products", product.id, "variants"],
     enabled: !!product.id,
   });
+
+  const variants = useMemo(() => 
+    allVariants.filter((v: any) => v.isAvailable !== false),
+    [allVariants]
+  );
+
+  const availableBeamPatterns = useMemo(() => {
+    if (variants.length === 0) return product.beamPatterns;
+    const variantBeams = new Set(variants.map((v: any) => v.beamPattern).filter(Boolean));
+    if (variantBeams.size === 0) return product.beamPatterns;
+    return product.beamPatterns.filter(b => variantBeams.has(b));
+  }, [variants, product.beamPatterns]);
+
+  const availableColors = useMemo(() => {
+    if (variants.length === 0) return product.colors;
+    const variantColors = new Set(variants.map((v: any) => v.color).filter(Boolean));
+    if (variantColors.size === 0) return product.colors;
+    return product.colors.filter(c => variantColors.has(c));
+  }, [variants, product.colors]);
 
   const displayImages = useMemo(() => {
     const baseImages = product.images || [];
@@ -596,7 +615,7 @@ export function ProductPage({ product }: ProductPageProps) {
 
             <p className="text-zinc-400 text-justify">{product.shortDescription}</p>
 
-            {!(product.beamPatterns?.length > 1) && !(product.colors?.length > 1) && variants.length > 1 && (
+            {!(availableBeamPatterns?.length > 1) && !(availableColors?.length > 1) && variants.length > 1 && (
               <div>
                 <label className="text-sm font-medium mb-3 block text-zinc-300">Option</label>
                 <div className="flex flex-wrap gap-2">
@@ -621,11 +640,11 @@ export function ProductPage({ product }: ProductPageProps) {
               </div>
             )}
 
-            {product.beamPatterns && product.beamPatterns.length > 1 && (
+            {availableBeamPatterns && availableBeamPatterns.length > 1 && (
               <div>
                 <label className="text-sm font-medium mb-3 block text-zinc-300">Beam Pattern</label>
                 <div className="flex flex-wrap gap-2">
-                  {product.beamPatterns.map((pattern) => (
+                  {availableBeamPatterns.map((pattern) => (
                     <button
                       key={pattern}
                       className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
@@ -643,11 +662,11 @@ export function ProductPage({ product }: ProductPageProps) {
               </div>
             )}
 
-            {product.colors && product.colors.length > 1 && (
+            {availableColors && availableColors.length > 1 && (
               <div>
                 <label className="text-sm font-medium mb-3 block text-zinc-300">Color Temperature</label>
                 <div className="flex flex-wrap gap-2">
-                  {product.colors.map((color) => (
+                  {availableColors.map((color) => (
                     <button
                       key={color}
                       className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
