@@ -6,6 +6,7 @@ import { createServer } from "http";
 import { seedMissingProducts } from "./seedMissingProducts";
 import { seedMissingCategories } from "./seedMissingCategories";
 import { seedVehiclesAndReviews } from "./seedVehiclesAndReviews";
+import { seedAdminUser } from "./seedAdminUser";
 
 const app = express();
 
@@ -113,6 +114,11 @@ app.use((req, res, next) => {
     );
   });
 
+  try {
+    await seedAdminUser();
+  } catch (err) {
+    console.error("Failed to seed admin user:", err);
+  }
   try {
     await seedMissingProducts();
   } catch (err) {
