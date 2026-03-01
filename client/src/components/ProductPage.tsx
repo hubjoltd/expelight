@@ -77,18 +77,16 @@ export function ProductPage({ product }: ProductPageProps) {
   );
 
   const availableBeamPatterns = useMemo(() => {
-    if (variants.length === 0) return product.beamPatterns;
+    if (variants.length === 0) return [];
     const variantBeams = [...new Set(variants.map((v: any) => v.beamPattern).filter(Boolean))];
-    if (variantBeams.length === 0) return product.beamPatterns;
     return variantBeams;
-  }, [variants, product.beamPatterns]);
+  }, [variants]);
 
   const availableColors = useMemo(() => {
-    if (variants.length === 0) return product.colors;
+    if (variants.length === 0) return [];
     const variantColors = [...new Set(variants.map((v: any) => v.color).filter(Boolean))];
-    if (variantColors.length === 0) return product.colors;
     return variantColors;
-  }, [variants, product.colors]);
+  }, [variants]);
 
   const modelVariants = useMemo(() => {
     if (variants.length <= 1) return [];
