@@ -156,6 +156,7 @@ I prefer iterative development with clear communication on progress. Before maki
   - Fixed 36 products with ₹2,546 placeholder prices (set proper tier-based pricing)
   - Fixed bad variant names (DD8658S, DD8659S "Search results..." → proper names; DD7420 "C1" → "C1 LED Pod Kit"; DD7738 "No" → "White Standard")
   - Re-exported seed data: 131 products, 357 variants, 981 media
+  - Added YouTube video URLs to all 131 products (11 unique videos from DD website, mapped by product family)
 - **Admin Variant Manager (Mar 2026)**:
   - Added VariantManager component to admin product edit dialog
   - Shows all variants with SKU, name, beam pattern, color, price
