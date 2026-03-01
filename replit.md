@@ -131,4 +131,9 @@ I prefer iterative development with clear communication on progress. Before maki
   - Import scripts: server/importDiodeDynamics.ts (DD page scraper), server/enrichImages.ts (image enrichment)
   - Fixed case-sensitive SKU matching issues
   - Updated variant names with descriptive beam pattern/mount type info
+- **Automatic Category & Product Seeding (Mar 2026)**:
+  - Created `server/seedMissingCategories.ts` - idempotent startup seeder for all 38 categories with images and product-category mappings
+  - Runs automatically on every server start alongside `seedMissingProducts`
+  - Upserts missing categories, updates images/hierarchy for existing ones, and backfills product-category mappings
+  - Consolidates data from `updateCategories.ts`, `createParentCategories.ts`, and `updateCategoryImages.ts` into a single startup function
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"
