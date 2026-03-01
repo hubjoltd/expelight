@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { ArrowLeft, Plus, Pencil, Trash2, Package, Search, AlertCircle, Eye, EyeOff, Loader2 } from "lucide-react";
+import { ArrowLeft, Plus, Pencil, Trash2, Package, Search, AlertCircle, Eye, EyeOff, Loader2, ImageIcon } from "lucide-react";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -243,47 +243,79 @@ export default function AdminProducts() {
                   data-testid={`switch-variant-${variant.sku}`}
                 />
                 {isEditing ? (
-                  <div className="flex-1 grid grid-cols-3 gap-2">
-                    <Input
-                      value={editValues.name || ""}
-                      onChange={(e) => setEditValues({ ...editValues, name: e.target.value })}
-                      className="h-7 text-xs"
-                      placeholder="Variant name"
-                    />
-                    <Input
-                      type="number"
-                      value={editValues.price || ""}
-                      onChange={(e) => setEditValues({ ...editValues, price: parseInt(e.target.value) || 0 })}
-                      className="h-7 text-xs"
-                      placeholder="Price"
-                    />
-                    <div className="flex gap-1">
-                      <Button
-                        type="button"
-                        size="sm"
-                        className="h-7 text-xs px-2"
-                        onClick={() =>
-                          updateVariantMutation.mutate({
-                            id: variant.id,
-                            data: { name: editValues.name, price: editValues.price },
-                          })
-                        }
-                      >
-                        Save
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="h-7 text-xs px-2"
-                        onClick={() => setEditingVariant(null)}
-                      >
-                        Cancel
-                      </Button>
+                  <div className="flex-1 space-y-2">
+                    <div className="grid grid-cols-3 gap-2">
+                      <Input
+                        value={editValues.name || ""}
+                        onChange={(e) => setEditValues({ ...editValues, name: e.target.value })}
+                        className="h-7 text-xs"
+                        placeholder="Variant name"
+                        data-testid={`input-variant-name-${variant.sku}`}
+                      />
+                      <Input
+                        type="number"
+                        value={editValues.price || ""}
+                        onChange={(e) => setEditValues({ ...editValues, price: parseInt(e.target.value) || 0 })}
+                        className="h-7 text-xs"
+                        placeholder="Price"
+                        data-testid={`input-variant-price-${variant.sku}`}
+                      />
+                      <div className="flex gap-1">
+                        <Button
+                          type="button"
+                          size="sm"
+                          className="h-7 text-xs px-2"
+                          onClick={() =>
+                            updateVariantMutation.mutate({
+                              id: variant.id,
+                              data: { name: editValues.name, price: editValues.price, imageUrl: editValues.imageUrl || null },
+                            })
+                          }
+                          data-testid={`button-save-variant-${variant.sku}`}
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          className="h-7 text-xs px-2"
+                          onClick={() => setEditingVariant(null)}
+                          data-testid={`button-cancel-variant-${variant.sku}`}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {editValues.imageUrl && (
+                        <img
+                          src={editValues.imageUrl}
+                          alt="Variant"
+                          className="w-10 h-10 rounded border border-zinc-700 object-cover flex-shrink-0"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                      )}
+                      <Input
+                        value={editValues.imageUrl || ""}
+                        onChange={(e) => setEditValues({ ...editValues, imageUrl: e.target.value })}
+                        className="h-7 text-xs flex-1"
+                        placeholder="Image URL for this variant"
+                        data-testid={`input-variant-image-${variant.sku}`}
+                      />
                     </div>
                   </div>
                 ) : (
                   <>
+                    {variant.imageUrl && (
+                      <img
+                        src={variant.imageUrl}
+                        alt={variant.name}
+                        className="w-8 h-8 rounded border border-zinc-700 object-cover flex-shrink-0"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        data-testid={`img-variant-${variant.sku}`}
+                      />
+                    )}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-mono text-zinc-400">{variant.sku}</span>
@@ -310,7 +342,7 @@ export default function AdminProducts() {
                       className="h-6 w-6"
                       onClick={() => {
                         setEditingVariant(variant.id);
-                        setEditValues({ name: variant.name, price: variant.price });
+                        setEditValues({ name: variant.name, price: variant.price, imageUrl: variant.imageUrl || "" });
                       }}
                       data-testid={`button-edit-variant-${variant.sku}`}
                     >
