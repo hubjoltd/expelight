@@ -89,9 +89,13 @@ export function ProductPage({ product }: ProductPageProps) {
 
   const availableColors = useMemo(() => {
     if (variants.length === 0) return [];
-    const variantColors = [...new Set(variants.map((v: any) => v.color).filter((c: string | null) => c && !isPlaceholder(c)))];
+    const hasMultipleBeams = [...new Set(variants.map((v: any) => v.beamPattern).filter((b: string | null) => b && !isPlaceholder(b)))].length > 1;
+    const filtered = hasMultipleBeams
+      ? variants.filter((v: any) => !v.beamPattern || isPlaceholder(v.beamPattern) || v.beamPattern === selectedBeamPattern)
+      : variants;
+    const variantColors = [...new Set(filtered.map((v: any) => v.color).filter((c: string | null) => c && !isPlaceholder(c)))];
     return variantColors;
-  }, [variants]);
+  }, [variants, selectedBeamPattern]);
 
   const modelVariants = useMemo(() => {
     if (variants.length <= 1) return [];
@@ -301,6 +305,12 @@ export function ProductPage({ product }: ProductPageProps) {
       setPanPosition({ x: 0, y: 0 });
     }
   }, [displayImages]);
+
+  useEffect(() => {
+    if (availableColors.length > 0 && !availableColors.includes(selectedColor)) {
+      setSelectedColor(availableColors[0]);
+    }
+  }, [availableColors, selectedColor]);
 
   useEffect(() => {
     setSelectedModelIndex(0);
