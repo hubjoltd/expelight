@@ -20,6 +20,22 @@ import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import type { Product } from "@shared/schema";
 
+const COLOR_MAP: Record<string, string> = {
+  "white": "#ffffff",
+  "white, diffused": "#f0f0f0",
+  "amber": "#ffbf00",
+  "yellow": "#ffd700",
+  "orange": "#ff8c00",
+  "red": "#ef4444",
+  "green": "#22c55e",
+  "blue": "#3b82f6",
+  "clear": "#e0e0e0",
+};
+
+function getColorHex(color: string): string {
+  return COLOR_MAP[color.toLowerCase()] || "#a1a1aa";
+}
+
 interface ProductPageProps {
   product: Product;
 }
@@ -62,16 +78,16 @@ export function ProductPage({ product }: ProductPageProps) {
 
   const availableBeamPatterns = useMemo(() => {
     if (variants.length === 0) return product.beamPatterns;
-    const variantBeams = new Set(variants.map((v: any) => v.beamPattern).filter(Boolean));
-    if (variantBeams.size === 0) return product.beamPatterns;
-    return product.beamPatterns.filter(b => variantBeams.has(b));
+    const variantBeams = [...new Set(variants.map((v: any) => v.beamPattern).filter(Boolean))];
+    if (variantBeams.length === 0) return product.beamPatterns;
+    return variantBeams;
   }, [variants, product.beamPatterns]);
 
   const availableColors = useMemo(() => {
     if (variants.length === 0) return product.colors;
-    const variantColors = new Set(variants.map((v: any) => v.color).filter(Boolean));
-    if (variantColors.size === 0) return product.colors;
-    return product.colors.filter(c => variantColors.has(c));
+    const variantColors = [...new Set(variants.map((v: any) => v.color).filter(Boolean))];
+    if (variantColors.length === 0) return product.colors;
+    return variantColors;
   }, [variants, product.colors]);
 
   const displayImages = useMemo(() => {
@@ -218,17 +234,28 @@ export function ProductPage({ product }: ProductPageProps) {
     .slice(0, 4);
 
   useEffect(() => {
-    if (skuParam && variants.length > 0 && !skuInitialized) {
-      const matchIdx = variants.findIndex((v: any) => v.sku?.toLowerCase() === skuParam.toLowerCase());
-      if (matchIdx >= 0) {
-        setSelectedVariantIndex(matchIdx);
-        const matched = variants[matchIdx];
-        if (matched.beamPattern) setSelectedBeamPattern(matched.beamPattern);
-        if (matched.color) setSelectedColor(matched.color);
+    if (variants.length > 0 && !skuInitialized) {
+      if (skuParam) {
+        const matchIdx = variants.findIndex((v: any) => v.sku?.toLowerCase() === skuParam.toLowerCase());
+        if (matchIdx >= 0) {
+          setSelectedVariantIndex(matchIdx);
+          const matched = variants[matchIdx];
+          if (matched.beamPattern) setSelectedBeamPattern(matched.beamPattern);
+          if (matched.color) setSelectedColor(matched.color);
+          setSkuInitialized(true);
+          return;
+        }
+      }
+      const first = variants[0];
+      if (first.beamPattern && !availableBeamPatterns.includes(selectedBeamPattern)) {
+        setSelectedBeamPattern(first.beamPattern);
+      }
+      if (first.color && !availableColors.includes(selectedColor)) {
+        setSelectedColor(first.color);
       }
       setSkuInitialized(true);
     }
-  }, [skuParam, variants, skuInitialized]);
+  }, [skuParam, variants, skuInitialized, availableBeamPatterns, availableColors, selectedBeamPattern, selectedColor]);
 
   const switchToVariantImage = useCallback((variant: any) => {
     if (!variant?.imageUrl) return;
@@ -677,7 +704,7 @@ export function ProductPage({ product }: ProductPageProps) {
                       onClick={() => setSelectedColor(color)}
                       data-testid={`color-${color.toLowerCase()}`}
                     >
-                      <span className={`w-3 h-3 rounded-full ${color === "White" ? "bg-white" : "bg-yellow-400"}`} />
+                      <span className={`w-3 h-3 rounded-full`} style={{ backgroundColor: getColorHex(color) }} />
                       {color}
                     </button>
                   ))}
