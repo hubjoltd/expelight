@@ -164,4 +164,10 @@ I prefer iterative development with clear communication on progress. Before maki
   - Enable All / Disable All bulk action buttons
   - Inline edit for variant name and price
   - Disabled variants are filtered out from the product page (beam patterns, colors, and option buttons only show enabled variants)
+- **Product Image Fix (Mar 2026)**:
+  - Fixed systemic image mismatch across all 234 SKUs (wrong product images assigned to wrong products)
+  - Fetched correct images from Diode Dynamics CloudFront CDN (dxv0kh7euhy9z.cloudfront.net) for every SKU
+  - Updated products.images, product_variants.image_url, and product_media tables
+  - All 131 products now display correct DD product photos
+  - Re-exported seedData.json with camelCase keys matching seed script expectations
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"
