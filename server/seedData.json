@@ -13985,6 +13985,23 @@
       "imageUrl": null,
       "createdAt": "2026-03-01T09:02:37.802Z",
       "updatedAt": "2026-03-01T09:02:37.802Z"
+    },
+    {
+      "id": "6b9a1424-81c9-4aee-891d-3b2ff62cd5af",
+      "productId": "30f317da-556f-412c-99b5-6e16aa97839e",
+      "sku": "DD6861S",
+      "name": "Spot / Amber (one)",
+      "price": 15399,
+      "compareAtPrice": null,
+      "color": "Amber",
+      "beamPattern": "Spot",
+      "size": null,
+      "stockQuantity": 0,
+      "isAvailable": true,
+      "weight": null,
+      "imageUrl": null,
+      "createdAt": "2026-03-01T09:14:53.702Z",
+      "updatedAt": "2026-03-01T09:14:53.702Z"
     }
   ],
   "media": [
