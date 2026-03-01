@@ -131,11 +131,11 @@ I prefer iterative development with clear communication on progress. Before maki
   - Import scripts: server/importDiodeDynamics.ts (DD page scraper), server/enrichImages.ts (image enrichment)
   - Fixed case-sensitive SKU matching issues
   - Updated variant names with descriptive beam pattern/mount type info
-- **Automatic Category & Product Seeding (Mar 2026)**:
-  - Created `server/seedMissingCategories.ts` - idempotent startup seeder for all 38 categories with images and product-category mappings
-  - Rewrote `server/seedMissingProducts.ts` to seed all 131 products, 356 variants, and 734 media entries from `server/seedData.json`
-  - Both run automatically on every server start, ensuring full data availability
-  - Upserts missing categories, updates images/hierarchy for existing ones, and backfills product-category mappings
-  - Consolidates data from `updateCategories.ts`, `createParentCategories.ts`, and `updateCategoryImages.ts` into a single startup function
-  - Product data exported from database to `server/seedData.json` (2MB) for reliable offline seeding
+- **Automatic Full Database Seeding (Mar 2026)**:
+  - All data is now seeded into the PostgreSQL database on every server start via idempotent seeders:
+    - `server/seedMissingProducts.ts` - 131 products, 356 variants, 734 media from `server/seedData.json`
+    - `server/seedMissingCategories.ts` - 38 categories with images, hierarchy, and product-category mappings
+    - `server/seedVehiclesAndReviews.ts` - 20 vehicles (7 makes) and 5 verified reviews
+  - Vehicle and review storage methods in `server/storage.ts` now read from the database instead of in-memory maps
+  - Product data exported to `server/seedData.json` (2MB) for reliable offline seeding
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"

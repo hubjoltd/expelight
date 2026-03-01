@@ -9,7 +9,9 @@ import {
   type Invoice, type InsertInvoice,
   type ProductCategory, type InsertProductCategory,
   products,
-  categories as categoriesTable
+  categories as categoriesTable,
+  vehicles as vehiclesTable,
+  reviews as reviewsTable
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, sql } from "drizzle-orm";
@@ -800,51 +802,48 @@ export class MemStorage implements IStorage {
 
   // Vehicle methods
   async getVehicles(): Promise<Vehicle[]> {
-    return Array.from(this.vehicles.values());
+    return db.select().from(vehiclesTable);
   }
 
   async getVehiclesByMake(make: string): Promise<Vehicle[]> {
-    return Array.from(this.vehicles.values()).filter(
-      v => v.make.toLowerCase() === make.toLowerCase()
+    return db.select().from(vehiclesTable).where(
+      sql`LOWER(${vehiclesTable.make}) = LOWER(${make})`
     );
   }
 
   async getCompatibleProducts(vehicleId: string): Promise<Product[]> {
-    const vehicle = this.vehicles.get(vehicleId);
+    const dbVehicles = await db.select().from(vehiclesTable).where(eq(vehiclesTable.id, vehicleId));
+    const vehicle = dbVehicles[0];
     if (!vehicle) return [];
-    
-    return Array.from(this.products.values()).filter(
-      p => vehicle.compatibleProductIds.includes(p.id)
-    );
+
+    const allProducts = await db.select().from(products);
+    return allProducts.filter(p => vehicle.compatibleProductIds.includes(p.id));
   }
 
   async createVehicle(insertVehicle: InsertVehicle): Promise<Vehicle> {
     const id = randomUUID();
-    const vehicle: Vehicle = { ...insertVehicle, id };
-    this.vehicles.set(id, vehicle);
+    const [vehicle] = await db.insert(vehiclesTable).values({
+      id,
+      ...insertVehicle,
+    }).returning();
     return vehicle;
   }
 
   // Review methods
   async getReviews(): Promise<Review[]> {
-    return Array.from(this.reviews.values());
+    return db.select().from(reviewsTable);
   }
 
   async getReviewsByProductId(productId: string): Promise<Review[]> {
-    return Array.from(this.reviews.values()).filter(
-      r => r.productId === productId
-    );
+    return db.select().from(reviewsTable).where(eq(reviewsTable.productId, productId));
   }
 
   async createReview(insertReview: InsertReview): Promise<Review> {
     const id = randomUUID();
-    const review: Review = { 
-      ...insertReview, 
+    const [review] = await db.insert(reviewsTable).values({
       id,
-      isVerified: insertReview.isVerified ?? null,
-      productId: insertReview.productId ?? null
-    };
-    this.reviews.set(id, review);
+      ...insertReview,
+    }).returning();
     return review;
   }
 }

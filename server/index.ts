@@ -5,6 +5,7 @@ import { serveStatic } from "./static";
 import { createServer } from "http";
 import { seedMissingProducts } from "./seedMissingProducts";
 import { seedMissingCategories } from "./seedMissingCategories";
+import { seedVehiclesAndReviews } from "./seedVehiclesAndReviews";
 
 const app = express();
 
@@ -72,6 +73,7 @@ app.use((req, res, next) => {
 (async () => {
   await seedMissingProducts();
   await seedMissingCategories();
+  await seedVehiclesAndReviews();
   await registerRoutes(httpServer, app);
 
   app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
