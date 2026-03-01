@@ -9,6 +9,10 @@ import { seedVehiclesAndReviews } from "./seedVehiclesAndReviews";
 
 const app = express();
 
+app.get("/_health", (_req, res) => {
+  res.status(200).send("ok");
+});
+
 // Serve public directory statically (for Google verification, invoices, etc.)
 app.use(express.static(path.join(process.cwd(), "public")));
 app.use("/invoices", express.static(path.join(process.cwd(), "public", "invoices")));
@@ -94,32 +98,35 @@ app.use((req, res, next) => {
   }
 
   const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
 
-      (async () => {
-        try {
-          await seedMissingProducts();
-        } catch (err) {
-          console.error("Failed to seed products:", err);
-        }
-        try {
-          await seedMissingCategories();
-        } catch (err) {
-          console.error("Failed to seed categories:", err);
-        }
-        try {
-          await seedVehiclesAndReviews();
-        } catch (err) {
-          console.error("Failed to seed vehicles/reviews:", err);
-        }
-      })();
-    },
-  );
+  await new Promise<void>((resolve) => {
+    httpServer.listen(
+      {
+        port,
+        host: "0.0.0.0",
+        reusePort: true,
+      },
+      () => {
+        log(`serving on port ${port}`);
+        resolve();
+      },
+    );
+  });
+
+  try {
+    await seedMissingProducts();
+  } catch (err) {
+    console.error("Failed to seed products:", err);
+  }
+  try {
+    await seedMissingCategories();
+  } catch (err) {
+    console.error("Failed to seed categories:", err);
+  }
+  try {
+    await seedVehiclesAndReviews();
+  } catch (err) {
+    console.error("Failed to seed vehicles/reviews:", err);
+  }
+  log("Database seeding complete");
 })();
