@@ -125,6 +125,10 @@ export default function AdminProducts() {
     const [editingVariant, setEditingVariant] = useState<string | null>(null);
     const [editValues, setEditValues] = useState<Record<string, any>>({});
     const [togglingId, setTogglingId] = useState<string | null>(null);
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [newVariant, setNewVariant] = useState({
+      name: "", sku: "", price: 0, beamPattern: "", color: "", imageUrl: "", compareAtPrice: 0,
+    });
 
     const toggleMutation = useMutation({
       mutationFn: async ({ id, isAvailable }: { id: string; isAvailable: boolean }) => {
@@ -158,11 +162,58 @@ export default function AdminProducts() {
       },
     });
 
+    const createVariantMutation = useMutation({
+      mutationFn: async (data: any) => {
+        return await apiRequest("POST", `/api/admin/products/${productId}/variants`, data);
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["/api/admin/products", productId, "variants"] });
+        queryClient.invalidateQueries({ queryKey: ["/api/products", productId, "variants"] });
+        setShowAddForm(false);
+        setNewVariant({ name: "", sku: "", price: 0, beamPattern: "", color: "", imageUrl: "", compareAtPrice: 0 });
+        toast({ title: "Variant created" });
+      },
+      onError: () => {
+        toast({ title: "Failed to create variant", variant: "destructive" });
+      },
+    });
+
+    const deleteVariantMutation = useMutation({
+      mutationFn: async (id: string) => {
+        return await apiRequest("DELETE", `/api/admin/variants/${id}`);
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["/api/admin/products", productId, "variants"] });
+        queryClient.invalidateQueries({ queryKey: ["/api/products", productId, "variants"] });
+        toast({ title: "Variant deleted" });
+      },
+      onError: () => {
+        toast({ title: "Failed to delete variant", variant: "destructive" });
+      },
+    });
+
     const toggleAll = (enable: boolean) => {
       variants.forEach((v: any) => {
         if (v.isAvailable !== enable) {
           toggleMutation.mutate({ id: v.id, isAvailable: enable });
         }
+      });
+    };
+
+    const handleCreateVariant = () => {
+      if (!newVariant.name || !newVariant.sku || !newVariant.price) {
+        toast({ title: "Name, SKU, and Price are required", variant: "destructive" });
+        return;
+      }
+      createVariantMutation.mutate({
+        name: newVariant.name,
+        sku: newVariant.sku,
+        price: newVariant.price,
+        beamPattern: newVariant.beamPattern || null,
+        color: newVariant.color || null,
+        imageUrl: newVariant.imageUrl || null,
+        compareAtPrice: newVariant.compareAtPrice || null,
+        isAvailable: true,
       });
     };
 
@@ -177,14 +228,6 @@ export default function AdminProducts() {
       );
     }
 
-    if (variants.length === 0) {
-      return (
-        <div className="p-4 border border-zinc-800 rounded-lg bg-zinc-900/50">
-          <p className="text-sm text-zinc-400">No variants found for this product.</p>
-        </div>
-      );
-    }
-
     const enabledCount = variants.filter((v: any) => v.isAvailable !== false).length;
 
     return (
@@ -192,99 +235,254 @@ export default function AdminProducts() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-sm font-semibold text-white">Variants ({variants.length})</h3>
-            <p className="text-xs text-zinc-400">
-              {enabledCount} enabled, {variants.length - enabledCount} disabled
-            </p>
+            {variants.length > 0 && (
+              <p className="text-xs text-zinc-400">
+                {enabledCount} enabled, {variants.length - enabledCount} disabled
+              </p>
+            )}
           </div>
           <div className="flex items-center gap-2">
+            {variants.length > 0 && (
+              <>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-7 text-xs"
+                  onClick={() => toggleAll(true)}
+                  data-testid="button-enable-all-variants"
+                >
+                  <Eye className="w-3 h-3 mr-1" />
+                  Enable All
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-7 text-xs"
+                  onClick={() => toggleAll(false)}
+                  data-testid="button-disable-all-variants"
+                >
+                  <EyeOff className="w-3 h-3 mr-1" />
+                  Disable All
+                </Button>
+              </>
+            )}
             <Button
               type="button"
-              variant="outline"
               size="sm"
-              className="h-7 text-xs"
-              onClick={() => toggleAll(true)}
-              data-testid="button-enable-all-variants"
+              className="h-7 text-xs bg-red-600 hover:bg-red-700"
+              onClick={() => setShowAddForm(!showAddForm)}
+              data-testid="button-add-variant"
             >
-              <Eye className="w-3 h-3 mr-1" />
-              Enable All
-            </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-7 text-xs"
-              onClick={() => toggleAll(false)}
-              data-testid="button-disable-all-variants"
-            >
-              <EyeOff className="w-3 h-3 mr-1" />
-              Disable All
+              <Plus className="w-3 h-3 mr-1" />
+              Add Variant
             </Button>
           </div>
         </div>
-        <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+
+        {showAddForm && (
+          <div className="mb-4 p-3 border border-red-900/50 rounded-md bg-zinc-900 space-y-2">
+            <h4 className="text-xs font-semibold text-red-400 mb-2">New Variant</h4>
+            <div className="grid grid-cols-3 gap-2">
+              <div>
+                <Label className="text-[10px] text-zinc-400">Name *</Label>
+                <Input
+                  value={newVariant.name}
+                  onChange={(e) => setNewVariant({ ...newVariant, name: e.target.value })}
+                  className="h-7 text-xs"
+                  placeholder="e.g. Sport White Spot"
+                  data-testid="input-new-variant-name"
+                />
+              </div>
+              <div>
+                <Label className="text-[10px] text-zinc-400">SKU *</Label>
+                <Input
+                  value={newVariant.sku}
+                  onChange={(e) => setNewVariant({ ...newVariant, sku: e.target.value })}
+                  className="h-7 text-xs"
+                  placeholder="e.g. DD5014"
+                  data-testid="input-new-variant-sku"
+                />
+              </div>
+              <div>
+                <Label className="text-[10px] text-zinc-400">Price (INR) *</Label>
+                <Input
+                  type="number"
+                  value={newVariant.price || ""}
+                  onChange={(e) => setNewVariant({ ...newVariant, price: parseInt(e.target.value) || 0 })}
+                  className="h-7 text-xs"
+                  placeholder="Price in INR"
+                  data-testid="input-new-variant-price"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <div>
+                <Label className="text-[10px] text-zinc-400">Beam Pattern</Label>
+                <Input
+                  value={newVariant.beamPattern}
+                  onChange={(e) => setNewVariant({ ...newVariant, beamPattern: e.target.value })}
+                  className="h-7 text-xs"
+                  placeholder="e.g. Spot, Flood, Driving"
+                  data-testid="input-new-variant-beam"
+                />
+              </div>
+              <div>
+                <Label className="text-[10px] text-zinc-400">Color</Label>
+                <Input
+                  value={newVariant.color}
+                  onChange={(e) => setNewVariant({ ...newVariant, color: e.target.value })}
+                  className="h-7 text-xs"
+                  placeholder="e.g. White, Yellow"
+                  data-testid="input-new-variant-color"
+                />
+              </div>
+              <div>
+                <Label className="text-[10px] text-zinc-400">Compare At Price</Label>
+                <Input
+                  type="number"
+                  value={newVariant.compareAtPrice || ""}
+                  onChange={(e) => setNewVariant({ ...newVariant, compareAtPrice: parseInt(e.target.value) || 0 })}
+                  className="h-7 text-xs"
+                  placeholder="Original price"
+                  data-testid="input-new-variant-compare-price"
+                />
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {newVariant.imageUrl && (
+                <img
+                  src={newVariant.imageUrl}
+                  alt="New variant"
+                  className="w-10 h-10 rounded border border-zinc-700 object-cover flex-shrink-0"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              )}
+              <div className="flex-1">
+                <Label className="text-[10px] text-zinc-400">Image URL</Label>
+                <Input
+                  value={newVariant.imageUrl}
+                  onChange={(e) => setNewVariant({ ...newVariant, imageUrl: e.target.value })}
+                  className="h-7 text-xs"
+                  placeholder="https://..."
+                  data-testid="input-new-variant-image"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end gap-2 pt-1">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="h-7 text-xs"
+                onClick={() => setShowAddForm(false)}
+                data-testid="button-cancel-new-variant"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                className="h-7 text-xs bg-red-600 hover:bg-red-700"
+                onClick={handleCreateVariant}
+                disabled={createVariantMutation.isPending}
+                data-testid="button-save-new-variant"
+              >
+                {createVariantMutation.isPending ? (
+                  <Loader2 className="w-3 h-3 animate-spin mr-1" />
+                ) : (
+                  <Plus className="w-3 h-3 mr-1" />
+                )}
+                Create Variant
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {variants.length === 0 && !showAddForm && (
+          <p className="text-sm text-zinc-400">No variants yet. Click "Add Variant" to create one.</p>
+        )}
+
+        <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1">
           {variants.map((variant: any) => {
             const isEditing = editingVariant === variant.id;
             return (
               <div
                 key={variant.id}
-                className={`flex items-center gap-3 p-3 rounded-md border transition-all ${
+                className={`p-3 rounded-md border transition-all ${
                   variant.isAvailable === false
                     ? "border-zinc-800 bg-zinc-900/50 opacity-60"
                     : "border-zinc-700 bg-zinc-800/50"
                 }`}
                 data-testid={`variant-row-${variant.sku}`}
               >
-                <Switch
-                  checked={variant.isAvailable !== false}
-                  onCheckedChange={(checked) =>
-                    toggleMutation.mutate({ id: variant.id, isAvailable: checked })
-                  }
-                  disabled={togglingId === variant.id}
-                  data-testid={`switch-variant-${variant.sku}`}
-                />
                 {isEditing ? (
-                  <div className="flex-1 space-y-2">
-                    <div className="grid grid-cols-3 gap-2">
-                      <Input
-                        value={editValues.name || ""}
-                        onChange={(e) => setEditValues({ ...editValues, name: e.target.value })}
-                        className="h-7 text-xs"
-                        placeholder="Variant name"
-                        data-testid={`input-variant-name-${variant.sku}`}
-                      />
-                      <Input
-                        type="number"
-                        value={editValues.price || ""}
-                        onChange={(e) => setEditValues({ ...editValues, price: parseInt(e.target.value) || 0 })}
-                        className="h-7 text-xs"
-                        placeholder="Price"
-                        data-testid={`input-variant-price-${variant.sku}`}
-                      />
-                      <div className="flex gap-1">
-                        <Button
-                          type="button"
-                          size="sm"
-                          className="h-7 text-xs px-2"
-                          onClick={() =>
-                            updateVariantMutation.mutate({
-                              id: variant.id,
-                              data: { name: editValues.name, price: editValues.price, imageUrl: editValues.imageUrl || null },
-                            })
-                          }
-                          data-testid={`button-save-variant-${variant.sku}`}
-                        >
-                          Save
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          className="h-7 text-xs px-2"
-                          onClick={() => setEditingVariant(null)}
-                          data-testid={`button-cancel-variant-${variant.sku}`}
-                        >
-                          Cancel
-                        </Button>
+                  <div className="space-y-2">
+                    <div className="grid grid-cols-4 gap-2">
+                      <div>
+                        <Label className="text-[10px] text-zinc-400">Name</Label>
+                        <Input
+                          value={editValues.name || ""}
+                          onChange={(e) => setEditValues({ ...editValues, name: e.target.value })}
+                          className="h-7 text-xs"
+                          placeholder="Variant name"
+                          data-testid={`input-variant-name-${variant.sku}`}
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-[10px] text-zinc-400">SKU</Label>
+                        <Input
+                          value={editValues.sku || ""}
+                          onChange={(e) => setEditValues({ ...editValues, sku: e.target.value })}
+                          className="h-7 text-xs"
+                          placeholder="SKU"
+                          data-testid={`input-variant-sku-${variant.sku}`}
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-[10px] text-zinc-400">Price (INR)</Label>
+                        <Input
+                          type="number"
+                          value={editValues.price || ""}
+                          onChange={(e) => setEditValues({ ...editValues, price: parseInt(e.target.value) || 0 })}
+                          className="h-7 text-xs"
+                          placeholder="Price"
+                          data-testid={`input-variant-price-${variant.sku}`}
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-[10px] text-zinc-400">Compare Price</Label>
+                        <Input
+                          type="number"
+                          value={editValues.compareAtPrice || ""}
+                          onChange={(e) => setEditValues({ ...editValues, compareAtPrice: parseInt(e.target.value) || 0 })}
+                          className="h-7 text-xs"
+                          placeholder="Original price"
+                          data-testid={`input-variant-compare-${variant.sku}`}
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <Label className="text-[10px] text-zinc-400">Beam Pattern</Label>
+                        <Input
+                          value={editValues.beamPattern || ""}
+                          onChange={(e) => setEditValues({ ...editValues, beamPattern: e.target.value })}
+                          className="h-7 text-xs"
+                          placeholder="e.g. Spot, Flood, Driving"
+                          data-testid={`input-variant-beam-${variant.sku}`}
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-[10px] text-zinc-400">Color</Label>
+                        <Input
+                          value={editValues.color || ""}
+                          onChange={(e) => setEditValues({ ...editValues, color: e.target.value })}
+                          className="h-7 text-xs"
+                          placeholder="e.g. White, Yellow"
+                          data-testid={`input-variant-color-${variant.sku}`}
+                        />
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -296,17 +494,63 @@ export default function AdminProducts() {
                           onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                         />
                       )}
-                      <Input
-                        value={editValues.imageUrl || ""}
-                        onChange={(e) => setEditValues({ ...editValues, imageUrl: e.target.value })}
-                        className="h-7 text-xs flex-1"
-                        placeholder="Image URL for this variant"
-                        data-testid={`input-variant-image-${variant.sku}`}
-                      />
+                      <div className="flex-1">
+                        <Label className="text-[10px] text-zinc-400">Image URL</Label>
+                        <Input
+                          value={editValues.imageUrl || ""}
+                          onChange={(e) => setEditValues({ ...editValues, imageUrl: e.target.value })}
+                          className="h-7 text-xs"
+                          placeholder="Image URL for this variant"
+                          data-testid={`input-variant-image-${variant.sku}`}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-end gap-1 pt-1">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="h-7 text-xs px-2"
+                        onClick={() => setEditingVariant(null)}
+                        data-testid={`button-cancel-variant-${variant.sku}`}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        className="h-7 text-xs px-2"
+                        onClick={() =>
+                          updateVariantMutation.mutate({
+                            id: variant.id,
+                            data: {
+                              name: editValues.name,
+                              sku: editValues.sku,
+                              price: editValues.price,
+                              compareAtPrice: editValues.compareAtPrice || null,
+                              beamPattern: editValues.beamPattern || null,
+                              color: editValues.color || null,
+                              imageUrl: editValues.imageUrl || null,
+                            },
+                          })
+                        }
+                        disabled={updateVariantMutation.isPending}
+                        data-testid={`button-save-variant-${variant.sku}`}
+                      >
+                        Save
+                      </Button>
                     </div>
                   </div>
                 ) : (
-                  <>
+                  <div className="flex items-center gap-3">
+                    <Switch
+                      checked={variant.isAvailable !== false}
+                      onCheckedChange={(checked) =>
+                        toggleMutation.mutate({ id: variant.id, isAvailable: checked })
+                      }
+                      disabled={togglingId === variant.id}
+                      data-testid={`switch-variant-${variant.sku}`}
+                    />
                     {variant.imageUrl && (
                       <img
                         src={variant.imageUrl}
@@ -335,20 +579,44 @@ export default function AdminProducts() {
                     <span className="text-xs font-medium text-white whitespace-nowrap">
                       ₹{variant.price?.toLocaleString("en-IN")}
                     </span>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="h-6 w-6"
-                      onClick={() => {
-                        setEditingVariant(variant.id);
-                        setEditValues({ name: variant.name, price: variant.price, imageUrl: variant.imageUrl || "" });
-                      }}
-                      data-testid={`button-edit-variant-${variant.sku}`}
-                    >
-                      <Pencil className="w-3 h-3" />
-                    </Button>
-                  </>
+                    <div className="flex items-center gap-1">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={() => {
+                          setEditingVariant(variant.id);
+                          setEditValues({
+                            name: variant.name,
+                            sku: variant.sku,
+                            price: variant.price,
+                            compareAtPrice: variant.compareAtPrice || 0,
+                            beamPattern: variant.beamPattern || "",
+                            color: variant.color || "",
+                            imageUrl: variant.imageUrl || "",
+                          });
+                        }}
+                        data-testid={`button-edit-variant-${variant.sku}`}
+                      >
+                        <Pencil className="w-3 h-3" />
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="h-6 w-6 text-red-500 hover:text-red-400"
+                        onClick={() => {
+                          if (confirm(`Delete variant ${variant.sku} - ${variant.name}?`)) {
+                            deleteVariantMutation.mutate(variant.id);
+                          }
+                        }}
+                        data-testid={`button-delete-variant-${variant.sku}`}
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  </div>
                 )}
               </div>
             );
