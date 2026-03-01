@@ -26,6 +26,17 @@ interface Product {
   isPopular: boolean;
   images: string[];
   createdAt: string | null;
+  tagline: string | null;
+  shortDescription: string | null;
+  fullDescription: string | null;
+  beamPatterns: string[] | null;
+  colors: string[] | null;
+  features: string[] | null;
+  specs: string[] | null;
+  whatsInBox: string[] | null;
+  warrantyYears: number | null;
+  compatibleVehicles: string[] | null;
+  videoUrl: string | null;
 }
 
 export default function AdminProducts() {
@@ -626,32 +637,31 @@ export default function AdminProducts() {
     );
   };
 
-  const ProductForm = ({ product, onSubmit, onCancel, fullProduct }: { 
+  const ProductForm = ({ product, onSubmit, onCancel }: { 
     product?: Product | null; 
-    fullProduct?: any;
     onSubmit: (data: any) => void;
     onCancel: () => void;
   }) => {
     const [formData, setFormData] = useState({
-      name: fullProduct?.name || product?.name || "",
-      slug: fullProduct?.slug || product?.slug || "",
-      sku: fullProduct?.sku || product?.sku || "",
-      series: fullProduct?.series || product?.series || "Sport",
-      price: fullProduct?.price || product?.price || 0,
-      originalPrice: fullProduct?.originalPrice || product?.originalPrice || 0,
-      isActive: fullProduct?.isActive !== false && product?.isActive !== false,
-      isPopular: fullProduct?.isPopular || product?.isPopular || false,
-      tagline: fullProduct?.tagline || "",
-      shortDescription: fullProduct?.shortDescription || "",
-      fullDescription: fullProduct?.fullDescription || "",
-      beamPatterns: fullProduct?.beamPatterns?.join(", ") || "",
-      colors: fullProduct?.colors?.join(", ") || "",
-      features: fullProduct?.features?.join("\n") || "",
-      specs: fullProduct?.specs?.join("\n") || "",
-      whatsInBox: fullProduct?.whatsInBox?.join("\n") || "",
-      warrantyYears: fullProduct?.warrantyYears || 8,
-      images: fullProduct?.images?.join("\n") || "",
-      compatibleVehicles: fullProduct?.compatibleVehicles?.join(", ") || "",
+      name: product?.name || "",
+      slug: product?.slug || "",
+      sku: product?.sku || "",
+      series: product?.series || "Sport",
+      price: product?.price || 0,
+      originalPrice: product?.originalPrice || 0,
+      isActive: product?.isActive !== false,
+      isPopular: product?.isPopular || false,
+      tagline: product?.tagline || "",
+      shortDescription: product?.shortDescription || "",
+      fullDescription: product?.fullDescription || "",
+      beamPatterns: product?.beamPatterns?.join(", ") || "",
+      colors: product?.colors?.join(", ") || "",
+      features: product?.features?.join("\n") || "",
+      specs: product?.specs?.join("\n") || "",
+      whatsInBox: product?.whatsInBox?.join("\n") || "",
+      warrantyYears: product?.warrantyYears || 8,
+      images: product?.images?.join("\n") || "",
+      compatibleVehicles: product?.compatibleVehicles?.join(", ") || "",
     });
 
     const handleSubmit = (e: React.FormEvent) => {
