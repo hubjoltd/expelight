@@ -148,4 +148,12 @@ I prefer iterative development with clear communication on progress. Before maki
   - Fixed mismatched images (wiring harnesses, bezels, mounting kits matched to correct product families)
   - 128 products now have 3+ images, 3 products have 1-2 images (no Shopify equivalent available)
   - Total: 131 products, 357 variants, 982 media entries
+- **Variant Selection Fix (Mar 2026)**:
+  - Fixed bug where variant switching didn't update SKU, price, or images on product pages
+  - Root cause: useEffect dependency on `selectedVariantIndex` caused variant reset on every selection change
+  - Added direct `switchToVariantImage` call in Option button click handler
+  - Assigned product images to all 227 variants that had no imageUrl
+  - Fixed 36 products with ₹2,546 placeholder prices (set proper tier-based pricing)
+  - Fixed bad variant names (DD8658S, DD8659S "Search results..." → proper names; DD7420 "C1" → "C1 LED Pod Kit"; DD7738 "No" → "White Standard")
+  - Re-exported seed data: 131 products, 357 variants, 981 media
 - **Admin Credentials**: Username: "admin", Password: "Expelight@2024"

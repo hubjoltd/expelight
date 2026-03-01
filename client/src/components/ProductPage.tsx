@@ -231,21 +231,17 @@ export function ProductPage({ product }: ProductPageProps) {
       });
       if (match) {
         const idx = variants.indexOf(match);
-        if (idx >= 0 && idx !== selectedVariantIndex) {
+        if (idx >= 0) {
           setSelectedVariantIndex(idx);
           switchToVariantImage(match);
         }
       }
     }
-  }, [selectedBeamPattern, selectedColor, variants, switchToVariantImage, selectedVariantIndex]);
+  }, [selectedBeamPattern, selectedColor, variants, switchToVariantImage]);
 
-  const lastSwitchedVariantRef = useRef<number>(-1);
   useEffect(() => {
     if (variants.length > 0 && variants[selectedVariantIndex] && displayImages.length > 0) {
-      if (lastSwitchedVariantRef.current !== selectedVariantIndex) {
-        lastSwitchedVariantRef.current = selectedVariantIndex;
-        switchToVariantImage(variants[selectedVariantIndex]);
-      }
+      switchToVariantImage(variants[selectedVariantIndex]);
     }
   }, [selectedVariantIndex, variants, displayImages, switchToVariantImage]);
 
@@ -614,6 +610,7 @@ export function ProductPage({ product }: ProductPageProps) {
                       }`}
                       onClick={() => {
                         setSelectedVariantIndex(idx);
+                        switchToVariantImage(variant);
                       }}
                       data-testid={`variant-${idx}`}
                     >
