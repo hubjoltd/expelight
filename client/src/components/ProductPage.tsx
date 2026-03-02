@@ -83,19 +83,31 @@ export function ProductPage({ product }: ProductPageProps) {
 
   const availableBeamPatterns = useMemo(() => {
     if (variants.length === 0) return [];
-    const variantBeams = [...new Set(variants.map((v: any) => v.beamPattern).filter((b: string | null) => b && !isPlaceholder(b)))];
-    return variantBeams;
+    return [...new Set(variants.map((v: any) => v.beamPattern).filter((b: string | null) => b && !isPlaceholder(b)))];
   }, [variants]);
 
   const availableColors = useMemo(() => {
     if (variants.length === 0) return [];
-    const hasMultipleBeams = [...new Set(variants.map((v: any) => v.beamPattern).filter((b: string | null) => b && !isPlaceholder(b)))].length > 1;
-    const filtered = hasMultipleBeams
-      ? variants.filter((v: any) => !v.beamPattern || isPlaceholder(v.beamPattern) || v.beamPattern === selectedBeamPattern)
-      : variants;
-    const variantColors = [...new Set(filtered.map((v: any) => v.color).filter((c: string | null) => c && !isPlaceholder(c)))];
-    return variantColors;
-  }, [variants, selectedBeamPattern]);
+    return [...new Set(variants.map((v: any) => v.color).filter((c: string | null) => c && !isPlaceholder(c)))];
+  }, [variants]);
+
+  const activeColorsForBeam = useMemo(() => {
+    if (availableBeamPatterns.length <= 1) return new Set(availableColors);
+    const colors = variants
+      .filter((v: any) => v.beamPattern === selectedBeamPattern)
+      .map((v: any) => v.color)
+      .filter(Boolean);
+    return new Set(colors);
+  }, [variants, selectedBeamPattern, availableBeamPatterns, availableColors]);
+
+  const activeBeamsForColor = useMemo(() => {
+    if (availableColors.length <= 1) return new Set(availableBeamPatterns);
+    const beams = variants
+      .filter((v: any) => v.color === selectedColor)
+      .map((v: any) => v.beamPattern)
+      .filter(Boolean);
+    return new Set(beams);
+  }, [variants, selectedColor, availableColors, availableBeamPatterns]);
 
   const modelVariants = useMemo(() => {
     if (variants.length <= 1) return [];
@@ -728,20 +740,26 @@ export function ProductPage({ product }: ProductPageProps) {
               <div>
                 <label className="text-sm font-medium mb-3 block text-zinc-300">Beam Pattern</label>
                 <div className="flex flex-wrap gap-2">
-                  {availableBeamPatterns.map((pattern) => (
-                    <button
-                      key={pattern}
-                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                        selectedBeamPattern === pattern
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
-                      }`}
-                      onClick={() => setSelectedBeamPattern(pattern)}
-                      data-testid={`beam-pattern-${pattern.toLowerCase()}`}
-                    >
-                      {pattern}
-                    </button>
-                  ))}
+                  {availableBeamPatterns.map((pattern) => {
+                    const isActive = activeBeamsForColor.has(pattern);
+                    return (
+                      <button
+                        key={pattern}
+                        className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                          selectedBeamPattern === pattern
+                            ? "bg-primary text-primary-foreground"
+                            : isActive
+                              ? "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
+                              : "bg-zinc-900 text-zinc-600 border border-zinc-800 line-through cursor-not-allowed opacity-50"
+                        }`}
+                        onClick={() => { if (isActive) setSelectedBeamPattern(pattern); }}
+                        disabled={!isActive}
+                        data-testid={`beam-pattern-${pattern.toLowerCase()}`}
+                      >
+                        {pattern}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -750,21 +768,27 @@ export function ProductPage({ product }: ProductPageProps) {
               <div>
                 <label className="text-sm font-medium mb-3 block text-zinc-300">Color Temperature</label>
                 <div className="flex flex-wrap gap-2">
-                  {availableColors.map((color) => (
-                    <button
-                      key={color}
-                      className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
-                        selectedColor === color
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
-                      }`}
-                      onClick={() => setSelectedColor(color)}
-                      data-testid={`color-${color.toLowerCase()}`}
-                    >
-                      <span className={`w-3 h-3 rounded-full`} style={{ backgroundColor: getColorHex(color) }} />
-                      {color}
-                    </button>
-                  ))}
+                  {availableColors.map((color) => {
+                    const isActive = activeColorsForBeam.has(color);
+                    return (
+                      <button
+                        key={color}
+                        className={`px-4 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
+                          selectedColor === color
+                            ? "bg-primary text-primary-foreground"
+                            : isActive
+                              ? "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
+                              : "bg-zinc-900 text-zinc-600 border border-zinc-800 cursor-not-allowed opacity-50"
+                        }`}
+                        onClick={() => { if (isActive) setSelectedColor(color); }}
+                        disabled={!isActive}
+                        data-testid={`color-${color.toLowerCase()}`}
+                      >
+                        <span className={`w-3 h-3 rounded-full ${!isActive ? "opacity-40" : ""}`} style={{ backgroundColor: getColorHex(color) }} />
+                        {isActive ? color : <span className="line-through">{color}</span>}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
