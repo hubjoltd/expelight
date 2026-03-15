@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Plus, Pencil, Trash2, FileText, Search, AlertCircle, Eye, Calendar } from "lucide-react";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { ImageUploadInput } from "@/components/ImageUploadInput";
 
 interface BlogPost {
   id: string;
@@ -190,16 +191,12 @@ export default function AdminBlog() {
           />
         </div>
 
-        <div>
-          <Label htmlFor="featuredImage">Featured Image URL</Label>
-          <Input
-            id="featuredImage"
-            value={formData.featuredImage}
-            onChange={(e) => setFormData({ ...formData, featuredImage: e.target.value })}
-            placeholder="https://..."
-            data-testid="input-blog-image"
-          />
-        </div>
+        <ImageUploadInput
+          label="Featured Image"
+          value={formData.featuredImage}
+          onChange={(url) => setFormData({ ...formData, featuredImage: url })}
+          testId="input-blog-image"
+        />
 
         <div className="grid grid-cols-2 gap-4">
           <div>

@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Plus, Pencil, Trash2, FolderTree, AlertCircle, ChevronRight } from "lucide-react";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { ImageUploadInput } from "@/components/ImageUploadInput";
 
 interface Category {
   id: string;
@@ -198,16 +199,12 @@ export default function AdminCategories() {
           </Select>
         </div>
 
-        <div>
-          <Label htmlFor="imageUrl">Image URL</Label>
-          <Input
-            id="imageUrl"
-            value={formData.imageUrl}
-            onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-            placeholder="https://..."
-            data-testid="input-category-image"
-          />
-        </div>
+        <ImageUploadInput
+          label="Category Image"
+          value={formData.imageUrl}
+          onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+          testId="input-category-image"
+        />
 
         <div className="flex items-center gap-2">
           <Switch

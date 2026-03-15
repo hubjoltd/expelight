@@ -7,6 +7,28 @@ import { cartItems, orders, categories, products, productVariants, productMedia,
 import { eq, and, desc, isNull, inArray } from "drizzle-orm";
 import Razorpay from "razorpay";
 import crypto from "crypto";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+
+const uploadDir = path.join(process.cwd(), "public/uploads");
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
+const multerStorage = multer.diskStorage({
+  destination: uploadDir,
+  filename: (_req, file, cb) => {
+    const unique = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    cb(null, unique + path.extname(file.originalname));
+  },
+});
+const upload = multer({
+  storage: multerStorage,
+  limits: { fileSize: 10 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only image files are allowed"));
+  },
+});
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || "",
@@ -20,6 +42,15 @@ export async function registerRoutes(
   // Setup authentication
   setupAuth(app);
   registerAuthRoutes(app);
+
+  // Image upload endpoint (admin only)
+  app.post("/api/admin/upload", isAdmin, upload.single("image"), (req: Request, res: Response) => {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+    const url = `/uploads/${req.file.filename}`;
+    return res.json({ url });
+  });
 
   // Categories API (public)
   app.get("/api/categories", async (req, res) => {

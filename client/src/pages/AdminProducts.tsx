@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Plus, Pencil, Trash2, Package, Search, AlertCircle, Eye, EyeOff, Loader2, ImageIcon } from "lucide-react";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { ImageUploadInput, MultiImageUploadInput } from "@/components/ImageUploadInput";
 
 interface Product {
   id: string;
@@ -375,26 +376,12 @@ export default function AdminProducts() {
                 />
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              {newVariant.imageUrl && (
-                <img
-                  src={newVariant.imageUrl}
-                  alt="New variant"
-                  className="w-10 h-10 rounded border border-zinc-700 object-cover flex-shrink-0"
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                />
-              )}
-              <div className="flex-1">
-                <Label className="text-[10px] text-zinc-400">Image URL</Label>
-                <Input
-                  value={newVariant.imageUrl}
-                  onChange={(e) => setNewVariant({ ...newVariant, imageUrl: e.target.value })}
-                  className="h-7 text-xs"
-                  placeholder="https://..."
-                  data-testid="input-new-variant-image"
-                />
-              </div>
-            </div>
+            <ImageUploadInput
+              label="Variant Image"
+              value={newVariant.imageUrl}
+              onChange={(url) => setNewVariant({ ...newVariant, imageUrl: url })}
+              testId="input-new-variant-image"
+            />
             <div className="flex justify-end gap-2 pt-1">
               <Button
                 type="button"
@@ -510,26 +497,12 @@ export default function AdminProducts() {
                         />
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      {editValues.imageUrl && (
-                        <img
-                          src={editValues.imageUrl}
-                          alt="Variant"
-                          className="w-10 h-10 rounded border border-zinc-700 object-cover flex-shrink-0"
-                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                        />
-                      )}
-                      <div className="flex-1">
-                        <Label className="text-[10px] text-zinc-400">Image URL</Label>
-                        <Input
-                          value={editValues.imageUrl || ""}
-                          onChange={(e) => setEditValues({ ...editValues, imageUrl: e.target.value })}
-                          className="h-7 text-xs"
-                          placeholder="Image URL for this variant"
-                          data-testid={`input-variant-image-${variant.sku}`}
-                        />
-                      </div>
-                    </div>
+                    <ImageUploadInput
+                      label="Variant Image"
+                      value={editValues.imageUrl || ""}
+                      onChange={(url) => setEditValues({ ...editValues, imageUrl: url })}
+                      testId={`input-variant-image-${variant.sku}`}
+                    />
                     <div className="flex justify-end gap-1 pt-1">
                       <Button
                         type="button"
@@ -910,17 +883,12 @@ export default function AdminProducts() {
           />
         </div>
 
-        <div>
-          <Label htmlFor="images">Image URLs (one per line)</Label>
-          <Textarea
-            id="images"
-            value={formData.images}
-            onChange={(e) => setFormData({ ...formData, images: e.target.value })}
-            rows={3}
-            placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
-            data-testid="input-product-images"
-          />
-        </div>
+        <MultiImageUploadInput
+          label="Product Images"
+          value={formData.images}
+          onChange={(val) => setFormData({ ...formData, images: val })}
+          testId="input-product-images"
+        />
 
         <div>
           <Label htmlFor="compatibleVehicles">Compatible Vehicles (comma separated)</Label>
