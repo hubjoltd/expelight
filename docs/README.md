@@ -179,7 +179,6 @@ expelight/
 │   └── invoices/             # Generated PDF invoices
 ├── script/                   # Build and data import scripts
 ├── docs/                     # This documentation
-├── .replit                   # Replit workflow config
 ├── drizzle.config.ts         # Drizzle Kit config
 ├── vite.config.ts            # Vite build config
 ├── tsconfig.json             # TypeScript config
