@@ -1,0 +1,20 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "UviGdxD50LBuSwbG9E9Wn"
+uri = "file://docs/README.md"
+type = "text"
+title = "README — Project Overview & Setup"
+
+[[outputs]]
+id = "f3aC6SFslIM-T_jQKo6Yd"
+uri = "file://docs/BACKEND.md"
+type = "text"
+title = "BACKEND — API Routes, Schema & Services"
+
+[[outputs]]
+id = "3KJMvngc3P72COTFavcSR"
+uri = "file://docs/FRONTEND.md"
+type = "text"
+title = "FRONTEND — Pages, Components & Hooks"
