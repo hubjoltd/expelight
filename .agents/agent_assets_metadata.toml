@@ -18,3 +18,15 @@ id = "3KJMvngc3P72COTFavcSR"
 uri = "file://docs/FRONTEND.md"
 type = "text"
 title = "FRONTEND — Pages, Components & Hooks"
+
+[[outputs]]
+id = "BkAuuscZlqksFXcNX3C7p"
+uri = "file://docs/SRS.md"
+type = "text"
+title = "SRS — Software Requirements Specification"
+
+[[outputs]]
+id = "8aBaMF1E6s-lNkS90ozE7"
+uri = "file://docs/LLD.md"
+type = "text"
+title = "LLD — Low Level Design"
