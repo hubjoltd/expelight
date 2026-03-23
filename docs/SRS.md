@@ -95,7 +95,6 @@ Expelight is a standalone web platform. It integrates with:
 - **Frontend:** Modern browsers (Chrome, Firefox, Safari, Edge)
 - **Backend:** Node.js 20+, Express 5
 - **Database:** PostgreSQL (Neon serverless)
-- **Hosting:** Replit (development and deployment)
 
 ---
 
@@ -621,7 +620,7 @@ All communication is via RESTful HTTP JSON APIs on the same port.
 ### 7.2 Assumptions
 
 - Users have access to modern browsers with JavaScript enabled
-- The hosting environment provides a PostgreSQL-compatible connection string via `DATABASE_URL`
+- A PostgreSQL-compatible connection string is available via `DATABASE_URL`
 - Razorpay credentials (`RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`) are configured as environment variables
 - WhatsApp Business API credentials are configured as environment variables
 - The `public/invoices/` directory is writable at runtime
