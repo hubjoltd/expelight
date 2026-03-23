@@ -31,9 +31,13 @@ export function setupAuth(app: Express) {
     createTableIfMissing: true,
   });
 
-  const isReplit = !!process.env.REPL_ID;
-  const needsSecureCookies = isReplit || process.env.NODE_ENV === "production";
-  
+  // In Replit dev/preview the frontend is served through a cross-origin proxy,
+  // so we need SameSite=None + Secure. In production on a real domain (e.g.
+  // expelight.com) the frontend and backend share the same origin, so
+  // SameSite=Lax is safer and avoids cookie-blocking issues.
+  const isReplitPreview = !!process.env.REPL_ID && process.env.NODE_ENV !== "production";
+  const isProduction = process.env.NODE_ENV === "production";
+
   app.use(
     session({
       store: sessionStore,
@@ -43,9 +47,8 @@ export function setupAuth(app: Express) {
       proxy: true,
       cookie: {
         httpOnly: true,
-        secure: needsSecureCookies,
-        sameSite: needsSecureCookies ? "none" : "lax",
-        partitioned: needsSecureCookies,
+        secure: isReplitPreview || isProduction,
+        sameSite: isReplitPreview ? "none" : "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       },
     })
