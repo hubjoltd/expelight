@@ -58,11 +58,12 @@ export default function AdminProducts() {
     mutationFn: async (data: Partial<Product>) => {
       return await apiRequest("POST", "/api/admin/products", data);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/products"] });
+    onSuccess: async (newProduct: Product) => {
+      await queryClient.invalidateQueries({ queryKey: ["/api/admin/products"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/stats"] });
       setIsCreateOpen(false);
-      toast({ title: "Product created successfully" });
+      setEditProduct(newProduct);
+      toast({ title: "Product created! Add variants below." });
     },
     onError: () => {
       toast({ title: "Failed to create product", variant: "destructive" });
